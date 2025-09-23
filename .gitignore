@@ -1,0 +1,37 @@
+# ============================
+# STM32CubeIDE / Eclipse
+# ============================
+
+# Top-level Eclipse metadata
+.metadata/
+
+# Project metadata (per project)
+*/.settings/
+
+# Build output (per project)
+*/Debug/
+*/Release/
+*/build/
+*/bin/
+*/obj/
+*/out/
+
+
+# ============================
+# OS-specific
+# ============================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ============================
+# Logs
+# ============================
+*.log
+
+# ============================
+# Backup / temp files
+# ============================
+*~
+*.swp
+*.bak
