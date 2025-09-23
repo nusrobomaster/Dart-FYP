@@ -28,10 +28,10 @@ The **top-left switch** on the remote has two functions:
 ## 📸 Hardware Connections
 
 - **Solenoid Lock Wiring**  
-  ![Solenoid Lock Connection](https://via.placeholder.com/600x400?text=Solenoid+Lock+Connection)
+  ![Solenoid Lock Connection](./solenoid.webp)
 
 - **Connection to DEVA Board**  
- ![DEVA Board Connection](https://via.placeholder.com/600x400?text=DEVA+Board+Connection)
+ ![DEVA Board Connection](./wiring_solenoid.jpg)
 
 ---
 
