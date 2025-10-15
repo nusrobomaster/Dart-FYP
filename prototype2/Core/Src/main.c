@@ -156,7 +156,7 @@ extern int16_t _height;
 int32_t count = 450;
 char buf_txt[32];
 
-int16_t solenoid_state = 0;
+GPIO_PinState unlock;
 int16_t solenoid_lock = 0;
 //lv_display_t * display1;
 //uint8_t Displ_SpiAvailable;
@@ -419,7 +419,7 @@ int main(void)
   myQueue_lock_loadingHandle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue_lock_loading_attributes);
 
   /* creation of myQueue_weight_loading */
-  myQueue_weight_loadingHandle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue_weight_loading_attributes);
+  myQueue_weight_loadingHandle = osMessageQueueNew (16, sizeof(float), &myQueue_weight_loading_attributes);
 
   /* creation of myQueue_loading_motor */
   myQueue_loading_motorHandle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue_loading_motor_attributes);
@@ -777,6 +777,7 @@ void StartTask02(void *argument)
 {
   /* USER CODE BEGIN StartTask02 */
 	queueLcd weightLcd;
+	osStatus_t st;
   /* Infinite loop */
   for(;;)
   {
@@ -784,7 +785,8 @@ void StartTask02(void *argument)
 	weightLcd.x = 150;
 	weightLcd.y = 150;
 	sprintf(weightLcd.text, "Weight: %.2f g", weight);
-	osStatus_t st = osMessageQueuePut(myQueue_screenHandle, &weightLcd, 0, 0);
+	st = osMessageQueuePut(myQueue_screenHandle, &weightLcd, 0, 0);
+	st = osMessageQueuePut(myQueue_weight_loadingHandle, &weight, 0, 0);
     osDelay(10);
   }
   /* USER CODE END StartTask02 */
@@ -801,7 +803,7 @@ void StartTask03(void *argument)
 {
   /* USER CODE BEGIN StartTask03 */
 	queueLcd solenoidLcd;
-	GPIO_PinState unlock = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1);
+	unlock = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1);
 	solenoidLcd.x = 100;
 	solenoidLcd.y = 200;
 	sprintf(solenoidLcd.text, "Lock status: %s", (unlock ? "unlock" : "lock"));
@@ -838,10 +840,45 @@ void StartTask03(void *argument)
 void StartTask04(void *argument)
 {
   /* USER CODE BEGIN StartTask04 */
+  #define FORWARD 200;
+  #define BACKWARD -200;
+  float target = 1000.0f, tol = 50.0f;
+  enum { SEEK_LOCK_CW, LOCKED, REVERSE_TO_WEIGHT, HOLD } state = SEEK_LOCK_CW;
+
+  float curr_weight_buffer;
+  float curr_weight;
+  osStatus_t st;
+  int16_t loadingMotor = 200;
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	  if (osMessageQueueGetCount(myQueue_weight_loadingHandle) > 0){
+		  st = osMessageQueueGet(myQueue_weight_loadingHandle, &curr_weight_buffer, NULL, osWaitForever);
+		  if (st == osOK) {
+			  curr_weight = curr_weight_buffer;
+		  }
+	  }
+	switch (state) {
+	case SEEK_LOCK_CW:
+		loadingMotor = FORWARD;
+		if (!unlock) state = REVERSE_TO_WEIGHT;
+		break;
+	case REVERSE_TO_WEIGHT:
+		if (curr_weight < target - tol) {
+			loadingMotor = BACKWARD;
+		}
+		else if (curr_weight > target + tol){
+			loadingMotor = FORWARD;
+		}
+		else {
+			loadingMotor = 0;
+		}
+		if (unlock) state = SEEK_LOCK_CW;
+		break;
+	}
+
+	st = osMessageQueuePut(myQueue_loading_motorHandle, &loadingMotor, 0, 0);
+	osDelay(1);
   }
   /* USER CODE END StartTask04 */
 }
@@ -857,10 +894,17 @@ void StartTask05(void *argument)
 {
   /* USER CODE BEGIN StartTask05 */
 
-	int16_t motor;
+  int16_t motor_buffer;
+  int16_t motor;
   /* Infinite loop */
   for(;;)
   {
+	  if (osMessageQueueGetCount(myQueue_loading_motorHandle) > 0){
+		  osStatus_t st = osMessageQueueGet(myQueue_loading_motorHandle, &motor_buffer, NULL, osWaitForever);
+		  if (st == osOK) {
+			  motor = motor_buffer;
+		  }
+	  }
 	ctrl_motor(pid_lol(motor, motor_rpm1));
     osDelay(1);
   }
