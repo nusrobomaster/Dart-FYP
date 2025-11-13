@@ -5,7 +5,6 @@ layout: default
 permalink: /jianwen_dart_robot_yaw
 ---
 
-<!--> Insert all captions at center of page <-->
 # Dart Robot
 ## Introduction
 With the dart projectile completed, the next step is developing the Dart Robot to launch it at the target. The robot consists of the Pitch, Yaw, Launcher, and Feeder subsystems, which handle carrying, aiming, and firing the projectiles. Each subsystem is detailed in the following sections.
@@ -52,3 +51,6 @@ Fabrication and assembly of the yaw subsystem will proceed after integrating the
 
 ### Next Steps
 Motor electronics will be integrated to test the subsystem’s yaw motion. This will be carried out in the project’s second phase.
+
+
+<!--> Insert all captions at center of page <-->
