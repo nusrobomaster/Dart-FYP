@@ -13,7 +13,7 @@ The projectile is the primary payload of the DART system, and its design was a f
 The project is governed by strict parameters from the competition organizer, RMOC, which define the maximum allowable size, weight, and power limits. However, the specific aerodynamic design of the projectile is unrestricted, requiring a rigorous development process involving iterative design and **Computational Fluid Dynamics (CFD) analysis.**
 
 <br>
-![Shenzhen Bay Sports Center Stadium](./assets/images/shyam/shenzhen arena.jpg)
+![Shenzhen Bay Sports Center Stadium](./assets/images/shyam/shenzhen%20arena.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
