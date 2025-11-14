@@ -62,8 +62,8 @@ We intentionally began with simple, passive prototypes. This was critical for us
 * **Active projectile design:**
     * V4(Xwing) → V5(Xwing 2) → V6(Trident) → V7(Hunter) ✅
 
-<details>
-<summary>► 2. Ground Rules</summary>
+<details markdown="1">
+<summary><strong> 2. Ground Rules </strong></summary>
 
 Certain ground rules were established before beginning on the projectile designs. Here are the full design considerations, prior to beginning any design. Along the way, many other considerations were made which will be further elaborated below each projectile design respectively. 
 
