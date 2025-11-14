@@ -63,18 +63,18 @@ We intentionally began with simple, passive prototypes. This was critical for us
     * V4(Xwing) → V5(Xwing 2) → V6(Trident) → V7(Hunter) ✅
 
 <details markdown="1">
-<summary><strong> 2. Ground Rules </strong></summary>
+<summary style="font-size: 2rem; font-weight: 600;"><strong> 2. Ground Rules </strong></summary>
 
 Certain ground rules were established before beginning on the projectile designs. Here are the full design considerations, prior to beginning any design. Along the way, many other considerations were made which will be further elaborated below each projectile design respectively. 
 
 
-* All projectile designs SHALL NOT EXCEED 250mm x 250mm x 250mm
-* All projectile designs SHALL BE BELOW 350g under Solidworks evaluate tool, after specifying the material to be TPU 95D
-* All projectile designs will accommodate the DART TRIGGER provided by RMOC
-* All projectile designs will be designed to NOT ROLL NATURALLY, meaning the mechanical design will ensure the projectile does not roll without the need of corrective measures (such as active control surfaces)
+* All projectile designs **SHALL NOT EXCEED 250mm x 250mm x 250mm**
+* All projectile designs **SHALL BE BELOW 350g** under Solidworks evaluate tool, after specifying the material to be TPU 95D
+* All projectile designs **will accommodate the DART TRIGGER** provided by RMOC
+* All projectile designs will be designed to **NOT ROLL NATURALLY**, meaning the mechanical design will ensure the projectile does not roll without the need of corrective measures (such as active control surfaces)
 * All projectiles will undergo Computational Fluid Dynamic analysis (CFD) on Solidworks, mainly for 2 reasons. 
-First would be straight line drag, to minimize parasitic drag. From our literature review, a standard dart projectile has a linear velocity of 25m/s. We will analyze the cut plot of the projectile.
-Second would be the pressure distribution in the case of crosswinds, which is to analyze if design can counter induced roll. We will induce a crosswind by setting x=25m/s, y=5m/s and z=5m/s to give a net speed of 25.98m/s, and we will analyze the pressure distribution across the projectile body.
+First would be **straight line drag**, to minimize parasitic drag. From our literature review, a standard dart projectile has a linear velocity of 25m/s. We will analyze the cut plot of the projectile.
+Second would be the **pressure distribution in the case of crosswinds**, which is to analyze if design can counter induced roll. We will induce a crosswind by setting x=25m/s, y=5m/s and z=5m/s to give a net speed of 25.98m/s, and we will analyze the pressure distribution across the projectile body.
 
 
 </details>
