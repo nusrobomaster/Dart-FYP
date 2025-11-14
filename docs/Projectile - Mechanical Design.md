@@ -13,7 +13,7 @@ The projectile is the primary payload of the DART system, and its design was a f
 The project is governed by strict parameters from the competition organizer, RMOC, which define the maximum allowable size, weight, and power limits. However, the specific aerodynamic design of the projectile is unrestricted, requiring a rigorous development process involving iterative design and **Computational Fluid Dynamics (CFD) analysis.**
 
 <br>
-![Shenzhen Bay Sports Center Stadium](./assets/images/image_892365.jpg)
+![Shenzhen Bay Sports Center Stadium](./assets/images/shenzhen arena.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -21,7 +21,7 @@ The project is governed by strict parameters from the competition organizer, RMO
 </p>
 
 <br>
-![Enclosed competition arena](./assets/images/image_8976fa.jpg)
+![Enclosed competition arena](./assets/images/arena.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -34,7 +34,7 @@ Therefore, despite the "enclosed" setting, a key design requirement was to **ens
 
 
 <br>
-![DART System testing area at NUS](./assets/images/Screenshot 2025-11-12 074207.jpg)
+![DART System testing area at NUS](./assets/images/Dart testing.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -42,7 +42,7 @@ Therefore, despite the "enclosed" setting, a key design requirement was to **ens
 </p>
 
 <br>
-![Enclosed Multi Purpose Sports Hall](./assets/images/image_8981a0.jpg)
+![Enclosed Multi Purpose Sports Hall](./assets/images/mpsh nus.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
