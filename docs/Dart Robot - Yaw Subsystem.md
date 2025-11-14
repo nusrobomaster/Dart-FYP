@@ -14,7 +14,7 @@ The yaw subsystem controls the robot’s heading through a single drive system a
 The yaw subsystem must support the upper assembly—pitch, launcher, and feeder—estimated at 15 kg. The equations used are shown below:
 
 <p align = "center">
-<img src = "assets/images/Yaw%20-%20equations.jpg">
+<img src = "assets/images/Yaw-equations.jpg">
 </p>
 
 Torque requirements were calculated using angular acceleration and mass moment of inertia (Appendix Figure ??), resulting in a requirement of 37.4 Nm, which guides the drive-system and motor selection.
@@ -26,15 +26,17 @@ Drive-system selection was based on:
 Four possible drive systems were evaluated, as shown in Table ??.
 
 <p align = "center">
-<img src = "assets/images/Yaw%20-%20table%20concept%20screening">
+<img src = "assets/images/Yaw-table_concept_screening">
 </p>
 
-<p align:"center"><em>Figure ??: Concept Screening Table for Yaw Drive Systems</em></p>
+<p align:"center">
+<em>Figure ??: Concept Screening Table for Yaw Drive Systems</em>
+</p>
 
 
 Chain and belt systems suffer from backlash and need additional space for tensioners and pulleys. Gear systems require high maintenance and are prone to backlash and rolling-contact fatigue. The direct-drive system scored highest and was selected, though its performance depends heavily on motor quality.
 
-The Damiao DM10010L motor was chosen as it meets the 37.4 Nm torque requirement with margin, includes an onboard encoder, and matches the client’s existing hardware ecosystem for smoother integration.
+The **Damiao DM10010L** motor was chosen as it meets the 37.4 Nm torque requirement with margin, includes an onboard encoder, and matches the client’s existing hardware ecosystem for smoother integration.
 ### Design consideration: Yaw mount and Robot base frame
 The base frame uses 6061 aluminum square tubes to form a rectangular platform supporting the yaw subsystem. Two design approaches were explored during our iterative process.
 ### Belt-driven system

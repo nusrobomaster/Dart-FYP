@@ -1,5 +1,5 @@
 ---
-title: Dart Robot - Yaw Subsystem
+title: Dart Robot - Pitch Subsystem
 nav_order: 3
 layout: default
 permalink: /jianwen_dart_robot_pitch
