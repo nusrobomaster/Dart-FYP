@@ -13,8 +13,8 @@ The yaw subsystem controls the robot’s heading through a single drive system a
 ### Load consideration
 The yaw subsystem must support the upper assembly—pitch, launcher, and feeder—estimated at 15 kg. The equations used are shown below:
 
-<p align = "center">
-<img src = "assets/images/Yaw-equations.jpg">
+<p align="center">
+<img src="assets/images/Yaw-equations.jpg">
 </p>
 
 Torque requirements were calculated using angular acceleration and mass moment of inertia (Appendix Figure ??), resulting in a requirement of 37.4 Nm, which guides the drive-system and motor selection.
@@ -25,11 +25,11 @@ Drive-system selection was based on:
 3. Maintenance – fast servicing during competition.
 Four possible drive systems were evaluated, as shown in Table ??.
 
-<p align = "center">
-<img src = "assets/images/Yaw-table_concept_screening">
+<p align="center">
+<img src="assets/images/Yaw-table_concept_screening">
 </p>
 
-<p align:"center">
+<p align="center">
 <em>Figure ??: Concept Screening Table for Yaw Drive Systems</em>
 </p>
 
