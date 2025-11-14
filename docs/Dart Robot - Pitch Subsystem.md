@@ -16,15 +16,30 @@ The drive system must:
 3. Achieve precise and accurate angle control
 
 Based on these requirements, two drive systems were shortlisted (Table ??).
-<!--> Insert the damn table here <-->
+
+<br>
+![Table for drive systems](assets/images/jianwen/Pitch-drive_system_table.jpg)
+{: .text-center}
+<br>
+<p align="center">
+<em>Table ??: Drive System Considerations</em>
+</p>
 Design work for both direct-drive and leadscrew systems is ongoing. The team currently leans toward a direct-drive setup with reduction gear due to its lower mechanical complexity and higher reliability, though the final choice will be confirmed in the next phase.
 
 Torque calculations for the direct-drive design assumed a 15 kg load acting at 0.75 × assembly length. At 25° inclination, the perpendicular distance is greatest, producing the maximum moment. This value represents both the required and holding torque. Full workings are in Appendix ?. The following equation was used:
-<!--> Insert the damn equation image here <-->
+
+<br>
+![Equations for torque](assets/images/jianwen/Pitch-equation1.jpg)
+{: .text-center}
+<br>
 The resulting torque is 110.3 Nm.
 
 Using the following relation, the motor’s required input torque was determined:
-<!--> Insert the damn equation image here <-->
+
+<br>
+![Equations for reduction gear](assets/images/jianwen/Pitch-equation2.jpg)
+{: .text-center}
+<br>
 With a 1:50 gearbox at 70% efficiency, the required motor torque is 3.2 Nm.
 ### Design consideration: Load-bearing assistive component
 If a direct-drive system is selected, a load-bearing assist component will be added to support the upper assembly. This reduces motor wear and avoids the need for a high-torque brake.  

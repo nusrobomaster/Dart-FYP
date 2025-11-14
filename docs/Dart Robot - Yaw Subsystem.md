@@ -28,6 +28,7 @@ Four possible drive systems were evaluated, as shown in Table ??.
 <br>
 ![Concept screening table](assets/images/jianwen/Yaw-table_concept_screening.jpg)
 {: .text-center}
+<br>
 <p align="center">
 <em>Table ??: Concept Screening Table for Yaw Drive Systems</em>
 </p>
@@ -93,5 +94,4 @@ Fabrication and assembly of the yaw subsystem will proceed after integrating the
 ### Next Steps
 Motor electronics will be integrated to test the subsystem’s yaw motion. This will be carried out in the project’s second phase.
 
-
-<!--> Insert all captions at center of page <-->
+<!-- Insert all captions at center of page <--> 
