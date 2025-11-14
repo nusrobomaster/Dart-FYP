@@ -120,35 +120,30 @@ These axes are **decoupled**. When we command a "pitch up," we don't cause a yaw
 
 ## 5. Projectile Design
 
-## V1 THORN
 
-Prototype 1, "Thorn," was our baseline. A simple, passively-stable ballistic dart projectile. The goal was to establish a "control group"—the most basic, robust design to benchmark stability and manufacturing. Its cruciform ("+") fin configuration proved to be perfectly stable, as confirmed by CFD, which showed the fins correctly generated restoring forces to cancel out roll.
-However, the CFD also revealed a fatal, high-impact flaw: critically high drag. The combination of a non-aerodynamic square body and a blunt, flat base created a massive, turbulent wake. This resulted in an exceptionally high drag coefficient (CD) that would demand immense launch energy and make the trajectory highly unpredictable.
-"Thorn" proved that stability was easily achieved with inclusion of fins. It was rejected because it taught us the real challenge was managing drag. This forced our subsequent iterations to focus on aerodynamic efficiency and body-shape optimization.
+
+## V2 GLIDER (Parallel Investigation)
+
+As part of our first-principles methodology, we also investigated a radical alternative: the "Glider." This prototype was **not an iteration**, but a parallel test of a complex, UAV-like concept using a blended-wing-body and vectored thrust. The hypothesis was that we could actively "fly" the projectile to the target.
+This investigation was a critical failure that provided immense value. CFD analysis revealed two fatal flaws. First, the design generated massive uncontrolled lift. This is catastrophic for a ballistic projectile, as it makes the trajectory unpredictable and impossible to aim. Second, this lift created enormous induced drag, in addition to the high base drag from its ducted-fan exit.
+"Glider" was a conceptual dead end. It was heavy, complex, and its core "gliding" feature was the very thing that made it unusable. It provided definitive proof that an "over-engineered" approach was wrong and that our project must rely on a non-lifting, low-drag projectile configuration.
+
 
 <details markdown="1">
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on THORN </strong></summary>
 
-The "Thorn" prototype failed due to its high aerodynamic drag. Total drag (D) is the force that opposes the projectile's motion, and for a non-lifting body, it is dominated by parasitic drag ( DP). This is calculated using the master drag equation:
+## 1. Trajectory Failure: Uncontrolled Passive Lift
+The goal of this project is to hit a 140mm x 140mm target, which requires a highly **predictable trajectory**. The "Glider," by design, is a high-lift body. Based on **Bernoulli's Principle**, the wings are shaped to create a pressure differential: lower pressure on top and higher pressure below. This pressure difference, L = ∆P . AWing   , creates an upward force. This lift is **passive and uncontrolled**. It causes the projectile to deviate from a predictable parabolic arc, likely entering an oscillating "phugoid" path. Any minor change in launch angle would be amplified by this lift, making consistent aiming impossible. 
 
-$$D = \frac{1}{2} \rho v^2 C_D A$$
+## 2. Drag Failure: Induced Drag
+The "Glider" also suffered from exceptionally high drag, far exceeding "Thorn." In addition to the large base drag from its blunt duct exit, it created a new, powerful drag component: induced drag.
+Induced drag is the unavoidable aerodynamic "cost" of creating lift.
+The magnitude of this drag (Di) is proportional to the square of the lift (L) it generates, as shown in the simplified formula:
 
-Where:
- is the density of air
- v is the projectile's velocity
- A is the frontal reference area
- CD is the drag coefficient, which quantifies the shape's inefficiency
- Parasitic drag (DP) is itself a sum of two primary components: **skin friction drag** and **form drag** (also called pressure drag).
 
-## Skin Friction Drag
-This is the drag caused by the friction of the air "sticking" to the projectile's "wetted area" (its total outer surface). It is a function of the air's viscosity and the surface roughness. For a 3D-printed TPU body, which is relatively rough, this force is not negligible.
+$$D_i = \frac{L^2}{\frac{1}{2} \rho v^2 \pi b^2 e}$$
 
-## Form Drag (Pressure Drag)
-This was the **dominant and critical failure** of "Thorn." Form drag is caused by the projectile's shape, specifically the pressure difference between the high-pressure air at the front and the low-pressure air at the back.
-* **Blunt Base & Flow Separation**: "Thorn's" flat base is the worst-case scenario for this. As the 25 m/s airflow passes the sharp rear edges, it cannot follow the contour and **separates** from the body. This creates a large, turbulent, low-pressure "wake" that "sucks" the projectile backward. This specific form drag, known as **base drag**, is the primary source of drag for a blunt-ended object.
-* **Square Cross-Section**: The drag was severely worsened by the **square body**. Unlike a streamlined cylinder, the air flowing over the four sharp corners also separates, creating **asymmetric vortex shedding**. This not only adds to the drag but also creates unstable side-forces that would make the projectile's path erratic.
-In summary, "Thorn's" high CD was a direct result of a shape that maximized form drag. It was rejected because its design actively promoted flow separation, creating a massive low-pressure wake that would make it unusable.
-
+Where b is the wingspan and e is an efficiency factor. This shows that our high-lift "Glider" was inherently a high-drag design. This "over-engineered" prototype was a lesson in selecting the correct aerodynamic philosophy for the mission.
 
 
 </details>
@@ -186,3 +181,37 @@ In summary, "Thorn's" high CD was a direct result of a shape that maximized form
 
 
 </details>
+
+
+## V3 CROSSBLADE
+
+"Crossblade" was our direct response to the failures of "Thorn." We applied the key lesson—that body shape is the dominant factor in drag—and replaced "Thorn's" unpredictable square body with a **streamlined, faceted-cylindrical fuselage.** We also transitioned from a "+" fin to an **"X" fin configuration**, not for stability (as both are stable), but for the practical advantages of **ground clearance** and better launch-rail integration.
+CFD analysis confirmed this was a massive success. The airflow was clean, attached, and the chaotic drag from "Thorn" was eliminated. "Crossblade" was a **successful and viable passive dart.**
+Its very success was its one limitation: as a passive projectile, it had no way to correct for minor errors. "Crossblade" proved we had mastered the stable, low-drag airframe, and it was the necessary justification to progress to an active control system.
+
+
+<details markdown="1">
+<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on THORN </strong></summary>
+
+The "Crossblade" prototype was designed to solve the two primary drag problems identified in ***"Thorn"***, which was **form drag** and **base drag**.
+
+
+## Form Drag Reduction (Body Shape)
+The **square body** of "Thorn" was its critical flaw. Its four sharp corners caused **asymmetric vortex shedding**, an unstable and chaotic "flapping" of the wake. This not only created high drag but also applied random side-forces, making the projectile's path unpredictable.
+"Crossblade" solves this by using a **faceted, near-cylindrical body**. This shape is nearly **axisymmetric**, which allows the airflow to remain attached to the body. This eliminates the chaotic vortex shedding, making the drag profile not only lower but, more importantly, **stable and predictable**.
+
+
+## Base Drag Reduction (Boattail)
+The second flaw in "Thorn" was its **high base drag** from a blunt, flat rear. This creates a large, low-pressure, turbulent wake that "sucks" the projectile backward.
+"Crossblade" implements a **tapered "boattail"** at the rear. This simple geometric change has a massive aerodynamic effect.
+The taper allows the airflow to **converge gradually** behind the projectile, keeping the flow "attached" for longer. This dramatically **reduces the size of the turbulent wake**. A smaller wake means the pressure at the base is higher (less suction). This reduced pressure differential between the front and back of the projectile results in a **significant reduction in base drag**.
+This prototype was not, however, without new trade-offs. The design introduced two **mid-body sled guides** ("handles"). These are a necessary mechanical interface for the launcher but also create a new, albeit smaller, source of **parasitic drag**. This was deemed an acceptable engineering compromise.
+
+
+While the "Crossblade" prototype proved a viable solution for a static (Level 1) target, the competition's advanced tiers introduce dynamic challenges. The following embedded videos illustrate the "Level 2" and "Level 3" targets, which move in complex, non-predictable patterns.
+This requirement for **in-flight target interception** is the primary justification for progressing beyond a simple passive dart. A passive projectile's trajectory is fixed upon launch, making it incapable of hitting a target that has moved from its original position. Therefore, an **active projectile** with a guidance system and control surfaces is a fundamental necessity for success.
+
+
+
+</details>
+
