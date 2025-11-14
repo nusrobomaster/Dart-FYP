@@ -2,7 +2,8 @@ title: ASI-403 Dart Interim Report
 description: Dart project interim report
 theme: just-the-docs
 
-katex: true
+math: "mathjax"
+
 
 url: https://nusrobomaster.github.io/dart-fyp
 
