@@ -1,6 +1,6 @@
 ---
 title: Base Structure
-Parent: Manpower Allocation
+parent: Manpower Allocation
 nav_order: 7
 layout: default
 permalink: /jianwen_vj_base_structure

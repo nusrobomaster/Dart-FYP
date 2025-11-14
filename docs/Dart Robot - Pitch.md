@@ -1,6 +1,6 @@
 ---
 title: Pitch Subsystem
-Parent: Manpower Allocation
+parent: Manpower Allocation
 nav_order: 5
 layout: default
 permalink: /pitch
