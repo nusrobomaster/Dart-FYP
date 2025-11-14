@@ -28,7 +28,6 @@ Four possible drive systems were evaluated, as shown in Table ??.
 <br>
 ![Concept screening table](assets/images/jianwen/Yaw-table_concept_screening.jpg)
 {: .text-center}
-<br>
 <p align="center">
 <em>Table ??: Concept Screening Table for Yaw Drive Systems</em>
 </p>
