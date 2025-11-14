@@ -65,7 +65,7 @@ We intentionally began with simple, passive prototypes. This was critical for us
     * V4(Xwing) → V5(Xwing 2) → V6(Trident) → V7(Hunter) ✅
 
 
-
+$$D = \frac{1}{2} \rho v^2 C_D A$$
 
 <details markdown="1">
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> 2. Ground Rules </strong></summary>
