@@ -4,6 +4,8 @@ theme: just-the-docs
 
 math: "mathjax"
 
+plugins:
+  - jekyll-redirect-from
 
 url: https://nusrobomaster.github.io/dart-fyp
 
