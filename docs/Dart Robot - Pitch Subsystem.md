@@ -23,7 +23,7 @@ Based on these requirements, two drive systems were shortlisted (Table ??).
 ![Table for drive systems](assets/images/jianwen/Pitch-drive_system_table.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Table ??: Drive System Considerations</em>
 </p>
 Design work for both direct-drive and leadscrew systems is ongoing. The team currently leans toward a direct-drive setup with reduction gear due to its lower mechanical complexity and higher reliability, though the final choice will be confirmed in the next phase.
