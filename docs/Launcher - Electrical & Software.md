@@ -6,3 +6,4 @@ layout: default
 permalink: /launcher/elec&software
 ---
 <!-- nav_order is for DROPDOWN NAVIGATION sequence <--> 
+$$ x = y^2 $$
