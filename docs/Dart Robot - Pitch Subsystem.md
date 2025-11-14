@@ -1,9 +1,11 @@
 ---
 title: Dart Robot - Pitch Subsystem
-nav_order: 9
+parent: Dart Robot Subsystems
+nav_order: 3
 layout: default
-permalink: /jianwen_dart_robot_pitch
+permalink: /pitch
 ---
+<!-- nav_order is for DROPDOWN NAVIGATION sequence <--> 
 
 ## Mechanical: Pitch
 The pitch subsystem controls the upper assembly’s inclination and supports the launcher and feeder. It also includes a secondary load-bearing component discussed later.

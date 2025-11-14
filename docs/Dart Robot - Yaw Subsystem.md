@@ -1,9 +1,11 @@
 ---
 title: Dart Robot - Yaw Subsystem
-nav_order: 8
+parent: Dart Robot Subsystems
+nav_order: 2
 layout: default
-permalink: /jianwen_dart_robot_yaw
+permalink: /yaw
 ---
+<!-- nav_order is for DROPDOWN NAVIGATION sequence <-->
 
 # Dart Robot
 ## Introduction
