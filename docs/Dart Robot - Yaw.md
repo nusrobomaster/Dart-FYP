@@ -1,7 +1,7 @@
 ---
 title: Yaw Subsystem
+Parent: Manpower Allocation
 nav_order: 2
 layout: default
-Parent: Manpower Allocation
-permalink: /jianwen_vj_base_structure
+permalink: /yaw
 ---
