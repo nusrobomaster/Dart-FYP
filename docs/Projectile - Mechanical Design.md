@@ -152,3 +152,37 @@ In summary, "Thorn's" high CD was a direct result of a shape that maximized form
 
 
 </details>
+
+
+## V1 THORN
+
+Prototype 1, "Thorn," was our baseline. A simple, passively-stable ballistic dart projectile. The goal was to establish a "control group"—the most basic, robust design to benchmark stability and manufacturing. Its cruciform ("+") fin configuration proved to be perfectly stable, as confirmed by CFD, which showed the fins correctly generated restoring forces to cancel out roll.
+However, the CFD also revealed a fatal, high-impact flaw: critically high drag. The combination of a non-aerodynamic square body and a blunt, flat base created a massive, turbulent wake. This resulted in an exceptionally high drag coefficient (CD) that would demand immense launch energy and make the trajectory highly unpredictable.
+"Thorn" proved that stability was easily achieved with inclusion of fins. It was rejected because it taught us the real challenge was managing drag. This forced our subsequent iterations to focus on aerodynamic efficiency and body-shape optimization.
+
+<details markdown="1">
+<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on THORN </strong></summary>
+
+The "Thorn" prototype failed due to its high aerodynamic drag. Total drag (D) is the force that opposes the projectile's motion, and for a non-lifting body, it is dominated by parasitic drag ( DP). This is calculated using the master drag equation:
+
+$$D = \frac{1}{2} \rho v^2 C_D A$$
+
+Where:
+ is the density of air
+ v is the projectile's velocity
+ A is the frontal reference area
+ CD is the drag coefficient, which quantifies the shape's inefficiency
+ Parasitic drag (DP) is itself a sum of two primary components: **skin friction drag** and **form drag** (also called pressure drag).
+
+## Skin Friction Drag
+This is the drag caused by the friction of the air "sticking" to the projectile's "wetted area" (its total outer surface). It is a function of the air's viscosity and the surface roughness. For a 3D-printed TPU body, which is relatively rough, this force is not negligible.
+
+## Form Drag (Pressure Drag)
+This was the **dominant and critical failure** of "Thorn." Form drag is caused by the projectile's shape, specifically the pressure difference between the high-pressure air at the front and the low-pressure air at the back.
+* **Blunt Base & Flow Separation**: "Thorn's" flat base is the worst-case scenario for this. As the 25 m/s airflow passes the sharp rear edges, it cannot follow the contour and **separates** from the body. This creates a large, turbulent, low-pressure "wake" that "sucks" the projectile backward. This specific form drag, known as **base drag**, is the primary source of drag for a blunt-ended object.
+* **Square Cross-Section**: The drag was severely worsened by the **square body**. Unlike a streamlined cylinder, the air flowing over the four sharp corners also separates, creating **asymmetric vortex shedding**. This not only adds to the drag but also creates unstable side-forces that would make the projectile's path erratic.
+In summary, "Thorn's" high CD was a direct result of a shape that maximized form drag. It was rejected because its design actively promoted flow separation, creating a massive low-pressure wake that would make it unusable.
+
+
+
+</details>
