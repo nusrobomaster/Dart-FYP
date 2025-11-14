@@ -18,7 +18,7 @@ The drive system must:
 Based on these requirements, two drive systems were shortlisted (Table ??).
 
 <br>
-![Table for drive systems](assets/images/jianwen/Pitch-drive_system_table1.jpg)
+![Table for drive systems](assets/images/jianwen/Pitch-drive_system_table.jpg)
 {: .text-center}
 <br>
 <p align="center">
@@ -37,7 +37,7 @@ The resulting torque is 110.3 Nm.
 Using the following relation, the motor’s required input torque was determined:
 
 <br>
-![Equations for reduction gear](assets/images/jianwen/Pitch-equation2_1.jpg)
+![Equations for reduction gear](assets/images/jianwen/Pitch-equation2.jpg)
 {: .text-center}
 <br>
 With a 1:50 gearbox at 70% efficiency, the required motor torque is 3.2 Nm.
