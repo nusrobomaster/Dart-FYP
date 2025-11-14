@@ -25,23 +25,23 @@ h1, h2, h3, h4, h5, h6 {
 //I also dk how it works right now, may god save our souls if this breaks
 
 .team-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;               /* spacing between cards */
-  justify-content: center; /* center the row */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* exactly 2 per row */
+  gap: 3rem 4rem;                         /* vertical / horizontal spacing */
+  justify-items: center;                  /* center each card */
   margin-top: 2rem;
 }
 
 .team-card {
   text-align: center;
-  max-width: 200px;
+  max-width: 220px;   /* slightly larger for names */
 }
 
 .team-photo {
   width: 160px;
   height: 160px;
-  border-radius: 50%;      /* makes the image a circle */
-  object-fit: cover;       /* crops nicely */
+  border-radius: 50%;
+  object-fit: cover;
   display: block;
   margin: 0 auto 1rem auto;
 }
