@@ -73,3 +73,6 @@ Calculations involved in the torque needed for pitch subsystem for direct drive 
 ![Pitch calculations 1](assets/images/jianwen/Appendix-pitch_calculation1.jpg)
 {: .text-center}
 <br>
+
+If i add 2+2, where $a=2$, then what do I get? I get:
+$a + 2 = 4$
