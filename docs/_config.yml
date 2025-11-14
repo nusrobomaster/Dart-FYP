@@ -6,3 +6,5 @@ url: https://nusrobomaster.github.io/dart-fyp
 
 aux_links:
   Template Repository: https://github.com/nusrobomaster/dart-fyp
+
+katex: true

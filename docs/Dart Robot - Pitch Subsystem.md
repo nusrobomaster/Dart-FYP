@@ -1,5 +1,5 @@
 ---
-title: Dart Robot - Pitch Subsystem
+title: Pitch Subsystem
 parent: Dart Robot Subsystems
 nav_order: 3
 layout: default

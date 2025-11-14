@@ -1,5 +1,5 @@
 ---
-title: Dart Robot - Yaw Subsystem
+title: Yaw Subsystem
 parent: Dart Robot Subsystems
 nav_order: 2
 layout: default
