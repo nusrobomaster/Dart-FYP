@@ -21,6 +21,13 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.75em;
 }
 
+//To deal with site title size
+.site-title {
+  font-size: 1.2rem;   /* default is ~1.5rem */
+  line-height: 1.2;
+  white-space: normal; /* allow wrapping cleanly */
+}
+
 //From here on out, is the code for the images on dart subsystems page
 //I also dk how it works right now, may god save our souls if this breaks
 
