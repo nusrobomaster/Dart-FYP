@@ -26,7 +26,7 @@ Drive-system selection was based on:
 Four possible drive systems were evaluated, as shown in Table ??.
 
 <br>
-![Concept screening table](assets/images/jianwen/Yaw-table_concept_screening.jpg)
+![Concept screening table](assets/images/jianwen/Yaw-table_concept_screening1.jpg)
 {: .text-center}
 <br>
 <p align="center">
@@ -51,7 +51,7 @@ A suitable bearing capable of handling high axial loads was needed. Table ?? lis
 </p>
 
 <br>
-![Bearing selection table](assets/images/jianwen/Yaw-bearing_selection_table.jpg)
+![Bearing selection table](assets/images/jianwen/Yaw-bearing_selection_table1.jpg)
 {: .text-center}
 <br>
 <p align="center">
