@@ -1,6 +1,6 @@
 ---
 title: Base Structure
-nav_order: 7
+nav_order: 3
 layout: default
 permalink: /base_structure
 ---
@@ -22,7 +22,7 @@ The base structure was designed to resist impact damage from various projectiles
 ![Main Structure](assets/images/jianwen/Base-main_structure.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??: Truss structure making up main body of base</em>
 </p>
 The back support trusses connecting the base frame to the mid-section are angled and aligned with the expected impact direction of the dart. This prevents structural instability under diagonal impact of the projectile.
@@ -42,7 +42,7 @@ To simplify assembly, all components are fixed to a single 3D-printed mount atta
 ![3D printed component](assets/images/jianwen/Base-Light_Component.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??: 3D printed mounting piece CAD</em>
 </p>
 
@@ -50,7 +50,7 @@ To simplify assembly, all components are fixed to a single 3D-printed mount atta
 ![Sliding component](assets/images/jianwen/Base-sliding_component.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??a and ??b: Fully assembly CAD, (a) and fabricated assembly (b)</em>
 </p>
 
@@ -63,7 +63,7 @@ The mounts use the same truss design, but with 3D-printed TPU pieces between the
 ![Armor Mounting](assets/images/jianwen/Base-armor_plate_mount.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure??a and ??b: TPU mounting piece for top large armor plate CAD, right (a), and fabricated, left (b)</em>
 </p>
 Figure ?? shows the full assembly of the passive base structure with both large armor plates mounted.
@@ -72,7 +72,7 @@ Figure ?? shows the full assembly of the passive base structure with both large 
 ![Full CAD](assets/images/jianwen/Base-full_structure_cad.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??: Full CAD of the passive base structure</em>
 </p>
 
@@ -85,7 +85,7 @@ Assembly took place in the same workshop, with minor truss adjustments made to c
 ![Fabricated Structure](assets/images/jianwen/Base-fabricated_structure.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??: Full assembled passive base structure</em>
 </p>
 A dummy dart projectile of the required weight was thrown at the structure five times. The base remained stable with no visible damage or component failure.

@@ -31,7 +31,7 @@ Four possible drive systems were evaluated, as shown in Table ??.
 ![Concept screening table](assets/images/jianwen/Yaw-table_concept_screening1.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Table ??: Concept Screening Table for Yaw Drive Systems</em>
 </p>
 Chain and belt systems suffer from backlash and need additional space for tensioners and pulleys. Gear systems require high maintenance and are prone to backlash and rolling-contact fatigue. The direct-drive system scored highest and was selected, though its performance depends heavily on motor quality.
@@ -48,7 +48,7 @@ A suitable bearing capable of handling high axial loads was needed. Table ?? lis
 ![Belt drive iterations](assets/images/jianwen/Yaw-iterations.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??: Ideation process for belt-driven system</em>
 </p>
 
@@ -56,7 +56,7 @@ A suitable bearing capable of handling high axial loads was needed. Table ?? lis
 ![Bearing selection table](assets/images/jianwen/Yaw-bearing_selection_table1.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Table ??: Bearing types and considerations</em>
 </p>
 A slewing bearing was selected for this design. Additional parts such as the timing gear, belt, and tensioner were added, as shown in Figure ??. Since the final design moved away from the belt-driven approach, the detailed information for this iteration is included in Appendix ?.
@@ -70,9 +70,10 @@ The slewing bearing was retained, and belt-related components were removed. Figu
 ![CAD direct drive](assets/images/jianwen/Yaw-direct_drive.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??: CAD of direct drive system</em>
 </p>
+
 ### Design consideration: Electronics bay
 An electronics bay will be added to house components and circuit boards for protected and accessible maintenance. Its planned location is shown in Figure ??.
 
@@ -80,9 +81,10 @@ An electronics bay will be added to house components and circuit boards for prot
 ![Electronics Bay](assets/images/jianwen/Yaw-electronics_bay.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??: Current electronics bay location</em>
 </p>
+
 ### Fabrication, assembly, and testing plan
 Fabrication and assembly of the yaw subsystem will proceed after integrating the pitch subsystem. Load testing will follow in the next project phase. Figure ?? shows the full dart robot assembly with tentative parts for motion visualization.
 
@@ -90,9 +92,10 @@ Fabrication and assembly of the yaw subsystem will proceed after integrating the
 ![Full tentative CAD](assets/images/jianwen/Yaw-full_bot.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??: Tentative CAD of full dart robot assembly</em>
 </p>
+
 ### Next Steps
 Motor electronics will be integrated to test the subsystem’s yaw motion. This will be carried out in the project’s second phase.
 

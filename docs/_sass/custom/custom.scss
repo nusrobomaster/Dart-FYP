@@ -1,5 +1,5 @@
 /* Change these to change all font in the document */
-$dart-font-family: "Calibri", "Segoe UI", system-ui, -apple-system, sans-serif; //Change the first arguement, the rest are backups for different systems, can ignore
+$dart-font-family: "Arial", sans-serif; //Change the first arguement, the rest are backups for different systems, can ignore
 $dart-font-size: 20px;
 $dart-font-colour: #222222;
 
@@ -18,5 +18,5 @@ h1, h2, h3, h4, h5, h6 {
 //For captions if yall wanna change
 //To use it, example here --> <p align="center" class="small-text"><em>Figure ??: Caption text</em></p>
 .small-text {
-  font-size: 0.85em;
+  font-size: 0.75em;
 }

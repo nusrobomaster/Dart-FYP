@@ -16,7 +16,7 @@ Founded in 2013, DJI RoboMaster University Championship (RMUC) is an annual inte
 ![Battlefield](assets/images/vj/Intro-battlefield.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX: Top view of the battlefield</em>
 </p>
 The goal is to launch projectiles at the pressure sensors of opponent robots and targets to defeat them.
@@ -27,7 +27,7 @@ The goal is to launch projectiles at the pressure sensors of opponent robots and
 ![Battlefield Targets](assets/images/vj/Intro-battlefield_targets.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX: Battlefield with Labelled Target Locations</em>
 </p>
 
@@ -35,7 +35,7 @@ The goal is to launch projectiles at the pressure sensors of opponent robots and
 ![Target Table](assets/images/vj/Intro-target_table.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Table XX: Target Pressor Sensor Description</em>
 </p>
 
@@ -45,7 +45,7 @@ The goal is to launch projectiles at the pressure sensors of opponent robots and
 ![Base and outpost](assets/images/vj/Intro-base_outpost.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX: Close up of Targets</em>
 </p>
 A team wins if the opponent's base HP reaches zero OR its base has more remaining HP than the opponent’s at the end of the match. Base is invincible until outpost is destroyed.
@@ -56,7 +56,7 @@ A team wins if the opponent's base HP reaches zero OR its base has more remainin
 ![Base armors](assets/images/vj/Intro-base_armors.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX: Base with Small and Large Armour Modules</em>
 </p>
 Most robots and targets, such as Base, use armor modules — official game system components with pressure sensors—to register hits which decreases health.
@@ -65,7 +65,7 @@ Most robots and targets, such as Base, use armor modules — official game syste
 ![armor parts](assets/images/vj/Intro-dart_armor.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX: Close up of Dart Detection Module which is on the Targets (Outpost & Base)</em>
 </p>
 
@@ -75,7 +75,7 @@ Most robots and targets, such as Base, use armor modules — official game syste
 ![Robot lineup Table](assets/images/vj/Intro-robot_lineup_table.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Table XX: The current NUS Calibur Robotics robot lineup</em>
 </p>
 ASI - 403 would be building a new DART robot. (See Appendix XX for description of other robots)
@@ -86,7 +86,7 @@ ASI - 403 would be building a new DART robot. (See Appendix XX for description o
 ![Dart flight](assets/images/vj/Intro-dart_arc.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX: Example Projectile Flight Path</em>
 </p>
 The robot holds up to four projectiles and stays inside the Dart Launching Station with a gate that can open twice per round—once after 30 seconds and again after 4 minutes from the start of the round. Each opening lasts 20 seconds, followed by a 15-second cooldown. Unused openings can be used after the 4 minute mark.
@@ -100,7 +100,7 @@ Teams can select the desired Base target difficulty.
 ![Difficulty Table](assets/images/vj/Intro-difficulties.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Table XX: Base Target Difficulty Levels</em>
 </p>
 Higher difficulty levels increase the damage dealt and debuffs applied to the opponent, while granting greater buffs to the attacking team upon a successful hit. (See Appendix XX for the damage mechanisms and the buff & debuff mechanisms)
@@ -114,7 +114,7 @@ Earlier designs suffered from unstable flight due to weak aerodynamic choices (F
 ![Past Projectiles](assets/images/jianwen/Intro-past_dart_projectile.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??a (left) and Figure ??b (right): Past attempts at the dart projectile</em>
 </p>
 
@@ -125,7 +125,7 @@ Past robots showed unreliable pitch–yaw control, base instability, and inconsi
 ![Past Robots](assets/images/jianwen/Intro-past_dart_robot.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??a (left) and Figure ??b (right): Past attempts at the dart robot</em>
 </p>
 
@@ -145,7 +145,7 @@ With the stakeholders identified and NUS calibur robotics chosen as our main sta
 ![Value prop canvas](assets/images/barry/Intro-value_prop.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??: Value Proposition Canvas</em>
 </p>
 After drafting the value proposition canvas, our value proposition statement is formulated from the value proposition canvas.
@@ -170,7 +170,7 @@ We have two customers with different requirements that our DART project will hav
 ![Map target 2](assets/images/shyam/Intro-targets2.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure xx & xx: Complete Arena Setup with dimensions specified</em>
 </p>
 
@@ -180,7 +180,7 @@ We have two customers with different requirements that our DART project will hav
 ![Platform specs](assets/images/shyam/Intro-platform_specs.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure ??: Base Target structure’s platform</em>
 </p>
 
@@ -194,7 +194,7 @@ We have two customers with different requirements that our DART project will hav
 ![armor specs](assets/images/shyam/Intro-armor_specs.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX & XX: Base Target Plate and Base Target Structure</em>
 </p>
 
@@ -204,7 +204,7 @@ We have two customers with different requirements that our DART project will hav
 ![gate specs](assets/images/shyam/Intro-gate_specs.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX: Dart Robot Holding Station</em>
 </p>
 
@@ -219,7 +219,7 @@ The Dart Robot consists of the Yaw, Pitch, Launcher and Feeder. The Launcher and
 ![dart robot specs table](assets/images/shyam/Intro-robot_specs_table.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Table XX: Dart System Production Parameters</em>
 </p>
 
@@ -229,7 +229,7 @@ The Dart Robot consists of the Yaw, Pitch, Launcher and Feeder. The Launcher and
 ![projectile specs table](assets/images/shyam/Intro-dart_proj_specs_table.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Table XX: Projectile Production Parameters</em>
 </p>
 
@@ -237,7 +237,7 @@ The Dart Robot consists of the Yaw, Pitch, Launcher and Feeder. The Launcher and
 ![dart trigger](assets/images/shyam/Intro-proj_head.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX: ?????</em>
 </p>
 
@@ -249,7 +249,7 @@ After the Dart Trigger is mounted, ensure its top, bottom, left, and right sides
 ![dart trigger restrictions](assets/images/shyam/Intro-proj_head_restrict.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX: ?????</em>
 </p>
 Dart cameras or other devices can be mounted in the internal cavity of Dart Trigger. The mounting area shall not exceed the shadow area, as shown below.
@@ -258,7 +258,7 @@ Dart cameras or other devices can be mounted in the internal cavity of Dart Trig
 ![dart trigger specs](assets/images/shyam/Intro-proj_head_specs.jpg)
 {: .text-center}
 <br>
-<p align="center">
+<p align="center" class="small-text">
 <em>Figure XX: ?????</em>
 </p>
 
