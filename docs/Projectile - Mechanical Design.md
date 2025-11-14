@@ -226,7 +226,7 @@ CFD confirmed **massive parasitic drag** from all the exposed hinges and ducts. 
 
 
 <details markdown="1">
-<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on X Wing </strong></summary>
+<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on XWing </strong></summary>
 
 The rejection of "X-WING" was based on its three fundamental flaws, the most critical of which was a self-induced instability.
 
@@ -260,5 +260,127 @@ The design included an Electro-Ducted Fan (EDF) and a thrust-vectoring system. T
 Mass & Complexity: The fan, motor, and extra servos add significant mass, pushing the design to the 350g limit.
 * **Excessive Parasitic Drag**
 Unlike the clean "Crossblade" (P3), the "X-WING" is aerodynamically "dirty." Every exposed servo hinge, control horn, and the open side-ducts act as "parasites" that disrupt the airflow. Each of these components creates its own small, turbulent wake, and their cumulative effect results in an exceptionally high **parasitic drag** (DP) and a poor CD.
+
+</details>
+
+
+## V5 X-WING 2 (Active Dart) 
+*custom modification from Dalian University of Technology, open source design*
+
+Prototype 5 was a final attempt to salvage the canard concept from "X-WING" (P4). We correctly identified a major structural flaw—body flex—and added a carbon fiber "spine" to create a rigid airframe. However, our aerodynamic "fix" (a 3-canard layout) failed to solve the core canard-vortex instability.
+This prototype was the definitive "dead end." It taught us a crucial lesson, which was confirmed by external data from top teams: the entire canard-and-fan concept is overly complex, fragile, and aerodynamically flawed. This prototype was the final justification for abandoning canards entirely and pivoting to a simpler, more robust rear-fin control system.
+
+
+<details markdown="1">
+<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on XWing 2 </strong></summary>
+
+"V5 X-WING 2" was a direct iteration on P4, designed to solve two distinct problems.
+
+## 1. The Structural Problem: Wing Misalignment
+Based on supervisor feedback, we identified that the uncoupled TPU wings would suffer from **differential flex** in flight. The front X-wings and rear X-wings, being separate components, would flex independently under aerodynamic load. This is a critical control failure, as it creates **aerodynamic phase lag:**
+* The canards at the front would actuate, slightly twisting their wing structure.
+* This flex would not be transmitted uniformly to the rear stabilizing fins.
+* This would **de-synchronize** the control surfaces from the stabilization surfaces, leading to an unpredictable response and making the projectile uncontrollable.
+
+**The Solution**: Thin **carbon fiber splines** were added, connecting the outer tips of the front wings to the tips of the corresponding rear wings. These splines act as a torsional brace for the entire aerodynamic assembly. They rigidly couple the front and rear wing sets, forcing them to move as a single, coordinated unit. This solution massively increased the airframe's torsional stiffness, prevented wing flutter, and ensured the rear fins remained perfectly aligned with the front canards.
+
+## 2. The Aerodynamic Problem: Roll Instability
+We attempted to solve P4's roll instability by removing the bottom canard, creating a **2-canard configuration.** This "fix" was based on a flawed premise.
+* The roll instability in P4 was caused by asymmetric vortex shedding.
+* A 2-canard layout is symmetric from the start.
+* This design does not solve the fundamental problem of canard-vortex interaction ("dirty air"). CFD analysis confirmed that significant, complex aerodynamic forces were still present.
+
+## 3. Rejection and Final Validation
+This prototype was rejected. While the carbon fiber splines were an excellent solution to a complex structural problem (wing flex), this fix was applied to a fundamentally flawed aerodynamic concept. The design remained heavy, high-drag, and unstable.
+This conclusion was definitively confirmed by **external data** from the 2025 RMUC competition. Our team learned from the Dalian University of Technology (DUT) DART team that their similar canard-and-fan design achieved only **80% accuracy**. They reported that top teams (95%+ accuracy) used **simpler designs without canards or fans.****
+The DUT team confirmed the added complexity and mass were **not justified by performance**. To stay under the 350g limit, they had to thin the projectile walls, leading to **high breakage rates** on impact. This real-world data provided the final evidence that the active canard/fan concept is a "dead end."
+Add 3 media 2025 results.
+
+
+</details>
+
+
+## V6 TRIDENT (Active Dart) 
+
+Prototype 6, "Trident," marks our critical pivot. Based on competitor data and the failures of P1-P5, we abandoned the flawed canard concept and adopted the correct philosophy: rear-fin active control.
+This prototype was the first to integrate the full electronics payload and featured an innovative modular "cassette" design for fast serviceability. However, this "proof-of-concept" was a mechanical failure. The long tie-rod linkages (from mid-body servos) created severe control slop and aerodynamic flutter. Furthermore, large servo cutouts and a "zip-tie" assembly method made the airframe fatally fragile and flexible.
+"Trident" was a success in one way: it proved our philosophy was right, but our execution was wrong. It taught us the final, critical lesson: the control system must be direct-drive and the airframe must be structurally rigid.
+Embed video of splitting up
+
+
+<details markdown="1">
+<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on TRIDENT </strong></summary>
+
+"Trident" was a conceptual breakthrough. By moving the control surfaces to the rear, we use "clean," undisturbed air, eliminating the canard-vortex interaction ("dirty air") that caused the roll instability in P4 and P5. However, the implementation of this new philosophy revealed two major categories of mechanical and structural flaws.
+
+## 1. Mechanical Control System Failure
+The design used mid-body SG90 servos connected to the rear fins via long aluminum tie-rods. This linkage system introduced two critical, non-viable faults:
+* **Hysteresis or "Control Slop"**: This is a fatal flaw for a precision control system. Hysteresis is the difference between the commanded position from the flight computer and the actual position of the fin. It was caused by the "stack-up" of three mechanical errors:
+    * **Servo Inaccuracy**: The low-cost SG90 servos have poor precision.
+    * **Linkage Play**: Minor gaps in the 3D-printed hinges.
+    * **Tie-Rod Flex**: Even aluminum rods flex under the 25 m/s aerodynamic load. This "slop" means the control system is never certain of the fin's true position, leading to oscillation ("hunting") and an inability to make fine adjustments.
+* **Aerodynamic Flutter**: A flexible, "springy" linkage (the tie-rod) connected to an aerodynamic surface (the fin) creates a classic recipe for flutter. At 25 m/s, the air pressure will deflect the fin, which flexes the rod. The rod springs back, overshooting the neutral position, where the air catches it again. This creates a high-frequency, self-exciting oscillation that would destroy the servo gears or the fin itself.
+
+## 2. Structural Integrity Failure
+The design made two trade-offs for serviceability and weight that rendered the airframe non-viable.
+* Stress Concentration: To house the four servos, a large, rectangular cutout was made in the main fuselage. This "gaping hole" acts as a massive stress concentration point. Any impact force, especially on the nose, would be channeled directly to the sharp corners of this cutout, guaranteeing a structural fracture.
+* Loss of Airframe Rigidity: The use of zip ties to save 7.5g was a critical error. An active projectile must be a **rigid body** for its control system to function.
+
+The conclusion was absolute: a successful design required a **direct-drive system (servos at the fins) and a **rigid, structurally-sound body.**
+
+
+
+</details>
+
+
+
+
+
+
+## V7 HUNTER (Active Dart) 
+
+Prototype 7, "Hunter," is the final, optimized design that synthesizes all lessons from the previous six iterations. It directly solves the critical failures of "Trident" (P6) by replacing the flawed linkage system with a robust direct-drive servo system at the tail.
+Its key innovation is a structurally-integrated, interlocking carbon fiber (CF) wing assembly, which provides both aerodynamic stability and the primary structural rigidity for the entire airframe, eliminating the flex and fragility of P6. Combined with a multi-material body (TPU64D/PEBA) and a dedicated electronics chassis that guarantees stability, "Hunter" is our finalized, competition-ready projectile.
+
+
+<details markdown="1">
+<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on HUNTER </strong></summary>
+
+
+"Hunter" represents the culmination of our iterative design process. It implements the successful "rear-fin active control" philosophy from Prototype 6 while systematically engineering solutions for all of P6's identified mechanical and structural failures.
+## 1. Solution to Mechanical Control Failures
+"Trident's" (P6) greatest flaw was its mid-body servo linkage, which caused control hysteresis (slop) and was highly susceptible to aerodynamic flutter.
+"Hunter" solves this by implementing a direct-drive system. The four servos are mounted at the extreme rear of the fuselage, with their output horns directly actuating the control surfaces. This design eliminates all mechanical linkages, resulting in a zero-slop, rigid, and highly responsive control system that is immune to linkage-based flutter.
+## 2. Solution to Structural Integrity Failures
+"Trident" was critically fragile due to two main flaws:
+* Servo Cutouts: The "gaping hole" in the fuselage created a massive stress concentration point, guaranteeing fracture on impact.
+* Zip-Tie Assembly: The flexible zip-ties used to replace traditional steel screws resulted in a non-rigid airframe with torsional flex, making it uncontrollable.
+"Hunter" solves both problems. By moving the servos, the main body is now a structurally-sound cylindrical tube, which is vastly superior at distributing impact forces. Second, the zip-ties are replaced by a multi-functional interlocking CF wing system. These two "egg-crate" wing assemblies not only act as fins but also as the primary load-bearing supports for the modular fuselage, creating a stiff, robust monocoque-like structure.
+## 3. Advanced Systems and Materials Integration
+"Hunter" is the first prototype to achieve full, optimized systems integration:
+* CG Management: A dedicated internal chassis holds all heavy electronics (Battery, Camera, PCB) at the extreme front of the projectile. This is a critical design feature that guarantees passive static stability by ensuring the Center of Gravity (CG) is placed well forward of the Center of Pressure (CP) (located at the rear fins).
+* Multi-Material Optimization: "Hunter" moves beyond a single-material design for superior performance.
+    * Main Body: TPU64D (High impact-absorption)
+    * Fuselage: PEBA90A (Lightweight and rigid)
+    * Wings: Carbon Fiber (Maximum stiffness)
+* Control Surface Durability: The movable control surfaces are printed from TPU64D. This is a deliberate engineering trade-off. While a rigid material might offer a "crisper" response, the flexible TPU ensures the flaps will not shatter on impact, prioritizing durability in a competition environment.
+
+
+</details>
+
+
+
+<details markdown="1">
+<summary style="font-size: 1.5rem; font-weight: 450;"><strong> Multi Material Innovation </strong></summary>
+
+A key limitation of previous designs, both internal and external, was their reliance on a single material, specifically **TPU95A**. This single-material approach is a significant compromise. While TPU95A is readily available, it lacks the **high rigidity (stiffness)** required for a precision, high-speed airframe, leading to body flex and control "slop”.It is comparatively **brittle** (for a flexible material), leading to structural fractures on high-velocity impacts.
+Our "Hunter" (P7) prototype solves these issues by implementing a **multi-material "zonal" design.** We selected specific, advanced materials for their functional advantages, rather than using one material for all parts.
+**Main Body & Control Surfaces: TPU64D**
+For the main structural body and active control surfaces, we selected **TPU64D**, a semi-rigid Shore D thermoplastic. This was a critical upgrade from the softer Shore 95A. 95A is not stiff enough. Under high aerodynamic loads, a 95A airframe would twist, and 95A control surfaces would "blow back" (flex instead of steering). TPU64D provides **superior rigidity and modulus** (stiffness). This high stiffness is essential to prevent airframe flex and ensure that the control surface's movements are translated directly into aerodynamic force, creating a highly responsive and precise projectile. Furthermore, **TPU64D** possesses **exceptional toughness** (impact strength), ensuring the main body and control flaps can survive repeated, high-velocity impacts without shattering.
+**Rear Fuselage: PEBA90A**
+For the internal fuselage, the primary design driver was **minimizing weight**. This internal structure is a non-impact "parasitic mass." TPU (both 95A and 64D) is relatively dense. Using it for the internal chassis would add unnecessary weight, forcing compromises elsewhere. PEBA90A is a high-performance polyether block amide (PEBA) thermoplastic. Its key advantage is an **exceptionally low** density compared to TPU, while still offering high stiffness and durability. By strategically using lightweight PEBA for the internal chassis, we saved critical grams that allowed us to stay under the 350g limit.
+This multi-material approach (TPU64D for stiffness, PEBA90A for low weight) resulted in a final projectile that is more rigid, more durable, and lighter than a single-material design.
+
+
 
 </details>
