@@ -3,17 +3,9 @@ title: Dart Robot Subsystems
 has_children: true
 nav_order: 2
 layout: default
-permalink: /manpower_allocation
+permalink: /dart_robot_subsystems
 ---
 # The Team
----
-title: Manpower Allocation
-nav_order: 2
-has_children: true
-layout: default
----
-
-# Manpower Allocation
 
 Below is the breakdown of responsibilities for each subsystem.
 
