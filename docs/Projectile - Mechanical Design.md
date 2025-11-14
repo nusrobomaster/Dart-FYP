@@ -3,7 +3,12 @@ layout: default
 title: Projectile - Mechanical Design
 parent: Dart Projectile
 nav_order: 1
+permalink: /projectile/mech_design
 ---
+
+## 1. Foreground
+The projectile is the primary payload of the DART system...
+(and so on...)
 
 ## 1. Foreground
 The projectile is the primary payload of the DART system...
