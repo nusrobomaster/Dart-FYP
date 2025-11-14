@@ -1,0 +1,22 @@
+/* Change these to change all font in the document */
+$dart-font-family: "Times New Roman", "Segoe UI", system-ui, -apple-system, sans-serif; //Change the first arguement, the rest are backups for different systems, can ignore
+$dart-font-size: 15px;
+$dart-font-colour: #222222;
+
+body { //set all normal non header text to global params on top
+    font-family: $dart-font-family;
+    font-size: $dart-font-size;
+    color: $dart-font-colour;
+}
+
+//For the headers if yall wanna change
+h1, h2, h3, h4, h5, h6 {
+  color: #111111;
+  font-weight: 600;
+}
+
+//For captions if yall wanna change
+//To use it, example here --> <p align="center" class="small-text"><em>Figure ??: Caption text</em></p>
+.small-text {
+  font-size: 0.85em;
+}
