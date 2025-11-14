@@ -12,10 +12,11 @@ With the dart projectile completed, the next step is developing the Dart Robot t
 The yaw subsystem controls the robot’s heading through a single drive system and forms the base frame supporting the upper assembly.
 ### Load consideration
 The yaw subsystem must support the upper assembly—pitch, launcher, and feeder—estimated at 15 kg. The equations used are shown below:
-<br>
-![Equations for Torque Calculations](assets/images/jianwen/Yaw%20-%20equations.jpg)
-{: .text-center }
-<br>
+
+<p align = "center">
+<img src = "assets/images/Yaw%20-%20equations.jpg">
+</p>
+
 Torque requirements were calculated using angular acceleration and mass moment of inertia (Appendix Figure ??), resulting in a requirement of 37.4 Nm, which guides the drive-system and motor selection.
 ### Drive system considerations
 Drive-system selection was based on:
@@ -23,7 +24,13 @@ Drive-system selection was based on:
 2. Weight – total mass must remain under 25 kg.
 3. Maintenance – fast servicing during competition.
 Four possible drive systems were evaluated, as shown in Table ??.
-<!--> Insert the damn table here <-->
+
+<p align = "center">
+<img src = "assets/images/Yaw%20-%20table%20concept%20screening">
+</p>
+
+<p align:"center"><em>Figure ??: Concept Screening Table for Yaw Drive Systems</em></p>
+
 
 Chain and belt systems suffer from backlash and need additional space for tensioners and pulleys. Gear systems require high maintenance and are prone to backlash and rolling-contact fatigue. The direct-drive system scored highest and was selected, though its performance depends heavily on motor quality.
 
