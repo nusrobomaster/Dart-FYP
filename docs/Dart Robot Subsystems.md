@@ -4,6 +4,7 @@ has_children: true
 nav_order: 2
 layout: default
 permalink: /dart_robot_subsystems
+has_toc: false
 ---
 # The Team
 
@@ -43,7 +44,7 @@ Below is the breakdown of responsibilities for each subsystem.
     <p class="team-name">
       <a href="{{ '/Dart Robot - Yaw Subsystem/' | relative_url }}">Yaw - Mechanical Design</a><br>
       <a href="{{ '/Dart Robot - Pitch Subsystem/' | relative_url }}">Pitch - Mechanical Design</a><br>
-      <a href="{{ '/base_structure/' | relative_url }}">Base Structure</a>
+      <a href="{{ '/base_structure' | relative_url }}">Base Structure</a>
     </p>
   </div>
 
