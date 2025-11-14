@@ -1,10 +1,10 @@
 ---
 title: Base Structure
-parent: Manpower Allocation
-nav_order: 5
+nav_order: 7
 layout: default
-permalink: /jianwen_vj_base_structure
+permalink: /base_structure
 ---
+<!-- nav_order is for DROPDOWN NAVIGATION sequence <--> 
 # Base
 The base structure is a key objective in both attack and defense. Destroying the opponent’s base wins the match. In our project, it is one of two designated targets for the dart robot and projectile. The team will design and fabricate the base as outlined below.
 

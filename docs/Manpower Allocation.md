@@ -1,5 +1,5 @@
 ---
-title: Manpower Allocation
+title: Dart Robot Subsystems
 has_children: true
 nav_order: 2
 layout: default
