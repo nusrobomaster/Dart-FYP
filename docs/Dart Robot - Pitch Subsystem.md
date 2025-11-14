@@ -1,6 +1,6 @@
 ---
 title: Dart Robot - Pitch Subsystem
-nav_order: 3
+nav_order: 9
 layout: default
 permalink: /jianwen_dart_robot_pitch
 ---

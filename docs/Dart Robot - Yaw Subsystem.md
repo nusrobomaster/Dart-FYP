@@ -1,6 +1,6 @@
 ---
 title: Dart Robot - Yaw Subsystem
-nav_order: 2
+nav_order: 8
 layout: default
 permalink: /jianwen_dart_robot_yaw
 ---
