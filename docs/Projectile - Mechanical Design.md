@@ -130,7 +130,7 @@ This investigation was a critical failure that provided immense value. CFD analy
 
 
 <details markdown="1">
-<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on THORN </strong></summary>
+<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on GLIDER </strong></summary>
 
 ## 1. Trajectory Failure: Uncontrolled Passive Lift
 The goal of this project is to hit a 140mm x 140mm target, which requires a highly **predictable trajectory**. The "Glider," by design, is a high-lift body. Based on **Bernoulli's Principle**, the wings are shaped to create a pressure differential: lower pressure on top and higher pressure below. This pressure difference, L = ∆P . AWing   , creates an upward force. This lift is **passive and uncontrolled**. It causes the projectile to deviate from a predictable parabolic arc, likely entering an oscillating "phugoid" path. Any minor change in launch angle would be amplified by this lift, making consistent aiming impossible. 
@@ -191,7 +191,7 @@ Its very success was its one limitation: as a passive projectile, it had no way 
 
 
 <details markdown="1">
-<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on THORN </strong></summary>
+<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on CROSSBLADE </strong></summary>
 
 The "Crossblade" prototype was designed to solve the two primary drag problems identified in ***"Thorn"***, which was **form drag** and **base drag**.
 
@@ -215,3 +215,50 @@ This requirement for **in-flight target interception** is the primary justificat
 
 </details>
 
+
+
+## V4 X-WING (Active Dart) 
+*credit : Dalian University of Technology, open source design*
+
+Having mastered a passive dart, we next investigated the "active control" meta by analyzing an open-source competitor design: the "X-WING." This prototype added **three forward canards** and an internal ducted fan. Our analysis proved this popular concept to be a **"technical trap."**
+CFD confirmed **massive parasitic drag** from all the exposed hinges and ducts. More critically, the 1-second flight time renders the fan **"dead weight"**, as it can't spin up. The fatal flaw, however, was **canard-vortex interaction**: the front canards shed "dirty air" that caused a severe, uncommanded **roll instability** at the tail. "X-WING" was a crucial failure that taught us to reject canard-based designs entirely.
+
+
+
+<details markdown="1">
+<summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on X Wing </strong></summary>
+
+The rejection of "X-WING" was based on its three fundamental flaws, the most critical of which was a self-induced instability.
+
+
+
+## 1. Aerodynamic Instability (Canard-Vortex Interaction)
+Canards are control surfaces placed forward of the Center of Gravity (CG). To steer (e.g., pitch up), they generate a small lift force.
+An unavoidable byproduct of any fin generating lift is the creation of powerful wingtip vortices.
+These high-energy, swirling tubes of air, known as "dirty air", travel downstream and pass directly over the rear stabilizing fins. This creates a massive, asymmetric pressure loading on the tail, inducing a strong, uncommanded roll moment. The projectile is actively destabilizing itself, making precision control impossible. 
+This is the "fatal flaw" that makes the design unviable.
+longitudinal (pitch) stability formula. 
+Static Stability Margin (CMa) must be negative for the projectile to be stable.
+
+$$C_{M_{\alpha}} = \frac{dC_M}{d\alpha}$$
+
+
+For a canard-based design, this stability is a balancing act between two main components:
+* **The Canard (Destabilizing)**: It's a lifting surface in front of the Center of Gravity (CG). When the projectile pitches up, the canard lifts more, which creates a moment that pitches it even further up. This is **unstable.**
+* **The Main Wing (Stabilizing)**: It's a lifting surface behind the CG. When the projectile pitches up, the main wing lifts more, creating a moment that pitches the nose back down. This is **stable.**
+
+For the total projectile to be stable, the **stabilizing effect of the main wing must be stronger than the destabilizing effect of the canard.**
+Beyond the canard-vortex (roll) issue, X wing had fundamental **pitch instability.** This was a direct result of the projectile’s **size constraints.**
+For a canard design to be stable, the **main wing area** (SW) must be proportionally much larger than the **canard area** (SC). This ensures the main wing's stabilizing moment (which is a function of its area and its distance from the CG) can overcome the canard's destabilizing moment.
+However, the 250x250x150mm competition box severely **limited our maximum main wing area** (SW). To get any meaningful control, the canards (SC) still had to be a certain size. This resulted in a **Canard-to-Wing Area Ratio (SC / SW) that was far too high.**
+The destabilizing effect of the "proportionally large" canards simply overpowered the small main wings. This made the projectile inherently unstable in pitch (CM> 0), causing it to tumble and making it uncontrollable. This pitch instability, combined with the separate problem of canard-vortex induced roll, made the entire concept unviable.
+
+
+## 2. Non-Viable Propulsion and Control
+The design included an Electro-Ducted Fan (EDF) and a thrust-vectoring system. This system is non-viable for two reasons:
+* **Spool-Up Time**: An EDF has a significant "spool-up" time (0.5-1.0s) to reach its peak RPM and produce effective thrust. Given the projectile's total flight time is approximately one second, the fan would never reach a usable thrust level, rendering it (and the control system) dead weight.
+Mass & Complexity: The fan, motor, and extra servos add significant mass, pushing the design to the 350g limit.
+* **Excessive Parasitic Drag**
+Unlike the clean "Crossblade" (P3), the "X-WING" is aerodynamically "dirty." Every exposed servo hinge, control horn, and the open side-ducts act as "parasites" that disrupt the airflow. Each of these components creates its own small, turbulent wake, and their cumulative effect results in an exceptionally high **parasitic drag** (DP) and a poor CD.
+
+</details>
