@@ -67,6 +67,8 @@ Given these constraints, the **critical function prototyping methodology** was s
 
 ### 7.2.1 Design Specifications
 
+<br>
+
 | **Features** | **Specification** | **Reasoning** |
 |--------------|-------------------|---------------|
 | Maximum Power Supply Voltage (V) | 30 | Follows the building specification requirements from RMOC [1]. |
@@ -76,12 +78,18 @@ Given these constraints, the **critical function prototyping methodology** was s
 | Load cell with ADC | 5 V excitation voltage | Common excitation voltage for load cells. **Swappable** once the rated load cell is determined, requiring minimal code/electrical changes. |
 | Touch Screen | Easy interface with RoboMaster’s Dev Board A [1] | Stakeholder-provided development board for ease of use when handing over the dart robot. |
 
+<div style="text-align:center;">
+Table 7.2: Design Specifications
+</div>
+
+<br>
 
 
 ### 7.2.2 Choice of Items
 
 #### 7.2.2.1 Stakeholder Provided Items
 As the project is used for NUS Calibur Robotics, several items were provided by the stakeholder.
+<br>
 
 | **Items** | **Reasons** |
 |----------|-------------|
@@ -90,16 +98,27 @@ As the project is used for NUS Calibur Robotics, several items were provided by 
 | <img src="{{ '/assets/images/barry/RoboMaster_Remote_Controller.png' | relative_url }}" width="140"> <br> **RoboMaster Remote Controller** | Stakeholder ease of operation and widely available in the stakeholder’s workshop |
 | <img src="{{ '/assets/images/barry/M2006_motor.png' | relative_url }}" width="140"> <br> **M2006 Motor** | Widely available and lightweight, easy to bring around for prototyping |
 
+<div style="text-align:center;">
+Table 7.3:  Stakeholder Provided Items
+</div>
+
+<br>
+
 #### 7.2.2.2 Choice of Bought items
+
+##### Lock & Load Cell
 
 | **Items** | **Reasons** |
 |----------|-------------|
 | <img src="{{ '/assets/images/barry/Electronic_solenoid_lock.png' | relative_url }}" width="140"> <br> **Electronic Solenoid Lock** | ✅ Rated 75 kgF — Holding force > 2 × 23 kgF (meets safety factor) <br><br> ✅ (Cost: \$10.94) < \$20 <br><br> *Design specifications met* |
 | <img src="{{ '/assets/images/barry/Beam_type_load_cell_with_ADC.png' | relative_url }}" width="140"> <br> **Load Cell with Analog-to-Digital Converter** | ✅ Rated 5V excitation voltage — meets 5V system excitation requirement <br><br> ✅ (Cost: \$2.59) < \$20 <br><br> *Design specifications met*|
 
----
+<div style="text-align:center;">
+Table 7.4: Bought items & Reasons
+</div>
 
-### 7.2.3 Touch Screen GUI for entering inputs
+
+##### 7.2.2.2.2 Touch Screen GUI
 
 As per the user journey, a touch screen GUI is required to enter values for pitch, yaw, and force.  
 The implementation of this function requires three primary components:
@@ -107,8 +126,9 @@ The implementation of this function requires three primary components:
 1. A touchscreen display  
 2. A compatible driver  
 3. A graphical user interface (GUI) library  
+<br>
 
-#### 7.2.3.1 Touchscreen display / Compatible driver
+###### 7.2.2.2.2.1 Touchscreen display / Compatible driver
 
 Balancing between the RAM limitations of the STM32F4 microcontroller, the type of touch sensor, and the screen size, a list of touchscreens was narrowed down in the table below.
 
@@ -122,14 +142,15 @@ Balancing between the RAM limitations of the STM32F4 microcontroller, the type o
 | Cost         | $13.71                  | $17.85                   | $45.23                      |
 
 <div style="text-align:center;">
-Table XX: Touch Screen Comparison
+Table 7.5: Touch Screen Comparison
 </div>
 
 When comparing screen sizes, the 3.5-inch display is preferred over the 2.4-inch because it provides more buffer for future improvements, with the tradeoff being higher RAM usage.  
-Capacitive touch screens are also far more expensive than resistive ones, and since capacitive touch is not a hard requirement, the 3.5-inch LCD TFT with resistive touch was selected.
+Capacitive touch screens are also far more expensive than resistive ones, and since capacitive touch is not a hard requirement, the **3.5-inch LCD TFT with resistive touch** was selected.
 
+<br>
 
-#### 7.2.3.2 GUI library
+###### 7.2.2.2.2.2 GUI library
 
 When looking for a graphics user interface, a few libraries came up. Based on library usability, three options were shortlisted for comparison in the table below.
 
@@ -142,24 +163,35 @@ When looking for a graphics user interface, a few libraries came up. Based on li
 | Community support                 | 3         | 2         | 3         |
 | Tools                             | 2         | 3         | 3         |
 | Licensing                         | 3         | 3         | 1         |
-| **Sum**                           | **19**    | **18**    | **15**    |
+| **Sum**                           | **19**    | 18    | 15    |
 
 <div style="text-align:center;">
-Table XX: GUI Library Comparison
+Table 7.6: GUI Library Comparison
 </div>
 
-Based on the selection criteria, it was a close decision between LVGL and TouchGFX. LVGL being very flexible and TouchGFX optimise for stm32 chips hardware. With the given STM32F4,  the advantage that touchGFX has in stm32 chips could not be used. This is coupled with the desire of more flexibility in visual design that LVGL offers. Hence,  LVGL was chosen as the GUI library.
+Based on the selection criteria, it was a close decision between LVGL and TouchGFX. LVGL being very flexible and TouchGFX optimise for stm32 chips hardware. With the given STM32F4,  the advantage that touchGFX has in stm32 chips could not be used. This is coupled with the desire of more flexibility in visual design that LVGL offers. Hence,  **LVGL** was chosen as the GUI library.
 
+<br>
 #### 7.2.4 Module Testing and Code Development
 
 After selecting the required components, each part was implemented separately and tested with dedicated code to verify correct operation before system integration.
 
-| **Module** | **Tests / Code Written** |
-|------------|---------------------------|
-| Touchscreen display & driver |  Touch detection, screen refresh verification |
-| Load cell with ADC | Raw ADC reading, calibration routine, real-time tension feedback code |
-| Electronic solenoid lock | Actuation timing test, holding-force control, safety-lock logic |
-| Motor control | Direction control, step-rate test, response under joystick/command input |
+
+
+<div style="width:600px; margin:auto;">
+<table style="width:60%; font-size:0.8rem;">
+  <tr><th>Module</th><th>Tests / Code Written</th></tr>
+  <tr><td>Touchscreen</td><td>Touch read, refresh check</td></tr>
+  <tr><td>Load cell</td><td>ADC read, calibration</td></tr>
+  <tr><td>Solenoid lock</td><td>Unlocking, holding control</td></tr>
+  <tr><td>Motor control</td><td>Direction, joystick</td></tr>
+  <tr><td>Remote controller</td><td>Signal read, switch mapping</td></tr>
+</table>
+</div>
+
+<div style="text-align:center;">
+Table 7.7: Touch Screen Comparison
+</div>
 
 ---
 
@@ -192,76 +224,6 @@ Figure XX: Critical Function Prototype
 <div style="text-align:center;">
   <img src="{{ '/assets/images/barry/Data_flow_diagram.jpg' | relative_url }}" style="width:60%;" />
   <p class="figure-caption">Figure XX: Dart Robot Data Flow Diagram</p>
-</div>
-
----
-
-## Tension feedback for the launcher
-
-<div style="text-align:center;">
-  <img src="{{ '/assets/images/barry/Beam_type_load_cell_with_ADC.png' | relative_url }}" style="width:30%;" />
-  <p class="figure-caption">Figure XX: Beam-type Load Cell with ADC</p>
-</div>
-
----
-
-## Touch screen GUI for entering inputs
-
-### Touchscreen comparison
-
-| Specification | TFT LCD 2.4" resistive | TFT LCD 3.5" resistive | Hosyond 3.5" IPS capacitive |
-|--------------|-------------------------|--------------------------|------------------------------|
-| Resolution   | 240×320                 | 480×320                  | 480×320                     |
-| Touch        | Resistive               | Resistive                | Capacitive                  |
-| Touch IC     | XPT2046                 | XPT2046                  | FT6336U                     |
-| Display IC   | ILI9341                 | ILI9488                  | ST7796U                     |
-| Communication| SPI                     | SPI                      | SPI                         |
-| Cost         | $13.71                  | $17.85                   | $45.23                      |
-
----
-
-## GUI Library Comparison
-
-| Criteria                          | <img src="{{ '/assets/images/barry/LVGL_logo.png' | relative_url }}" width="140"> | <img src="{{ '/assets/images/barry/Touch_GFX_logo.png' | relative_url }}" width="140"> | <img src="{{ '/assets/images/barry/QT_logo.png' | relative_url }}" width="140"> |
-| --------------------------------- | --------- | --------- | --------- |
-| Ease of integration               | 3         | 3         | 1         |
-| RAM / flash efficiency            | 3         | 2         | 1         |
-| Graphics performance              | 2         | 3         | 3         |
-| Customisation                     | 3         | 2         | 3         |
-| Community support                 | 3         | 2         | 3         |
-| Tools                             | 2         | 3         | 3         |
-| Licensing                         | 3         | 3         | 1         |
-| **Sum**                           | **19**    | **18**    | **15**    |
-
-<div style="text-align:center;">
-Table XX: GUI Library Comparison
-</div>
-
----
-
-## Electrical lock
-
-<div style="text-align:center;">
-  <img src="{{ '/assets/images/barry/solenoid_lock_electrical_connections.png' | relative_url }}" style="width:60%;" />
-  <p class="figure-caption">Figure XX: Solenoid Lock Electrical Connections</p>
-</div>
-
----
-
-## Remote control
-
-<div style="text-align:center;">
-  <img src="{{ '/assets/images/barry/RoboMaster_Remote_Controller.png' | relative_url }}" style="width:60%;" />
-  <p class="figure-caption">Figure XX: RoboMaster Remote Controller</p>
-</div>
-
----
-
-## Motors
-
-<div style="text-align:center;">
-  <img src="{{ '/assets/images/barry/M2006_motor.png' | relative_url }}" style="width:60%;" />
-  <p class="figure-caption">Figure XX: M2006 Motor</p>
 </div>
 
 ---
