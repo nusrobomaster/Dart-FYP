@@ -150,12 +150,28 @@ Table XX: GUI Library Comparison
 
 Based on the selection criteria, it was a close decision between LVGL and TouchGFX. LVGL being very flexible and TouchGFX optimise for stm32 chips hardware. With the given STM32F4,  the advantage that touchGFX has in stm32 chips could not be used. This is coupled with the desire of more flexibility in visual design that LVGL offers. Hence,  LVGL was chosen as the GUI library.
 
+#### 7.2.4 Module Testing and Code Development
+
+After selecting the required components, each part was implemented separately and tested with dedicated code to verify correct operation before system integration.
+
+| **Module** | **Tests / Code Written** |
+|------------|---------------------------|
+| Touchscreen display & driver |  Touch detection, screen refresh verification |
+| Load cell with ADC | Raw ADC reading, calibration routine, real-time tension feedback code |
+| Electronic solenoid lock | Actuation timing test, holding-force control, safety-lock logic |
+| Motor control | Direction control, step-rate test, response under joystick/command input |
+
+---
+
+## 7.3 First Critical function prototype
+
+
 
 ![Critical_function_prototype]({{ "/assets/images/barry/Critical_function_prototype.jpg" | relative_url }})
 <p class="figure-caption" style="text-align:center;">
 Figure XX: Critical Function Prototype
 </p>
----
+
 
 ## Current electrical architecture
 
