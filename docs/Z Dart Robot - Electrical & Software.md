@@ -12,13 +12,16 @@ permalink: /dart-system/dart-robot/elec-software
 **Objective:** Identify, design and implement electrical and software needs for the dart robot user
 
 **Deliverables:**
-1. Breakdown functionalities required in a dart robot and ideate for methodology required  
-2. Design a functional prototype based on methodology  
+1. Breakdown functionalities required in a dart robot and ideate for methodology required 
+→ [See Section 7.1](#func-breakdown)
+2. Design a functional prototype based on methodology
+ → [See Section 7.2](#func-prototype)
 3. Implement the designed functional prototype
+→ [See Section 7.3](#implement-prototype)
 
 ---
 
-## 7.1 Functionalities breakdown
+## 7.1 Functionalities breakdown {#func-breakdown}
 
 ### 7.1.1 Background
 
@@ -63,7 +66,7 @@ Given these constraints, the **critical function prototyping methodology** was s
 
 ---
 
-## 7.2 Design of functional prototype
+## 7.2 Design of functional prototype {#func-prototype}
 
 ### 7.2.1 Design Specifications
 
@@ -79,7 +82,7 @@ Given these constraints, the **critical function prototyping methodology** was s
 | Touch Screen | Easy interface with RoboMaster’s Dev Board A [1] | Stakeholder-provided development board for ease of use when handing over the dart robot. |
 
 <div style="text-align:center;">
-Table 7.2: Design Specifications
+Table 7.1: Design Specifications
 </div>
 
 <br>
@@ -99,14 +102,14 @@ As the project is used for NUS Calibur Robotics, several items were provided by 
 | <img src="{{ '/assets/images/barry/M2006_motor.png' | relative_url }}" width="140"> <br> **M2006 Motor** | Widely available and lightweight, easy to bring around for prototyping |
 
 <div style="text-align:center;">
-Table 7.3:  Stakeholder Provided Items
+Table 7.2:  Stakeholder Provided Items
 </div>
 
 <br>
 
 #### 7.2.2.2 Choice of Bought items
 
-##### Lock & Load Cell
+##### 7.2.2.2.1 Lock & Load Cell
 
 | **Items** | **Reasons** |
 |----------|-------------|
@@ -114,7 +117,7 @@ Table 7.3:  Stakeholder Provided Items
 | <img src="{{ '/assets/images/barry/Beam_type_load_cell_with_ADC.png' | relative_url }}" width="140"> <br> **Load Cell with Analog-to-Digital Converter** | ✅ Rated 5V excitation voltage — meets 5V system excitation requirement <br><br> ✅ (Cost: \$2.59) < \$20 <br><br> *Design specifications met*|
 
 <div style="text-align:center;">
-Table 7.4: Bought items & Reasons
+Table 7.3: Bought items & Reasons
 </div>
 
 
@@ -142,7 +145,7 @@ Balancing between the RAM limitations of the STM32F4 microcontroller, the type o
 | Cost         | $13.71                  | $17.85                   | $45.23                      |
 
 <div style="text-align:center;">
-Table 7.5: Touch Screen Comparison
+Table 7.4: Touch Screen Comparison
 </div>
 
 When comparing screen sizes, the 3.5-inch display is preferred over the 2.4-inch because it provides more buffer for future improvements, with the tradeoff being higher RAM usage.  
@@ -166,7 +169,7 @@ When looking for a graphics user interface, a few libraries came up. Based on li
 | **Sum**                           | **19**    | 18    | 15    |
 
 <div style="text-align:center;">
-Table 7.6: GUI Library Comparison
+Table 7.5: GUI Library Comparison
 </div>
 
 Based on the selection criteria, it was a close decision between LVGL and TouchGFX. LVGL being very flexible and TouchGFX optimise for stm32 chips hardware. With the given STM32F4,  the advantage that touchGFX has in stm32 chips could not be used. This is coupled with the desire of more flexibility in visual design that LVGL offers. Hence,  **LVGL** was chosen as the GUI library.
@@ -191,32 +194,37 @@ After selecting the required components, each part was implemented separately an
 </div>
 
 <div style="text-align:center;">
-Table 7.7: Touch Screen Comparison
+Table 7.6: Touch Screen Comparison
 </div>
 
 ---
 
-## 7.3 Implementation of designed functional prototype
+## 7.3 Implementation of designed functional prototype {#implement-prototype}
 
 ### 7.3.1 First Critical Function Prototype
 ![Critical_function_prototype]({{ "/assets/images/barry/Critical_function_prototype.jpg" | relative_url }})
 <p class="figure-caption" style="text-align:center;">
-Figure XX: Critical Function Prototype
+Figure 7.2: Critical Function Prototype
 </p>
 
+<div style="text-align:center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/74U8P2-_PPw?si=B43NDyxnVTX-11rO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 
-
+<p class="figure-caption" style="text-align:center;">
+Figure 7.3: Critical Function Prototype Video
+</p>
 
 ### 7.3.2 Current electrical architecture
 
 <div style="text-align:center;">
   <img src="{{ '/assets/images/barry/Segmented_power_diagram.png' | relative_url }}" style="width:60%;" />
-  <p class="figure-caption">Figure XX: Segmented Power Diagram of Dart Robot</p>
+  <p class="figure-caption">Figure 7.4: Segmented Power Diagram of Dart Robot</p>
 </div>
 
 <div style="text-align:center;">
   <img src="{{ '/assets/images/barry/Dart_robot_signal.png' | relative_url }}" style="width:60%;" />
-  <p class="figure-caption">Figure XX: Dart Robot Signal Overview</p>
+  <p class="figure-caption">Figure 7.5: Dart Robot Signal Overview</p>
 </div>
 
 ---
