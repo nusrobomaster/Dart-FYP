@@ -1,8 +1,8 @@
 ---
-title: 4 Mechanical Design – Pitch
+title: 5 Mechanical Design – Pitch
 parent: Dart Robot
 grand_parent: Dart System
-nav_order: 1      # after “Dart Robot - Mechanical Design” and “Dart Robot - Electrical & Software”
+nav_order: 2      # after “Dart Robot - Mechanical Design” and “Dart Robot - Electrical & Software”
 layout: default
 permalink: /dart-system/dart-robot/pitch
 has_toc: true
