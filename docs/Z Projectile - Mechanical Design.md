@@ -223,7 +223,7 @@ Where b is the wingspan and e is an efficiency factor. This shows that our high-
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 8: 3D printed scale model of THORN</em>
+<em>Figure 11: 3D printed scale model of THORN</em>
 </p>
 
 <br>
@@ -231,7 +231,7 @@ Where b is the wingspan and e is an efficiency factor. This shows that our high-
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 9: 3D design of THORN.</em>
+<em>Figure 12: 3D design of THORN.</em>
 </p>
 
 
@@ -247,7 +247,7 @@ However, the CFD also revealed a fatal, high-impact flaw: critically high drag. 
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 11: Cut Plot (Velocity Drag) on THORN.</em>
+<em>Figure 13: Cut Plot (Velocity Drag) on THORN.</em>
 </p>
 
 The "Thorn" prototype failed due to its high aerodynamic drag. Total drag (D) is the force that opposes the projectile's motion, and for a non-lifting body, it is dominated by parasitic drag ( DP). This is calculated using the master drag equation:
@@ -275,14 +275,14 @@ In summary, "Thorn's" high CD was a direct result of a shape that maximized form
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 12: Surface Plot (pressure) on THORN.</em>
+<em>Figure 14: Surface Plot (pressure) on THORN.</em>
 </p>
 <br>
 ![gliderdrag]({{ site.baseurl }}/assets/images/shyam/thornpressure2.png)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Surface Plot (pressure) on THORN.</em>
+<em>Figure 15: Surface Plot (pressure) on THORN.</em>
 </p>
 
 
@@ -297,7 +297,7 @@ In summary, "Thorn's" high CD was a direct result of a shape that maximized form
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 6: 3D printed scale model of CROSSBLADE</em>
+<em>Figure 16: 3D printed scale model of CROSSBLADE</em>
 </p>
 
 <br>
@@ -305,7 +305,7 @@ In summary, "Thorn's" high CD was a direct result of a shape that maximized form
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 7: 3D design of CROSSBLADE.</em>
+<em>Figure 17: 3D design of CROSSBLADE.</em>
 </p>
 
 
@@ -324,7 +324,7 @@ The "Crossblade" prototype was designed to solve the two primary drag problems i
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 12: Cut Plot (Velocity Drag) on CROSSBLADE.</em>
+<em>Figure 18: Cut Plot (Velocity Drag) on CROSSBLADE.</em>
 </p>
 
 
@@ -346,7 +346,7 @@ This prototype was not, however, without new trade-offs. The design introduced t
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Surface Plot (pressure) on CROSSBLADE.</em>
+<em>Figure 19: TPU95A CROSSBLADE for testing.</em>
 </p>
 
 While the "Crossblade" prototype proved a viable solution for a static (Level 1) target, the competition's advanced tiers introduce dynamic challenges. The following embedded videos illustrate the "Level 2" and "Level 3" targets, which move in complex, non-predictable patterns.
@@ -357,7 +357,7 @@ This requirement for **in-flight target interception** is the primary justificat
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Surface Plot (pressure) on CROSSBLADE.</em>
+<em>Figure 20: Surface Plot (pressure) on CROSSBLADE.</em>
 </p>
 
 
@@ -374,7 +374,7 @@ This requirement for **in-flight target interception** is the primary justificat
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 6: 3D printed scale model of X WING</em>
+<em>Figure 21: 3D printed scale model of X WING</em>
 </p>
 
 <br>
@@ -382,7 +382,7 @@ This requirement for **in-flight target interception** is the primary justificat
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 7: 3D design of X WING.</em>
+<em>Figure 22: 3D design of X WING.</em>
 </p>
 
 
@@ -399,7 +399,7 @@ CFD confirmed **massive parasitic drag** from all the exposed hinges and ducts. 
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Cut Plot (Velocity Drag) on X WING.</em>
+<em>Figure 23: Cut Plot (Velocity Drag) on X WING.</em>
 </p>
 
 <br>
@@ -407,7 +407,7 @@ CFD confirmed **massive parasitic drag** from all the exposed hinges and ducts. 
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Surface Plot (pressure) on X WING.</em>
+<em>Figure 24: Surface Plot (pressure) on X WING.</em>
 </p>
 
 
@@ -420,14 +420,14 @@ The rejection of "X-WING" was based on its three fundamental flaws, the most cri
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Canard induced roll illustration.</em>
+<em>Figure 25: Canard induced roll illustration.</em>
 </p>
 <br>
 ![canardroll]({{ site.baseurl }}/assets/images/shyam/roll.png)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Canard induced roll illustration.</em>
+<em>Figure 26: Canard induced roll illustration.</em>
 </p>
 
 ## 1. Aerodynamic Instability (Canard-Vortex Interaction)
@@ -471,7 +471,7 @@ Unlike the clean "Crossblade" (P3), the "X-WING" is aerodynamically "dirty." Eve
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 6: 3D printed scale model of GLIDER</em>
+<em>Figure 27: 3D printed scale model of XWing 2</em>
 </p>
 
 <br>
@@ -479,7 +479,7 @@ Unlike the clean "Crossblade" (P3), the "X-WING" is aerodynamically "dirty." Eve
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 7: 3D design of GLIDER.</em>
+<em>Figure 28: 3D design of XWing 2.</em>
 </p>
 
 
@@ -495,7 +495,7 @@ This prototype was the definitive "dead end." It taught us a crucial lesson, whi
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Cut Plot (Velocity Drag) on X WING2.</em>
+<em>Figure 29: Cut Plot (Velocity Drag) on X WING2.</em>
 </p>
 
 
@@ -504,7 +504,7 @@ This prototype was the definitive "dead end." It taught us a crucial lesson, whi
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Surface Plot (pressure) on X WING2.</em>
+<em>Figure 30: Surface Plot (pressure) on X WING2.</em>
 </p>
 
 
@@ -533,7 +533,7 @@ The DUT team confirmed the added complexity and mass were **not justified by per
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Surface Plot (pressure) on X WING2.</em>
+<em>Figure 31: Surface Plot (pressure) on X WING2.</em>
 </p>
 
 
@@ -549,7 +549,7 @@ The DUT team confirmed the added complexity and mass were **not justified by per
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 6: 3D printed scale model of TRIDENT</em>
+<em>Figure 32: 3D printed scale model of TRIDENT</em>
 </p>
 
 <br>
@@ -557,7 +557,7 @@ The DUT team confirmed the added complexity and mass were **not justified by per
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 7: 3D design of TRIDENT.</em>
+<em>Figure 33: 3D design of TRIDENT.</em>
 </p>
 
 <div style="text-align: center;">
@@ -584,7 +584,7 @@ This prototype was the first to integrate the full electronics payload and featu
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Trident Design Issues.</em>
+<em>Figure 34: Trident Design Issues.</em>
 </p>
 
 
@@ -617,7 +617,7 @@ The conclusion was absolute: a successful design required a **direct-drive syste
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 6: 3D printed scale model of GLIDER</em>
+<em>Figure 35: 3D printed scale model of HUNTER</em>
 </p>
 
 <br>
@@ -625,7 +625,7 @@ The conclusion was absolute: a successful design required a **direct-drive syste
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 7: 3D design of GLIDER.</em>
+<em>Figure 36: 3D design of HUNTER.</em>
 </p>
 
 
@@ -669,6 +669,15 @@ Media 02: Video of Hunter Split-Up (New Segmented Design)
 
 <details markdown="1">
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> Multi Material Innovation </strong></summary>
+
+<br>
+![multi]({{ site.baseurl }}/assets/images/shyam/multi.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 37: Multi Material Innovative Projectile Design.</em>
+</p>
+
 
 A key limitation of previous designs, both internal and external, was their reliance on a single material, specifically **TPU95A**. This single-material approach is a significant compromise. While TPU95A is readily available, it lacks the **high rigidity (stiffness)** required for a precision, high-speed airframe, leading to body flex and control "slop”.It is comparatively **brittle** (for a flexible material), leading to structural fractures on high-velocity impacts.
 Our "Hunter" (P7) prototype solves these issues by implementing a **multi-material "zonal" design.** We selected specific, advanced materials for their functional advantages, rather than using one material for all parts.
