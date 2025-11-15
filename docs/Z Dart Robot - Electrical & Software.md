@@ -1,5 +1,5 @@
 ---
-title: 7 Launcher - Electrical & Software
+title: 7 Electrical & Software - Dart Robot
 parent: Dart Robot
 grand_parent: Dart System
 nav_order: 4
