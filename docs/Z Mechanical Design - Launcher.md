@@ -86,11 +86,11 @@ Pneumatic systems offer high power but were deemed non-viable for two reasons. F
 ## 4. Our Team's Plan: A Novel Elastic Launcher Design 
 Based on the shortcomings of existing systems, our team developed an innovative propulsion system based on elastic energy.
 
-# 4.1 Launching Method Justification
+### 4.1 Launching Method Justification
 The primary energy-storage medium chosen was **latex elastic bands** over mechanical springs. This decision was based on the superior **energy density** (energy-to-mass ratio) of latex. A metal spring capable of storing the required launch energy would be prohibitively heavy and bulky. Latex bands provide this same high-energy capacity at a fraction of the mass, enabling a lightweight and transportable launcher.
 
 <br>
-![air]({{ '/assets/images/shyam/air.png' | relative_url }})
+![air]({{ '/assets/images/shyam/latex.png' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -100,7 +100,7 @@ The primary energy-storage medium chosen was **latex elastic bands** over mechan
 
 This approach was validated as the 2025 competition saw the emergence of latex-tube and compound-bow launchers. Our design innovated on this by selecting commercially available, high-tensile **latex exercise bands**. This material is not only high-force but is also globally available and poses no transportation or customs issues.
 
-# 4.2. Mechanism of Action
+### 4.2. Mechanism of Action
 
 <div style="text-align: center;">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/13IwM2ret3M?si=JKrDa7dKXEccvA6-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -109,10 +109,11 @@ This approach was validated as the 2025 competition saw the emergence of latex-t
 Media 02: Our Own Launcher Prototype Design and Functionality 
 </p>
 
-Our launcher is an electro-mechanical system using a motor-driven leadscrew to actuate a carriage. This carriage integrates two key components: a high-precision **load cell** (force sensor) and a **solenoid lock** (release trigger).
-The automated release cycle begins when the solenoid latches onto the projectile sled. The motor then reverses, drawing the sled backward and stretching the elastic bands.
-Our core innovation is a **force-based control loop**, which solves the energy inconsistency of traditional **distance-based** systems. In distance-based launchers, latex band fatigue (from duty cycles, heat or direct light exposure) means a fixed pull-back length results in progressively less stored energy, destroying velocity consistency.
-Our system pulls to a pre-set **force target** (e.g., 50 kgF). The motor draws the sled back until the load cell measures this exact force, at which point the solenoid releases. This **self-correcting system** automatically compensates for band degradation by pulling it further to reach the target, guaranteeing **identical stored potential energy** and **consistent launch velocity** for every shot. Additionally, the system can warn the operator when the draw distance exceeds a preset limit, indicating the band needs replacement.
+Our launcher uses a motor-driven leadscrew to pull a carriage containing a **load cell** and a **solenoid lock**. This carriage latches onto the projectile sled and draws it back, stretching the elastic bands.
+
+Our core innovation is a **force-based control loop**, which solves the inconsistencies of **traditional distance-based systems**. In distance-based launchers, band fatigue (from use, heat, or light) causes a fixed draw length to store progressively less energy, destroying velocity consistency.
+
+Our system, however, pulls to a pre-set **force target** (e.g., 50 kgF). The motor draws the sled back until the load cell measures this exact force, at which point the solenoid releases. This **self-correcting system** automatically compensates for band degradation by pulling further, guaranteeing **identical stored potential energy** and **consistent launch velocity** on every shot. The system also includes a safety feature that warns the operator when the draw distance exceeds a preset limit, indicating the band needs replacement.
 
 
 <details markdown="1">
@@ -207,6 +208,8 @@ $$\therefore v_0 = \sqrt{\frac{F_{Release}L}{m_{projectile}}}$$
 
 Adhering to RMOC rules on the launcher design, *Angle of attack 45°*, *Draw Length 0.75m*. Adhering to the Decathalon Band safety warning before tear, $$F_{Release}$$60KgF = 588.6N.
 
+---
+
 ***Elastic Potential Energy Analysis***
 
 As mentioned under section [5.1 Figure 6], we had to experimentally characterise the Decathalon exercise band. We will use an Approximate Integral Numerically using **Trapezoidal Rule**. The P.E.(L) function is the potential energy function for the elastic band with respect to the drawlength. 
@@ -225,6 +228,8 @@ $$\therefore v_0(L) = \sqrt{\frac{2 * \eta * P.E.(L)}{m_{projectile}}}$$
 
 This is the exit velocity as a function of the draw length $$L$$.
 
+---
+
 ***Projectile flight dynamics with quadratic drag***
 
 https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/flight-equations-with-drag/
@@ -239,6 +244,7 @@ $$C_D$$: assumed drag coefficient = $0.35$
 
 $$A$$: projectile's frontal area
 
+---
 
 ***Equation of Motion***
 
@@ -314,9 +320,13 @@ $$y_{HIT!} = S_{previous}.y + (S.y - S_{previous}.y) \cdot \frac{X_{Target} - S_
 {: .text-center}
 <br>
 <p align="center" class="small-text">
+<em>Figure 37: Launch code output.</em>
 </p>
 
-From the code result, we would require 20kgF force input and a launch angle of 43.00°.
+
+From the code result, we would require 20kgF force input and a ***launch angle of 43.00°.***
+
+---
 
 ***Launcher Release Mechanism Mathematics***
 
@@ -385,7 +395,14 @@ To preserve the project's limited budget ($3200) for the final, flight-ready har
 
 The **objective** was to *validate the core "force-based" release concept*, observe the projectile's release characteristics to **ensure a "clean" separation from the sled**, and identify any immediate, unforeseen mechanical failures or abnormal behaviors in the elastic system.
 
-Embedded Video of launcher
+
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/K77tQGB8lvU?si=WDydWgSiRGhgS4xm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<p class="figure-caption" style="text-align:center;">
+Media 03: Video of our own Prototype Launcher Testing 
+</p>
+
 
 <br>
 ![launchvalid2]({{ '/assets/images/shyam/launchvalid2.png' | relative_url }})
