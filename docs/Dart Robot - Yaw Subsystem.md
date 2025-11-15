@@ -53,7 +53,7 @@ A suitable bearing capable of handling high axial loads was needed. Table ?? lis
 </p>
 
 <br>
-![Bearing selection table](assets/images/jianwen/Yaw-bearing_selection_table1.jpg)
+![Bearing selection table](assets/images/jianwen/Yaw-bearing_selection_table.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
