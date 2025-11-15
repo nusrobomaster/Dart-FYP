@@ -245,9 +245,11 @@ Where b is the wingspan and e is an efficiency factor. This shows that our high-
 </p>
 
 
-Prototype 1, "Thorn," was our baseline. A simple, passively-stable ballistic dart projectile. The goal was to establish a "control group"—the most basic, robust design to benchmark stability and manufacturing. Its cruciform ("+") fin configuration proved to be perfectly stable, as confirmed by CFD, which showed the fins correctly generated restoring forces to cancel out roll.
-However, the CFD also revealed a fatal, high-impact flaw: critically high drag. The combination of a non-aerodynamic square body and a blunt, flat base created a massive, turbulent wake. This resulted in an exceptionally high drag coefficient (CD) that would demand immense launch energy and make the trajectory highly unpredictable.
-"Thorn" proved that stability was easily achieved with inclusion of fins. It was rejected because it taught us the real challenge was managing drag. This forced our subsequent iterations to focus on aerodynamic efficiency and body-shape optimization.
+Prototype 1, "Thorn," was our baseline. A simple, passively-stable ballistic dart projectile. The goal was to establish a "control group". The most basic, robust design to benchmark stability and manufacturing. Its cruciform ("+") fin configuration proved to be perfectly stable, as **confirmed by CFD**, which showed the **fins correctly generated restoring forces to cancel out roll.**
+
+However, the CFD also revealed a fatal, high-impact flaw: **critically high drag**. The combination of a non-aerodynamic square body and a blunt, flat base created a massive, turbulent wake. This resulted in an exceptionally high drag coefficient (CD) that would demand immense launch energy and make the trajectory highly unpredictable.
+
+"Thorn" proved that stability was easily achieved with inclusion of fins. It was rejected because the real challenge was managing drag. This forced our subsequent iterations to **focus on aerodynamic efficiency** and **body-shape optimization.**
 
 <details markdown="1">
 <summary style="font-size: 1.3rem; font-weight: 450;"><strong> In-Depth Analysis on THORN </strong></summary>
@@ -578,8 +580,11 @@ The DUT team confirmed the added complexity and mass were **not justified by per
 Media 01: Video of Tridet Split-Up (New Segmented Design)
 </p>
 
-Prototype 6, "Trident," marks our critical pivot. Based on competitor data and the failures of P1-P5, we abandoned the flawed canard concept and adopted the correct philosophy: rear-fin active control.
-This prototype was the first to integrate the full electronics payload and featured an innovative modular "cassette" design for fast serviceability. However, this "proof-of-concept" was a mechanical failure. The long tie-rod linkages (from mid-body servos) created severe control slop and aerodynamic flutter. Furthermore, large servo cutouts and a "zip-tie" assembly method made the airframe fatally fragile and flexible.
+Prototype 6, "Trident," marks our critical pivot. Based on competitor data and the failures of P1-P5, we **abandoned the flawed canard concept** and adopted the correct philosophy: **rear-fin active control.**
+
+This prototype was the **first to integrate the full electronics payload** and featured an **innovative modular "cassette" design for fast serviceability**. However, this "proof-of-concept" was a mechanical failure.
+
+The long tie-rod linkages (from mid-body servos) created severe control slop and aerodynamic flutter. Furthermore, large servo cutouts and a "zip-tie" assembly method made the airframe fatally fragile and flexible.
 "Trident" was a success in one way: it proved our philosophy was right, but our execution was wrong. It taught us the final, critical lesson: the control system must be direct-drive and the airframe must be structurally rigid.
 
 
@@ -639,8 +644,11 @@ The conclusion was absolute: a successful design required a **direct-drive syste
 </p>
 
 
-Prototype 7, "Hunter," is the final, optimized design that synthesizes all lessons from the previous six iterations. It directly solves the critical failures of "Trident" (P6) by replacing the flawed linkage system with a robust direct-drive servo system at the tail.
-Its key innovation is a structurally-integrated, interlocking carbon fiber (CF) wing assembly, which provides both aerodynamic stability and the primary structural rigidity for the entire airframe, eliminating the flex and fragility of P6. Combined with a multi-material body (TPU64D/PEBA) and a dedicated electronics chassis that guarantees stability, "Hunter" is our finalized, competition-ready projectile.
+Prototype 7, "Hunter," is the final, optimized design that **synthesizes all lessons from the previous six iterations**. It directly solves the critical failures of "Trident" (P6) by replacing the flawed linkage system with a **robust direct-drive servo system** at the tail.
+
+Its key innovation is a structurally-integrated, **interlocking carbon fiber (CF) wing assembly**, which provides both aerodynamic stability and the primary structural rigidity for the entire airframe, eliminating the flex and fragility of P6. 
+
+Combined with a multi-material body **(TPU64D/PEBA90A)** and a dedicated electronics chassis that guarantees stability, "Hunter" is our finalized, competition-ready projectile.
 
 <div style="text-align: center;">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/eCNTes4OTjM?si=q-Hss8DO36VEV8yd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -669,9 +677,9 @@ Media 02: Video of Hunter Split-Up (New Segmented Design)
 "Hunter" is the first prototype to achieve full, optimized systems integration:
 * CG Management: A dedicated internal chassis holds all heavy electronics (Battery, Camera, PCB) at the extreme front of the projectile. This is a critical design feature that guarantees passive static stability by ensuring the Center of Gravity (CG) is placed well forward of the Center of Pressure (CP) (located at the rear fins).
 * Multi-Material Optimization: "Hunter" moves beyond a single-material design for superior performance.
-    * Main Body: TPU64D (High impact-absorption)
-    * Fuselage: PEBA90A (Lightweight and rigid)
-    * Wings: Carbon Fiber (Maximum stiffness)
+    * **Main Body: TPU64D** (High impact-absorption)
+    * **Fuselage: PEBA90A** (Lightweight and rigid)
+    * **Wings: Carbon Fiber** (Maximum stiffness)
 * Control Surface Durability: The movable control surfaces are printed from TPU64D. This is a deliberate engineering trade-off. While a rigid material might offer a "crisper" response, the flexible TPU ensures the flaps will not shatter on impact, prioritizing durability in a competition environment.
 
 
@@ -691,14 +699,22 @@ Media 02: Video of Hunter Split-Up (New Segmented Design)
 </p>
 
 
-A key limitation of previous designs, both internal and external, was their reliance on a single material, specifically **TPU95A**. This single-material approach is a significant compromise. While TPU95A is readily available, it lacks the **high rigidity (stiffness)** required for a precision, high-speed airframe, leading to body flex and control "slop”.It is comparatively **brittle** (for a flexible material), leading to structural fractures on high-velocity impacts.
-Our "Hunter" (P7) prototype solves these issues by implementing a **multi-material "zonal" design.** We selected specific, advanced materials for their functional advantages, rather than using one material for all parts.
-**Main Body & Control Surfaces: TPU64D**
-For the main structural body and active control surfaces, we selected **TPU64D**, a semi-rigid Shore D thermoplastic. This was a critical upgrade from the softer Shore 95A. 95A is not stiff enough. Under high aerodynamic loads, a 95A airframe would twist, and 95A control surfaces would "blow back" (flex instead of steering). TPU64D provides **superior rigidity and modulus** (stiffness). This high stiffness is essential to prevent airframe flex and ensure that the control surface's movements are translated directly into aerodynamic force, creating a highly responsive and precise projectile. Furthermore, **TPU64D** possesses **exceptional toughness** (impact strength), ensuring the main body and control flaps can survive repeated, high-velocity impacts without shattering.
-**Rear Fuselage: PEBA90A**
-For the internal fuselage, the primary design driver was **minimizing weight**. This internal structure is a non-impact "parasitic mass." TPU (both 95A and 64D) is relatively dense. Using it for the internal chassis would add unnecessary weight, forcing compromises elsewhere. PEBA90A is a high-performance polyether block amide (PEBA) thermoplastic. Its key advantage is an **exceptionally low** density compared to TPU, while still offering high stiffness and durability. By strategically using lightweight PEBA for the internal chassis, we saved critical grams that allowed us to stay under the 350g limit.
-This multi-material approach (TPU64D for stiffness, PEBA90A for low weight) resulted in a final projectile that is more rigid, more durable, and lighter than a single-material design.
+Previous single-material designs using TPU95A were a compromise. While readily available, TPU95A lacks the rigidity for a precision airframe (causing body flex and control "slop") and is too brittle for high-velocity impacts.
 
+Our "Hunter" (P7) prototype solves this with a multi-material "zonal" design, selecting advanced materials for specific functional advantages.
 
+* Main Body & Control Surfaces (TPU64D): We chose this semi-rigid thermoplastic for its superior stiffness and exceptional toughness.
+
+* **The rigidity** is essential to prevent airframe flex and control surface "blow back" under aerodynamic load, ensuring a responsive projectile.
+
+* The **toughness** ensures the body and flaps can survive repeated, high-velocity impacts without shattering.
+
+**Internal Fuselage / Electronics Chassis (PEBA90A)**: The primary driver for this internal component was **minimizing weight.**
+
+* This non-impact structure is "parasitic mass," and TPU is unnecessarily dense.
+
+* PEBA90A was chosen for its **exceptionally low density** (compared to TPU), which saved critical grams and allowed us to remain under the 350g mass limit.
+
+This multi-material approach (TPU64D for stiffness, PEBA90A for low weight) resulted in a final projectile that is more rigid, durable, and lighter than a single-material design.
 
 </details>
