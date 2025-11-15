@@ -60,7 +60,7 @@ For the design of the projectile, we decided to adopt a **first-principles desig
 We intentionally began with simple, passive prototypes. This was critical for us to learn the fundamental pain points of stability and drag, before we could justify adding the complexity of an active system. Our first prototypes were a rapid exploration of basic concepts.
 
 
-
+—-
 
 ### Iteration Path:
 
@@ -71,7 +71,7 @@ We intentionally began with simple, passive prototypes. This was critical for us
 * **Active projectile design:**
      V4(Xwing) → V5(Xwing 2) → V6(Trident) → V7(Hunter) ✅
 
-
+—-
 
 <details markdown="1">
 <summary style="font-size: 1.3rem; font-weight: 450;"><strong> 2. Ground Rules </strong></summary>
