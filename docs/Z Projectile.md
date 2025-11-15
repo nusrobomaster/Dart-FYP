@@ -9,3 +9,10 @@ has_toc: false
 ---
 
 <!-- Short overview of the projectile here -->
+Mechanical (Projectile)
+
+This section lists the child pages for the mechanical aspects of the Projectile, such as structure, aerodynamics, and testing.
+
+Electrical & Software (Projectile)
+
+This section lists the child pages for the electrical work related to the Projectile, including sensors, triggering, and data capture.
