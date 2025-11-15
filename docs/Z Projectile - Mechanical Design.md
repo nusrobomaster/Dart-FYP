@@ -79,7 +79,7 @@ We intentionally began with simple, passive prototypes. This was critical for us
 Certain ground rules were established before beginning on the projectile designs. Here are the full design considerations, prior to beginning any design. Along the way, many other considerations were made which will be further elaborated below each projectile design respectively. 
 
 <br>
-![projectile string test]({{ '/assets/images/shyam/stringtest.jpg' | relative_url }})
+![projectile string test](./assets/images/shyam/stringtest.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
