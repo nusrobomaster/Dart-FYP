@@ -505,5 +505,9 @@ Initial tests of the prototype were highly successful. A 23 kgF (225.6 N) launch
 
 
 The tests revealed a critical design oversight, which is the lack of a deceleration system for the launch sled.
-After releasing the projectile, the sled continued at full velocity and impacted the launcher's front plate. This high-g dead stop impact resulted in the 3D-printed sled to shear and completely be destroyed .Secondly the scrap-aluminum carrier, which held the sled, was visibly deforming and buckling under the high tensile force of the 23 kgF.
+
+After releasing the projectile, the sled continued at full velocity and impacted the launcher's front plate. This high-g dead stop impact resulted in the 3D-printed sled to shear and completely be destroyed.
+
+Secondly the scrap-aluminum carrier, which held the sled, was visibly deforming and buckling under the high tensile force of the 23 kgF.
+
 To solve these issues, two corrective actions were immediately implemented for the next iteration. The aluminum carrier will be replaced with a high-strength steel plate to withstand the band's peak tensile load, and a spring-based damping system will be designed and integrated into the launcher's front plate to safely absorb the sled's kinetic energy and bring it to a controlled stop.
