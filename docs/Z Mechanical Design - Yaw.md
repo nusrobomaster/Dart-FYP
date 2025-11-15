@@ -1,8 +1,8 @@
 ---
-title: 5 Mechanical Design – Yaw
+title: 4 Mechanical Design – Yaw
 parent: Dart Robot
 grand_parent: Dart System
-nav_order: 2      # after “Dart Robot - Mechanical Design” and “Dart Robot - Electrical & Software”
+nav_order: 1      # after “Dart Robot - Mechanical Design” and “Dart Robot - Electrical & Software”
 layout: default
 permalink: /dart-system/dart-robot/yaw
 has_toc: true
@@ -21,6 +21,7 @@ The yaw subsystem must support the upper assembly—pitch, launcher, and feeder�
 {: .text-center}
 <br>
 Torque requirements were calculated using angular acceleration and mass moment of inertia (Appendix Figure ??), resulting in a requirement of 37.4 Nm, which guides the drive-system and motor selection.
+
 ### Drive system considerations
 Drive-system selection was based on:
 1. **Accuracy and precision** – required for consistent targeting.
@@ -54,7 +55,7 @@ A suitable bearing capable of handling high axial loads was needed. Table ?? lis
 </p>
 
 <br>
-![Bearing selection table]({{ '/assets/images/jianwen/Yaw-bearing_selection_table1.jpg' | relative_url }})
+![Bearing selection table]({{ '/assets/images/jianwen/Yaw-bearing_selection_table.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
