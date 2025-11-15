@@ -172,8 +172,34 @@ This investigation was a critical failure that provided immense value. CFD analy
 <details markdown="1">
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on GLIDER </strong></summary>
 
+<br>
+![gliderpressure1]({{ site.baseurl }}/assets/images/shyam/gliderpressure1.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 8: Surface Plot (pressure) on GLIDER.</em>
+</p>
+
+<br>
+![gliderpressure2]({{ site.baseurl }}/assets/images/shyam/gliderpressure2.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 9: Surface Plot (pressure) on GLIDER.</em>
+</p>
+
+
 ## 1. Trajectory Failure: Uncontrolled Passive Lift
 The goal of this project is to hit a 140mm x 140mm target, which requires a highly **predictable trajectory**. The "Glider," by design, is a high-lift body. Based on **Bernoulli's Principle**, the wings are shaped to create a pressure differential: lower pressure on top and higher pressure below. This pressure difference, L = ∆P . AWing   , creates an upward force. This lift is **passive and uncontrolled**. It causes the projectile to deviate from a predictable parabolic arc, likely entering an oscillating "phugoid" path. Any minor change in launch angle would be amplified by this lift, making consistent aiming impossible. 
+
+
+<br>
+![gliderdrag]({{ site.baseurl }}/assets/images/shyam/gliderdrag.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 10: Cut Plot (Velocity Drag) on GLIDER.</em>
+</p>
 
 ## 2. Drag Failure: Induced Drag
 The "Glider" also suffered from exceptionally high drag, far exceeding "Thorn." In addition to the large base drag from its blunt duct exit, it created a new, powerful drag component: induced drag.
