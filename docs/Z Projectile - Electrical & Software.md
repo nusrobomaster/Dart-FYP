@@ -1,11 +1,12 @@
 ---
-title: Projectile - Electrical & Software
-parent: Dart Projectile
+title: 3 Electrical & Software
+parent: Projectile
+grand_parent: Dart System
 nav_order: 2
 layout: default
-permalink: /projectile/elec&software
+permalink: /dart-system/projectile/elec-software
+has_toc: true
 ---
-<!-- nav_order is for DROPDOWN NAVIGATION sequence <--> 
 
 <br>
 ![Components inside dart](/assets/images/vj/Projectile/Components_inside_dart.png)

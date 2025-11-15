@@ -1,5 +1,5 @@
 ---
-title: Base Structure
+title: 8 Base Structure
 nav_order: 3
 layout: default
 permalink: /base_structure
