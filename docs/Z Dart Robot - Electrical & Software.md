@@ -7,9 +7,23 @@ layout: default
 permalink: /dart-system/dart-robot/elec-software
 ---
 
-# Electrical / Software
+# Objectives & Deliverables
 
-## User journey
+**Objective:** Identify, design and implement electrical and software needs for the dart robot user
+
+**Deliverables:**
+1. Breakdown functionalities required in a dart robot and ideate for methodology required  
+2. Design a functional prototype based on methodology  
+3. Implement the designed functional prototype
+
+## 7.1. Functionalities breakdown
+
+### 7.1.1 Background
+
+Dart robot users need to control the dart robot so it can shoot dart projectiles stated in the introduction. To identify how and when the dart robot will be used, **user journey** gives you the perspective of the user.
+
+
+### 7.1.2 User journey
 
 
 <div style="text-align: center;">
@@ -17,24 +31,53 @@ permalink: /dart-system/dart-robot/elec-software
 </div>
 
 <p class="figure-caption" style="text-align:center;">
-Figure XX: Video of User Journey
+Figure 7.1: Video of User Journey
 </p>
 
+From the User Journey, 5 key functions were identified:
+
+1. Tension feedback for the launcher  
+2. Touch Screen Graphics User Interface for entering inputs  
+3. Electrical lock to work with the launcher  
+4. Remote control as an interface with the subsystems  
+5. Motors to actuate different mechanisms  
+
+However, four issues were identified when attempting to implement the five key functions:
+
+1. Uncertainty regarding how the different functions would integrate.  
+2. High implementation cost due to limited available funds.  
+3. Requirement to hit a moving target with high precision and accuracy.  
+4. Motor selection from the mechanical team scheduled only between November and December.  
+
 ---
 
-## Electrical and software requirements
+### 7.1.3 Design Methodology
 
-From the user journey, five key functions were identified:
+Given these constraints, the **critical function prototyping methodology** was selected to prioritise integration validation. This approach:
 
-- Tension feedback for the launcher  
-- Touch screen GUI  
-- Electrical lock  
-- Remote control  
-- Motors for mechanisms  
+1. Verifies core subsystem interfaces early, reducing integration uncertainty and confirming module interoperability before full-system development.  
+2. Restricts the prototype to essential functions, preventing premature expenditure on modules that may later face integration issues.  
+3. Enables early evaluation of sensing and actuation paths, providing direct data on integration limits related to precision and accuracy.  
+4. Allows electrical–mechanical interface work to proceed using interim or simplified actuation while the final motor selection is pending.  
 
----
 
-## First critical function prototype
+## 7.2. Design of functional prototype
+
+### 7.2.1 Design Specifications
+
+| **Features** | **Specification** | **Reasoning** |
+|--------------|-------------------|---------------|
+| Maximum Power Supply Voltage (V) | 30 | Follows the building specification requirements from RMOC [1]. |
+| Maximum Total Power Capacity (Wh) | 300 | Follows the building specification requirements from RMOC [1]. |
+| Cost of individual items to be bought | < $20 | Provides a financial buffer for crucial industrial mechanical and electrical components in the next prototype. |
+| Electronic Lock | Holding force > 2 × 23 kgF | Safety factor of 2 based on 23 kgF derived from the launching mechanical subsystem. |
+| Load cell with ADC | 5 V excitation voltage | Common excitation voltage for load cells. **Swappable** once the rated load cell is determined, requiring minimal code/electrical changes. |
+| Touch Screen | Easy interface with RoboMaster’s Dev Board A [1] | Stakeholder-provided development board for ease of use when handing over the dart robot. |
+
+
+
+
+## 7.2. Design of functional prototype
 
 ![Critical_function_prototype]({{ "/assets/images/barry/Critical_function_prototype.jpg" | relative_url }})
 <p class="figure-caption" style="text-align:center;">
