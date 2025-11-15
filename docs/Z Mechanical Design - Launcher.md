@@ -331,7 +331,7 @@ $$y_{HIT!} = S_{previous}.y + (S.y - S_{previous}.y) \cdot \frac{X_{Target} - S_
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 37: Launch code output.</em>
+<em>Launch code output.</em>
 </p>
 
 
