@@ -36,6 +36,7 @@ Media 01: Video of Dart Robot Holding Area Gate Open
 Before developing our innovative solution, a "prior art" analysis was conducted on the four primary propulsion methods prevalent in the 2024 RMUC competition season.
 
 * **Flywheel**
+
 https://www.youtube.com/shorts/sFb6AtxOMYo
 
 <br>
