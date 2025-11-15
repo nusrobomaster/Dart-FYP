@@ -1,6 +1,7 @@
 ---
 title: Launcher - Electrical & Software
-parent: Launcher Subsystem
+parent: Dart Robot
+grand_parent: Dart System
 nav_order: 4
 layout: default
 permalink: /dart-system/dart-robot/elec-software
