@@ -699,9 +699,9 @@ Media 02: Video of Hunter Split-Up (New Segmented Design)
 </p>
 
 
-Previous single-material designs using TPU95A were a compromise. While readily available, TPU95A lacks the rigidity for a precision airframe (causing body flex and control "slop") and is too brittle for high-velocity impacts.
+Previous **single-material designs using TPU95A** were a compromise. While readily available, **TPU95A** lacks the rigidity for a precision airframe (causing body flex and control "slop") and is too brittle for high-velocity impacts.
 
-Our "Hunter" (P7) prototype solves this with a multi-material "zonal" design, selecting advanced materials for specific functional advantages.
+Our **"Hunter" (P7) prototype** solves this with a multi-material "zonal" design, selecting advanced materials for specific functional advantages.
 
 * Main Body & Control Surfaces (TPU64D): We chose this semi-rigid thermoplastic for its superior stiffness and exceptional toughness.
 
