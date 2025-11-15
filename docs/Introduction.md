@@ -17,7 +17,7 @@ Founded in 2013, DJI RoboMaster University Championship (RMUC) is an annual inte
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX: Top view of the battlefield</em>
+<em>Figure 1: Front view of the battlefield</em>
 </p>
 The goal is to launch projectiles at the pressure sensors of opponent robots and targets to defeat them.
 
@@ -28,7 +28,7 @@ The goal is to launch projectiles at the pressure sensors of opponent robots and
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX: Battlefield with Labelled Target Locations</em>
+<em>Figure 2: Battlefield with Labelled Target Locations</em>
 </p>
 
 <br>
@@ -36,7 +36,7 @@ The goal is to launch projectiles at the pressure sensors of opponent robots and
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Table XX: Target Pressor Sensor Description</em>
+<em>Table 1: Target Pressor Sensor Description</em>
 </p>
 
 ## Winning Criteria
@@ -46,7 +46,7 @@ The goal is to launch projectiles at the pressure sensors of opponent robots and
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX: Close up of Targets</em>
+<em>Figure 3: Close up of Targets</em>
 </p>
 A team wins if the opponent's base HP reaches zero OR its base has more remaining HP than the opponent’s at the end of the match. Base is invincible until outpost is destroyed.
 
@@ -57,7 +57,7 @@ A team wins if the opponent's base HP reaches zero OR its base has more remainin
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX: Base with Small and Large Armour Modules</em>
+<em>Figure 4: Base with Small and Large Armour Modules</em>
 </p>
 Most robots and targets, such as Base, use armor modules — official game system components with pressure sensors—to register hits which decreases health.
 
@@ -66,7 +66,7 @@ Most robots and targets, such as Base, use armor modules — official game syste
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX: Close up of Dart Detection Module which is on the Targets (Outpost & Base)</em>
+<em>Figure 5: Close up of Dart Detection Module which is on the Targets (Outpost & Base)</em>
 </p>
 
 ## Robot Roles
@@ -76,7 +76,7 @@ Most robots and targets, such as Base, use armor modules — official game syste
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Table XX: The current NUS Calibur Robotics robot lineup</em>
+<em>Table 2: The current NUS Calibur Robotics robot lineup</em>
 </p>
 ASI - 403 would be building a new DART robot. (See Appendix XX for description of other robots)
 
@@ -87,7 +87,7 @@ ASI - 403 would be building a new DART robot. (See Appendix XX for description o
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX: Example Projectile Flight Path</em>
+<em>Figure 5: Example Projectile Flight Path</em>
 </p>
 The robot holds up to four projectiles and stays inside the Dart Launching Station with a gate that can open twice per round—once after 30 seconds and again after 4 minutes from the start of the round. Each opening lasts 20 seconds, followed by a 15-second cooldown. Unused openings can be used after the 4 minute mark.
 
@@ -101,7 +101,7 @@ Teams can select the desired Base target difficulty.
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Table XX: Base Target Difficulty Levels</em>
+<em>Table 3: Base Target Difficulty Levels</em>
 </p>
 Higher difficulty levels increase the damage dealt and debuffs applied to the opponent, while granting greater buffs to the attacking team upon a successful hit. (See Appendix XX for the damage mechanisms and the buff & debuff mechanisms)
 
@@ -115,7 +115,7 @@ Earlier designs suffered from unstable flight due to weak aerodynamic choices (F
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure ??a (left) and Figure ??b (right): Past attempts at the dart projectile</em>
+<em>Figure 6a (left) and Figure 6b (right): Past attempts at the dart projectile</em>
 </p>
 
 ## Dart Robot
@@ -126,7 +126,7 @@ Past robots showed unreliable pitch–yaw control, base instability, and inconsi
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure ??a (left) and Figure ??b (right): Past attempts at the dart robot</em>
+<em>Figure 7a (left) and Figure 7b (right): Past attempts at the dart robot</em>
 </p>
 
 ## Steps forward
@@ -146,7 +146,7 @@ With the stakeholders identified and NUS calibur robotics chosen as our main sta
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure ??: Value Proposition Canvas</em>
+<em>Figure 8: Value Proposition Canvas</em>
 </p>
 After drafting the value proposition canvas, our value proposition statement is formulated from the value proposition canvas.
 ## Value Proposition Statement
@@ -171,7 +171,7 @@ We have two customers with different requirements that our DART project will hav
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure xx & xx: Complete Arena Setup with dimensions specified</em>
+<em>Figure 9 & 10: Complete Arena Setup with dimensions specified</em>
 </p>
 
 1. The backend of the Dart System will be positioned exactly x-distance 25591mm away from the target, and has to turn 7.7 degrees to the right in order to align with the center mark of the target plate. The y-distance is exactly 3275mm. 
@@ -181,7 +181,7 @@ We have two customers with different requirements that our DART project will hav
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure ??: Base Target structure’s platform</em>
+<em>Figure 11: Base Target structure’s platform</em>
 </p>
 
 2. The entire base target structure sits on a platform that is elevated off common ground by 200mm. This key information is vital to add to the dimensions highlighted in the next Figure[ ], and these values are key for the launcher calculations in accurately hitting the target.
@@ -195,7 +195,7 @@ We have two customers with different requirements that our DART project will hav
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX & XX: Base Target Plate and Base Target Structure</em>
+<em>Figure 12 & 13: Base Target Plate and Base Target Structure</em>
 </p>
 
 3. The target plate is able to move laterally a distance of 980mm. Target is a small armour plate (square shape, 140mmx140mm) tilted 27.5degrees from the horizontal plane. ***From a vertical standpoint***, the allowable range for a successful hit is y∈{1293mm,1350mm}. For accuracy, let us aim for bullseye, **y=1321.5mm**.
@@ -205,7 +205,7 @@ We have two customers with different requirements that our DART project will hav
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX: Dart Robot Holding Station</em>
+<em>Figure 14: Dart Robot Holding Station</em>
 </p>
 
 4. The Dart Robot will be placed inside the Dart Robot Holding Station prior to the match, and hence must abide by the Size restriction 1000mmx600mmx1000mm (LxBxH).Keep in mind the dart system is placed on the sliding platform that is 205mm elevated from common ground.
@@ -220,7 +220,7 @@ The Dart Robot consists of the Yaw, Pitch, Launcher and Feeder. The Launcher and
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Table XX: Dart System Production Parameters</em>
+<em>Table 4: Dart System Production Parameters</em>
 </p>
 
 **Projectile Regulations:**
@@ -230,7 +230,7 @@ The Dart Robot consists of the Yaw, Pitch, Launcher and Feeder. The Launcher and
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Table XX: Projectile Production Parameters</em>
+<em>Table 5: Projectile Production Parameters</em>
 </p>
 
 <br>
@@ -238,7 +238,7 @@ The Dart Robot consists of the Yaw, Pitch, Launcher and Feeder. The Launcher and
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX: ?????</em>
+<em>Figure 15: Mandatory Dart Trigger at the head of projectile</em>
 </p>
 
 The Dart Trigger designated by the RMOC will be mounted on our custom Projectile. This is a competition requirement and cannot be changed or modified. The Dart Trigger is a cream-white translucent shell made of TPU, with a mass of 20 g. Its external form is shown above.
@@ -250,7 +250,7 @@ After the Dart Trigger is mounted, ensure its top, bottom, left, and right sides
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX: ?????</em>
+<em>Figure 16: Dart Projectile Rules regarding Dart Trigger (no blockage surrounding dart trigger) </em>
 </p>
 Dart cameras or other devices can be mounted in the internal cavity of Dart Trigger. The mounting area shall not exceed the shadow area, as shown below.
 
@@ -259,13 +259,10 @@ Dart cameras or other devices can be mounted in the internal cavity of Dart Trig
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure XX: ?????</em>
+<em>Figure 17: Dart Projectile Rules regarding Dart Trigger (usage of inner hollow space)</em>
 </p>
 
 ## Design Approach
 
 <!-- download and insert the damn functionality table here <--> 
 Our team has compiled both the requirements from NUS Calibur Robotics and DJI RMOC’s rules and have formatted them into a functionality table. This table clearly pins down the requirements into their respective specifications that we will have to adhere to, and more importantly the Functionalities we will have to deliver.
-
-# Job Scope
-Do we still need this portion lmao
