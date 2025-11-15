@@ -20,14 +20,14 @@ The drive system must:
 2. Hold its position at the desired inclination  
 3. Achieve precise and accurate angle control  
 
-Based on these requirements, two drive systems were shortlisted (Table ??).
+Based on these requirements, two drive systems were shortlisted (Table 5-1).
 
 <br>
 ![Table for drive systems]({{ '/assets/images/jianwen/Pitch-drive_system_table.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Table ??: Drive System Considerations</em>
+<em>Table 5-1: Drive System Considerations</em>
 </p>
 
 Design work for both direct-drive and leadscrew systems is ongoing. The team currently leans toward a direct-drive setup with reduction gear due to its lower mechanical complexity and higher reliability, though the final choice will be confirmed in the next phase.
