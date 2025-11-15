@@ -17,7 +17,7 @@ The yaw subsystem controls the robot’s heading through a single drive system a
 The yaw subsystem must support the upper assembly—pitch, launcher, and feeder—estimated at 15 kg. The equations used are shown below:
 
 <br>
-![Equations for torque calculations](/assets/images/jianwen/Yaw-equations.jpg)
+![Equations for torque calculations]({{ '/assets/images/jianwen/Yaw-equations.jpg' | relative_url }})
 {: .text-center}
 <br>
 Torque requirements were calculated using angular acceleration and mass moment of inertia (Appendix Figure ??), resulting in a requirement of 37.4 Nm, which guides the drive-system and motor selection.
@@ -29,7 +29,7 @@ Drive-system selection was based on:
 Four possible drive systems were evaluated, as shown in Table ??.
 
 <br>
-![Concept screening table](/assets/images/jianwen/Yaw-table_concept_screening1.jpg)
+![Concept screening table]({{ '/assets/images/jianwen/Yaw-table_concept_screening1.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -46,7 +46,7 @@ The first yaw subsystem iteration used a belt-driven design due to familiarity w
 A suitable bearing capable of handling high axial loads was needed. Table ?? lists the bearing types considered and their evaluation.
 
 <br>
-![Belt drive iterations](/assets/images/jianwen/Yaw-iterations.jpg)
+![Belt drive iterations]({{ '/assets/images/jianwen/Yaw-iterations.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -54,7 +54,7 @@ A suitable bearing capable of handling high axial loads was needed. Table ?? lis
 </p>
 
 <br>
-![Bearing selection table](/assets/images/jianwen/Yaw-bearing_selection_table1.jpg)
+![Bearing selection table]({{ '/assets/images/jianwen/Yaw-bearing_selection_table1.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -68,7 +68,7 @@ After review with supervisors and the team, a direct-drive system was chosen for
 The slewing bearing was retained, and belt-related components were removed. Figure ?? shows the direct-drive system mounted on the base frame. All subsystems will be installed on the slewing bearing in the final assembly.
 
 <br>
-![CAD direct drive](/assets/images/jianwen/Yaw-direct_drive.jpg)
+![CAD direct drive]({{ '/assets/images/jianwen/Yaw-direct_drive.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -79,7 +79,7 @@ The slewing bearing was retained, and belt-related components were removed. Figu
 An electronics bay will be added to house components and circuit boards for protected and accessible maintenance. Its planned location is shown in Figure ??.
 
 <br>
-![Electronics Bay](/assets/images/jianwen/Yaw-electronics_bay.jpg)
+![Electronics Bay]({{ '/assets/images/jianwen/Yaw-electronics_bay.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -90,7 +90,7 @@ An electronics bay will be added to house components and circuit boards for prot
 Fabrication and assembly of the yaw subsystem will proceed after integrating the pitch subsystem. Load testing will follow in the next project phase. Figure ?? shows the full dart robot assembly with tentative parts for motion visualization.
 
 <br>
-![Full tentative CAD](/assets/images/jianwen/Yaw-full_bot.jpg)
+![Full tentative CAD]({{ '/assets/images/jianwen/Yaw-full_bot.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
