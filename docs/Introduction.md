@@ -157,7 +157,7 @@ This dart system will also be competition-ready, which is to comply with the rul
 The dart system will abide by the technical assessment criteria set by **RMOC** and provide **NUS Calibur Robotics** with additional ranking points.
 
 # DESIGN SPECIFICATION
-We have two customers with different requirements that our DART project will have to satisfy, DJI RMOC committee who organise this competition and set the rules and regulations, and NUS Calibur Robotics who will be using our Dart Robot in its entirety after our project ends. Firstly, from the Robomaster Organization Community (DJI RMOC) standpoint, here are the requirements:
+We have two key stakeholders with different requirements that our DART project will have to satisfy, DJI RMOC committee who organise this competition and set the rules and regulations, and NUS Calibur Robotics who will be using our Dart Robot in its entirety after our project ends. Firstly, from the Robomaster Organization Community (DJI RMOC) standpoint, here are the requirements:
 
 ## RMOC Standpoint Requirements:
 ### Arena Setup
