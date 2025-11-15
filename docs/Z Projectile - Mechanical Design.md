@@ -703,9 +703,9 @@ Previous **single-material designs using TPU95A** were a compromise. While readi
 
 Our **"Hunter" (P7) prototype** solves this with a multi-material "zonal" design, selecting advanced materials for specific functional advantages.
 
-* Main Body & Control Surfaces (TPU64D): We chose this semi-rigid thermoplastic for its superior stiffness and exceptional toughness.
+**Main Body & Control Surfaces (TPU64D)**: We chose this semi-rigid thermoplastic for its superior stiffness and exceptional toughness.
 
-* **The rigidity** is essential to prevent airframe flex and control surface "blow back" under aerodynamic load, ensuring a responsive projectile.
+* The **rigidity** is essential to prevent airframe flex and control surface "blow back" under aerodynamic load, ensuring a responsive projectile.
 
 * The **toughness** ensures the body and flaps can survive repeated, high-velocity impacts without shattering.
 
