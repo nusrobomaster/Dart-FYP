@@ -560,11 +560,11 @@ The DUT team confirmed the added complexity and mass were **not justified by per
 </p>
 
 <div style="text-align: center;">
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=RYEWWLrXpE4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/RYEWWLrXpE4?si=dgrxcvLTP-wGlQiI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 
 <p class="figure-caption" style="text-align:center;">
-Figure XX: Video of User Journey
+Figure XX: Video of Tridet Split-Up (New Segmented Design)
 </p>
 
 Prototype 6, "Trident," marks our critical pivot. Based on competitor data and the failures of P1-P5, we abandoned the flawed canard concept and adopted the correct philosophy: rear-fin active control.
