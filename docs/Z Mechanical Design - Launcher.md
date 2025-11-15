@@ -133,7 +133,7 @@ This characterization was achieved by securing the band to a test rig equipped w
 <em>Figure 6: Experimental Data Table for Latex Exercise Band.</em>
 </p>
 
-# 5.2. Mathematical Analysis
+## 5.2. Mathematical Analysis
 
 ***Projectile and Environmental Variables***
 To model the projectile's trajectory, several key parameters are defined. The projectile mass (m) is set to the competition limit of 350g (0.35 kg). The aerodynamic reference area($$S. A_{projectile}$$)  is defined as the frontal cross-sectional area. This value is calculated in Solidworks by summing the areas of all surfaces projected normal to the flight vector.
@@ -167,7 +167,12 @@ $$L$$ = Length of projectile
 
 
 For this trajectory analysis, the 6-DOF problem is simplified to a 2-DOF point-mass model based on two key assumptions:
-Lift Coefficient (CL) is assumed to be Zero. Our "Glider" (P2) prototype proved that uncontrolled lift is catastrophic for accuracy. The "Hunter" (P7) is an axisymmetric, non-lifting body by design. We are therefore modeling a purely ballistic trajectory. Rotational Dynamics are Omitted. We are treating the projectile as a point mass, not a rigid body. This simplification is justified because the projectile's proven passive stability (CG forward of CP) keeps it aligned with the flight vector. Therefore, moments of inertia (Ixx, Iyy, Izz) are not relevant to this primary trajectory calculation.
+
+Lift Coefficient (CL) is assumed to be Zero. Our "Glider" (P2) prototype proved that uncontrolled lift is catastrophic for accuracy. 
+
+The "Hunter" (P7) is an axisymmetric, non-lifting body by design. 
+
+We are therefore modeling a purely ballistic trajectory. Rotational Dynamics are Omitted. We are treating the projectile as a point mass, not a rigid body. This simplification is justified because the projectile's proven passive stability (CG forward of CP) keeps it aligned with the flight vector. Therefore, moments of inertia (Ixx, Iyy, Izz) are not relevant to this primary trajectory calculation.
 
 <br>
 ![launchermath]({{ site.baseurl }}/assets/images/shyam/launchermath.png)
@@ -178,9 +183,10 @@ Lift Coefficient (CL) is assumed to be Zero. Our "Glider" (P2) prototype proved 
 </p>
 
 ***Launcher Mathematics***
+
 **IF** the latex band's spring constant k was known, 
 
-Work Energy Theorem (only use this if elastic band’s elastic coefficient k is known)
+***Work Energy Theorem***
 
 
 $$W_{Band} = KE_{Projectile} = \frac{1}{2}mv_0^2 \text{, whereby } v_0 = \text{exit velocity of projectile}$$
@@ -199,16 +205,17 @@ $$\therefore \frac{1}{2}F_{Release}L = \frac{1}{2}mv_0^2$$
 
 $$\therefore v_0 = \sqrt{\frac{F_{Release}L}{m_{projectile}}}$$
 
-Adhering to RMOC rules on the launcher design, Angle of attack 45° , Draw Length 0.75m. Adhering to the Decathalon Band safety warning before tear, FRelease60KgF = 588.6N.
+Adhering to RMOC rules on the launcher design, *Angle of attack 45°*, *Draw Length 0.75m*. Adhering to the Decathalon Band safety warning before tear, $$F_{Release}$$60KgF = 588.6N.
 
 ***Elastic Potential Energy Analysis***
-As mentioned under section [ ], we had to experimentally characterise the Decathalon exercise band. We will use an Approximate Integral Numerically using Trapezoidal Rule. The P.E.(L) function is the potential energy function for the elastic band with respect to the drawlength. 
+
+As mentioned under section [5.1 Figure 6], we had to experimentally characterise the Decathalon exercise band. We will use an Approximate Integral Numerically using **Trapezoidal Rule**. The P.E.(L) function is the potential energy function for the elastic band with respect to the drawlength. 
 
 $$PE_{Band}(L) = \sum_{i=1}^{n} \frac{1}{2} [F(x_i) + F(x_{i-1})] * [x_i - x_{i-1}] \text{, whereby } L = x_n \text{ is the total draw length}$$
 
 This provides a high fidelity P.E.(L) function from the experimental data from section [ ].
 
-with efficiency $\eta = 0.8$ and a safety factor of $1.2$,
+with efficiency $$\eta = 0.8$$ and a safety factor of $$1.2$$,
 
 $$K.E. = \eta * P.E.(L)$$
 
@@ -216,94 +223,100 @@ $$\frac{1}{2}mv_0^2 = \eta * P.E.(L)$$
 
 $$\therefore v_0(L) = \sqrt{\frac{2 * \eta * P.E.(L)}{m_{projectile}}}$$
 
-This is the exit velocity as a function of the draw length $L$.
+This is the exit velocity as a function of the draw length $$L$$.
 
 **Projectile flight dynamics with quadratic drag**
-Add reference links from NASA
+
+https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/flight-equations-with-drag/
 
 $$F_D = \frac{1}{2} \rho v^2 C_D A \text{, whereby}$$
 
-$\rho$: density of air = $1.225kg/m^3$
+$$\rho$$: density of air = $$1.225kg/m^3$$
 
-$v$: instantaneous speed of projectile = $\sqrt{v_x^2 + v_y^2}$ , $v_x$ and $v_y$ being the x and y vectors of the velocity of projectile
+$$v$$: instantaneous speed of projectile = $$\sqrt{v_x^2 + v_y^2}$$ , $$v_x$$ and $$v_y$$ being the x and y vectors of the velocity of projectile
 
-$C_D$: assumed drag coefficient = $0.35$
+$$C_D$$: assumed drag coefficient = $0.35$
 
-$A$: projectile's frontal area
+$$A$$: projectile's frontal area
 
 
 ***Equation of Motion***
-Modelling the projectile's trajectory by applying Newton's second law formula $F = ma$.
+Modelling the projectile's trajectory by applying Newton's second law formula $$F = m.a$$.
 Resolve forces in x & y components
 
-Define drag constant as $k = \frac{1}{2} \rho C_D A$
+Define drag constant as $$k = \frac{1}{2} \rho C_D A$$
+
 $$F_D = kv^2 = k(v_x^2 + v_y^2)$$
 
 Forces in x direction accounting for drag(x direction)
+
 $$drag \text{ } force \text{ } F_{D(x)} = -F_D \cos\theta = -F_D (\frac{v_x}{v})$$
 $$ma_x = -kv^2(\frac{v_x}{v}) = -kvv_x = -k\sqrt{v_x^2 + v_y^2} \cdot v_x$$
+
 $$\therefore \text{ (1) --------- } a_x = \frac{dv_x}{dt} = -\frac{k}{m}v_x\sqrt{v_x^2 + v_y^2}$$
 
 Forces in y direction accounting for drag(x direction) and gravity
+
 $$ma_y = -mg - F_D \sin\theta = -mg - F_D (\frac{v_y}{v}) = -mg - kv^2(\frac{v_y}{v}) = -mg - kvv_y$$
+
 $$\therefore \text{ (2) --------- } a_y = \frac{dv_y}{dt} = -g - \frac{k}{m}v_y\sqrt{v_x^2 + v_y^2}$$
 
 
 These two equations (1) and (2) form a system of coupled, non-linear 2nd-order Ordinary
 Differential Equations (ODE). This system does not have simple, close-form analytical solutions.
 
-Therefore to find the trajectory, we must solve the ODEs numerically. We will employ a time-marching numerical method. We will simulate the projectile's state $(x, y, v_x, v_y)$ at discrete time steps $\Delta t$. A more common ROBUST method is the 4th-order Runge-Kutta (RK4) Algorithm. A simpler Euler method can be used as well, but it is less stable. This numeric model forms the core of our Direct Fire Control System, which will predict the point(s) of impact based on our initial conditions.
+Therefore to find the trajectory, we must solve the ODEs numerically. We will employ a time-marching numerical method. We will simulate the projectile's state $$(x, y, v_x, v_y)$$ at discrete time steps $\Delta t$. A more common ROBUST method is the 4th-order Runge-Kutta (RK4) Algorithm. A simpler Euler method can be used as well, but it is less stable. This numeric model forms the core of our Direct Fire Control System, which will predict the point(s) of impact based on our initial conditions.
 
 ***Solution finding algorithm***
 
 There are two variable parameters, ANGLE OF ATTACK $\alpha$ and DRAW LENGTH $L$. ANGLE OF ATTACK $\alpha$ determines the angle our Dart' PITCH needs to go to, and the DRAW LENGTH $L$ is necessary to decide how long the launcher needs to be. The goal is to find a pair of ($\alpha, L$) that results in a HIT.
-In our established coordinate system Table [], our target position is (25.591, 1.1165)m. We will do a grid search:
+In our established coordinate system Figure (8), our target position is (25.591, 1.1165)m. We will do a grid search:
 
 $$\frac{dx}{dt} = v_x \quad \frac{dy}{dt} = v_y \quad \frac{dv_x}{dt} = a_x = -\frac{k}{m}v_x v \quad \frac{dv_y}{dt} = a_y = -g - \frac{k}{m}v_y v$$
 
 Our algorithm features a Get StateDerivatives(S) function, which gets state vector S and returns
-derivative vector $[\frac{dx}{dt}, \frac{dy}{dt}, \frac{dv_x}{dt}, \frac{dv_y}{dt}]$. Then we use linear interpolation:
+derivative vector $$[\frac{dx}{dt}, \frac{dy}{dt}, \frac{dv_x}{dt}, \frac{dv_y}{dt}]$$. Then we use linear interpolation:
 
 $$y_{HIT!} = S_{previous}.y + (S.y - S_{previous}.y) \cdot \frac{X_{Target} - S_{previous}.x}{S.x - S_{previous}.x}$$
 
 
 
 <details markdown="1">
-<summary><strong>► View Python Code: Trajectory Solver (solver.py)</strong></summary>
+<summary><strong> View Python Code: Trajectory Solver (solver.py)</strong></summary>
 
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.interpolate import interp1d
 
-# --- 1. SET CONSTANTS  ---
+### --- 1. SET CONSTANTS  ---
 
-# Projectile & Environment
+### Projectile & Environment
 m = 0.35              # mass (kg)
 S_A = 0.00245947      # Frontal area (m^2)
 C_D = 0.35            # Drag coefficient
 rho = 1.225           # Air density (kg/m^3)
 g = 9.81              # Gravity (m/s^2)
 
-# Launcher
+### Launcher
 eta = 0.8             # Launcher efficiency
 g_force = 9.81        # To convert kgF to Newtons
 
-# Target
+### Target
 x_target = 25.591     # Target x-position (m)
 y_target = 1.1165     # Target y-position (m)
 
-# Drag constant k 
+### Drag constant k 
 k = 0.5 * rho * C_D * S_A
 
-# --- 2. LAUNCHER ENERGY MODEL (From data table) ---
+### --- 2. LAUNCHER ENERGY MODEL (From data table) ---
 
-# Experimental data: Distance (m) and Force (Newtons)
+### Experimental data: Distance (m) and Force (Newtons)
 dist_data = np.array([0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 
                         0.35, 0.40, 0.45, 0.50, 0.55, 0.60])
 force_data = np.array([0.00, 1.39, 2.78, 4.17, 6.00, 8.50, 10.66, 
                         12.30, 13.93, 15.57, 17.21, 18.85, 20.00]) * g_force
 
-# Create a high-fidelity interpolation function for the band
+### Create a high-fidelity interpolation function for the band
 force_interpolator = interp1d(dist_data, force_data, kind='linear')
 
 def get_v0(L):
@@ -317,7 +330,7 @@ def get_v0(L):
     v0 = np.sqrt(2 * eta * Ep / m)
     return v0
 
-# --- 3. FLIGHT DYNAMICS MODEL (The ODEs) ---
+### --- 3. FLIGHT DYNAMICS MODEL (The ODEs) ---
 
 def getStateDerivative(t, S):
     """
@@ -329,7 +342,7 @@ def getStateDerivative(t, S):
     ay = -g - (k / m) * v * vy
     return [vx, vy, ax, ay]
 
-# --- 4. SIMULATION AND SOLVER ---
+### --- 4. SIMULATION AND SOLVER ---
 
 def simulate_shot(alpha, L):
     """
@@ -360,7 +373,7 @@ def simulate_shot(alpha, L):
     
     return (y_hit, t_hit)
 
-# --- 5. GRID SEARCH (Find the optimal parameters) ---
+### --- 5. GRID SEARCH (Find the optimal parameters) ---
 
 print("Running grid search to find optimal launch parameters...")
 print(f"Target: ({x_target} m, {y_target} m)")
@@ -390,9 +403,9 @@ for alpha in alpha_range:
             best_y_hit = y_hit
             best_t_hit = t_hit
 
-# --- 6. PRINT FINAL RESULTS ---
+### --- 6. PRINT FINAL RESULTS ---
 
-# Calculate the final parameters based on the best solution
+### Calculate the final parameters based on the best solution
 final_v0 = get_v0(best_L)
 final_force_N = force_interpolator(best_L)
 final_force_kgF = final_force_N / g_force
@@ -416,34 +429,35 @@ insert image of code output
 From the code result, we would require 20kgF force input and a launch angle of 43.00°.
 
 ***Launcher Release Mechanism Mathematics***
+
 This was done to determine the time taken to pull back a projectile and release it. Since the hard limit was to launch a singular projectile in 7.5seconds, and the feeder would also take time to LOAD one projectile into the launcher, we decided that the drawback of the projectile has to be **within 2.5 seconds.** 
 
 The torque required to drive a leadscrew against a linear force:
 
 $$T = \frac{F \cdot P}{2\pi\eta}$$
 
-$T$ = Torque (N·m)
-$F$ = Resistive Force (N)
-$P$ = Pitch (m/rev)
-$\eta$ = Leadscrew efficiency = 0.85 for ballscrew
+$$T$$ = Torque (N·m)
+$$F$$ = Resistive Force (N)
+$$P$$ = Pitch (m/rev)
+$$\eta$$ = Leadscrew efficiency = 0.85 for ballscrew
 
 <br>
 The mechanical power required to overcome the resistive force:
 
 $$P_{out} = F \cdot v$$
 
-$F$ = Resistive Force (N)
-$v$ = Linear velocity (m/s)
+$$F$$ = Resistive Force (N)
+$$v$$ = Linear velocity (m/s)
 
 <br>
 The electrical power the motor must provide, accounting for efficiency:
 
 $$P_{in} = \frac{P_{out}}{\eta} = T \cdot \omega$$
 
-$\omega$ = Angular velocity (rad/s)
+$$\omega$$ = Angular velocity (rad/s)
 
 <br>
-Max Force $F_{max} = 23kgF \times 9.81 m/s^2 = 225.63N$
+Max Force $$F_{max} = 23kgF \times 9.81 m/s^2 = 225.63N$$
 
 Drawback length (L) = 0.750m
 
@@ -451,13 +465,13 @@ Time to achieve = 2.5s
 
 Pitch (P) = 100mm/rev = 0.1m/rev
 
-Linear speed of drawback $v_{linear} = L/t = 0.750m / 2.5s = 0.3m/s$
+Linear speed of drawback $$v_{linear} = L/t = 0.750m / 2.5s = 0.3m/s$$
 
-Revolutions per second (rev/s) : $v_{linear} / P = (0.3m/s) / (0.1m/rev) = 3.0rev/s$
+Revolutions per second (rev/s) : $$v_{linear} / P = (0.3m/s) / (0.1m/rev) = 3.0rev/s$$
 
-Revolutions per minute (RPM of motor) : $3.0rev/s \times 60s/min = \mathbf{180 RPM}$
+Revolutions per minute (RPM of motor) : $$3.0rev/s \times 60s/min = \mathbf{180 RPM}$$
 
-To find PEAK TORQUE $T_{max} = \frac{F_{max} \cdot P}{2 \cdot \pi \cdot \eta} = \mathbf{4.23 Nm}$
+To find PEAK TORQUE $$T_{max} = \frac{F_{max} \cdot P}{2 \cdot \pi \cdot \eta} = \mathbf{4.23 Nm}$$
 
 </details>
 
