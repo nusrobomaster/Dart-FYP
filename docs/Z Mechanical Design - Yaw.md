@@ -1,4 +1,3 @@
-VJ, [15-Nov-25 6:01 PM]
 ---
 title: 5 Mechanical Design – Yaw
 parent: Dart Robot
@@ -24,9 +23,9 @@ The yaw subsystem must support the upper assembly—pitch, launcher, and feeder�
 Torque requirements were calculated using angular acceleration and mass moment of inertia (Appendix Figure ??), resulting in a requirement of 37.4 Nm, which guides the drive-system and motor selection.
 ### Drive system considerations
 Drive-system selection was based on:
-1. Accuracy and precision – required for consistent targeting.
-2. Weight – total mass must remain under 25 kg.
-3. Maintenance – fast servicing during competition.
+1. **Accuracy and precision** – required for consistent targeting.
+2. **Weight** – total mass must remain under 25 kg.
+3. **Maintenance** – fast servicing during competition.
 Four possible drive systems were evaluated, as shown in Table ??.
 
 <br>
@@ -38,7 +37,7 @@ Four possible drive systems were evaluated, as shown in Table ??.
 </p>
 Chain and belt systems suffer from backlash and need additional space for tensioners and pulleys. Gear systems require high maintenance and are prone to backlash and rolling-contact fatigue. The direct-drive system scored highest and was selected, though its performance depends heavily on motor quality.
 
-The Damiao DM10010L motor was chosen as it meets the 37.4 Nm torque requirement with margin, includes an onboard encoder, and matches the client’s existing hardware ecosystem for smoother integration.
+The **Damiao DM10010L** motor was chosen as it meets the 37.4 Nm torque requirement with margin, includes an onboard encoder, and matches the client’s existing hardware ecosystem for smoother integration.
 ### Design consideration: Yaw mount and Robot base frame
 The base frame uses 6061 aluminum square tubes to form a rectangular platform supporting the yaw subsystem. Two design approaches were explored during our iterative process.
 ### Belt-driven system
@@ -68,7 +67,6 @@ After review with supervisors and the team, a direct-drive system was chosen for
 
 The slewing bearing was retained, and belt-related components were removed. Figure ?? shows the direct-drive system mounted on the base frame. All subsystems will be installed on the slewing bearing in the final assembly.
 
-VJ, [15-Nov-25 6:01 PM]
 <br>
 ![CAD direct drive]({{ '/assets/images/jianwen/Yaw-direct_drive.jpg' | relative_url }})
 {: .text-center}
@@ -102,4 +100,4 @@ Fabrication and assembly of the yaw subsystem will proceed after integrating the
 ### Next Steps
 Motor electronics will be integrated to test the subsystem’s yaw motion. This will be carried out in the project’s second phase.
 
-<!-- Insert all captions at center of page <-->
+<!-- Insert all captions at center of page <--> 
