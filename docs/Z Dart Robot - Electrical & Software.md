@@ -11,6 +11,11 @@ permalink: /dart-system/dart-robot/elec-software
 
 ## User journey
 
+
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/FLCwOA101J8?si=7lEBV499AkXXTPhk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
 <p class="figure-caption" style="text-align:center;">
 Figure XX: Video of User Journey
 </p>
