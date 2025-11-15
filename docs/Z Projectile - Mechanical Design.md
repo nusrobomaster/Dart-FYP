@@ -540,14 +540,14 @@ We attempted to solve P4's roll instability by removing the bottom canard, creat
 
 ## 3. Rejection and Final Validation
 This prototype was rejected. While the carbon fiber splines were an excellent solution to a complex structural problem (wing flex), this fix was applied to a fundamentally flawed aerodynamic concept. The design remained heavy, high-drag, and unstable.
-This conclusion was definitively confirmed by **external data** from the 2025 RMUC competition. Our team learned from the Dalian University of Technology (DUT) DART team that their similar canard-and-fan design achieved only **80% accuracy**. They reported that top teams (95%+ accuracy) used **simpler designs without canards or fans.****
+This conclusion was definitively confirmed by **external data** from the 2025 RMUC competition. Our team learned from the Dalian University of Technology (DUT) DART team that their similar canard-and-fan design achieved only **80% accuracy**, and did not make it into the top 10 performing DART teams. The top 10 teams (95%+ accuracy) used **simpler designs without canards or fans.****
 The DUT team confirmed the added complexity and mass were **not justified by performance**. To stay under the 350g limit, they had to thin the projectile walls, leading to **high breakage rates** on impact. This real-world data provided the final evidence that the active canard/fan concept is a "dead end."
 <br>
 ![results]({{ site.baseurl }}/assets/images/shyam/projresult.png)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 31: Surface Plot (pressure) on X WING2.</em>
+<em>Figure 31: 2025 RMUC competition Score.</em>
 </p>
 
 
