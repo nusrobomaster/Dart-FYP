@@ -87,6 +87,17 @@ Figure XX: Critical Function Prototype
 
 ## GUI Library Comparison
 
+| Criteria                          | <img src="{{ '/assets/images/barry/LVGL_logo.png' | relative_url }}" width="140"> | <img src="{{ '/assets/images/barry/Touch_GFX_logo.png' | relative_url }}" width="140"> | <img src="{{ '/assets/images/barry/QT_logo.png' | relative_url }}" width="140"> |
+| --------------------------------- | --------- | --------- | --------- |
+| Ease of integration               | 3         | 3         | 1         |
+| RAM / flash efficiency            | 3         | 2         | 1         |
+| Graphics performance              | 2         | 3         | 3         |
+| Customisation                     | 3         | 2         | 3         |
+| Community support                 | 3         | 2         | 3         |
+| Tools                             | 2         | 3         | 3         |
+| Licensing                         | 3         | 3         | 1         |
+| **Sum**                           | **19**    | **18**    | **15**    |
+
 <div style="text-align:center;">
 Table XX: GUI Library Comparison
 </div>
