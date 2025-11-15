@@ -9,6 +9,16 @@ has_toc: false
 ---
 
 <!-- Short overview of the projectile here -->
+
+<br>
+![ponly]({{ '/assets/images/shyam/ponly.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Projectile section.</em>
+</p>
+
+
 Mechanical (Projectile)
 
 This section lists the child pages for the mechanical aspects of the Projectile, such as structure, aerodynamics, and testing.

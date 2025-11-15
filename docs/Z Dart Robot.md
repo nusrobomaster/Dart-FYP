@@ -10,6 +10,14 @@ has_toc: false
 
 <!-- overview of the dart robot -->
 
+<br>
+![pyl]({{ '/assets/images/shyam/pyl.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>3D rendering of Yaw, Pitch and Launcher.</em>
+</p>
+
 
 Mechanical (Dart Robot)
 
