@@ -5,6 +5,7 @@ nav_order: 2
 layout: default
 permalink: /dart_robot_subsystems
 has_toc: true
+nav_exclude: true
 ---
 # The Team
 
