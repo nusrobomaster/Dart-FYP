@@ -8,6 +8,16 @@ has_toc: false
 ---
 
 <!-- intro text -->
+
+<br>
+![full dart subsys]({{ '/assets/images/shyam/robotsubdiv.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>A 3D rendering of a Dart Robot designed by RMOC.</em>
+</p>
+
+
 # The Team
 
 Derived from the functionality table in the previous page, below are the subsystems involved in the dart system, and the breakdown of responsibilities for each subsystem.
