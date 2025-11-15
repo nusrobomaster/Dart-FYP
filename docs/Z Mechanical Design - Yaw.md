@@ -20,7 +20,7 @@ The yaw subsystem must support the upper assemblyâ€”pitch, launcher, and feederâ
 ![Equations for torque calculations]({{ '/assets/images/jianwen/Yaw-equations.jpg' | relative_url }})
 {: .text-center}
 <br>
-Torque requirements were calculated using angular acceleration and mass moment of inertia (Appendix Figure ??), resulting in a requirement of 37.4 Nm, which guides the drive-system and motor selection.
+Torque requirements were calculated using angular acceleration and mass moment of inertia (Appendix 1), resulting in a requirement of 37.4 Nm, which guides the drive-system and motor selection.
 
 ### Drive system considerations
 Drive-system selection was based on:
@@ -61,7 +61,7 @@ A suitable bearing capable of handling high axial loads was needed. Table 4-2 li
 <p align="center" class="small-text">
 <em>Table 4-2: Bearing types and considerations</em>
 </p>
-A slewing bearing was selected for this design. Additional parts such as the timing gear, belt, and tensioner were added, as shown in Figure 4-1. Since the final design moved away from the belt-driven approach, the detailed information for this iteration is included in Appendix ?.
+A slewing bearing was selected for this design. Additional parts such as the timing gear, belt, and tensioner were added, as shown in Figure 4-1. Since the final design moved away from the belt-driven approach, the detailed information for this iteration is included in Appendix 2.
 
 ### Direct-drive system
 After review with supervisors and the team, a direct-drive system was chosen for reduced mechanical complexity and fewer failure points, and its higher concept score.
