@@ -78,15 +78,6 @@ We intentionally began with simple, passive prototypes. This was critical for us
 
 Certain ground rules were established before beginning on the projectile designs. Here are the full design considerations, prior to beginning any design. Along the way, many other considerations were made which will be further elaborated below each projectile design respectively. 
 
-<br>
-![projectile string test](/assets/images/shyam/stringtest.jpg)
-{: .text-center}
-<br>
-<p align="center" class="small-text">
-<em>Figure 5: String Test to locate Center Of Pressure.</em>
-</p>
-
-
 * All projectile designs **SHALL NOT EXCEED 250mm x 250mm x 250mm**
 * All projectile designs **SHALL BE BELOW 350g** under Solidworks evaluate tool, after specifying the material to be TPU 95D
 * All projectile designs **will accommodate the DART TRIGGER** provided by RMOC
@@ -101,6 +92,15 @@ Second would be the **pressure distribution in the case of crosswinds**, which i
 <details markdown="1">
 <summary style="font-size: 1.3rem; font-weight: 450;"><strong> 3. Center of Gravity vs Center of Pressure Analysis </strong></summary>
 
+picture
+
+<br>
+![projectile string test](/assets/images/shyam/stringtest.jpg)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 5: String Test to locate Center Of Pressure.</em>
+</p>
 
 
 Passive static stability (Center of Pressure behind Center of Gravity) is a non-negotiable requirement for a predictable flight. This arrangement creates a "weather vane" effect, which is essential for a stable, predictable flight. We applied a two-part validation **to each and every prototype.**
@@ -109,14 +109,13 @@ Passive static stability (Center of Pressure behind Center of Gravity) is a non-
 
 * 2. Static Stability (CP vs. CG) Validation: A qualitative "fan test" was performed to confirm a positive static margin. Each prototype was suspended in front of a high-speed fan. A successful validation occurred when the projectile stably oriented itself into the wind, confirming the CP was correctly located behind the CG.
 
-
-
+inspiration : https://www.youtube.com/watch?v=jikEHfFwBd8
 
 </details>
 
 
 <details markdown="1">
-<summary style="font-size: 1.5rem; font-weight: 450;"><strong> 4. 2 wings vs 3 wings vs 4 wings Analysis </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450;"><strong> 4. 2 wings vs 3 wings vs 4 wings Analysis </strong></summary>
 
 The selection of a four-fin "X" configuration over a two- or three-fin layout was a critical design choice driven by the demands of an active control system.
 A two-fin, plane-like configuration (as explored in Prototype 2 "Glider") was fundamentally unsuitable. This design generates significant, uncontrolled aerodynamic lift, which destroys the predictable ballistic trajectory required for a 100mm target. Furthermore, it possesses no passive yaw stability, making it aerodynamically unstable as a projectile.
@@ -135,6 +134,21 @@ These axes are **decoupled**. When we command a "pitch up," we don't cause a yaw
 
 ## 5. Projectile Design
 
+<br>
+![Glider Real]({{ '/assets/images/shyam/gliderreal.jpg' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 6: 3D printed scale model of GLIDER</em>
+</p>
+
+<br>
+![Glider CAD]({{ '/assets/images/shyam/glidercad.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 7: 3D design of GLIDER.</em>
+</p>
 
 
 ## V2 GLIDER (Parallel Investigation)
