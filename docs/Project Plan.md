@@ -1,5 +1,5 @@
 ---
-title: Project Plan
+title: 9 Project Plan
 nav_order: 4
 layout: default
 permalink: /project_plan
@@ -7,7 +7,7 @@ permalink: /project_plan
 # Project Plan
 
 <br>
-![gantt chart](assets/images/jianwen/Project_plan-gantt.png)
+![gantt chart](/assets/images/jianwen/Project_plan-gantt.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
