@@ -324,7 +324,7 @@ The "Crossblade" prototype was designed to solve the two primary drag problems i
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 12: Surface Plot (pressure) on THORN.</em>
+<em>Figure 12: Cut Plot (Velocity Drag) on CROSSBLADE.</em>
 </p>
 
 
@@ -346,7 +346,7 @@ This prototype was not, however, without new trade-offs. The design introduced t
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Surface Plot (pressure) on THORN.</em>
+<em>Figure 13: Surface Plot (pressure) on CROSSBLADE.</em>
 </p>
 
 While the "Crossblade" prototype proved a viable solution for a static (Level 1) target, the competition's advanced tiers introduce dynamic challenges. The following embedded videos illustrate the "Level 2" and "Level 3" targets, which move in complex, non-predictable patterns.
@@ -357,32 +357,32 @@ This requirement for **in-flight target interception** is the primary justificat
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 13: Surface Plot (pressure) on THORN.</em>
+<em>Figure 13: Surface Plot (pressure) on CROSSBLADE.</em>
 </p>
 
 
 </details>
 
-
+---
 
 ## V4 X-WING (Active Dart) 
 *credit : Dalian University of Technology, open source design*
 
 
 <br>
-![Glider Real]({{ '/assets/images/shyam/gliderreal.jpg' | relative_url }})
+![xwing real]({{ '/assets/images/shyam/XWingreal.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 6: 3D printed scale model of GLIDER</em>
+<em>Figure 6: 3D printed scale model of X WING</em>
 </p>
 
 <br>
-![Glider CAD]({{ '/assets/images/shyam/glidercad.png' | relative_url }})
+![xwing CAD]({{ '/assets/images/shyam/xwingcad.png' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 7: 3D design of GLIDER.</em>
+<em>Figure 7: 3D design of X WING.</em>
 </p>
 
 
@@ -394,9 +394,41 @@ CFD confirmed **massive parasitic drag** from all the exposed hinges and ducts. 
 <details markdown="1">
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on XWing </strong></summary>
 
+<br>
+![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwingdrag.jpg)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Cut Plot (Velocity Drag) on X WING.</em>
+</p>
+
+<br>
+![xwingpressure]({{ site.baseurl }}/assets/images/shyam/xwingpressure.jpg)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Surface Plot (pressure) on X WING.</em>
+</p>
+
+
+
+
 The rejection of "X-WING" was based on its three fundamental flaws, the most critical of which was a self-induced instability.
 
-
+<br>
+![canardroll]({{ site.baseurl }}/assets/images/shyam/canardroll.jpg)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Canard induced roll illustration.</em>
+</p>
+<br>
+![canardroll]({{ site.baseurl }}/assets/images/shyam/roll.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Canard induced roll illustration.</em>
+</p>
 
 ## 1. Aerodynamic Instability (Canard-Vortex Interaction)
 Canards are control surfaces placed forward of the Center of Gravity (CG). To steer (e.g., pitch up), they generate a small lift force.
@@ -414,7 +446,6 @@ For a canard-based design, this stability is a balancing act between two main co
 * **The Main Wing (Stabilizing)**: It's a lifting surface behind the CG. When the projectile pitches up, the main wing lifts more, creating a moment that pitches the nose back down. This is **stable.**
 
 For the total projectile to be stable, the **stabilizing effect of the main wing must be stronger than the destabilizing effect of the canard.**
-Beyond the canard-vortex (roll) issue, X wing had fundamental **pitch instability.** This was a direct result of the projectile’s **size constraints.**
 For a canard design to be stable, the **main wing area** (SW) must be proportionally much larger than the **canard area** (SC). This ensures the main wing's stabilizing moment (which is a function of its area and its distance from the CG) can overcome the canard's destabilizing moment.
 However, the 250x250x150mm competition box severely **limited our maximum main wing area** (SW). To get any meaningful control, the canards (SC) still had to be a certain size. This resulted in a **Canard-to-Wing Area Ratio (SC / SW) that was far too high.**
 The destabilizing effect of the "proportionally large" canards simply overpowered the small main wings. This made the projectile inherently unstable in pitch (CM> 0), causing it to tumble and making it uncontrollable. This pitch instability, combined with the separate problem of canard-vortex induced roll, made the entire concept unviable.
@@ -435,7 +466,7 @@ Unlike the clean "Crossblade" (P3), the "X-WING" is aerodynamically "dirty." Eve
 
 
 <br>
-![Glider Real]({{ '/assets/images/shyam/gliderreal.jpg' | relative_url }})
+![xwing2real]({{ '/assets/images/shyam/XWing2real.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -443,7 +474,7 @@ Unlike the clean "Crossblade" (P3), the "X-WING" is aerodynamically "dirty." Eve
 </p>
 
 <br>
-![Glider CAD]({{ '/assets/images/shyam/glidercad.png' | relative_url }})
+![XWing2 CAD]({{ '/assets/images/shyam/xwing2.png' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -451,12 +482,30 @@ Unlike the clean "Crossblade" (P3), the "X-WING" is aerodynamically "dirty." Eve
 </p>
 
 
-Prototype 5 was a final attempt to salvage the canard concept from "X-WING" (P4). We correctly identified a major structural flaw—body flex—and added a carbon fiber "spine" to create a rigid airframe. However, our aerodynamic "fix" (a 3-canard layout) failed to solve the core canard-vortex instability.
+Prototype 5 was a final attempt to salvage the canard concept from "X-WING" (P4). We correctly identified a major structural flaw—body flex—and added a carbon fiber "spine" to create a rigid airframe. However, our aerodynamic "fix" (a 2-canard layout) failed to solve the core canard-vortex instability.
 This prototype was the definitive "dead end." It taught us a crucial lesson, which was confirmed by external data from top teams: the entire canard-and-fan concept is overly complex, fragile, and aerodynamically flawed. This prototype was the final justification for abandoning canards entirely and pivoting to a simpler, more robust rear-fin control system.
 
 
 <details markdown="1">
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on XWing 2 </strong></summary>
+
+<br>
+![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwing2drag.jpg)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Cut Plot (Velocity Drag) on X WING2.</em>
+</p>
+
+
+<br>
+![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwing2pressure.jpg)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Surface Plot (pressure) on X WING2.</em>
+</p>
+
 
 "V5 X-WING 2" was a direct iteration on P4, designed to solve two distinct problems.
 
@@ -478,7 +527,14 @@ We attempted to solve P4's roll instability by removing the bottom canard, creat
 This prototype was rejected. While the carbon fiber splines were an excellent solution to a complex structural problem (wing flex), this fix was applied to a fundamentally flawed aerodynamic concept. The design remained heavy, high-drag, and unstable.
 This conclusion was definitively confirmed by **external data** from the 2025 RMUC competition. Our team learned from the Dalian University of Technology (DUT) DART team that their similar canard-and-fan design achieved only **80% accuracy**. They reported that top teams (95%+ accuracy) used **simpler designs without canards or fans.****
 The DUT team confirmed the added complexity and mass were **not justified by performance**. To stay under the 350g limit, they had to thin the projectile walls, leading to **high breakage rates** on impact. This real-world data provided the final evidence that the active canard/fan concept is a "dead end."
-Add 3 media 2025 results.
+<br>
+![results]({{ site.baseurl }}/assets/images/shyam/projresult.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Surface Plot (pressure) on X WING2.</em>
+</p>
+
 
 
 </details>
