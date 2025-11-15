@@ -225,7 +225,7 @@ $$\therefore v_0(L) = \sqrt{\frac{2 * \eta * P.E.(L)}{m_{projectile}}}$$
 
 This is the exit velocity as a function of the draw length $$L$$.
 
-**Projectile flight dynamics with quadratic drag**
+***Projectile flight dynamics with quadratic drag***
 
 https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/flight-equations-with-drag/
 
@@ -241,6 +241,7 @@ $$A$$: projectile's frontal area
 
 
 ***Equation of Motion***
+
 Modelling the projectile's trajectory by applying Newton's second law formula $$F = m.a$$.
 Resolve forces in x & y components
 
@@ -265,17 +266,20 @@ $$\therefore \text{ (2) --------- } a_y = \frac{dv_y}{dt} = -g - \frac{k}{m}v_y\
 These two equations (1) and (2) form a system of coupled, non-linear 2nd-order Ordinary
 Differential Equations (ODE). This system does not have simple, close-form analytical solutions.
 
-Therefore to find the trajectory, we must solve the ODEs numerically. We will employ a time-marching numerical method. We will simulate the projectile's state $$(x, y, v_x, v_y)$$ at discrete time steps $\Delta t$. A more common ROBUST method is the 4th-order Runge-Kutta (RK4) Algorithm. A simpler Euler method can be used as well, but it is less stable. This numeric model forms the core of our Direct Fire Control System, which will predict the point(s) of impact based on our initial conditions.
+Therefore to find the trajectory, we must solve the ODEs numerically. We will employ a time-marching numerical method. We will simulate the projectile's state $$(x, y, v_x, v_y)$$ at discrete time steps $\Delta t$. A more common **ROBUST method is the 4th-order Runge-Kutta (RK4) Algorithm**. A simpler Euler method can be used as well, but it is less stable. This numeric model forms the core of our Direct Fire Control System, which will predict the point(s) of impact based on our initial conditions.
 
 ***Solution finding algorithm***
 
-There are two variable parameters, ANGLE OF ATTACK $\alpha$ and DRAW LENGTH $L$. ANGLE OF ATTACK $\alpha$ determines the angle our Dart' PITCH needs to go to, and the DRAW LENGTH $L$ is necessary to decide how long the launcher needs to be. The goal is to find a pair of ($\alpha, L$) that results in a HIT.
+There are two variable parameters, ANGLE OF ATTACK $$\alpha$$ and DRAW LENGTH $$L$$. ANGLE OF ATTACK $$\alpha$$ determines the angle our Dart' PITCH needs to go to, and the DRAW LENGTH $$L$$ is necessary to decide how long the launcher needs to be. The goal is to find a pair of ($$\alpha, L$$) that results in a HIT.
 In our established coordinate system Figure (8), our target position is (25.591, 1.1165)m. We will do a grid search:
+
 
 $$\frac{dx}{dt} = v_x \quad \frac{dy}{dt} = v_y \quad \frac{dv_x}{dt} = a_x = -\frac{k}{m}v_x v \quad \frac{dv_y}{dt} = a_y = -g - \frac{k}{m}v_y v$$
 
+
 Our algorithm features a Get StateDerivatives(S) function, which gets state vector S and returns
 derivative vector $$[\frac{dx}{dt}, \frac{dy}{dt}, \frac{dv_x}{dt}, \frac{dv_y}{dt}]$$. Then we use linear interpolation:
+
 
 $$y_{HIT!} = S_{previous}.y + (S.y - S_{previous}.y) \cdot \frac{X_{Target} - S_{previous}.x}{S.x - S_{previous}.x}$$
 
@@ -284,147 +288,33 @@ $$y_{HIT!} = S_{previous}.y + (S.y - S_{previous}.y) \cdot \frac{X_{Target} - S_
 <details markdown="1">
 <summary><strong> View Python Code: Trajectory Solver (solver.py)</strong></summary>
 
-import numpy as np
-from scipy.integrate import solve_ivp
-from scipy.interpolate import interp1d
-
-### --- 1. SET CONSTANTS  ---
-
-### Projectile & Environment
-m = 0.35              # mass (kg)
-S_A = 0.00245947      # Frontal area (m^2)
-C_D = 0.35            # Drag coefficient
-rho = 1.225           # Air density (kg/m^3)
-g = 9.81              # Gravity (m/s^2)
-
-### Launcher
-eta = 0.8             # Launcher efficiency
-g_force = 9.81        # To convert kgF to Newtons
-
-### Target
-x_target = 25.591     # Target x-position (m)
-y_target = 1.1165     # Target y-position (m)
-
-### Drag constant k 
-k = 0.5 * rho * C_D * S_A
-
-### --- 2. LAUNCHER ENERGY MODEL (From data table) ---
-
-### Experimental data: Distance (m) and Force (Newtons)
-dist_data = np.array([0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 
-                        0.35, 0.40, 0.45, 0.50, 0.55, 0.60])
-force_data = np.array([0.00, 1.39, 2.78, 4.17, 6.00, 8.50, 10.66, 
-                        12.30, 13.93, 15.57, 17.21, 18.85, 20.00]) * g_force
-
-### Create a high-fidelity interpolation function for the band
-force_interpolator = interp1d(dist_data, force_data, kind='linear')
-
-def get_v0(L):
-    """
-    Calculates the exit velocity (v0) for a given draw length (L)
-    by integrating the experimental force-displacement data.
-    """
-    x_integral = np.linspace(0, L, num=100)
-    f_integral = force_interpolator(x_integral)
-    Ep = np.trapz(f_integral, x_integral)
-    v0 = np.sqrt(2 * eta * Ep / m)
-    return v0
-
-### --- 3. FLIGHT DYNAMICS MODEL (The ODEs) ---
-
-def getStateDerivative(t, S):
-    """
-    Calculates the derivatives of the state vector S = [x, y, vx, vy]
-    """
-    x, y, vx, vy = S
-    v = np.sqrt(vx**2 + vy**2)
-    ax = -(k / m) * v * vx
-    ay = -g - (k / m) * v * vy
-    return [vx, vy, ax, ay]
-
-### --- 4. SIMULATION AND SOLVER ---
-
-def simulate_shot(alpha, L):
-    """
-    Simulates a single shot and returns (y_hit, t_hit) at the target.
-    """
-    v0 = get_v0(L)
-    vx0 = v0 * np.cos(np.radians(alpha))
-    vy0 = v0 * np.sin(np.radians(alpha))
-    S0 = [0, 0, vx0, vy0]
-    
-    def stop_at_target(t, S):
-        return S[0] - x_target
-    stop_at_target.terminal = True
-    stop_at_target.direction = 1
-    
-    t_span = [0, 5]
-    sol = solve_ivp(getStateDerivative, t_span, S0, 
-                      events=stop_at_target, 
-                      dense_output=True)
-    
-    # FIX for DeprecationWarning
-    if sol.t_events[0].size == 0:
-        return (-999, -1)  # Return error values
-        
-    t_hit = sol.t_events[0][0]
-    S_hit = sol.sol(t_hit)
-    y_hit = S_hit[1]
-    
-    return (y_hit, t_hit)
-
-### --- 5. GRID SEARCH (Find the optimal parameters) ---
-
-print("Running grid search to find optimal launch parameters...")
-print(f"Target: ({x_target} m, {y_target} m)")
-
-alpha_range = np.linspace(10, 45, 36)  # 36 steps (1 degree)
-L_range = np.linspace(0.2, 0.6, 41)    # 41 steps (1 cm)
-
-best_error = float('inf')
-best_alpha = 0
-best_L = 0
-best_y_hit = 0
-best_t_hit = 0
-
-for alpha in alpha_range:
-    for L in L_range:
-        y_hit, t_hit = simulate_shot(alpha, L)
-        
-        if y_hit == -999:
-            continue
-            
-        error = abs(y_hit - y_target)
-        
-        if error < best_error:
-            best_error = error
-            best_alpha = alpha
-            best_L = L
-            best_y_hit = y_hit
-            best_t_hit = t_hit
-
-### --- 6. PRINT FINAL RESULTS ---
-
-### Calculate the final parameters based on the best solution
-final_v0 = get_v0(best_L)
-final_force_N = force_interpolator(best_L)
-final_force_kgF = final_force_N / g_force
-
-print("\n--- OPTIMAL SOLUTION FOUND ---")
-print(f"Best Angle (α):         {best_alpha:.2f} degrees")
-print(f"Best Draw Length (L):     {best_L:.3f} meters")
-print("\n--- PREDICTED LAUNCH VALUES ---")
-print(f"Required Band Force:    {final_force_kgF:.2f} kgF ({final_force_N:.2f} N)")
-print(f"Resulting Exit Velocity:  {final_v0:.2f} m/s")
-print(f"Predicted Flight Time:  {best_t_hit:.3f} seconds")
-print("\n--- PREDICTED IMPACT ---")
-print(f"Predicted Hit Height:   {best_y_hit:.4f} meters")
-print(f"Target Height:            {y_target:.4f} meters")
-print(f"Error (miss distance):  {best_error:.4f} meters")
+<br>
+![multi]({{ site.baseurl }}/assets/images/shyam/first.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+</p>
+<br>
+![multi]({{ site.baseurl }}/assets/images/shyam/second.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+</p>
+<br>
+![multi]({{ site.baseurl }}/assets/images/shyam/last.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+</p>
 
 </details>
 
-insert image of code output
+<br>
+![multi]({{ site.baseurl }}/assets/images/shyam/resultp.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+</p>
 
 From the code result, we would require 20kgF force input and a launch angle of 43.00°.
 
