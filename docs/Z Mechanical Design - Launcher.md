@@ -119,7 +119,7 @@ Our system pulls to a pre-set **force target** (e.g., 50 kgF). The motor draws t
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> 5. Mathematical Calculations </strong></summary>
 
 
-# 5.1. Material Justification
+## 5.1. Material Justification
 
 
 To develop a predictive mathematical model for the launcher, it was necessary to **experimentally characterize** the force-displacement relationship of the selected Decathlon exercise band. The manufacturer does not provide engineering specifications such as a spring constant (k) or Young's Modulus, making empirical testing necessary.
@@ -136,8 +136,8 @@ This characterization was achieved by securing the band to a test rig equipped w
 # 5.2. Mathematical Analysis
 
 ***Projectile and Environmental Variables***
-To model the projectile's trajectory, several key parameters are defined. The projectile mass (m) is set to the competition limit of 350g (0.35 kg). The aerodynamic reference area($S. A_{projectile}$)  is defined as the frontal cross-sectional area. This value is calculated in Solidworks by summing the areas of all surfaces projected normal to the flight vector.
-The drag coefficient (CD) is a complex, non-linear function of shape, Reynolds Number (Re), and Angle of Attack (p). Given our low operational velocity of 25m/s (Mach < 0.3), the flow is treated as incompressible. Based on the streamlined shape of our "Hunter" prototype, a constant CD value of 0.35 is assumed as a standard approximation for this analysis. Both m, $S. A_{projectile}$ , and CD are treated as key input variables in the subsequent mathematical model.
+To model the projectile's trajectory, several key parameters are defined. The projectile mass (m) is set to the competition limit of 350g (0.35 kg). The aerodynamic reference area(S. A_{projectile})  is defined as the frontal cross-sectional area. This value is calculated in Solidworks by summing the areas of all surfaces projected normal to the flight vector.
+The drag coefficient (CD) is a complex, non-linear function of shape, Reynolds Number (Re), and Angle of Attack (p). Given our low operational velocity of 25m/s (Mach < 0.3), the flow is treated as incompressible. Based on the streamlined shape of our "Hunter" prototype, a constant CD value of 0.35 is assumed as a standard approximation for this analysis. Both m, (S. A_{projectile}) , and CD are treated as key input variables in the subsequent mathematical model.
 
 <br>
 ![surfacearea]({{ site.baseurl }}/assets/images/shyam/surfacearea.png)
@@ -147,9 +147,9 @@ The drag coefficient (CD) is a complex, non-linear function of shape, Reynolds N
 <em>Figure 7: Frontal Surface Area of HUNTER Projectile.</em>
 </p>
 
-$m_{projectile} = 350g = 0.35kg$
+$$m_{projectile} = 350g = 0.35kg$$
 
-$S.A_{projectile} = 2459.47mm^2 = 0.00245947m^2$
+$$S.A_{projectile} = 2459.47mm^2 = 0.00245947m^2$$
 
 Drag Coefficient $C_D = 0.35$
 
@@ -479,7 +479,7 @@ To preserve the project's limited budget ($3200) for the final, flight-ready har
 </p>
 
 
-The objective was to validate the core "force-based" release concept, observe the projectile's release characteristics to ensure a "clean" separation from the sled, and identify any immediate, unforeseen mechanical failures or abnormal behaviors in the elastic system.
+The **objective** was to *validate the core "force-based" release concept*, observe the projectile's release characteristics to **ensure a "clean" separation from the sled**, and identify any immediate, unforeseen mechanical failures or abnormal behaviors in the elastic system.
 
 Embedded Video of launcher
 
@@ -492,7 +492,7 @@ Embedded Video of launcher
 </p>
 
 
-Initial tests of the prototype were highly successful. A 23 kgF (225.6 N) launch force propelled the "Crossblade" projectile to a distance of 20 meters.Two critical observations were made, firstly the projectile's trajectory was stable and linear, with no visible roll. Secondly the projectile maintained a consistent nose-forward "dipping" arc throughout its flight. The projectile had no issues when releasing from the 3D printed “sled”. These results confirmed that the elastic band concept is a promising and viable solution for this project.
+Initial tests of the prototype were highly successful. A **23 kgF (225.6 N)** launch force propelled the "Crossblade" projectile to a distance of **20 meters**.Two critical observations were made, firstly the projectile's trajectory was stable and linear, with **no visible roll**. Secondly the projectile maintained a consistent nose-forward "dipping" arc throughout its flight. The projectile had no issues when releasing from the 3D printed “sled”. These results confirmed that the elastic band concept is a promising and viable solution for this project.
 
 
 <br>
@@ -510,4 +510,4 @@ After releasing the projectile, the sled continued at full velocity and impacted
 
 Secondly the scrap-aluminum carrier, which held the sled, was visibly deforming and buckling under the high tensile force of the 23 kgF.
 
-To solve these issues, two corrective actions were immediately implemented for the next iteration. The aluminum carrier will be replaced with a high-strength steel plate to withstand the band's peak tensile load, and a spring-based damping system will be designed and integrated into the launcher's front plate to safely absorb the sled's kinetic energy and bring it to a controlled stop.
+To solve these issues, two corrective actions were immediately implemented for the next iteration. The *aluminum carrier* will be replaced with a **high-strength steel plate** to withstand the band's peak tensile load, and a **spring-based damping system** will be designed and integrated into the launcher's front plate to safely absorb the sled's kinetic energy and bring it to a controlled stop.
