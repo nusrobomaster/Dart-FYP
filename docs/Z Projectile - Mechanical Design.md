@@ -60,7 +60,7 @@ For the design of the projectile, we decided to adopt a **first-principles desig
 We intentionally began with simple, passive prototypes. This was critical for us to learn the fundamental pain points of stability and drag, before we could justify adding the complexity of an active system. Our first prototypes were a rapid exploration of basic concepts.
 
 
-—-
+---
 
 ### Iteration Path:
 
@@ -71,7 +71,7 @@ We intentionally began with simple, passive prototypes. This was critical for us
 * **Active projectile design:**
      V4(Xwing) → V5(Xwing 2) → V6(Trident) → V7(Hunter) ✅
 
-—-
+---
 
 <details markdown="1">
 <summary style="font-size: 1.3rem; font-weight: 450;"><strong> 2. Ground Rules </strong></summary>
@@ -88,6 +88,10 @@ Second would be the **pressure distribution in the case of crosswinds**, which i
 
 
 </details>
+
+
+---
+
 
 <details markdown="1">
 <summary style="font-size: 1.3rem; font-weight: 450;"><strong> 3. Center of Gravity vs Center of Pressure Analysis </strong></summary>
@@ -114,6 +118,9 @@ inspiration : https://www.youtube.com/watch?v=jikEHfFwBd8
 </details>
 
 
+---
+
+
 <details markdown="1">
 <summary style="font-size: 1.3rem; font-weight: 450;"><strong> 4. 2 wings vs 3 wings vs 4 wings Analysis </strong></summary>
 
@@ -128,8 +135,10 @@ With a **4-fin system**, any pitch or yaw command is handled by **two fins** wor
 These axes are **decoupled**. When we command a "pitch up," we don't cause a yaw. This makes the control logic **dramatically simpler**. We can run two separate, simple PID controllers: one for pitch, one for yaw. It also distributes the aerodynamic load for any maneuver across two servos, increasing system responsiveness and robustness.
 
 
-
 </details>
+
+
+---
 
 
 ## 5. Projectile Design
