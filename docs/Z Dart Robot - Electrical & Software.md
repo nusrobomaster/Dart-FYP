@@ -48,7 +48,7 @@ With the issues identified, the critical function prototyping methodology, focus
 
 Following the chosen methodology, an initial prototype was built.
 
-![Critical_function_prototype](/assets/images/barry/Critical_function_prototype.jpg)
+![Critical_function_prototype](assets/images/barry/Critical_function_prototype.jpg)
 <p class="figure-caption" style="text-align:center;">
 Figure XX: Critical Function Prototype
 </p>
@@ -67,7 +67,7 @@ Figure XX: Video of Current Prototype
 From the prototype, the dart robot electrical diagram is shown below.
 
 <div style="text-align:center;">
-  <img src="/assets/images/barry/Segmented_power_diagram.png" style="width:60%;" />
+  <img src="assets/images/barry/Segmented_power_diagram.png" style="width:60%;" />
   <p class="figure-caption">Figure XX: Segmented Power Diagram of Dart Robot</p>
 </div>
 

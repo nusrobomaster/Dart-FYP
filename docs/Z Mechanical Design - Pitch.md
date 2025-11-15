@@ -21,7 +21,7 @@ The drive system must:
 Based on these requirements, two drive systems were shortlisted (Table ??).
 
 <br>
-![Table for drive systems](/assets/images/jianwen/Pitch-drive_system_table.jpg)
+![Table for drive systems](assets/images/jianwen/Pitch-drive_system_table.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">

@@ -9,7 +9,7 @@ has_toc: true
 ---
 
 <br>
-![Components inside dart](/assets/images/vj/Projectile/Components_inside_dart.png)
+![Components inside dart](assets/images/vj/Projectile/Components_inside_dart.png)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
