@@ -14,3 +14,8 @@ exclude:
   - docs/Dart Robot - Launcher.md
   - docs/Dart Robot - Pitch Subsystem.md
   - docs/Dart Robot - Yaw Subsystem.md
+
+aux_links:
+  "ASI-403 Repo":
+    - "https://github.com/nusrobomaster/Dart-FYP.git"
+aux_links_new_tab: false
