@@ -1,9 +1,9 @@
 ---
 title: Launcher - Electrical & Software
 parent: Launcher Subsystem
-nav_order: 5
+nav_order: 4
 layout: default
-permalink: /launcher/elec&software
+permalink: /dart-system/dart-robot/elec-software
 ---
 
 # Electrical / Software
