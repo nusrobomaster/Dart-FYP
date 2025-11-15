@@ -95,7 +95,7 @@ Second would be the **pressure distribution in the case of crosswinds**, which i
 picture
 
 <br>
-![projectile string test](/assets/images/shyam/stringtest.jpg)
+![projectile string test]({{ site.baseurl }}/assets/images/shyam/stringtest.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
