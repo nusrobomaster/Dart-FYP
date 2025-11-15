@@ -13,6 +13,7 @@ has_toc: true
 ## 1. Foreground
 The launcher is the sub-system responsible for imparting the required initial velocity to the projectile. The design of this sub-system is governed by two primary sets of constraints. First are the size and safety restrictions imposed by the RMOC rules. Second is the critical operational requirement from NUS Calibur Robotics for a propulsion system that delivers an exceptionally **consistent and reliable** launch velocity, as this is the most significant variable for ensuring target accuracy.
 
+---
 
 ## 2. Special Requests
 The launcher is the sub-system responsible for imparting the required initial velocity to the projectile. The design of this sub-system is governed by two primary sets of constraints. First are the size and safety restrictions imposed by the RMOC rules. Second is the critical operational requirement from NUS Calibur Robotics for a propulsion system that delivers an exceptionally **consistent and reliable** launch velocity, as this is the most significant variable for ensuring target accuracy.
@@ -21,26 +22,66 @@ There is a critical operational constraint dictating the launcher's required cyc
 Per the NUS Calibur Robotics request, the system must be capable of loading, aiming, and launching **two projectiles** within this brief window. This imposes a maximum "gate-to-gate" cycle time of **7.5 seconds per projectile**, demanding a system capable of rapid reloading and firing.
 
 
-Embed 15 second video here of dartgate open
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/V6OpgE-5DA0?si=c8CVtrMg53wsoJX3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<p class="figure-caption" style="text-align:center;">
+Media 01: Video of Dart Robot Holding Area Gate Open 
+</p>
 
+---
 
 ## 3. Prior Analysis 
 
 Before developing our innovative solution, a "prior art" analysis was conducted on the four primary propulsion methods prevalent in the 2024 RMUC competition season.
 
-* Flywheel
-Embed video
-photo
+* **Flywheel**
+https://www.youtube.com/shorts/sFb6AtxOMYo
+
+<br>
+![flywheel]({{ '/assets/images/shyam/flywheel.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 1: NUS 2024 UREX Dart team flywheel launcher</em>
+</p>
+
+
 This method uses two pairs of counter-rotating flywheels to grip and accelerate the projectile. Our own NUS 2024 predecessor team used this design, and our analysis identified a significant control challenge: achieving and maintaining **perfect RPM synchronization** across four independent motors is non-trivial. Any minor RPM mismatch introduces an asymmetric force, imparting an uncontrolled spin or yaw to the projectile and destroying accuracy.
 
-* Tension Spring & Compression Spring
+* **Tension Spring & Compression Spring**
+
+<br>
+![tension]({{ '/assets/images/shyam/tension.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 2: Tension Spring based launcher</em>
+</p>
+
+<br>
+![compression]({{ '/assets/images/shyam/compression.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 3: Compression Spring based launcher</em>
+</p>
 
 These systems store energy in large mechanical springs.
 **Compression springs** *push* the projectile from its base. This is dynamically unstable, as any off-axis force can cause the projectile to "fishtail" (yaw) during its travel on the rail. **Tension springs** *pull* the projectile from a sled, which is aerodynamically superior as it guarantees a stable, straight-line exit. However, both spring types were rejected due to **serviceability and mechanical flaws**. The large, centralized springs are difficult to access for replacement. Furthermore, their hook-and-ring attachment points introduce mechanical tolerances (slop) that can lead to inconsistent energy transfer.
 
-* Compressed Air (Pneumatic) Systems 
-images
+* **Compressed Air** (Pneumatic) Systems 
+<br>
+![air]({{ '/assets/images/shyam/air.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 4: Theoretical Compressed air based launcher</em>
+</p>
+
 Pneumatic systems offer high power but were deemed non-viable for two reasons. Firstly they require a near-perfect cylindrical projectile to form an effective pressure seal, which severely restricts the aerodynamic design freedom of our projectile. Secondly, the primary issue is transportation. Bringing high-pressure compressed air tanks to an overseas competition in China from Singapore presents significant customs and air-travel-regulation challenges.
+
+---
 
 ## 4. Our Team's Plan: A Novel Elastic Launcher Design 
 Based on the shortcomings of existing systems, our team developed an innovative propulsion system based on elastic energy.
@@ -48,12 +89,25 @@ Based on the shortcomings of existing systems, our team developed an innovative 
 # 4.1 Launching Method Justification
 The primary energy-storage medium chosen was **latex elastic bands** over mechanical springs. This decision was based on the superior **energy density** (energy-to-mass ratio) of latex. A metal spring capable of storing the required launch energy would be prohibitively heavy and bulky. Latex bands provide this same high-energy capacity at a fraction of the mass, enabling a lightweight and transportable launcher.
 
-images 
+<br>
+![air]({{ '/assets/images/shyam/air.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 5: Latex Tubes and Compound Bow launchers by Competitor teams, and Latex Exercise Bands by OUR Team</em>
+</p>
+
 
 This approach was validated as the 2025 competition saw the emergence of latex-tube and compound-bow launchers. Our design innovated on this by selecting commercially available, high-tensile **latex exercise bands**. This material is not only high-force but is also globally available and poses no transportation or customs issues.
 
 # 4.2. Mechanism of Action
-Insert Video
+
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/13IwM2ret3M?si=JKrDa7dKXEccvA6-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<p class="figure-caption" style="text-align:center;">
+Media 02: Our Own Launcher Prototype Design and Functionality 
+</p>
 
 Our launcher is an electro-mechanical system using a motor-driven leadscrew to actuate a carriage. This carriage integrates two key components: a high-precision **load cell** (force sensor) and a **solenoid lock** (release trigger).
 The automated release cycle begins when the solenoid latches onto the projectile sled. The motor then reverses, drawing the sled backward and stretching the elastic bands.
@@ -71,8 +125,13 @@ Our system pulls to a pre-set **force target** (e.g., 50 kgF). The motor draws t
 To develop a predictive mathematical model for the launcher, it was necessary to **experimentally characterize** the force-displacement relationship of the selected Decathlon exercise band. The manufacturer does not provide engineering specifications such as a spring constant (k) or Young's Modulus, making empirical testing necessary.
 This characterization was achieved by securing the band to a test rig equipped with a luggage scale. The band was drawn to fixed displacement intervals (draw lengths), and the corresponding elastic tension force was recorded. The resulting force-displacement data (Table [X]) forms the basis for all subsequent energy and trajectory calculations.
 
-
-table
+<br>
+![tabledart]({{ site.baseurl }}/assets/images/shyam/tabledart.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 6: Experimental Data Table for Latex Exercise Band.</em>
+</p>
 
 # 5.2. Mathematical Analysis
 
@@ -80,7 +139,13 @@ table
 To model the projectile's trajectory, several key parameters are defined. The projectile mass (m) is set to the competition limit of 350g (0.35 kg). The aerodynamic reference area($S. A_{projectile}$)  is defined as the frontal cross-sectional area. This value is calculated in Solidworks by summing the areas of all surfaces projected normal to the flight vector.
 The drag coefficient (CD) is a complex, non-linear function of shape, Reynolds Number (Re), and Angle of Attack (p). Given our low operational velocity of 25m/s (Mach < 0.3), the flow is treated as incompressible. Based on the streamlined shape of our "Hunter" prototype, a constant CD value of 0.35 is assumed as a standard approximation for this analysis. Both m, $S. A_{projectile}$ , and CD are treated as key input variables in the subsequent mathematical model.
 
-2 images
+<br>
+![surfacearea]({{ site.baseurl }}/assets/images/shyam/surfacearea.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 7: Frontal Surface Area of HUNTER Projectile.</em>
+</p>
 
 $m_{projectile} = 350g = 0.35kg$
 
@@ -104,7 +169,13 @@ $L$ = Length of projectile
 For this trajectory analysis, the 6-DOF problem is simplified to a 2-DOF point-mass model based on two key assumptions:
 Lift Coefficient (CL) is assumed to be Zero. Our "Glider" (P2) prototype proved that uncontrolled lift is catastrophic for accuracy. The "Hunter" (P7) is an axisymmetric, non-lifting body by design. We are therefore modeling a purely ballistic trajectory. Rotational Dynamics are Omitted. We are treating the projectile as a point mass, not a rigid body. This simplification is justified because the projectile's proven passive stability (CG forward of CP) keeps it aligned with the flight vector. Therefore, moments of inertia (Ixx, Iyy, Izz) are not relevant to this primary trajectory calculation.
 
-image
+<br>
+![launchermath]({{ site.baseurl }}/assets/images/shyam/launchermath.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 8: Simplified Illustration.</em>
+</p>
 
 ***Launcher Mathematics***
 **IF** the latex band's spring constant k was known, 
