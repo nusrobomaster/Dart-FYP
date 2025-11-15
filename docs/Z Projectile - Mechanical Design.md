@@ -460,6 +460,7 @@ Unlike the clean "Crossblade" (P3), the "X-WING" is aerodynamically "dirty." Eve
 
 </details>
 
+---
 
 ## V5 X-WING 2 (Active Dart) 
 *custom modification from Dalian University of Technology, open source design*
@@ -538,7 +539,7 @@ The DUT team confirmed the added complexity and mass were **not justified by per
 
 
 </details>
-
+---
 
 ## V6 TRIDENT (Active Dart) 
 
@@ -564,7 +565,7 @@ The DUT team confirmed the added complexity and mass were **not justified by per
 </div>
 
 <p class="figure-caption" style="text-align:center;">
-Figure XX: Video of Tridet Split-Up (New Segmented Design)
+Media 01: Video of Tridet Split-Up (New Segmented Design)
 </p>
 
 Prototype 6, "Trident," marks our critical pivot. Based on competitor data and the failures of P1-P5, we abandoned the flawed canard concept and adopted the correct philosophy: rear-fin active control.
@@ -577,6 +578,16 @@ This prototype was the first to integrate the full electronics payload and featu
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on TRIDENT </strong></summary>
 
 "Trident" was a conceptual breakthrough. By moving the control surfaces to the rear, we use "clean," undisturbed air, eliminating the canard-vortex interaction ("dirty air") that caused the roll instability in P4 and P5. However, the implementation of this new philosophy revealed two major categories of mechanical and structural flaws.
+
+<br>
+![xwingdrag]({{ site.baseurl }}/assets/images/shyam/tridentissues.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Trident Design Issues.</em>
+</p>
+
+
 
 ## 1. Mechanical Control System Failure
 The design used mid-body SG90 servos connected to the rear fins via long aluminum tie-rods. This linkage system introduced two critical, non-viable faults:
@@ -593,20 +604,16 @@ The design made two trade-offs for serviceability and weight that rendered the a
 
 The conclusion was absolute: a successful design required a **direct-drive system (servos at the fins) and a **rigid, structurally-sound body.**
 
-
-
 </details>
 
 
-
-
-
+---
 
 ## V7 HUNTER (Active Dart) 
 
 
 <br>
-![Glider Real]({{ '/assets/images/shyam/gliderreal.jpg' | relative_url }})
+![hunter Real]({{ '/assets/images/shyam/Hunterreal.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -614,7 +621,7 @@ The conclusion was absolute: a successful design required a **direct-drive syste
 </p>
 
 <br>
-![Glider CAD]({{ '/assets/images/shyam/glidercad.png' | relative_url }})
+![hunter CAD]({{ '/assets/images/shyam/huntercad.png' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -625,6 +632,13 @@ The conclusion was absolute: a successful design required a **direct-drive syste
 Prototype 7, "Hunter," is the final, optimized design that synthesizes all lessons from the previous six iterations. It directly solves the critical failures of "Trident" (P6) by replacing the flawed linkage system with a robust direct-drive servo system at the tail.
 Its key innovation is a structurally-integrated, interlocking carbon fiber (CF) wing assembly, which provides both aerodynamic stability and the primary structural rigidity for the entire airframe, eliminating the flex and fragility of P6. Combined with a multi-material body (TPU64D/PEBA) and a dedicated electronics chassis that guarantees stability, "Hunter" is our finalized, competition-ready projectile.
 
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eCNTes4OTjM?si=q-Hss8DO36VEV8yd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+<p class="figure-caption" style="text-align:center;">
+Media 02: Video of Hunter Split-Up (New Segmented Design)
+</p>
 
 <details markdown="1">
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on HUNTER </strong></summary>
