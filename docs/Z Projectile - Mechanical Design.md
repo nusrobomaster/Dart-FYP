@@ -65,18 +65,26 @@ We intentionally began with simple, passive prototypes. This was critical for us
 ### Iteration Path:
 
 * **Passive projectile design:**
-    * V1 (Thorn) → V3(Crossblade) ✅
+     V1 (Thorn) → V3(Crossblade) ✅
 * **Parallel investigation (Conceptual Detour):**
-    * V2 (Glider) ❌
+     V2 (Glider) ❌
 * **Active projectile design:**
-    * V4(Xwing) → V5(Xwing 2) → V6(Trident) → V7(Hunter) ✅
+     V4(Xwing) → V5(Xwing 2) → V6(Trident) → V7(Hunter) ✅
 
 
 
 <details markdown="1">
-<summary style="font-size: 1.5rem; font-weight: 450;"><strong> 2. Ground Rules </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450;"><strong> 2. Ground Rules </strong></summary>
 
 Certain ground rules were established before beginning on the projectile designs. Here are the full design considerations, prior to beginning any design. Along the way, many other considerations were made which will be further elaborated below each projectile design respectively. 
+
+<br>
+![projectile string test]({{ '/assets/images/shyam/stringtest.jpg' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 5: String Test to locate Center Of Pressure.</em>
+</p>
 
 
 * All projectile designs **SHALL NOT EXCEED 250mm x 250mm x 250mm**
@@ -91,15 +99,15 @@ Second would be the **pressure distribution in the case of crosswinds**, which i
 </details>
 
 <details markdown="1">
-<summary style="font-size: 1.5rem; font-weight: 450;"><strong> 3. Center of Gravity vs Center of Pressure Analysis </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450;"><strong> 3. Center of Gravity vs Center of Pressure Analysis </strong></summary>
 
-A baseline requirement for all projectile prototypes is passive static stability. This is achieved when the aerodynamic Center of Pressure (CP) is located behind the mass-based Center of Gravity (CG). This arrangement creates a "weather vane" effect, which is essential for a stable, predictable flight.
-A two-step validation process will be applied to each of the seven design iterations to verify this condition.
-The CG location for each prototype will be determined using a dual-method approach for accuracy:
 
-The 3D-CAD model in Solidworks will be used to calculate the theoretical CG based on the specified material densities of all components. The calculation will then be physically validated by fabricating the prototype and performing a practical suspension (or "string test") to find its precise real-world balance point.
-While the precise location of the CP is complex to derive analytically, a qualitative test will be performed on each prototype to confirm its inherent static stability. This test involves suspending the projectile from a string in front of a high-speed fan.
-A successful validation occurs when the projectile immediately and stably orients itself into the wind and does not tumble. This behavior serves as a practical confirmation that the design possesses a positive static margin and that the CP is, as required, located behind the CG.
+
+Passive static stability (Center of Pressure behind Center of Gravity) is a non-negotiable requirement for a predictable flight. This arrangement creates a "weather vane" effect, which is essential for a stable, predictable flight. We applied a two-part validation **to each and every prototype.**
+
+* 1. Center of Gravity (CG) Determination: The CG was first calculated in Solidworks based on material densities. This theoretical value was then physically verified by fabricating the prototype and performing a suspension "string test" to find the real-world balance point.
+
+* 2. Static Stability (CP vs. CG) Validation: A qualitative "fan test" was performed to confirm a positive static margin. Each prototype was suspended in front of a high-speed fan. A successful validation occurred when the projectile stably oriented itself into the wind, confirming the CP was correctly located behind the CG.
 
 
 
