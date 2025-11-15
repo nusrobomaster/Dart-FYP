@@ -19,7 +19,7 @@ The launcher is the sub-system responsible for imparting the required initial ve
 picture
 
 <br>
-![projectile string test](/assets/images/shyam/stringtest.jpg)
+![projectile string test](assets/images/shyam/stringtest.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">

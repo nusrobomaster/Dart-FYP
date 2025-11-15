@@ -134,6 +134,10 @@ These axes are **decoupled**. When we command a "pitch up," we don't cause a yaw
 
 ## 5. Projectile Design
 
+
+## V2 GLIDER (Parallel Investigation)
+
+
 <br>
 ![Glider Real]({{ '/assets/images/shyam/gliderreal.jpg' | relative_url }})
 {: .text-center}
@@ -150,8 +154,6 @@ These axes are **decoupled**. When we command a "pitch up," we don't cause a yaw
 <em>Figure 7: 3D design of GLIDER.</em>
 </p>
 
-
-## V2 GLIDER (Parallel Investigation)
 
 As part of our first-principles methodology, we also investigated a radical alternative: the "Glider." This prototype was **not an iteration**, but a parallel test of a complex, UAV-like concept using a blended-wing-body and vectored thrust. The hypothesis was that we could actively "fly" the projectile to the target.
 This investigation was a critical failure that provided immense value. CFD analysis revealed two fatal flaws. First, the design generated massive uncontrolled lift. This is catastrophic for a ballistic projectile, as it makes the trajectory unpredictable and impossible to aim. Second, this lift created enormous induced drag, in addition to the high base drag from its ducted-fan exit.
@@ -179,6 +181,23 @@ Where b is the wingspan and e is an efficiency factor. This shows that our high-
 
 
 ## V1 THORN
+
+<br>
+![Thorn Real]({{ '/assets/images/shyam/thornreal.jpg' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 8: 3D printed scale model of THORN</em>
+</p>
+
+<br>
+![Thorn CAD]({{ '/assets/images/shyam/thorncad.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 9: 3D design of THORN.</em>
+</p>
+
 
 Prototype 1, "Thorn," was our baseline. A simple, passively-stable ballistic dart projectile. The goal was to establish a "control group"—the most basic, robust design to benchmark stability and manufacturing. Its cruciform ("+") fin configuration proved to be perfectly stable, as confirmed by CFD, which showed the fins correctly generated restoring forces to cancel out roll.
 However, the CFD also revealed a fatal, high-impact flaw: critically high drag. The combination of a non-aerodynamic square body and a blunt, flat base created a massive, turbulent wake. This resulted in an exceptionally high drag coefficient (CD) that would demand immense launch energy and make the trajectory highly unpredictable.
