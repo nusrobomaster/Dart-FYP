@@ -174,7 +174,7 @@ Lift Coefficient (CL) is assumed to be Zero. Our "Glider" (P2) prototype proved 
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 8: Simplified Illustration.</em>
+<em>Figure 8: Simplified Illustration of Projectile Motion.</em>
 </p>
 
 ***Launcher Mathematics***
@@ -464,22 +464,45 @@ To find PEAK TORQUE $T_{max} = \frac{F_{max} \cdot P}{2 \cdot \pi \cdot \eta} = 
 ## 6. Prototype and Results 
 
 The novel "force-based" elastic launcher concept required a low-cost, physical prototype to validate its feasibility. Our mathematical model confirmed that the final design would require a high-torque motor and a high-pitch leadscrew, both of which are high-cost components.
-https://www.igus.sg/product/drylin_SD_DST_LS_R_ES?artnr=DST-LS-18X100-R-ES
-https://www.foxtechrobotics.com/damiao-j8009p-2ec-mit-driven-brushless-servo-joint-motor
-To preserve the project's limited budget ($3200) for the final, flight-ready hardware, this initial prototype was fabricated entirely from on-hand scrap materials and spare workshop parts, bringing the prototype's material cost to $0.
 
-pics
+*https://www.igus.sg/product/drylin_SD_DST_LS_R_ES?artnr=DST-LS-18X100-R-ES*
+*https://www.foxtechrobotics.com/damiao-j8009p-2ec-mit-driven-brushless-servo-joint-motor*
+
+To preserve the project's limited budget ($3200) for the final, flight-ready hardware, this initial prototype was fabricated entirely from on-hand scrap materials and spare workshop parts, bringing the prototype's material cost to **$0.**
+
+<br>
+![launchvalid]({{ '/assets/images/shyam/launchvalid.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 9: Launcher Testing at EA</em>
+</p>
+
 
 The objective was to validate the core "force-based" release concept, observe the projectile's release characteristics to ensure a "clean" separation from the sled, and identify any immediate, unforeseen mechanical failures or abnormal behaviors in the elastic system.
 
 Embedded Video of launcher
 
-pics
+<br>
+![launchvalid2]({{ '/assets/images/shyam/launchvalid2.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 10: Launch Results</em>
+</p>
+
 
 Initial tests of the prototype were highly successful. A 23 kgF (225.6 N) launch force propelled the "Crossblade" projectile to a distance of 20 meters.Two critical observations were made, firstly the projectile's trajectory was stable and linear, with no visible roll. Secondly the projectile maintained a consistent nose-forward "dipping" arc throughout its flight. The projectile had no issues when releasing from the 3D printed “sled”. These results confirmed that the elastic band concept is a promising and viable solution for this project.
 
 
-pics
+<br>
+![launchvalid3]({{ '/assets/images/shyam/launchvalid3.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 11: Launcher "Sled", handle and aluminium carrier damage</em>
+</p>
+
 
 The tests revealed a critical design oversight, which is the lack of a deceleration system for the launch sled.
 After releasing the projectile, the sled continued at full velocity and impacted the launcher's front plate. This high-g dead stop impact resulted in the 3D-printed sled to shear and completely be destroyed .Secondly the scrap-aluminum carrier, which held the sled, was visibly deforming and buckling under the high tensile force of the 23 kgF.
