@@ -122,18 +122,22 @@ inspiration : https://www.youtube.com/watch?v=jikEHfFwBd8
 
 
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> 4. 2 wings vs 3 wings vs 4 wings Analysis </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450;"><strong> 4. TWO wings vs THREE wings vs FOUR wings Analysis </strong></summary>
 
-The selection of a four-fin "X" configuration over a two- or three-fin layout was a critical design choice driven by the demands of an active control system.
-A two-fin, plane-like configuration (as explored in Prototype 2 "Glider") was fundamentally unsuitable. This design generates significant, uncontrolled aerodynamic lift, which destroys the predictable ballistic trajectory required for a 100mm target. Furthermore, it possesses no passive yaw stability, making it aerodynamically unstable as a projectile.
-A three-fin "Y" configuration, while passively stable, was rejected due to control complexity. For an active system, a three-fin layout creates a **coupled control problem**. A pure "pitch" or "yaw" command cannot be executed by a single pair of fins. Instead, a complex **"control mixing" algorithm** is required to calculate the correct deflection angle for all three servos simultaneously. This adds unnecessary computational overhead and tuning difficulty.
-To pitch straight up, you might only use the one bottom fin. To yaw left, you have to move both the top-left and top-right fins in a complex ratio.This is called **coupled control**. To move in any direction, we would have to run a "control mixing" algorithm that calculates the correct angle for all three fins. This is more complex, harder to tune, and can lead to unexpected cross-coupling effects.
-With a **3-fin system**, a pure pitch-up maneuver relies on **only one fin** (the bottom one). This puts the entire load onto that single fin and servo, requiring it to be stronger (and likely heavier) to produce the same control force.
+<br>
+![gliderpressure1]({{ site.baseurl }}/assets/images/shyam/2fin.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+</p>
 
-The four-fin "X" configuration was chosen because it provides a robust, **decoupled control system**. This layout provides two independent control axes:
-With a **4-fin system**, any pitch or yaw command is handled by **two fins** working together. This distributes the aerodynamic load and the work across two servos, making the system more robust and responsive.
-These axes are **decoupled**. When we command a "pitch up," we don't cause a yaw. This makes the control logic **dramatically simpler**. We can run two separate, simple PID controllers: one for pitch, one for yaw. It also distributes the aerodynamic load for any maneuver across two servos, increasing system responsiveness and robustness.
+The selection of a 4-fin "X" configuration over 2- or 3-fin layouts was a critical choice driven by the demands of our active control system.
 
+**2-Fin Rejection:** A two-fin, plane-like configuration ("Glider") was fundamentally unsuitable. It generates significant uncontrolled lift, which destroys the predictable ballistic trajectory, and it lacks the passive yaw stability required for a projectile.
+
+**3-Fin Rejection:** A three-fin "Y" configuration, while passively stable, was rejected due to control complexity. It creates a coupled control problem, where any pure pitch or yaw maneuver requires a complex "control mixing" algorithm to coordinate all three servos. This is difficult to tune and places the entire aerodynamic load for some maneuvers onto a single servo, requiring heavier hardware.
+
+**4-Fin Selection:** The 4-fin "X" layout was chosen because it provides a robust, decoupled control system. This configuration creates two independent axes for pitch and yaw, allowing for simple, independent PID controllers. Critically, this design distributes the aerodynamic load for any maneuver across two servos, increasing system responsiveness and robustness.
 
 </details>
 
@@ -164,9 +168,15 @@ These axes are **decoupled**. When we command a "pitch up," we don't cause a yaw
 </p>
 
 
-As part of our first-principles methodology, we also investigated a radical alternative: the "Glider." This prototype was **not an iteration**, but a parallel test of a complex, UAV-like concept using a blended-wing-body and vectored thrust. The hypothesis was that we could actively "fly" the projectile to the target.
-This investigation was a critical failure that provided immense value. CFD analysis revealed two fatal flaws. First, the design generated massive uncontrolled lift. This is catastrophic for a ballistic projectile, as it makes the trajectory unpredictable and impossible to aim. Second, this lift created enormous induced drag, in addition to the high base drag from its ducted-fan exit.
-"Glider" was a conceptual dead end. It was heavy, complex, and its core "gliding" feature was the very thing that made it unusable. It provided definitive proof that an "over-engineered" approach was wrong and that our project must rely on a non-lifting, low-drag projectile configuration.
+As part of our first-principles methodology, we conducted a parallel investigation with the "Glider" prototype. This complex, UAV-like concept used a blended-wing-body and vectored thrust to test the hypothesis of actively "flying" the projectile to the target.
+
+The investigation was a critical failure that provided immense value. CFD analysis revealed two fatal flaws:
+
+**Uncontrolled Lift**: The design generated massive passive lift, which is catastrophic for a ballistic projectile as it makes the trajectory unpredictable and un-aimable.
+
+**Excessive Drag**: This lift, in turn, created enormous induced drag, in addition to high base drag from the ducted-fan exit.
+
+"Glider" was a conceptual dead end. It was heavy, complex, and its core "gliding" feature made it unusable. This test provided definitive proof that an "over-engineered" approach was wrong and that our project must rely on a non-lifting, low-drag projectile configuration.
 
 
 <details markdown="1">

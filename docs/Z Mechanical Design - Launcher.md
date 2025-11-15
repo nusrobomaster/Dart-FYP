@@ -70,7 +70,9 @@ This method uses two pairs of counter-rotating flywheels to grip and accelerate 
 These systems store energy in large mechanical springs.
 **Compression springs** *push* the projectile from its base. This is dynamically unstable, as any off-axis force can cause the projectile to "fishtail" (yaw) during its travel on the rail. **Tension springs** *pull* the projectile from a sled, which is aerodynamically superior as it guarantees a stable, straight-line exit. However, both spring types were rejected due to **serviceability and mechanical flaws**. The large, centralized springs are difficult to access for replacement. Furthermore, their hook-and-ring attachment points introduce mechanical tolerances (slop) that can lead to inconsistent energy transfer.
 
+
 * **Compressed Air** (Pneumatic) Systems 
+
 <br>
 ![air]({{ '/assets/images/shyam/air.png' | relative_url }})
 {: .text-center}
