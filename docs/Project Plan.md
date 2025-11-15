@@ -4,10 +4,11 @@ nav_order: 4
 layout: default
 permalink: /project_plan
 ---
+
 # Project Plan
 
 <br>
-![gantt chart](/assets/images/jianwen/Project_plan-gantt.jpg)
+![gantt chart]({{ '/assets/images/jianwen/Project_plan-gantt.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
