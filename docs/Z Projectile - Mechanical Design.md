@@ -214,6 +214,7 @@ Where b is the wingspan and e is an efficiency factor. This shows that our high-
 
 </details>
 
+---
 
 ## V1 THORN
 
@@ -241,6 +242,14 @@ However, the CFD also revealed a fatal, high-impact flaw: critically high drag. 
 <details markdown="1">
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on THORN </strong></summary>
 
+<br>
+![thorndrag]({{ site.baseurl }}/assets/images/shyam/thorndrag.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 11: Cut Plot (Velocity Drag) on THORN.</em>
+</p>
+
 The "Thorn" prototype failed due to its high aerodynamic drag. Total drag (D) is the force that opposes the projectile's motion, and for a non-lifting body, it is dominated by parasitic drag ( DP). This is calculated using the master drag equation:
 
 $$D = \frac{1}{2} \rho v^2 C_D A$$
@@ -261,12 +270,44 @@ This was the **dominant and critical failure** of "Thorn." Form drag is caused b
 * **Square Cross-Section**: The drag was severely worsened by the **square body**. Unlike a streamlined cylinder, the air flowing over the four sharp corners also separates, creating **asymmetric vortex shedding**. This not only adds to the drag but also creates unstable side-forces that would make the projectile's path erratic.
 In summary, "Thorn's" high CD was a direct result of a shape that maximized form drag. It was rejected because its design actively promoted flow separation, creating a massive low-pressure wake that would make it unusable.
 
+<br>
+![gliderdrag]({{ site.baseurl }}/assets/images/shyam/thornwind.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 12: Surface Plot (pressure) on THORN.</em>
+</p>
+<br>
+![gliderdrag]({{ site.baseurl }}/assets/images/shyam/thornpressure2.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Surface Plot (pressure) on THORN.</em>
+</p>
 
 
 </details>
 
+---
 
 ## V3 CROSSBLADE
+
+<br>
+![Crossblade real]({{ '/assets/images/shyam/crossbladereal.jpg' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 6: 3D printed scale model of CROSSBLADE</em>
+</p>
+
+<br>
+![Crossblade CAD]({{ '/assets/images/shyam/crossbladecad.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 7: 3D design of CROSSBLADE.</em>
+</p>
+
 
 "Crossblade" was our direct response to the failures of "Thorn." We applied the key lesson—that body shape is the dominant factor in drag—and replaced "Thorn's" unpredictable square body with a **streamlined, faceted-cylindrical fuselage.** We also transitioned from a "+" fin to an **"X" fin configuration**, not for stability (as both are stable), but for the practical advantages of **ground clearance** and better launch-rail integration.
 CFD analysis confirmed this was a massive success. The airflow was clean, attached, and the chaotic drag from "Thorn" was eliminated. "Crossblade" was a **successful and viable passive dart.**
@@ -277,6 +318,16 @@ Its very success was its one limitation: as a passive projectile, it had no way 
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on CROSSBLADE </strong></summary>
 
 The "Crossblade" prototype was designed to solve the two primary drag problems identified in ***"Thorn"***, which was **form drag** and **base drag**.
+
+<br>
+![crossbladedrag]({{ site.baseurl }}/assets/images/shyam/crossbladedrag.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 12: Surface Plot (pressure) on THORN.</em>
+</p>
+
+
 
 
 ## Form Drag Reduction (Body Shape)
@@ -290,10 +341,24 @@ The second flaw in "Thorn" was its **high base drag** from a blunt, flat rear. T
 The taper allows the airflow to **converge gradually** behind the projectile, keeping the flow "attached" for longer. This dramatically **reduces the size of the turbulent wake**. A smaller wake means the pressure at the base is higher (less suction). This reduced pressure differential between the front and back of the projectile results in a **significant reduction in base drag**.
 This prototype was not, however, without new trade-offs. The design introduced two **mid-body sled guides** ("handles"). These are a necessary mechanical interface for the launcher but also create a new, albeit smaller, source of **parasitic drag**. This was deemed an acceptable engineering compromise.
 
+<br>
+![tpucrossblade]({{ site.baseurl }}/assets/images/shyam/tpucrossblade.jpg)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Surface Plot (pressure) on THORN.</em>
+</p>
 
 While the "Crossblade" prototype proved a viable solution for a static (Level 1) target, the competition's advanced tiers introduce dynamic challenges. The following embedded videos illustrate the "Level 2" and "Level 3" targets, which move in complex, non-predictable patterns.
 This requirement for **in-flight target interception** is the primary justification for progressing beyond a simple passive dart. A passive projectile's trajectory is fixed upon launch, making it incapable of hitting a target that has moved from its original position. Therefore, an **active projectile** with a guidance system and control surfaces is a fundamental necessity for success.
 
+<br>
+![crossblade pressure]({{ site.baseurl }}/assets/images/shyam/crossbladepressure.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 13: Surface Plot (pressure) on THORN.</em>
+</p>
 
 
 </details>
@@ -302,6 +367,24 @@ This requirement for **in-flight target interception** is the primary justificat
 
 ## V4 X-WING (Active Dart) 
 *credit : Dalian University of Technology, open source design*
+
+
+<br>
+![Glider Real]({{ '/assets/images/shyam/gliderreal.jpg' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 6: 3D printed scale model of GLIDER</em>
+</p>
+
+<br>
+![Glider CAD]({{ '/assets/images/shyam/glidercad.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 7: 3D design of GLIDER.</em>
+</p>
+
 
 Having mastered a passive dart, we next investigated the "active control" meta by analyzing an open-source competitor design: the "X-WING." This prototype added **three forward canards** and an internal ducted fan. Our analysis proved this popular concept to be a **"technical trap."**
 CFD confirmed **massive parasitic drag** from all the exposed hinges and ducts. More critically, the 1-second flight time renders the fan **"dead weight"**, as it can't spin up. The fatal flaw, however, was **canard-vortex interaction**: the front canards shed "dirty air" that caused a severe, uncommanded **roll instability** at the tail. "X-WING" was a crucial failure that taught us to reject canard-based designs entirely.
@@ -350,6 +433,24 @@ Unlike the clean "Crossblade" (P3), the "X-WING" is aerodynamically "dirty." Eve
 ## V5 X-WING 2 (Active Dart) 
 *custom modification from Dalian University of Technology, open source design*
 
+
+<br>
+![Glider Real]({{ '/assets/images/shyam/gliderreal.jpg' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 6: 3D printed scale model of GLIDER</em>
+</p>
+
+<br>
+![Glider CAD]({{ '/assets/images/shyam/glidercad.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 7: 3D design of GLIDER.</em>
+</p>
+
+
 Prototype 5 was a final attempt to salvage the canard concept from "X-WING" (P4). We correctly identified a major structural flaw—body flex—and added a carbon fiber "spine" to create a rigid airframe. However, our aerodynamic "fix" (a 3-canard layout) failed to solve the core canard-vortex instability.
 This prototype was the definitive "dead end." It taught us a crucial lesson, which was confirmed by external data from top teams: the entire canard-and-fan concept is overly complex, fragile, and aerodynamically flawed. This prototype was the final justification for abandoning canards entirely and pivoting to a simpler, more robust rear-fin control system.
 
@@ -384,6 +485,24 @@ Add 3 media 2025 results.
 
 
 ## V6 TRIDENT (Active Dart) 
+
+
+<br>
+![Glider Real]({{ '/assets/images/shyam/gliderreal.jpg' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 6: 3D printed scale model of GLIDER</em>
+</p>
+
+<br>
+![Glider CAD]({{ '/assets/images/shyam/glidercad.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 7: 3D design of GLIDER.</em>
+</p>
+
 
 Prototype 6, "Trident," marks our critical pivot. Based on competitor data and the failures of P1-P5, we abandoned the flawed canard concept and adopted the correct philosophy: rear-fin active control.
 This prototype was the first to integrate the full electronics payload and featured an innovative modular "cassette" design for fast serviceability. However, this "proof-of-concept" was a mechanical failure. The long tie-rod linkages (from mid-body servos) created severe control slop and aerodynamic flutter. Furthermore, large servo cutouts and a "zip-tie" assembly method made the airframe fatally fragile and flexible.
@@ -421,6 +540,24 @@ The conclusion was absolute: a successful design required a **direct-drive syste
 
 
 ## V7 HUNTER (Active Dart) 
+
+
+<br>
+![Glider Real]({{ '/assets/images/shyam/gliderreal.jpg' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 6: 3D printed scale model of GLIDER</em>
+</p>
+
+<br>
+![Glider CAD]({{ '/assets/images/shyam/glidercad.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Figure 7: 3D design of GLIDER.</em>
+</p>
+
 
 Prototype 7, "Hunter," is the final, optimized design that synthesizes all lessons from the previous six iterations. It directly solves the critical failures of "Trident" (P6) by replacing the flawed linkage system with a robust direct-drive servo system at the tail.
 Its key innovation is a structurally-integrated, interlocking carbon fiber (CF) wing assembly, which provides both aerodynamic stability and the primary structural rigidity for the entire airframe, eliminating the flex and fragility of P6. Combined with a multi-material body (TPU64D/PEBA) and a dedicated electronics chassis that guarantees stability, "Hunter" is our finalized, competition-ready projectile.
