@@ -172,7 +172,8 @@ Table 7.6: GUI Library Comparison
 Based on the selection criteria, it was a close decision between LVGL and TouchGFX. LVGL being very flexible and TouchGFX optimise for stm32 chips hardware. With the given STM32F4,  the advantage that touchGFX has in stm32 chips could not be used. This is coupled with the desire of more flexibility in visual design that LVGL offers. Hence,  **LVGL** was chosen as the GUI library.
 
 <br>
-#### 7.2.4 Module Testing and Code Development
+
+### 7.2.4 Module Testing and Code Development
 
 After selecting the required components, each part was implemented separately and tested with dedicated code to verify correct operation before system integration.
 
@@ -195,17 +196,18 @@ Table 7.7: Touch Screen Comparison
 
 ---
 
-## 7.3 First Critical function prototype
+## 7.3 Implementation of designed functional prototype
 
-
-
+### 7.3.1 First Critical Function Prototype
 ![Critical_function_prototype]({{ "/assets/images/barry/Critical_function_prototype.jpg" | relative_url }})
 <p class="figure-caption" style="text-align:center;">
 Figure XX: Critical Function Prototype
 </p>
 
 
-## Current electrical architecture
+
+
+### 7.3.2 Current electrical architecture
 
 <div style="text-align:center;">
   <img src="{{ '/assets/images/barry/Segmented_power_diagram.png' | relative_url }}" style="width:60%;" />
@@ -219,7 +221,7 @@ Figure XX: Critical Function Prototype
 
 ---
 
-## Current software architecture
+### 7.3.3 Current software architecture
 
 <div style="text-align:center;">
   <img src="{{ '/assets/images/barry/Data_flow_diagram.jpg' | relative_url }}" style="width:60%;" />
