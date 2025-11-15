@@ -4,6 +4,12 @@ theme: just-the-docs
 
 math: "mathjax"
 
+exclude:
+  - docs/Dart Robot Subsystems.md
+  - docs/Dart Robot - Launcher.md
+  - docs/Dart Robot - Pitch Subsystem.md
+  - docs/Dart Robot - Yaw Subsystem.md
+
 plugins:
   - jekyll-redirect-from
 

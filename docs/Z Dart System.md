@@ -7,10 +7,10 @@ permalink: /dart-system
 has_toc: false
 ---
 
-<!-- Optional intro text -->
-This section describes  
-1) the projectile and dart robot subsystems that make up the Dart System.  
-2) Manpower Allocation.
+<!-- intro text -->
+# The Team
+
+Below is the breakdown of responsibilities for each subsystem.
 
 <div class="team-grid">
 
