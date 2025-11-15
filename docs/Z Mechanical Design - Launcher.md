@@ -136,8 +136,8 @@ This characterization was achieved by securing the band to a test rig equipped w
 # 5.2. Mathematical Analysis
 
 ***Projectile and Environmental Variables***
-To model the projectile's trajectory, several key parameters are defined. The projectile mass (m) is set to the competition limit of 350g (0.35 kg). The aerodynamic reference area(S. A_{projectile})  is defined as the frontal cross-sectional area. This value is calculated in Solidworks by summing the areas of all surfaces projected normal to the flight vector.
-The drag coefficient (CD) is a complex, non-linear function of shape, Reynolds Number (Re), and Angle of Attack (p). Given our low operational velocity of 25m/s (Mach < 0.3), the flow is treated as incompressible. Based on the streamlined shape of our "Hunter" prototype, a constant CD value of 0.35 is assumed as a standard approximation for this analysis. Both m, (S. A_{projectile}) , and CD are treated as key input variables in the subsequent mathematical model.
+To model the projectile's trajectory, several key parameters are defined. The projectile mass (m) is set to the competition limit of 350g (0.35 kg). The aerodynamic reference area($$S. A_{projectile}$$)  is defined as the frontal cross-sectional area. This value is calculated in Solidworks by summing the areas of all surfaces projected normal to the flight vector.
+The drag coefficient (CD) is a complex, non-linear function of shape, Reynolds Number (Re), and Angle of Attack (p). Given our low operational velocity of 25m/s (Mach < 0.3), the flow is treated as incompressible. Based on the streamlined shape of our "Hunter" prototype, a constant CD value of 0.35 is assumed as a standard approximation for this analysis. Both m, ($$S. A_{projectile}$$) , and CD are treated as key input variables in the subsequent mathematical model.
 
 <br>
 ![surfacearea]({{ site.baseurl }}/assets/images/shyam/surfacearea.png)
@@ -151,19 +151,19 @@ $$m_{projectile} = 350g = 0.35kg$$
 
 $$S.A_{projectile} = 2459.47mm^2 = 0.00245947m^2$$
 
-Drag Coefficient $C_D = 0.35$
+Drag Coefficient $$C_D = 0.35$$
 
-Density of Air $\rho = 1.225kg/m^3$
+Density of Air $$\rho = 1.225kg/m^3$$
 
-Gravitational Force $g = 9.81m/s^2$
+Gravitational Force $$g = 9.81m/s^2$$
 
-Dynamic Viscosity $\mu = 1.81 \times 10^{-5} Pa$
+Dynamic Viscosity $$\mu = 1.81 \times 10^{-5} Pa$$
 
-Reynolds Number $Re = \frac{\rho v L}{\mu}$
+Reynolds Number $$Re = \frac{\rho v L}{\mu}$$
 
-whereby $v$ = velocity of projectile
+whereby $$v$$ = velocity of projectile
 
-$L$ = Length of projectile
+$$L$$ = Length of projectile
 
 
 For this trajectory analysis, the 6-DOF problem is simplified to a 2-DOF point-mass model based on two key assumptions:
