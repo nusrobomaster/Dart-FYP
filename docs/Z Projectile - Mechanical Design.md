@@ -271,7 +271,7 @@ This was the **dominant and critical failure** of "Thorn." Form drag is caused b
 In summary, "Thorn's" high CD was a direct result of a shape that maximized form drag. It was rejected because its design actively promoted flow separation, creating a massive low-pressure wake that would make it unusable.
 
 <br>
-![gliderdrag]({{ site.baseurl }}/assets/images/shyam/thornwind.png)
+![gliderdrag]({{ site.baseurl }}/assets/images/shyam/thornwind.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -395,7 +395,7 @@ CFD confirmed **massive parasitic drag** from all the exposed hinges and ducts. 
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on XWing </strong></summary>
 
 <br>
-![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwingdrag.jpg)
+![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwingdrag.png)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -403,7 +403,7 @@ CFD confirmed **massive parasitic drag** from all the exposed hinges and ducts. 
 </p>
 
 <br>
-![xwingpressure]({{ site.baseurl }}/assets/images/shyam/xwingpressure.jpg)
+![xwingpressure]({{ site.baseurl }}/assets/images/shyam/xwingpressure.png)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -474,7 +474,7 @@ Unlike the clean "Crossblade" (P3), the "X-WING" is aerodynamically "dirty." Eve
 </p>
 
 <br>
-![XWing2 CAD]({{ '/assets/images/shyam/xwing2.png' | relative_url }})
+![XWing2 CAD]({{ '/assets/images/shyam/xwing2cad.png' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -490,7 +490,7 @@ This prototype was the definitive "dead end." It taught us a crucial lesson, whi
 <summary style="font-size: 1.5rem; font-weight: 450;"><strong> In-Depth Analysis on XWing 2 </strong></summary>
 
 <br>
-![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwing2drag.jpg)
+![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwing2drag.png)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -499,7 +499,7 @@ This prototype was the definitive "dead end." It taught us a crucial lesson, whi
 
 
 <br>
-![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwing2pressure.jpg)
+![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwing2pressure.png)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
@@ -544,26 +544,33 @@ The DUT team confirmed the added complexity and mass were **not justified by per
 
 
 <br>
-![Glider Real]({{ '/assets/images/shyam/gliderreal.jpg' | relative_url }})
+![tridet Real]({{ '/assets/images/shyam/Tridentreal.jpg' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 6: 3D printed scale model of GLIDER</em>
+<em>Figure 6: 3D printed scale model of TRIDENT</em>
 </p>
 
 <br>
-![Glider CAD]({{ '/assets/images/shyam/glidercad.png' | relative_url }})
+![trident CAD]({{ '/assets/images/shyam/tridentcad.png' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 7: 3D design of GLIDER.</em>
+<em>Figure 7: 3D design of TRIDENT.</em>
 </p>
 
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=RYEWWLrXpE4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+<p class="figure-caption" style="text-align:center;">
+Figure XX: Video of User Journey
+</p>
 
 Prototype 6, "Trident," marks our critical pivot. Based on competitor data and the failures of P1-P5, we abandoned the flawed canard concept and adopted the correct philosophy: rear-fin active control.
 This prototype was the first to integrate the full electronics payload and featured an innovative modular "cassette" design for fast serviceability. However, this "proof-of-concept" was a mechanical failure. The long tie-rod linkages (from mid-body servos) created severe control slop and aerodynamic flutter. Furthermore, large servo cutouts and a "zip-tie" assembly method made the airframe fatally fragile and flexible.
 "Trident" was a success in one way: it proved our philosophy was right, but our execution was wrong. It taught us the final, critical lesson: the control system must be direct-drive and the airframe must be structurally rigid.
-Embed video of splitting up
+
 
 
 <details markdown="1">
