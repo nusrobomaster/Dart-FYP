@@ -13,6 +13,15 @@ Two iterations are planned:
 2. Second iteration: a close replica of the competition base for realistic testing.
 
 As the official base cannot be purchased, an in-house version will be built to support testing of both the launcher and projectile subsystems. Both versions will also be used by the Calibur Robotics team for practice.
+
+## Base: Design Specifications
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Base/Base_Design_Specificcations_Table.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Table 8-1: Base_Design_Specificcations_Table</em></p>
+
 ## Base: Passive structure
 First iteration will include the competition’s essential base components. It will be built quickly as a reliable target for the dart robot and projectile, and for other NUS Calibur Robotics robots.
 ### Design process: Structure
@@ -95,4 +104,36 @@ A dummy dart projectile of the required weight was thrown at the structure five 
 The next phase involves designing and fabricating the second base iteration with added components to better simulate competition conditions. These include motorized linear motion for target randomization, movable guard panels for the lower plate, and an ESP32 web server for remote control via user devices.
 
 Below are the tentative Signal and Power diagrams for the Base.
-<!-- VJ add your stuff here <-->
+
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Base/Tentative_Base_Signal_Diagram.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Figure 8-8 : Tentative Segmented Base Signal Diagram</em></p>
+<br>
+
+The ESP32 is set to act as an access point that other devices can connect to. Users can connect to the Web Server via their Laptops/Phones via the webserver IP address and then control the state of the base components. 
+
+The motor driver is to control the linear motion of the armour module & light, Relay 1 and 2  is to turn on/off the fans and the light respectively.
+
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Base/Tentative Base Power_Diagram_Segmented.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Figure 8-9 : Tentative Segmented Base Power Diagram</em></p>
+<br>
+
+A 24V battery similar to the ones used throughout Calibur Robotics is used as the main power source. 
+It supplies the Guiding Light and the motor and is stepped down to power an ESP32, relays and the fans. 
+
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Base/Tentative_Wire_Frame_of_ESP32_WebServer.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Figure 8-10 : Tentative Wire Frame of ESP32 WebServer</em></p>
+<br>
+
+The above wireframe shows the UI on the user device.

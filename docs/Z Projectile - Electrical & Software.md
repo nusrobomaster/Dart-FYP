@@ -34,6 +34,16 @@ This section focuses on the electrical and software systems inside the projectil
   </thead>
   <tbody>
     <tr>
+      <td>Maximum Battery Voltage</td>
+      <td>8.4V</td>
+      <td>Competition Requirement</td>
+    </tr>
+    <tr>
+      <td>Maximum Battery capacity</td>
+      <td>4Wh</td>
+      <td>Competition Requirement</td>
+    </tr>
+    <tr>
       <td>Battery capacity &amp; C-rating</td>
       <td>Must supply at least 8A continuous</td>
       <td>Supports all components under peak load with margin</td>
@@ -102,7 +112,7 @@ The Dart Trigger is an official RMOC competition module. It activates and emits 
 
 OpenMV boards are selected because they let you view camera footage directly from the SD card by connecting through USB. This avoids flashing different scripts or running a webserver, which would consume compute resources. It also speeds up debugging and testing, which is important during competition when time and manpower are limited.
 
-The OpenMV RT1062 is chosen over the N6 even though it has lower compute performance. The RT1062 supports up to six hardware PWM outputs, which gives room for future projectile designs that may require up to six fins.
+The **OpenMV RT1062** is chosen over the N6 even though it has lower compute performance. The RT1062 supports up to six hardware PWM outputs, which gives room for future projectile designs that may require up to six fins.
 
 *(See Appendix XX for the Design Considerations for Board Selection.)*
 
@@ -115,7 +125,7 @@ The OpenMV RT1062 is chosen over the N6 even though it has lower compute perform
 {: .text-center}
 <p align="center" class="small-text"><em>Table 3-3: Servo Selection Table</em></p>
 
-Blue Arrow is chosen as it is the lightest, smallest and fastest while being at a reasonable price point and also meeting torque requirements 
+**Blue Arrow** is chosen because it is the lightest, smallest, and fastest option. It also meets the required torque while staying within a reasonable price range.
 (See Appendix XX for torque calculations). 
 
 After testing if a higher torque servo is required, the KST and BlueArrow have similar servos at higher torque but with a slightly bigger form factor and reduced speed.
@@ -145,6 +155,12 @@ The battery can safely support 7 launches. (see below for calculation).
 </p>
 {: .text-center}
 <p align="center" class="small-text"><em>Table 3-5 Energy Usage Breakdown for Dart Components</em></p>
+
+<br>
+Assumptions made:
+1. Board is put to sleep 10 seconds after hitting the same target
+2. User turns off the projectile within 1 minute of the end of the 7 minute round
+<br>
 
 Total energy used per launch
 
@@ -329,7 +345,7 @@ A LAB colour space threshold filter is used to filter out everything except the 
 X & Y Deviation is the deviation from the centre of the camera feed (White +) and a set point slightly higher centre of the Target (Red +). They give the intermediate servo angles.
 The more the X & Y deviation the more the yaw and pitch servo fins move.
 
-The set point needs to be higher than the (Red +) as the projectile needs to hit the target which is slightly higher than the green light that it detects and tracks.
+The set point needs to be higher than the (Red +) as the projectile needs to hit the target plate (armour module) which is slightly higher than the green light that it detects and tracks.
 
 #### 3.7.3 Finding Z Deviation
 <br>
