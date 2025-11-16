@@ -84,6 +84,9 @@ From the User Journey, the functions below were identified.
   </tr>
 </table>
 
+<div style="text-align:center;">
+Table 7.1: User functions and their corresponding electrical and software mechanisms
+</div>
 
 
 However, four constraints were identified when attempting to implement the five key functions:
@@ -118,13 +121,13 @@ The design specifications were drafted based on the critical function prototype 
 | Maximum Power Supply Voltage (V) | 30 | Follows the building specification requirements from RMOC [1]. |
 | Maximum Total Power Capacity (Wh) | 300 | Follows the building specification requirements from RMOC [1]. |
 | Cost of individual items to be bought | < $20 | Provides a financial buffer for crucial industrial mechanical and electrical components in the next prototype. |
-| Electronic Lock | Holding force > 2 × 23 kgF | Safety factor of 2 based on 23 kgF derived from the launching mechanical subsystem. |
-| Load cell with ADC | 5 V excitation voltage | Common excitation voltage for load cells. **Swappable** once the rated load cell is determined, requiring minimal code/electrical changes. |
-| Touch Screen | Easy interface with RoboMaster’s Dev Board A [1] | Stakeholder-provided development board for ease of use when handing over the dart robot. |
+| Electronic Lock Holding force |  > 2 × 23 kgF | Safety factor of 2 and based on 23 kgF derived from the launching mechanical subsystem. |
+| Load cell exictation voltage | 5 V | Common excitation voltage for load cells. **Swappable** once the rated load cell is determined, requiring minimal code/electrical changes. |
+| Touch Screen Electrical Interface| Easy interface with RoboMaster’s Dev Board A [1] |  Simplifies wiring with existing hardware. |
 
 
 <div style="text-align:center;">
-Table 7.1: Design Specifications
+Table 7.2: Design Specifications for the Critical Function Prototype
 </div>
 
 <br>
@@ -142,7 +145,7 @@ As the project is used for NUS Calibur Robotics, several items were provided by 
 | <img src="{{ '/assets/images/barry/M2006_motor.png' | relative_url }}" width="140"> <br> **M2006 Motor** | 1. Lightweight, easy to bring around for prototyping <br> 3. Well-documented, with a provided motor driver  <br> 2. Widely available in the stakeholder’s workshop |
 
 <div style="text-align:center;">
-Table 7.2:  Stakeholder Provided Items and justification for using them
+Table 7.3:  Stakeholder Provided Items and justification for using them
 </div>
 
 <br>
@@ -155,7 +158,7 @@ Table 7.2:  Stakeholder Provided Items and justification for using them
 | <img src="{{ '/assets/images/barry/Beam_type_load_cell_with_ADC.png' | relative_url }}" width="140"> <br> **Load Cell with Analog-to-Digital Converter** | ✅ Rated 5V excitation voltage — meets 5V system excitation requirement <br><br> ✅ (Cost: \$2.59) < \$20 <br><br> **Design specifications met**|
 
 <div style="text-align:center;">
-Table 7.3: Bought items & Reasons
+Table 7.4: Bought items & Reasons
 </div>
 
 
@@ -183,7 +186,7 @@ Balancing between the RAM limitations of the STM32F4 microcontroller, the type o
 | Cost         | $13.71                  | $17.85                   | $45.23                      |
 
 <div style="text-align:center;">
-Table 7.4: Touch Screen Comparison
+Table 7.5: Touch Screen Comparison
 </div>
 
 When comparing screen sizes, the 3.5-inch display is preferred over the 2.4-inch because it provides more buffer for future improvements, with the tradeoff being higher RAM usage.  
@@ -207,7 +210,7 @@ When looking for a graphics user interface, a few libraries came up. Based on li
 | **Sum**                           | **19**    | 18    | 15    |
 
 <div style="text-align:center;">
-Table 7.5: GUI Library Comparison
+Table 7.6: GUI Library Comparison
 </div>
 
 Based on the selection criteria, it was a close decision between LVGL and TouchGFX. LVGL being very flexible and TouchGFX is optimise for stm32 chips hardware. With the given STM32F4,  the advantage that touchGFX has in stm32 chips could not be used. This is coupled with the desire of more flexibility in visual design that LVGL offers. Hence,  **LVGL** was chosen as the GUI library.
@@ -232,7 +235,7 @@ After selecting the required components, each part was implemented separately an
 </div>
 
 <div style="text-align:center;">
-Table 7.6: Module testing and code development table 
+Table 7.7: Module testing and code development table 
 </div>
 
 ---
@@ -286,8 +289,7 @@ The control method shown in the prototype video uses simple bang-bang logic. A f
 
 The prototype also revealed a limitation in the current GUI implementation. The selected GUI library updates correctly during the initial write but does not refresh on subsequent writes, preventing real-time parameter display. The touch-sensing component also shows inaccurate position detection and requires calibration, which will be carried out during the winter holidays. Both issues must be addressed before integrating the GUI into the full control system.
 ### 7.3.5 Future work
-1. Tension control for the elastic band needs higher accuracy and precision.  
-2. Code scalability for added tasks (feeding, yaw, pitch) and runtime task prioritisation.  
-3. Current load cell is not rated for the final design.  
-4. Current motor is not rated for the final design.  
-5. GUI library and touch functions are not yet implemented.
+1. Tension control for the elastic band
+2. Current load cell is not rated for the final design  
+3. Current motor is not rated for the final design  
+4. GUI library and touch functions need to be fixed
