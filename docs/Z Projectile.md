@@ -26,6 +26,8 @@ has_toc: false
 
 This section lists the child pages for the mechanical aspects of the Projectile, such as structure, aerodynamics, and testing.
 
-### Electrical & Software (Projectile)
+<h3>
+<a href="{{ '/dart-system/projectile/elec-software' | relative_url }}">Electrical & Software - Projectile</a>
+</h3>
 
 This section lists the child pages for the electrical work related to the Projectile, including sensors, triggering, and data capture.

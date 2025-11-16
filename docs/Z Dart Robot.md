@@ -19,10 +19,15 @@ has_toc: false
 <em>3D rendering of Yaw, Pitch and Launcher</em>
 </p>
 
-### Mechanical (Dart Robot)
-
+### Mechanical - Dart Robot
+<h4>
+<a href="{{ '/dart-system/dart-robot/yaw' | relative_url }}">Yaw</a>
+<a href="{{ '/dart-system/dart-robot/pitch' | relative_url }}">Pitch</a>
+<a href="{{ '/dart-system/dart-robot/launcher' | relative_url }}">Launcher</a>
+</h4>
 This section lists the child pages for the mechanical subsystems of the Dart Robot: Yaw, Pitch, and Launcher.
 
-### Electrical & Software (Dart Robot)
-
+<h3>
+<a href="{{ '/dart-system/dart-robot/elec-software' | relative_url }}">Electrical & Software - Dart Robot</a>
+</h3>
 This section lists the child pages for the electrical and software work of the Dart Robot, covering sensing, control logic, and actuation.
