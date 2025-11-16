@@ -5,10 +5,10 @@ layout: default
 permalink: /overview
 ---
 
-# Introduction
+# 1.0 Introduction
 ### Abstract
 This project aims to develop a projectile launcher and projectile to hit targets in the RoboMaster University Championship (RMUC). To do so, ASI - 403 would be building an accurate mock - up of the target for testing, implementing in-flight corrective functionality into the projectile and adjustable pitch & yaw and auto projectile reloading for the launcher. Predictive Maintenance and easy debugging & maintenance is prioritized.
-## Overview of RoboMaster University Championship (RMUC)
+## 1.1 Overview of RoboMaster University Championship (RMUC)
 
 Founded in 2013, DJI RoboMaster University Championship (RMUC) is an annual international robotics competition organized by Da-Jiang Innovations (DJI) in China. Teams would develop different robots to perform combat on the battlefield. 
 
@@ -21,7 +21,7 @@ Founded in 2013, DJI RoboMaster University Championship (RMUC) is an annual inte
 </p>
 The goal is to launch projectiles at the pressure sensors of opponent robots and targets to defeat them.
 
-## Targets
+## 1.1.1 Targets
 
 <br>
 ![Battlefield Targets](assets/images/vj/Intro-battlefield_targets.jpg)
@@ -39,7 +39,7 @@ The goal is to launch projectiles at the pressure sensors of opponent robots and
 <em>Table 1-1: Target Pressor Sensor Description</em>
 </p>
 
-## Winning Criteria
+## 1.1.2 Winning Criteria
 
 <br>
 ![Base and outpost](assets/images/vj/Intro-base_outpost.jpg)
@@ -50,7 +50,7 @@ The goal is to launch projectiles at the pressure sensors of opponent robots and
 </p>
 A team wins if the opponent's base HP reaches zero OR its base has more remaining HP than the opponent’s at the end of the match. Base is invincible until outpost is destroyed.
 
-## Armour Modules
+## 1.1.3 Armour Modules
 
 <br>
 ![Base armors](assets/images/vj/Intro-base_armors.jpg)
@@ -69,7 +69,7 @@ Most robots and targets, such as Base, use armor modules — official game syste
 <em>Figure 1-5: Close up of Dart Detection Module which is on the Targets (Outpost & Base)</em>
 </p>
 
-## Robot Roles
+## 1.1.4 Robot Roles
 
 <br>
 ![Robot lineup Table](assets/images/vj/Intro-robot_lineup_table.jpg)
@@ -80,7 +80,7 @@ Most robots and targets, such as Base, use armor modules — official game syste
 </p>
 ASI - 403 would be building a new DART robot. (See Appendix 1 for description of other robots)
 
-## Launch Window Mechanics
+## 1.1.5 Launch Window Mechanics
 
 <br>
 ![Dart flight](assets/images/vj/Intro-dart_arc.jpg)
@@ -93,7 +93,7 @@ The robot holds up to four projectiles and stays inside the Dart Launching Stati
 
 The operator selects which target (Outpost/Base) the Dart Robot aims at each opening. The team wants us to aim at base.(Strategy explained in Appendix 2)
 
-## Base Targeting Mechanics
+## 1.1.6 Base Targeting Mechanics
 Teams can select the desired Base target difficulty. 
 
 <br>
@@ -105,9 +105,9 @@ Teams can select the desired Base target difficulty.
 </p>
 Higher difficulty levels increase the damage dealt and debuffs applied to the opponent, while granting greater buffs to the attacking team upon a successful hit. (See Appendix 3 for the damage mechanisms and the buff & debuff mechanisms)
 
-# Past attempts’ challenges and our improvements
+# 1.2 Past attempts’ challenges and our improvements
 Since 2022, NUS Calibur Robotics has made several attempts to develop a dart robot and projectile capable of accurately hitting competition targets.
-## Dart Projectile
+## 1.2.1 Dart Projectile
 Earlier designs suffered from unstable flight due to weak aerodynamic choices (Figure 1-6a & 1-6b). This guided our new approach, which focuses on fin geometry, airflow behaviour, and roll control. The projectile will also be upgraded to an active design capable of adjusting its trajectory toward the target.
 
 <br>
@@ -118,7 +118,7 @@ Earlier designs suffered from unstable flight due to weak aerodynamic choices (F
 <em>Figure 1-6a (left) and Figure 1-6b (right): Past attempts at the dart projectile</em>
 </p>
 
-## Dart Robot
+## 1.2.2 Dart Robot
 Past robots showed unreliable pitch–yaw control, base instability, and inconsistent release (Figure 1-7a & 1-7b). These issues shaped the new design, which prioritizes stable actuation and a stronger frame. The flywheel launcher will be replaced with an elastic band system for more consistent release and improved accuracy.
 
 <br>
@@ -129,16 +129,16 @@ Past robots showed unreliable pitch–yaw control, base instability, and inconsi
 <em>Figure 1-7a (left) and Figure 1-7b (right): Past attempts at the dart robot</em>
 </p>
 
-## Steps forward
+## 1.2.3 Steps forward
 Insights from earlier attempts guide our integrated redesign. The projectile will be developed first, with improved aerodynamics and active-flight components. The robot will follow with reliable pitch–yaw control, a stable frame, and a simplified launch mechanism to support accurate, repeatable shots.
 
-# Value proposition
-## Stakeholders
+# 1.3 Value proposition
+## 1.3.1 Stakeholders
 ### NUS Calibur Robotics
 The goal of NUS Calibur Robotics is to compete in RMUC, which marks as a significant step up from previous years where the team only participated in the RoboMaster University League (RMUL), a smaller competition with fewer requirements. This aspiration is strongly encouraged by one of the team’s main sponsor, who views RMUC participation as an important milestone and a natural progression for NUS Calibur Robotics. With the discontinuation of the affiliation between RMUL and DJI, the motivation to advance to RMUC has become even stronger. Although the dart system is not a mandatory requirement for entry, its absence was one of the key factors that limited the team’s eligibility for RMUC 2025. As eligibility is bell-curved across all teams, producing a functional dart prototype by March next year is therefore crucial to demonstrate the team’s technical capability and readiness for RMUC qualification.
 ### Robomaster Organization Community (DJI RMOC) 
 The RoboMaster Organizing Committee (RMOC), founded by DJI, is the governing body that oversees the RoboMaster competitions. RMOC establishes and updates the rule manual, building specifications, and technical assessment criteria for all participating teams to ensure fair, transparent, and competitive gameplay. The rule manual outlines the competition gameplay, including game objectives, field layout, and damage scoring. While the building specifications provide guidelines for robot design, setting limits on dimensions, weight, and power. Lastly, the assessment criteria is used to filter for teams with the best technical competency.
-## Value Proposition Canvas
+## 1.3.2 Value Proposition Canvas
 With the stakeholders identified and NUS calibur robotics chosen as our main stakeholder, a value proposition canvas was done below in Figure 1-8.
 
 <br>
@@ -149,18 +149,19 @@ With the stakeholders identified and NUS calibur robotics chosen as our main sta
 <em>Figure 1-8: Value Proposition Canvas</em>
 </p>
 After drafting the value proposition canvas, our value proposition statement is formulated from the value proposition canvas.
-## Value Proposition Statement
+
+## 1.3.3 Value Proposition Statement
 Our team aims to help **NUS Calibur Robotics** build a simple and accurate dart system through clear alignment features with plug-and-play electrical connections and active projectiles able to hit the target at all difficulty levels.
 
 This dart system will also be competition-ready, which is to comply with the rules and regulations set by the **RMOC**.
 
 The dart system will abide by the technical assessment criteria set by **RMOC** and provide **NUS Calibur Robotics** with additional ranking points.
 
-# DESIGN SPECIFICATION
+# 1.4 DESIGN SPECIFICATION
 We have two key stakeholders with different requirements that our DART project will have to satisfy, DJI RMOC committee who organise this competition and set the rules and regulations, and NUS Calibur Robotics who will be using our Dart Robot in its entirety after our project ends. Firstly, from the Robomaster Organization Community (DJI RMOC) standpoint, here are the requirements:
 
 ## RMOC Standpoint Requirements:
-### Arena Setup
+## 1.4.1 Arena Setup
 
 <br>
 ![Map target 1](assets/images/shyam/Intro-targets1.jpg)
@@ -206,7 +207,7 @@ We have two key stakeholders with different requirements that our DART project w
 
 4. The Dart Robot will be placed inside the Dart Robot Holding Station shown in Figure 1-14 prior to the match, and hence must abide by the Size restriction 1000mmx600mmx1000mm (LxBxH).Keep in mind the dart system is placed on the sliding platform that is 205mm elevated from common ground.
 
-## ROBOT BUILDING SETUP
+## 1.4.2 ROBOT BUILDING SETUP
 
 **Dart System Regulations:**
 The Dart Robot consists of the Yaw, Pitch, Launcher and Feeder. The Launcher and Feeder combined can hold *no more than 4 projectiles* prior to the match, and it *may or have ONE projectile pre-loaded before the match*. The Dart Robot serves as the carrier of projectiles and provides them with initial propulsion.
@@ -258,7 +259,7 @@ Dart cameras or other devices can be mounted in the internal cavity of Dart Trig
 <em>Figure 1-17: Dart Projectile Rules regarding Dart Trigger (usage of inner hollow space)</em>
 </p>
 
-## Design Approach
+## 1.5 Design Approach
 
 <br>
 ![functionality table](assets/images/shyam/Intro-functionality_table.jpg)
