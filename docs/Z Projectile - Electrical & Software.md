@@ -362,7 +362,38 @@ The number of pixels along the major and minor axes of the target increases as t
 Projectile–target distance is mapped from this pixel count, and a lookup table assigns a distance-dependent multiplier m. This m is applied to the intermediate servo angles to produce the final servo commands.
 A smaller Z-axis deviation results in larger servo corrections.
 
-### 3.8 Future Works
+
+### 3.8 Prototyping
+
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Projectile/projectile_prototype.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Figure 3-13 Projectile Circutry Proof of Concept</em></p>
+<br>
+
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/krCTqrgB8WU?si=FsAhuPiyLYXHDJKb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+<p align="center" class="small-text"><em>Media 3-2 Projectile Circutry Proof of Concept</em></p>
+
+<br>
+In the video above, the ball wrapped in green tape simulates the target. The servos with the yellow clip on the left move in opposite direction when the target moves up and down in the camera feed. Same for the servos on the right on the green clip which moves when target moves left and right in camera feed. Capacitors have been found to significantly smooth servo motion.
+<br>
+
+### 3.9 Testing
+
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/N53aaVkHazw?si=GyJFkzI2fc9FTwP0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+<p align="center" class="small-text"><em>Media 3-3 Projectile Prototype</em></p>
+
+Mapping of X, Y, Z Deviation to the right servo and angle needs to be carried out. The prototype only shows that everything is physically connected by the PCB.
+
+### 3.10 Future Works
 
 <br>
 <div style="width:600px; margin:auto;">
@@ -395,6 +426,13 @@ A smaller Z-axis deviation results in larger servo corrections.
       <td>Projectile requires partial disassembly for power and USB access.</td>
       <td>Add a battery power switch and an external USB-C access port.</td>
       <td>Reduces debugging and maintenance time during field testing and competition.</td>
+    </tr>
+
+    <!-- Row 4 -->
+    <tr>
+      <td>Servo is 15 cm away from the PCB, so the effectiveness of the capacitors is reduced due to inductance from the long wire length.</td>
+      <td>Use an oscilloscope to compare noise levels with and without the DART PCB while the servo moves through small and large angles to simulate low- and high-frequency load conditions. Conduct the test with all 4 servos connected.</td>
+      <td>If the reduced effectiveness of the capacitors does not justify their cost, alternatives will be considered to reduce wastage and improve performance. For example, if the decoupling capacitors are ineffective, they can be replaced with ferrite beads placed near the servo.</td>
     </tr>
   </tbody>
 </table>
