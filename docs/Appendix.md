@@ -7,6 +7,86 @@ permalink: /appendix
 
 # Appendix
 <!-- Fill in according to sequence of mention in the report <-->
+## Appendix 1: Roles of Robots in the lineup other than Dart
+<br>
+Some robots perform an attacking function whereas others like engineer or radar perform a more support function like providing enemy robot location or picking up boxes. 
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Robot_Roles.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Robot Roles</em></p>
+
+## Appendix 2: Team’s Strategy for focus on Base
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/team_strategy.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Captain's Reasoning for Team's Strategy for dart system  to target Base</em></p>
+
+## Appendix 3: Damage Mechanism and the Buff & Debuff mechanisms
+<br>
+The below buffs , damages and debuffs are summarised from page 75 of the Robomaster 2025 University Championship Rules Manual
+<br>
+### Damage Mechanism
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Comparison_Projectile_Damage_Targets.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Comparison of projectile damage to Targets (Base & Outpost)</em></p>
+<br>
+Dart deals more damage than other projectiles. 
+
+### Attacking Team Buffs and Opposing Team Debuffs upon successful Dart hits
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/RMUC_Terminologies_Dart_Buffs_Debuffs.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>RMUC Terminologies for Dart Buffs and Debuffs</em></p>
+<br>
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Buffs_and_Debuffs_Table.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Buffs and Debuffs table for varying targets and settings</em></p>
+<br>
+<br>
+
+## Appendix 5: Torque Calculations
+<br>
+Torque, T is minimum torque required to move the servo horn with the fin attached against gravity. 
+Weight of Horn and Fin, F is the mass x gravitional force = weight that gets acted on the horn and fin by Earth
+Distance, d is the distance from the centre of the servo horn to the top of the fin
+
+
+\
+T = Fd
+
+
+\
+  = 2.3g x 15.2mm
+
+
+\
+  = (2.3 x 10^{-3})(9.81)(15.2 x 10^{-3})
+
+
+\
+  = 3.4295 x 10^{-4}N·m
+
+
+## Appendix 6: PCB Schamtic and BOM
+
+### PCB Schematic
+
+
+
+
+
 ## Appendix 7: Calculations for torque requirements - Yaw
 Calculations involved in the torque needed for yaw subsystem are detailed here.
 
