@@ -264,5 +264,11 @@ Dart cameras or other devices can be mounted in the internal cavity of Dart Trig
 
 ## Design Approach
 
-<!-- download and insert the damn functionality table here <--> 
-Our team has compiled both the requirements from NUS Calibur Robotics and DJI RMOC’s rules and have formatted them into a functionality table. This table clearly pins down the requirements into their respective specifications that we will have to adhere to, and more importantly the Functionalities we will have to deliver.
+<br>
+![functionality table](assets/images/shyam/Intro-functionality_table.jpg)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>Table 6: Functionality Table of entire Dart Robot</em>
+</p>
+Our team has compiled both the requirements from NUS Calibur Robotics and DJI RMOC’s rules and have formatted them into a functionality table in Table 6. This table clearly pins down the requirements into their respective specifications that we will have to adhere to, and more importantly the Functionalities we will have to deliver.
