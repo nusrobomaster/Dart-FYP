@@ -72,7 +72,7 @@ From the User Journey, the functions below were identified.
   <tr>
     <td>System Status and Feedback Display</td>
     <td>
-      Update the touchscreen with motor status, angles, tension, and lock state, and show errors for motor or sensor faults (Not shown but useful).
+      Update the touchscreen with motor status, angles, tension, and lock state, and show errors for motor or sensor faults (Not shown in Figure 7.1 but useful).
     </td>
   </tr>
 
@@ -123,7 +123,7 @@ The design specifications were drafted based on the critical function prototype 
 | Cost of individual items to be bought | < $20 | Provides a financial buffer for crucial industrial mechanical and electrical components in the next prototype. |
 | Electronic Lock Holding force |  > 2 × 23 kgF | Safety factor of 2 and based on 23 kgF derived from the launching mechanical subsystem. |
 | Load cell exictation voltage | 5 V | Common excitation voltage for load cells. **Swappable** once the rated load cell is determined, requiring minimal code/electrical changes. |
-| Touch Screen Electrical Interface| Easy interface with RoboMaster’s Development Board A [1] |  Simplifies wiring with existing hardware. |
+| Touch Screen Electrical Interface| Easy interface with RoboMaster’s Development Board A [2] |  Simplifies wiring with existing hardware. |
 
 
 <div style="text-align:center;">
@@ -219,7 +219,7 @@ Based on the selection criteria, it was a close decision between LVGL and TouchG
 
 ### 7.2.4 Module Testing and Code Development
 
-After selecting the required components, each part was implemented separately and tested with dedicated code to verify correct operation before system integration.
+After selecting the required components, each part was implemented and tested with dedicated code to verify correct operation before system integration. You can view the [testing videos](https://www.youtube.com/playlist?list=PLNnqZhGC3D1AK7iFgLpn61OiXpmc4Bh3g) here.
 
 
 
@@ -280,12 +280,25 @@ Likewise, the software architecture is shown below
   <p class="figure-caption">Figure 7.6: Dart Robot Data Flow Diagram</p>
 </div>
 
-The data flow diagram (DFD) illustrates how data moves within the Dart Robot system. At Level 0, user commands from the remote control, force data from the load cell, and lock status from the solenoid are processed by the Dart Robot, which outputs motor speed, motor status, and display data to the resistive touchscreen. The Level 1 DFD expands this process into specific software tasks within the system. The Remote Control ISR handles user inputs, while the Force Sensor Task processes force data from the sensor. The Solenoid Control Task manages lock control, and the Motor Control Task regulates motor speed and status. The Launching Control Task coordinates between the motor and force sensor for firing operations, and the Resistive Touchscreen Task displays key system data. Together, these tasks define the data interactions and control logic that govern the dart robot’s operation
+The data flow diagram (DFD) illustrates how data moves within the Dart Robot system. At Level 0, user commands from the remote control, force data from the load cell, and lock status from the solenoid are processed by the Dart Robot, which outputs motor speed, motor status, and display data to the resistive touchscreen. 
+
+| **Task / ISR** | **Functionalities** | **Input / Output** |
+|----------------|----------------------|---------------------|
+| Remote Control ISR | Captures controller readings from the RoboMaster Remote Controller | **Input:** User commands<br>**Output:** Unlock commands |
+| Force Sensor Task | Reads load-cell data and computes force values for launch control. | **Input:** Force data<br>**Output:** Force data |
+| Solenoid Control Task | Controls lock engagement and release states. | **Input:** Lock status <br>**Output:** Lock status, Lock control |
+| Motor Control Task | Set the motor speed of the motor based on the desired speed | **Input:**  Desired Motor Speed, Motor Status <br>**Output:** Motor Speed|
+| Launching Control Task | Spins the motor to pull the elastic band until the target force is reached | **Input:** Force data, Lock status <br>**Output:** Desired Motor Speed |
+| Resistive Touchscreen Task | Updates graphical interface with system state and measurements. | **Input:** Force data,  Lock status<br>**Output:** Display Data |
+
+<div style="text-align:center;">
+Table 7.7: Summary of Dart Robot software tasks and their data inputs and utputs
+</div>
 
 ### 7.3.4 Limitations
 The current prototype tested the integration of the different components and demonstrated the expected overall behaviour. However, the strict electrical and software requirements for the final dart robot have not yet been met, as these depend on mechanical specifications that will be available only from November to end December. Once those specifications are provided, software modifications should be straightforward. The motor control task will require only a driver change, and the load cell replacement will require only recalibration.
 
-The control method shown in the prototype video uses simple bang-bang logic. A full elastic-band model must be developed before selecting an appropriate controller. In addition, the feeding controls for the remaining darts have not yet been designed.
+The control method shown in the prototype video uses simple bang-bang logic. A full elastic-band model must be developed before selecting an appropriate controller. In addition, the feeding subsystem controls have not yet been designed.
 
 The prototype also revealed a limitation in the current GUI implementation. The selected GUI library updates correctly during the initial write but does not refresh on subsequent writes, preventing real-time parameter display. The touch-sensing component also shows inaccurate position detection and requires calibration, which will be carried out during the winter holidays. Both issues must be addressed before integrating the GUI into the full control system.
 <br>
