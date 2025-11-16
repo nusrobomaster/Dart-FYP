@@ -24,10 +24,10 @@ has_toc: false
 <a href="{{ '/dart-system/projectile/mechanical' | relative_url }}">Mechanical - Projectile</a>
 </h3>
 
-This section lists the child pages for the mechanical aspects of the Projectile, such as structure, aerodynamics, and testing.
+This section lists the mechanical aspects of the Projectile, such as structure, aerodynamics, and testing.
 
 <h3>
 <a href="{{ '/dart-system/projectile/elec-software' | relative_url }}">Electrical & Software - Projectile</a>
 </h3>
 
-This section lists the child pages for the electrical work related to the Projectile, including sensors, triggering, and data capture.
+This section lists the electrical work related to the Projectile, including sensors, triggering, and data capture.
