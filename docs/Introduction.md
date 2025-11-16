@@ -190,12 +190,8 @@ We have two key stakeholders with different requirements that our DART project w
 ![Base Specs](assets/images/shyam/Intro-base_specs.jpg)
 {: .text-center}
 <br>
-<br>
-![armor specs](assets/images/shyam/Intro-armor_specs.jpg)
-{: .text-center}
-<br>
 <p align="center" class="small-text">
-<em>Figure 1-12 & 1-13: Base Target Structure and Base Target Plate</em>
+<em>Figure 1-12 & 1-13: Base Target Structure </em>
 </p>
 
 3. The target plate is able to move laterally a distance of 980mm. Target is a small armour plate (square shape, 140mmx140mm) tilted 27.5 degrees from the horizontal plane. ***From a vertical standpoint***, the allowable range for a successful hit is y∈{1293mm,1350mm}. For accuracy, let us aim for bullseye, **y=1321.5mm**.
