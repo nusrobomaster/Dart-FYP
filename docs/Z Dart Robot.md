@@ -19,7 +19,7 @@ has_toc: false
 <em>3D rendering of Yaw, Pitch and Launcher</em>
 </p>
 
-### Mechanical - Dart Robot
+<h3> Mechanical - Dart Robot </h3>
 <h3>
 <a href="{{ '/dart-system/dart-robot/yaw' | relative_url }}">Yaw</a><br>
 <a href="{{ '/dart-system/dart-robot/pitch' | relative_url }}">Pitch</a><br>
