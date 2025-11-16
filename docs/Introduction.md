@@ -78,7 +78,7 @@ Most robots and targets, such as Base, use armor modules — official game syste
 <p align="center" class="small-text">
 <em>Table 1-2: The current NUS Calibur Robotics robot lineup</em>
 </p>
-ASI - 403 would be building a new DART robot. (See Appendix XX for description of other robots)
+ASI - 403 would be building a new DART robot. (See Appendix 1 for description of other robots)
 
 ## Launch Window Mechanics
 
@@ -91,7 +91,7 @@ ASI - 403 would be building a new DART robot. (See Appendix XX for description o
 </p>
 The robot holds up to four projectiles and stays inside the Dart Launching Station with a gate that can open twice per round—once after 30 seconds and again after 4 minutes from the start of the round. Each opening lasts 20 seconds, followed by a 15-second cooldown. Unused openings can be used after the 4 minute mark.
 
-The operator selects which target (Outpost/Base) the Dart Robot aims at each opening. The team wants us to aim at base.(Strategy explained in Appendix XX)
+The operator selects which target (Outpost/Base) the Dart Robot aims at each opening. The team wants us to aim at base.(Strategy explained in Appendix 2)
 
 ## Base Targeting Mechanics
 Teams can select the desired Base target difficulty. 
@@ -103,7 +103,7 @@ Teams can select the desired Base target difficulty.
 <p align="center" class="small-text">
 <em>Table 1-3: Base Target Difficulty Levels</em>
 </p>
-Higher difficulty levels increase the damage dealt and debuffs applied to the opponent, while granting greater buffs to the attacking team upon a successful hit. (See Appendix XX for the damage mechanisms and the buff & debuff mechanisms)
+Higher difficulty levels increase the damage dealt and debuffs applied to the opponent, while granting greater buffs to the attacking team upon a successful hit. (See Appendix 3 for the damage mechanisms and the buff & debuff mechanisms)
 
 # Past attempts’ challenges and our improvements
 Since 2022, NUS Calibur Robotics has made several attempts to develop a dart robot and projectile capable of accurately hitting competition targets.

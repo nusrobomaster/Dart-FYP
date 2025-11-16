@@ -7,7 +7,7 @@ permalink: /appendix
 
 # Appendix
 <!-- Fill in according to sequence of mention in the report <-->
-## Appendix 1: Calculations for torque requirements - Yaw
+## Appendix 7: Calculations for torque requirements - Yaw
 Calculations involved in the torque needed for yaw subsystem is detailed here.
 
 <br>
@@ -18,7 +18,7 @@ Calculations involved in the torque needed for yaw subsystem is detailed here.
 {: .text-center}
 <br>
 
-## Appendix 2: Work done on belt driven system
+## Appendix 8: Work done on belt driven system
 Further details of the belt-driven system are as follows.
 
 The following will be what we need for the belt drive components, less the mounting components
@@ -66,7 +66,7 @@ Components selected:
 2. Timing gear-Motor: HTD3M 30T Timing Gear
 3. Timing Belt: HTD3M 233T 699mm length belt (required 696.5mm)
 
-## Appendix 3: Calculations for torque requirements - Pitch
+## Appendix 9: Calculations for torque requirements - Pitch
 Calculations involved in the torque needed for pitch subsystem for direct drive are detailed here.
 
 <br>

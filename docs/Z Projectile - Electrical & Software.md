@@ -114,7 +114,7 @@ OpenMV boards are selected because they let you view camera footage directly fro
 
 The **OpenMV RT1062** is chosen over the N6 even though it has lower compute performance. The RT1062 supports up to six hardware PWM outputs, which gives room for future projectile designs that may require up to six fins.
 
-*(See Appendix XX for the Design Considerations for Board Selection.)*
+*(See Appendix 4 for the Design Considerations for Board Selection.)*
 
 #### 3.4.3 Servo
 
@@ -126,7 +126,7 @@ The **OpenMV RT1062** is chosen over the N6 even though it has lower compute per
 <p align="center" class="small-text"><em>Table 3-3: Servo Selection Table</em></p>
 
 **Blue Arrow** is chosen because it is the lightest, smallest, and fastest option. It also meets the required torque while staying within a reasonable price range.
-(See Appendix XX for torque calculations). 
+(See Appendix 5 for torque calculations). 
 
 After testing if a higher torque servo is required, the KST and BlueArrow have similar servos at higher torque but with a slightly bigger form factor and reduced speed.
 
@@ -228,6 +228,8 @@ The PCB uses JST-PH 2.0 connectors. Users do not need to check individual pin co
 
 The Custom PCB would be pressed on top of the OpenMV board. The PCB helps with the wire management as 7 Power, 6 GND and 4 Signal connections need to be made in a small space. 
 It also has bulk and decoupling capacitors for each servo rail to reduce noise which results in smooth servo motion.
+
+(See Appendix 6 for PCB Schematic and BOM). 
 
 ### 3.6 Hardware Overview
 
