@@ -6,7 +6,7 @@ permalink: /base_structure
 ---
 <!-- nav_order is for DROPDOWN NAVIGATION sequence <--> 
 # Base
-The base structure is a key objective in both attack and defense. Destroying the opponent’s base wins the match. In our project, it is one of two designated targets for the dart robot and projectile. The team will design and fabricate the base as outlined below.
+To test the dart projectile and launcher subsystem, we need a target to fire at. This is where the base structure comes into play. The base structure is a key objective in both attack and defense. Destroying the opponent’s base wins the match. In our project, it is one of two designated targets for the dart robot and projectile. The team will design and fabricate the base as outlined below.
 
 Two iterations are planned:
 1. First iteration: a test target for Dart launcher and projectile subsystems.
