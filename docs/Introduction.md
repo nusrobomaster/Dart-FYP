@@ -78,7 +78,7 @@ Most robots and targets, such as Base, use armor modules — official game syste
 <p align="center" class="small-text">
 <em>Table 1-2: The current NUS Calibur Robotics robot lineup</em>
 </p>
-ASI - 403 would be building a new DART robot. (See [Appendix 1](#appendix-one) for description of other robots)
+ASI - 403 would be building a new DART robot. (See Appendix 1 for description of other robots.)
 
 ## 1.1.5 Launch Window Mechanics
 

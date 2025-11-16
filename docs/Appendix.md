@@ -7,7 +7,7 @@ permalink: /appendix
 
 # Appendix
 <!-- Fill in according to sequence of mention in the report <-->
-## Appendix 1: Roles of Robots in the lineup other than Dart {#appendix-one}
+## Appendix 1: Roles of Robots in the lineup other than Dart
 <br>
 Some robots perform an attacking function whereas others like engineer or radar perform a more support function like providing enemy robot location or picking up boxes. 
 <br>
