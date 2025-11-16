@@ -8,7 +8,7 @@ permalink: /appendix
 # Appendix
 <!-- Fill in according to sequence of mention in the report <-->
 ## Appendix 7: Calculations for torque requirements - Yaw
-Calculations involved in the torque needed for yaw subsystem is detailed here.
+Calculations involved in the torque needed for yaw subsystem are detailed here.
 
 <br>
 ![Yaw Torque Calculation 1](assets/images/jianwen/Appendix-yaw_calculation1.jpg)
