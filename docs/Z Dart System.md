@@ -10,7 +10,7 @@ has_toc: false
 <!-- intro text -->
 # The Team
 
-Below are the subsystems involved in the dart system, and the breakdown of responsibilities for each subsystem.
+Derived from the functionality table in the previous page, below are the subsystems involved in the dart system, and the breakdown of responsibilities for each subsystem.
 
 <div class="team-grid">
 
