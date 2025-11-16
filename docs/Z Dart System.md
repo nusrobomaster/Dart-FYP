@@ -8,6 +8,8 @@ has_toc: false
 ---
 
 <!-- intro text -->
+# Our Robot Sunsystems
+From the functionality table, we derived the following subsystems labelled in the rendering below.
 
 <br>
 ![full dart subsys]({{ '/assets/images/shyam/robotsubdiv.png' | relative_url }})
@@ -20,7 +22,7 @@ has_toc: false
 
 # The Team
 
-Derived from the functionality table in the previous page, below are the subsystems involved in the dart system, and the breakdown of responsibilities for each subsystem.
+Below are the personnel in our project team, and the breakdown of responsibilities for each subsystem.
 
 <div class="team-grid">
 
