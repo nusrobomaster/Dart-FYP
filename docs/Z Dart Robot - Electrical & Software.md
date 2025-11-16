@@ -219,9 +219,7 @@ Based on the selection criteria, it was a close decision between LVGL and TouchG
 
 ### 7.2.4 Module Testing and Code Development
 
-After selecting the required components, each part was implemented and tested with dedicated code to verify correct operation before system integration. You can view the [testing videos](https://www.youtube.com/playlist?list=PLNnqZhGC3D1AK7iFgLpn61OiXpmc4Bh3g) here.
-
-
+After selecting the required components, each part was implemented and tested with dedicated code to verify correct operation before system integration. Code used to test each component is available in the ASI-403 repository, linked at the top-right corner of the page while the [testing videos](https://www.youtube.com/playlist?list=PLNnqZhGC3D1AK7iFgLpn61OiXpmc4Bh3g) can be viewed.
 
 <div style="width:600px; margin:auto;">
 <table style="width:60%; font-size:0.8rem;">
@@ -292,7 +290,7 @@ The data flow diagram (DFD) illustrates how data moves within the Dart Robot sys
 | Resistive Touchscreen Task | Updates graphical interface with system state and measurements. | **Input:** Force data,  Lock status<br>**Output:** Display Data |
 
 <div style="text-align:center;">
-Table 7.7: Summary of Dart Robot software tasks and their data inputs and utputs
+Table 7.8: Summary of Dart Robot software tasks and their data inputs and utputs
 </div>
 
 ### 7.3.4 Limitations
