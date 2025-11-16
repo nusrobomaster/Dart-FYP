@@ -122,6 +122,14 @@ Our system, however, pulls to a pre-set **force target** (e.g., 50 kgF). The mot
 To develop a predictive mathematical model for the launcher, it was necessary to **experimentally characterize** the force-displacement relationship of the selected Decathlon exercise band. The manufacturer does not provide engineering specifications such as a spring constant (k) or Young's Modulus, making empirical testing necessary.
 This characterization was achieved by securing the band to a test rig equipped with a luggage scale. The band was drawn to fixed displacement intervals (draw lengths), and the corresponding elastic tension force was recorded. The resulting force-displacement data (Table [X]) forms the basis for all subsequent energy and trajectory calculations.
 
+
+<br>
+![experiment]({{ site.baseurl }}/assets/images/shyam/exper.png)
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+</p>
+
 <br>
 ![tabledart]({{ site.baseurl }}/assets/images/shyam/tabledart.png)
 {: .text-center}
