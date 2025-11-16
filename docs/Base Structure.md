@@ -20,7 +20,7 @@ As the official base cannot be purchased, an in-house version will be built to s
   <img src="{{ '/assets/images/vj/Base/Base_Design_Specificcations_Table.png' | relative_url }}" width="600">
 </p>
 {: .text-center}
-<p align="center" class="small-text"><em>Table 8-1: Base_Design_Specificcations_Table</em></p>
+<p align="center" class="small-text"><em>Table 8-1: Base Design Specifications Table</em></p>
 
 ## Base: Passive structure
 First iteration will include the competition’s essential base components. It will be built quickly as a reliable target for the dart robot and projectile, and for other NUS Calibur Robotics robots.
