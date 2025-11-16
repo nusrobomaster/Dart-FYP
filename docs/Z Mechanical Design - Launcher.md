@@ -53,28 +53,13 @@ This method uses two pairs of counter-rotating flywheels to grip and accelerate 
 * **Tension Spring & Compression Spring**
 
 <br>
-![tension]({{ '/assets/images/shyam/tension.png' | relative_url }})
+![tension]({{ '/assets/images/shyam/newspring.png' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 2: Tension Spring based launcher</em>
+<em>Figure 2, 3, 4: Tension and Compression Spring based launchers</em>
 </p>
 
-<br>
-![compression]({{ '/assets/images/shyam/compression.png' | relative_url }})
-{: .text-center}
-<br>
-<p align="center" class="small-text">
-<em>Figure 3: Compression Spring based launcher</em>
-</p>
-
-<br>
-![compression]({{ '/assets/images/shyam/spring.png' | relative_url }})
-{: .text-center}
-<br>
-<p align="center" class="small-text">
-<em>Spring mounting tolerancing issue</em>
-</p>
 
 These systems store energy in large mechanical springs.
 **Compression springs** *push* the projectile from its base. This is dynamically unstable, as any off-axis force can cause the projectile to "fishtail" (yaw) during its travel on the rail. **Tension springs** *pull* the projectile from a sled, which is aerodynamically superior as it guarantees a stable, straight-line exit. However, both spring types were rejected due to **serviceability and mechanical flaws**. The large, centralized springs are difficult to access for replacement. Furthermore, their hook-and-ring attachment points introduce mechanical tolerances (slop) that can lead to inconsistent energy transfer.
