@@ -20,11 +20,11 @@ has_toc: false
 </p>
 
 ### Mechanical - Dart Robot
-<h4>
-<a href="{{ '/dart-system/dart-robot/yaw' | relative_url }}">Yaw</a>
-<a href="{{ '/dart-system/dart-robot/pitch' | relative_url }}">Pitch</a>
+<h3>
+<a href="{{ '/dart-system/dart-robot/yaw' | relative_url }}">Yaw</a><br>
+<a href="{{ '/dart-system/dart-robot/pitch' | relative_url }}">Pitch</a><br>
 <a href="{{ '/dart-system/dart-robot/launcher' | relative_url }}">Launcher</a>
-</h4>
+</h3>
 This section lists the child pages for the mechanical subsystems of the Dart Robot: Yaw, Pitch, and Launcher.
 
 <h3>
