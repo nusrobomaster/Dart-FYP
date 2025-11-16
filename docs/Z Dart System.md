@@ -29,7 +29,7 @@ Below are the personnel in our project team, and the breakdown of responsibiliti
     <img src="{{ '/assets/images/portraits/VJ-portrait.jpg' | relative_url }}" alt="VJ" class="team-photo">
     <p class="team-meta">VJ<br>A0261513N<br>Electrical</p>
     <p class="team-name">
-      <a href="{{ '/dart-system/projectile/elec-software | relative_url }}">Projectile - Electrical & Software</a><br>
+      <a href="{{ '/dart-system/projectile/elec-software' | relative_url }}">Projectile - Electrical & Software</a><br>
       <a href="{{ '/base_structure' | relative_url }}">Base Structure</a>
     </p>
   </div>

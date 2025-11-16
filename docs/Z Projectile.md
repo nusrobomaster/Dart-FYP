@@ -20,7 +20,9 @@ has_toc: false
 </p>
 
 
-### Mechanical (Projectile)
+<h3>
+<a href="{{ '/dart-system/projectile/mechanical' | relative_url }}">Mechanical - Projectile</a>
+</h3>
 
 This section lists the child pages for the mechanical aspects of the Projectile, such as structure, aerodynamics, and testing.
 
