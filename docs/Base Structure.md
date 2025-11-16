@@ -38,7 +38,40 @@ The back support trusses connecting the base frame to the mid-section are angled
 
 ### Design Process: Guidance Light Source and cooling system
 
-<!-- VJ please add your stuff here. If you have more Figures, update EVERYTHING accordingly <-->
+<br>
+Light and Fans are added to the Dart Detection Module.
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Base/Light_Specificcation_Table.png' | relative_url }}" width="450">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Table 8-2 : Light Specifications Table</em></p>
+<br>
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mlMt_C0wRAE?si=Pii15hxr6KVMaU5U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<p align="center" class="small-text"><em>Video 8-1 Temperature Test for Dart Guiding Light</em></p>
+<br>
+Fans are required as the light goes from 40°C to 100°C in 1 minute without cooling, and the temperature keeps rising. It takes about eight minutes to cool back to room temperature.
+<br>
+
+<p align="center">
+  <img src="{{ '/assets/images/vj/Base/Fan_Specifications_Table.png' | relative_url }}" width="450">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Table 8-3 : Fan Specifications Table</em></p>
+<br>
+
+The fans have shown to be very effective in cooling the light as seen below.
+
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Base/Temp_Test_Dart_Green_Light.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Table 8-4 : Comparisons of the Light Temperature between NO FAN and WITH FAN conditions table</em></p>
+<br>
+
 ### Design process: Light indicator component
 The base includes a dart target that slides linearly over 980 mm and is mounted 1300 mm above ground on the truss top. A green light, as specified in the competition rules, guides the dart toward the target. Above it, an armor plate inclined at 27° detects hits.
 
