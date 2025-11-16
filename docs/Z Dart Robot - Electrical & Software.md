@@ -279,15 +279,12 @@ Likewise, the software architecture is shown below
 
 The data flow diagram (DFD) illustrates how data moves within the Dart Robot system. At Level 0, user commands from the remote control, force data from the load cell, and lock status from the solenoid are processed by the Dart Robot, which outputs motor speed, motor status, and display data to the resistive touchscreen. The Level 1 DFD expands this process into specific software tasks within the system. The Remote Control ISR handles user inputs, while the Force Sensor Task processes force data from the sensor. The Solenoid Control Task manages lock control, and the Motor Control Task regulates motor speed and status. The Launching Control Task coordinates between the motor and force sensor for firing operations, and the Resistive Touchscreen Task displays key system data. Together, these tasks define the data interactions and control logic that govern the dart robot’s operation
 
----
-
 ### 7.3.4 Limitations
-The current prototype tested the integration of the different components and demonstrated the expected overall behaviour. However, the strict engineering requirements for the final dart robot have not yet been met, as these depend on pending mechanical specifications. Once those specifications are available, software modifications should be straightforward. The motor control task will require only a driver change, and the load cell replacement will require only recalibration.
+The current prototype tested the integration of the different components and demonstrated the expected overall behaviour. However, the strict electrical and software requirements for the final dart robot have not yet been met, as these depend on mechanical specifications that will be available only from November to end December. Once those specifications are provided, software modifications should be straightforward. The motor control task will require only a driver change, and the load cell replacement will require only recalibration.
 
 The control method shown in the prototype video uses simple bang-bang logic. A full elastic-band model must be developed before selecting an appropriate controller. In addition, the feeding controls for the remaining darts have not yet been designed.
 
-The prototype also revealed a limitation in the current GUI implementation. The selected GUI library updates correctly during the initial write but does not refresh on subsequent writes, preventing real-time parameter display. This issue must be addressed before integrating the GUI into the full control system.
-
+The prototype also revealed a limitation in the current GUI implementation. The selected GUI library updates correctly during the initial write but does not refresh on subsequent writes, preventing real-time parameter display. The touch-sensing component also shows inaccurate position detection and requires calibration, which will be carried out during the winter holidays. Both issues must be addressed before integrating the GUI into the full control system.
 ### 7.3.5 Future work
 1. Tension control for the elastic band needs higher accuracy and precision.  
 2. Code scalability for added tasks (feeding, yaw, pitch) and runtime task prioritisation.  
