@@ -8,9 +8,20 @@ has_toc: false
 ---
 
 <!-- intro text -->
+# Our Robot Subsystems
+From the functionality table, we derived the following subsystems labelled in the rendering below.
+
+<br>
+![full dart subsys]({{ '/assets/images/shyam/robotsubdiv.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>A 3D rendering of a Dart Robot designed by RMOC.</em>
+</p>
+
 # The Team
 
-Derived from the functionality table in the previous page, below are the subsystems involved in the dart system, and the breakdown of responsibilities for each subsystem.
+Below are the personnel in our project team, and the breakdown of responsibilities for each subsystem.
 
 <div class="team-grid">
 
@@ -18,7 +29,7 @@ Derived from the functionality table in the previous page, below are the subsyst
     <img src="{{ '/assets/images/portraits/VJ-portrait.jpg' | relative_url }}" alt="VJ" class="team-photo">
     <p class="team-meta">VJ<br>A0261513N<br>Electrical</p>
     <p class="team-name">
-      <a href="{{ '/dart-system/projectile/elec-software | relative_url }}">Projectile - Electrical & Software</a><br>
+      <a href="{{ '/dart-system/projectile/elec-software' | relative_url }}">Projectile - Electrical & Software</a><br>
       <a href="{{ '/base_structure' | relative_url }}">Base Structure</a>
     </p>
   </div>

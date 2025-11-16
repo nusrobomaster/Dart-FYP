@@ -74,7 +74,7 @@ We intentionally began with simple, passive prototypes. This was critical for us
 ---
 
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> 2. Ground Rules </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3;"><strong> 2. Ground Rules </strong></summary>
 
 Certain ground rules were established before beginning on the projectile designs. Here are the full design considerations, prior to beginning any design. Along the way, many other considerations were made which will be further elaborated below each projectile design respectively. 
 
@@ -96,7 +96,7 @@ Second would be the **pressure distribution in the case of crosswinds**, which i
 
 
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> 3. Center of Gravity vs Center of Pressure Analysis </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3;"><strong> 3. Center of Gravity vs Center of Pressure Analysis </strong></summary>
 
 picture
 
@@ -124,7 +124,7 @@ inspiration : https://www.youtube.com/watch?v=jikEHfFwBd8
 
 
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> 4. TWO wings vs THREE wings vs FOUR wings Analysis </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3;"><strong> 4. TWO wings vs THREE wings vs FOUR wings Analysis </strong></summary>
 
 <br>
 ![gliderpressure1]({{ site.baseurl }}/assets/images/shyam/2fin.png)
@@ -182,7 +182,7 @@ The investigation was a critical failure that provided immense value. CFD analys
 
 
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> In-Depth Analysis on GLIDER </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3; "><strong> In-Depth Analysis on GLIDER (Click to view) </strong></summary>
 
 <br>
 ![gliderpressure1]({{ site.baseurl }}/assets/images/shyam/gliderpressure1.png)
@@ -254,7 +254,7 @@ However, the CFD also revealed a fatal, high-impact flaw: **critically high drag
 "Thorn" proved that stability was easily achieved with inclusion of fins. It was rejected because the real challenge was managing drag. This forced our subsequent iterations to **focus on aerodynamic efficiency** and **body-shape optimization.**
 
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> In-Depth Analysis on THORN </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3;"><strong> In-Depth Analysis on THORN (Click to view) </strong></summary>
 
 <br>
 ![thorndrag]({{ site.baseurl }}/assets/images/shyam/thorndrag.png)
@@ -329,7 +329,7 @@ Its very success was its one limitation: as a passive projectile, it had no way 
 
 
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> In-Depth Analysis on CROSSBLADE </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3;"><strong> In-Depth Analysis on CROSSBLADE (Click to view)</strong></summary>
 
 The "Crossblade" prototype was designed to solve the two primary drag problems identified in ***"Thorn"***, which was **form drag** and **base drag**.
 
@@ -406,7 +406,7 @@ CFD confirmed **massive parasitic drag** from all the exposed hinges and ducts. 
 
 
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> In-Depth Analysis on XWing </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3;"><strong> In-Depth Analysis on XWing (Click to view) </strong></summary>
 
 <br>
 ![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwingdrag.png)
@@ -502,7 +502,7 @@ This prototype was the definitive "dead end." It taught us a crucial lesson, whi
 
 
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> In-Depth Analysis on XWing 2 </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3;"><strong> In-Depth Analysis on XWing 2 (Click to view) </strong></summary>
 
 <br>
 ![xwingdrag]({{ site.baseurl }}/assets/images/shyam/xwing2drag.png)
@@ -539,15 +539,16 @@ We attempted to solve P4's roll instability by removing the bottom canard, creat
 * This design does not solve the fundamental problem of canard-vortex interaction ("dirty air"). CFD analysis confirmed that significant, complex aerodynamic forces were still present.
 
 ## 3. Rejection and Final Validation
+
 This prototype was rejected. While the carbon fiber splines were an excellent solution to a complex structural problem (wing flex), this fix was applied to a fundamentally flawed aerodynamic concept. The design remained heavy, high-drag, and unstable.
-This conclusion was definitively confirmed by **external data** from the 2025 RMUC competition. Our team learned from the Dalian University of Technology (DUT) DART team that their similar canard-and-fan design achieved only **80% accuracy**. They reported that top teams (95%+ accuracy) used **simpler designs without canards or fans.****
+This conclusion was definitively confirmed by **external data** from the 2025 RMUC competition. Our team learned from the Dalian University of Technology (DUT) DART team that their similar canard-and-fan design achieved only **80% accuracy**, and did not make it into the top 10 performing DART teams. The top 10 teams (95%+ accuracy) used **simpler designs without canards or fans.****
 The DUT team confirmed the added complexity and mass were **not justified by performance**. To stay under the 350g limit, they had to thin the projectile walls, leading to **high breakage rates** on impact. This real-world data provided the final evidence that the active canard/fan concept is a "dead end."
 <br>
 ![results]({{ site.baseurl }}/assets/images/shyam/projresult.png)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 31: Surface Plot (pressure) on X WING2.</em>
+<em>Figure 31: 2025 RMUC competition Score.</em>
 </p>
 
 
@@ -592,7 +593,7 @@ The long tie-rod linkages (from mid-body servos) created severe control slop and
 
 
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> In-Depth Analysis on TRIDENT </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3;"><strong> In-Depth Analysis on TRIDENT (Click to view) </strong></summary>
 
 "Trident" was a conceptual breakthrough. By moving the control surfaces to the rear, we use "clean," undisturbed air, eliminating the canard-vortex interaction ("dirty air") that caused the roll instability in P4 and P5. However, the implementation of this new philosophy revealed two major categories of mechanical and structural flaws.
 
@@ -663,7 +664,7 @@ Media 02: Video of Hunter Split-Up (New Segmented Design)
 
 ---
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> In-Depth Analysis on HUNTER </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3;"><strong> In-Depth Analysis on HUNTER (Click to view)</strong></summary>
 
 
 "Hunter" represents the culmination of our iterative design process. It implements the successful "rear-fin active control" philosophy from Prototype 6 while systematically engineering solutions for all of P6's identified mechanical and structural failures.
@@ -690,7 +691,7 @@ Media 02: Video of Hunter Split-Up (New Segmented Design)
 
 ---
 <details markdown="1">
-<summary style="font-size: 1.3rem; font-weight: 450;"><strong> Multi Material Innovation </strong></summary>
+<summary style="font-size: 1.3rem; font-weight: 450; color: #0059b3;"><strong> Multi Material Innovation </strong></summary>
 
 <br>
 ![multi]({{ site.baseurl }}/assets/images/shyam/multi.png)

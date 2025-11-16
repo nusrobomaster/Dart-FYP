@@ -9,10 +9,25 @@ has_toc: false
 ---
 
 <!-- Short overview of the projectile here -->
-Mechanical (Projectile)
+# Dart Projectile Section
 
-This section lists the child pages for the mechanical aspects of the Projectile, such as structure, aerodynamics, and testing.
+<br>
+![ponly]({{ '/assets/images/shyam/ponly.png' | relative_url }})
+{: .text-center}
+<br>
+<p align="center" class="small-text">
+<em>3D rendering showing the Projectiles</em>
+</p>
 
-Electrical & Software (Projectile)
 
-This section lists the child pages for the electrical work related to the Projectile, including sensors, triggering, and data capture.
+<h3>
+<a href="{{ '/dart-system/projectile/mechanical' | relative_url }}">Mechanical - Projectile</a>
+</h3>
+
+This section lists the mechanical aspects of the Projectile, such as structure, aerodynamics, and testing.
+
+<h3>
+<a href="{{ '/dart-system/projectile/elec-software' | relative_url }}">Electrical & Software - Projectile</a>
+</h3>
+
+This section lists the electrical work related to the Projectile, including sensors, triggering, and data capture.

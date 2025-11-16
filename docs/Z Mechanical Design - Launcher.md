@@ -53,20 +53,13 @@ This method uses two pairs of counter-rotating flywheels to grip and accelerate 
 * **Tension Spring & Compression Spring**
 
 <br>
-![tension]({{ '/assets/images/shyam/tension.png' | relative_url }})
+![tension]({{ '/assets/images/shyam/newspring.png' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 2: Tension Spring based launcher</em>
+<em>Figure 2, 3, 4: Tension and Compression Spring based launchers</em>
 </p>
 
-<br>
-![compression]({{ '/assets/images/shyam/compression.png' | relative_url }})
-{: .text-center}
-<br>
-<p align="center" class="small-text">
-<em>Figure 3: Compression Spring based launcher</em>
-</p>
 
 These systems store energy in large mechanical springs.
 **Compression springs** *push* the projectile from its base. This is dynamically unstable, as any off-axis force can cause the projectile to "fishtail" (yaw) during its travel on the rail. **Tension springs** *pull* the projectile from a sled, which is aerodynamically superior as it guarantees a stable, straight-line exit. However, both spring types were rejected due to **serviceability and mechanical flaws**. The large, centralized springs are difficult to access for replacement. Furthermore, their hook-and-ring attachment points introduce mechanical tolerances (slop) that can lead to inconsistent energy transfer.
@@ -120,7 +113,7 @@ Our system, however, pulls to a pre-set **force target** (e.g., 50 kgF). The mot
 
 
 <details markdown="1">
-<summary style="font-size: 1.5rem; font-weight: 450;"><strong> 5. Mathematical Calculations </strong></summary>
+<summary style="font-size: 1.5rem; font-weight: 450; color: #0059b3;"><strong> 📈5. Mathematical Calculations📈 (Click here) </strong></summary>
 
 
 ## 5.1. Material Justification
@@ -243,7 +236,7 @@ $$\rho$$: density of air = $$1.225kg/m^3$$
 
 $$v$$: instantaneous speed of projectile = $$\sqrt{v_x^2 + v_y^2}$$ , $$v_x$$ and $$v_y$$ being the x and y vectors of the velocity of projectile
 
-$$C_D$$: assumed drag coefficient = $0.35$
+$$C_D$$: assumed drag coefficient = $$0.35$$
 
 $$A$$: projectile's frontal area
 
@@ -275,7 +268,7 @@ $$\therefore \text{ (2) --------- } a_y = \frac{dv_y}{dt} = -g - \frac{k}{m}v_y\
 These two equations (1) and (2) form a system of coupled, non-linear 2nd-order Ordinary
 Differential Equations (ODE). This system does not have simple, close-form analytical solutions.
 
-Therefore to find the trajectory, we must solve the ODEs numerically. We will employ a time-marching numerical method. We will simulate the projectile's state $$(x, y, v_x, v_y)$$ at discrete time steps $\Delta t$. A more common **ROBUST method is the 4th-order Runge-Kutta (RK4) Algorithm**. A simpler Euler method can be used as well, but it is less stable. This numeric model forms the core of our Direct Fire Control System, which will predict the point(s) of impact based on our initial conditions.
+Therefore to find the trajectory, we must solve the ODEs numerically. We will employ a time-marching numerical method. We will simulate the projectile's state $$(x, y, v_x, v_y)$$ at discrete time steps $$\Delta t$$. A more common **ROBUST method is the 4th-order Runge-Kutta (RK4) Algorithm**. A simpler Euler method can be used as well, but it is less stable. This numeric model forms the core of our Direct Fire Control System, which will predict the point(s) of impact based on our initial conditions.
 
 ***Solution finding algorithm***
 
@@ -323,7 +316,7 @@ $$y_{HIT!} = S_{previous}.y + (S.y - S_{previous}.y) \cdot \frac{X_{Target} - S_
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure 37: Launch code output.</em>
+<em>Launch code output.</em>
 </p>
 
 
