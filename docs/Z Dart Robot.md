@@ -9,20 +9,20 @@ has_toc: false
 ---
 
 <!-- overview of the dart robot -->
+# Dart Robot Section
 
 <br>
 ![pyl]({{ '/assets/images/shyam/pyl.png' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>3D rendering of Yaw, Pitch and Launcher.</em>
+<em>3D rendering of Yaw, Pitch and Launcher</em>
 </p>
 
-
-Mechanical (Dart Robot)
+### Mechanical (Dart Robot)
 
 This section lists the child pages for the mechanical subsystems of the Dart Robot: Yaw, Pitch, and Launcher.
 
-Electrical & Software (Dart Robot)
+### Electrical & Software (Dart Robot)
 
 This section lists the child pages for the electrical and software work of the Dart Robot, covering sensing, control logic, and actuation.

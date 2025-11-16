@@ -9,20 +9,21 @@ has_toc: false
 ---
 
 <!-- Short overview of the projectile here -->
+# Dart Projectile Section
 
 <br>
 ![ponly]({{ '/assets/images/shyam/ponly.png' | relative_url }})
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Projectile section.</em>
+<em>3D rendering showing the Projectiles</em>
 </p>
 
 
-Mechanical (Projectile)
+### Mechanical (Projectile)
 
 This section lists the child pages for the mechanical aspects of the Projectile, such as structure, aerodynamics, and testing.
 
-Electrical & Software (Projectile)
+### Electrical & Software (Projectile)
 
 This section lists the child pages for the electrical work related to the Projectile, including sensors, triggering, and data capture.

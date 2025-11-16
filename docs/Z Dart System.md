@@ -19,7 +19,6 @@ From the functionality table, we derived the following subsystems labelled in th
 <em>A 3D rendering of a Dart Robot designed by RMOC.</em>
 </p>
 
-
 # The Team
 
 Below are the personnel in our project team, and the breakdown of responsibilities for each subsystem.
