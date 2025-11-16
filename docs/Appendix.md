@@ -56,6 +56,33 @@ Dart deals more damage than other projectiles.
 <br>
 <br>
 
+## Appendix 4: Design Considerations for Board Selection Table
+<br>
+Below are 16 boards with small form factor, GPIO capabilities and camera port separated by their various brands.
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Projectile/Board_Selection_Table_1.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Various Boards Table 1</em></p>
+<br>
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Projectile/Board_Selection_Table_2.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Various Boards Table 2</em></p>
+<br>
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Projectile/Board_Selection_Table_3.png' | relative_url }}" width="400">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Rejected Boards and Justification for Rejection</em></p>
+<br>
+We are then left with the 5 boards: OpenMV RT1062, N6, ESP32 WROOM CAM, XIAO ESP32 S3 SENSE and REALTEK AMB82 as shown in the Board Selection section.
+<br>
+
 ## Appendix 5: Torque Calculations
 <br>
 Torque, T is minimum torque required to move the servo horn with the fin attached against gravity. 
@@ -82,9 +109,59 @@ T = Fd
 ## Appendix 6: PCB Schamtic and BOM
 
 ### PCB Schematic
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Projectile/PCB_Schematic_1.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Right Servos and OpenMV Board Power Schematic [Segmented]</em></p>
+<br>
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Projectile/PCB_Schematic_5.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Left Servos Schematic [Segmented]</em></p>
+<br>
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Projectile/PCB_Schematic_2.png' | relative_url }}" width="400">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Battery Input Schematic [Segmented]</em></p>
+<br>
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Projectile/PCB_Schematic_3.png' | relative_url }}" width="600">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>LM1085 Voltage Regulator Schematic [Segmented]</em></p>
+<br>
+<br>
+<p align="center">
+  <img src="{{ '/assets/images/vj/Projectile/PCB_Schematic_4.png' | relative_url }}" width="400">
+</p>
+{: .text-center}
+<p align="center" class="small-text"><em>Dart Trigger Power Schematic [Segmented]</em></p>
+<br>
+
+### BOM
+
+| No. | Link | Description | Qty | Total (SGD) |
+|----:|------|-------------|----:|------------:|
+| 1 | [LM1085IS-ADJ-NOPB](https://www.digikey.sg/en/products/detail/texas-instruments/LM1085IS-ADJ-NOPB/363561) | Linear voltage regulator, adjustable, 3A | 1 | 3.55 |
+| 2 | [GCM188R71H104KA57D](https://www.digikey.sg/en/products/detail/murata-electronics/GCM188R71H104KA57D/1641698) | 0.1 µF, 50V, X7R, 0603 | 4 | 1.16 |
+| 3 | [GRM21BC71C106KE11L](https://www.digikey.sg/en/products/detail/murata-electronics/GRM21BC71C106KE11L/4905486) | 10 µF, 16V, X7S, 0805 | 4 | 1.60 |
+| 4 | [293D106X5016C2TE3](https://www.digikey.sg/en/products/detail/vishay-sprague/293D106X5016C2TE3/1578618) | 10 µF molded tantalum capacitor | 2 | 2.54 |
+| 5 | [CRCW1206365RFKEA](https://www.digikey.sg/en/products/detail/vishay-dale/CRCW1206365RFKEA/1176593) | 365 Ω, 1%, 0.25W resistor, 1206 | 1 | 0.15 |
+| 6 | [RNCP1206FTD121R](https://www.digikey.sg/en/products/detail/stackpole-electronics-inc/RNCP1206FTD121R/2240317) | 121 Ω, 1%, 0.5W resistor, 1206 | 1 | 0.15 |
+| 7 | Taken from Workshop | 8-pin header, 2.54 mm | 2 | nil |
+| 8 | [16SVPF180M](https://www.digikey.sg/en/products/detail/panasonic-electronic-components/16SVPF180M/4204811) | 180 µF, 16V polymer capacitor, SMD | 4 | 3.92 |
+| 9 | Taken from Workshop | XT30-M connector (workshop) | 1 | nil |
+| 10 | JLCPCB | Dart OpenMV PCB V2 | 5 | 2 + 7 (shipping) |
 
 
-
+Total cost of 1 PCB = 37.45 SGD
 
 
 ## Appendix 7: Calculations for torque requirements - Yaw
