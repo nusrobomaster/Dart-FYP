@@ -7,28 +7,28 @@ layout: default
 permalink: /dart-system/dart-robot/elec-software
 ---
 
-# Objectives & Deliverables
+## 7.0 Introduction
 <br>
-**Objective:** Identify, design and implement electrical and software needs for the dart robot user
+**Objective:** Identify, design, and implement the electrical and software requirements for the dart robot based on user needs.
 
 **Deliverables:**
-1. Breakdown functionalities required in a dart robot and ideate for methodology required 
+1. Define the dart robot functionalities and propose the methodology 
 → [See Section 7.1](#func-breakdown)
-2. Design a functional prototype based on methodology
+2. Design a functional prototype based on the proposed methodology
  → [See Section 7.2](#func-prototype)
-3. Implement the designed functional prototype
+3. Implement the designed prototype
 → [See Section 7.3](#implement-prototype)
 
 ---
 
-## 7.1 Functionalities breakdown {#func-breakdown}
+## 7.1 Function Definition and User Interaction {#func-breakdown}
 
 ### 7.1.1 Background
 
-Dart robot users need to control the dart robot so it can shoot dart projectiles stated in the introduction. To identify how and when the dart robot will be used, **user journey** gives you the perspective of the user.
+Dart robot users control the dart robot to shoot dart projectiles. The **user journey** maps out how the user operates the dart robot and the points where each function is required.
 
 
-### 7.1.2 User journey
+### 7.1.2 User Journey
 
 <br>
 
@@ -48,7 +48,7 @@ From the User Journey, 5 key functions were identified:
 4. Remote control as an interface with the subsystems  
 5. Motors to actuate different mechanisms  
 
-However, four issues were identified when attempting to implement the five key functions:
+However, four constraints were identified when attempting to implement the five key functions:
 
 1. Uncertainty regarding how the different functions would integrate.  
 2. High implementation cost due to limited available funds.  
@@ -57,18 +57,20 @@ However, four issues were identified when attempting to implement the five key f
 
 ### 7.1.3 Design Methodology
 
-Given these constraints, the **critical function prototyping methodology** was selected to prioritise integration validation. This approach:
+Given the above constraints, the **critical function prototyping methodology** was selected to prioritise integration validation. This approach tackle each constraint by:
 
-1. Verifies core subsystem interfaces early, reducing integration uncertainty and confirming module interoperability before full-system development.  
-2. Restricts the prototype to essential functions, preventing premature expenditure on modules that may later face integration issues.  
-3. Enables early evaluation of sensing and actuation paths, providing direct data on integration limits related to precision and accuracy.  
-4. Allows electrical–mechanical interface work to proceed using interim or simplified actuation while the final motor selection is pending.  
+1. Verifying core subsystem interfaces early, reducing integration uncertainty and confirming module interoperability before full-system development.  
+2. Restricting the prototype to essential functions, preventing premature expenditure on modules that may later face integration issues.  
+3. It isolates the key components that must operate reliably at speed and allows early tuning of those elements, while providing data such as the required band force and corresponding band length needed to hit the target.
+4. Allowing electrical–mechanical interface work to proceed using interim or simplified actuation while the final motor selection is pending.  
 
 ---
 
 ## 7.2 Design of functional prototype {#func-prototype}
 
 ### 7.2.1 Design Specifications
+
+The design specifications were drafted based on the critical function prototype methodology, focusing only on the parameters needed to validate subsystem integration and core functionality.
 
 <br>
 
