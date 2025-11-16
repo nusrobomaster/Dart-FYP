@@ -158,7 +158,7 @@ The battery can safely support 7 launches. (see below for calculation).
 
 <br>
 Assumptions made:
-1. Board is put to sleep 10 seconds after hitting the same target
+1. Board is put to sleep 10 seconds after hitting the target
 2. User turns off the projectile within 1 minute of the end of the 7 minute round
 <br>
 
@@ -384,7 +384,7 @@ In the video above, the ball wrapped in green tape simulates the target. The ser
 <br>
 
 ### 3.9 Testing
-
+<br>
 <div style="text-align: center;">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/N53aaVkHazw?si=GyJFkzI2fc9FTwP0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
