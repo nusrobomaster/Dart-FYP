@@ -123,7 +123,7 @@ The design specifications were drafted based on the critical function prototype 
 | Cost of individual items to be bought | < $20 | Provides a financial buffer for crucial industrial mechanical and electrical components in the next prototype. |
 | Electronic Lock Holding force |  > 2 × 23 kgF | Safety factor of 2 and based on 23 kgF derived from the launching mechanical subsystem. |
 | Load cell exictation voltage | 5 V | Common excitation voltage for load cells. **Swappable** once the rated load cell is determined, requiring minimal code/electrical changes. |
-| Touch Screen Electrical Interface| Easy interface with RoboMaster’s Dev Board A [1] |  Simplifies wiring with existing hardware. |
+| Touch Screen Electrical Interface| Easy interface with RoboMaster’s Development Board A [1] |  Simplifies wiring with existing hardware. |
 
 
 <div style="text-align:center;">
@@ -174,9 +174,9 @@ The implementation of this function requires three primary components:
 
 ##### Touchscreen display / Compatible driver
 
-Balancing between the RAM limitations of the STM32F4 microcontroller, the type of touch sensor, and the screen size, a list of touchscreens was narrowed down in the table below.
+Balancing between the RAM limitations of the STM32F4 microcontroller in the RoboMaster’s Development Board A, the type of touch sensor, and the screen size, a list of touchscreens was narrowed down in the table below.
 
-| Specification | TFT LCD 2.4" resistive | TFT LCD 3.5" resistive | Hosyond 3.5" IPS capacitive |
+| Specification | TFT LCD 2.4" resistive | **TFT LCD 3.5" resistive** | Hosyond 3.5" IPS capacitive |
 |--------------|-------------------------|--------------------------|------------------------------|
 | Resolution   | 240×320                 | 480×320                  | 480×320                     |
 | Touch        | Resistive               | Resistive                | Capacitive                  |
@@ -288,8 +288,9 @@ The current prototype tested the integration of the different components and dem
 The control method shown in the prototype video uses simple bang-bang logic. A full elastic-band model must be developed before selecting an appropriate controller. In addition, the feeding controls for the remaining darts have not yet been designed.
 
 The prototype also revealed a limitation in the current GUI implementation. The selected GUI library updates correctly during the initial write but does not refresh on subsequent writes, preventing real-time parameter display. The touch-sensing component also shows inaccurate position detection and requires calibration, which will be carried out during the winter holidays. Both issues must be addressed before integrating the GUI into the full control system.
+<br>
 ### 7.3.5 Future work
 1. Tension control for the elastic band
-2. Current load cell is not rated for the final design  
-3. Current motor is not rated for the final design  
+2. Source a load cell that meets technical requirements once determined
+3. Source and Implement motors (i.e yaw, pitch, feeding, launching) 
 4. GUI library and touch functions need to be fixed
