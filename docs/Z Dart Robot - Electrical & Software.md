@@ -6,7 +6,6 @@ nav_order: 4
 layout: default
 permalink: /dart-system/dart-robot/elec-software
 ---
-
 ## 7.0 Introduction
 <br>
 **Objective:** Identify, design, and implement the electrical and software requirements for the dart robot based on user needs.
@@ -40,13 +39,52 @@ Dart robot users control the dart robot to shoot dart projectiles. The **user jo
 Figure 7.1: Video of User Journey
 </p>
 
-From the User Journey, 5 key functions were identified:
 
-1. Tension feedback for the launcher  
-2. Touch Screen Graphics User Interface for entering inputs  
-3. Electrical lock to work with the launcher  
-4. Remote control as an interface with the subsystems  
-5. Motors to actuate different mechanisms  
+From the User Journey, the functions below were identified.
+
+<table>
+  <tr>
+    <th>Function</th>
+    <th>Mechanism / Description</th>
+  </tr>
+
+  <tr>
+    <td>Pitch and Yaw Motor Control</td>
+    <td>
+      Control pitch and yaw motor movement based on user input, with an interface that accepts commands from either the remote controller or the touchscreen.
+    </td>
+  </tr>
+
+  <tr>
+    <td>Remote Controller Input Handling</td>
+    <td>
+      Read and process pitch, yaw, and launch commands from the remote controller.
+    </td>
+  </tr>
+
+  <tr>
+    <td>Touchscreen Input Interface</td>
+    <td>
+      A GUI captures pitch, yaw, and tension inputs from the touchscreen.
+    </td>
+  </tr>
+
+  <tr>
+    <td>System Status and Feedback Display</td>
+    <td>
+      Update the touchscreen with motor status, angles, tension, and lock state, and show errors for motor or sensor faults (Not shown but useful).
+    </td>
+  </tr>
+
+  <tr>
+    <td>Elastic Band Launching Mechanism Control</td>
+    <td>
+      The launching motor drives and positions the solenoid lock, secures the elastic band, regulates tension using load-cell feedback until the set force is reached, and releases the lock when the launch command is triggered.
+    </td>
+  </tr>
+</table>
+
+
 
 However, four constraints were identified when attempting to implement the five key functions:
 
@@ -61,7 +99,7 @@ Given the above constraints, the **critical function prototyping methodology** w
 
 1. Verifying core subsystem interfaces early, reducing integration uncertainty and confirming module interoperability before full-system development.  
 2. Restricting the prototype to essential functions, preventing premature expenditure on modules that may later face integration issues.  
-3. It isolates the key components that must operate reliably at speed and allows early tuning of those elements, while providing data such as the required band force and corresponding band length needed to hit the target.
+3. Isolating the key components that must operate reliably easily and allows early tuning of those elements, while providing data such as the required band force and corresponding band length needed to hit the target.
 4. Allowing electrical–mechanical interface work to proceed using interim or simplified actuation while the final motor selection is pending.  
 
 ---
@@ -74,6 +112,7 @@ The design specifications were drafted based on the critical function prototype 
 
 <br>
 
+
 | **Features** | **Specification** | **Reasoning** |
 |--------------|-------------------|---------------|
 | Maximum Power Supply Voltage (V) | 30 | Follows the building specification requirements from RMOC [1]. |
@@ -83,6 +122,7 @@ The design specifications were drafted based on the critical function prototype 
 | Load cell with ADC | 5 V excitation voltage | Common excitation voltage for load cells. **Swappable** once the rated load cell is determined, requiring minimal code/electrical changes. |
 | Touch Screen | Easy interface with RoboMaster’s Dev Board A [1] | Stakeholder-provided development board for ease of use when handing over the dart robot. |
 
+
 <div style="text-align:center;">
 Table 7.1: Design Specifications
 </div>
@@ -90,40 +130,36 @@ Table 7.1: Design Specifications
 <br>
 
 
-### 7.2.2 Choice of Items
-
-#### 7.2.2.1 Stakeholder Provided Items
+### 7.2.2 Stakeholder Provided Items
 As the project is used for NUS Calibur Robotics, several items were provided by the stakeholder.
 <br>
 
 | **Items** | **Reasons** |
 |----------|-------------|
 |<img src="{{ '/assets/images/barry/TB48S.png' | relative_url }}" width="140"> <br> **Battery (TB48S)** | ✅ Maximum Power Supply Voltage (24V) < 30 V <br> ✅ Maximum Total Power Capacity (129.96Wh) < 300Wh <br><br> *Design specifications met* |
-| <img src="{{ '/assets/images/barry/dev_a.png' | relative_url }}" width="140"> <br> **RoboMaster Development Board A** | Stakeholder ease of operation and widely available in the stakeholder’s workshop |
-| <img src="{{ '/assets/images/barry/RoboMaster_Remote_Controller.png' | relative_url }}" width="140"> <br> **RoboMaster Remote Controller** | Stakeholder ease of operation and widely available in the stakeholder’s workshop |
-| <img src="{{ '/assets/images/barry/M2006_motor.png' | relative_url }}" width="140"> <br> **M2006 Motor** | Widely available and lightweight, easy to bring around for prototyping |
+| <img src="{{ '/assets/images/barry/dev_a.png' | relative_url }}" width="140"> <br> **RoboMaster Development Board A** | 1. Stakeholder ease of operation <br> 2. Easy electrical interface with other stakeholder provided items  <br> 3. Widely available in the stakeholder’s workshop |
+| <img src="{{ '/assets/images/barry/RoboMaster_Remote_Controller.png' | relative_url }}" width="140"> <br> **RoboMaster Remote Controller** | 1. Stakeholder ease of operation <br> 2. Well-documented, with a provided receiver driver <br> 3. Widely available in the stakeholder’s workshop |
+| <img src="{{ '/assets/images/barry/M2006_motor.png' | relative_url }}" width="140"> <br> **M2006 Motor** | 1. Lightweight, easy to bring around for prototyping <br> 3. Well-documented, with a provided motor driver  <br> 2. Widely available in the stakeholder’s workshop |
 
 <div style="text-align:center;">
-Table 7.2:  Stakeholder Provided Items
+Table 7.2:  Stakeholder Provided Items and justification for using them
 </div>
 
 <br>
 
-#### 7.2.2.2 Choice of Bought items
-
-##### 7.2.2.2.1 Lock & Load Cell
+### 7.2.3 Electronic Lock & Load Cell
 
 | **Items** | **Reasons** |
 |----------|-------------|
-| <img src="{{ '/assets/images/barry/Electronic_solenoid_lock.png' | relative_url }}" width="140"> <br> **Electronic Solenoid Lock** | ✅ Rated 75 kgF — Holding force > 2 × 23 kgF (meets safety factor) <br><br> ✅ (Cost: \$10.94) < \$20 <br><br> *Design specifications met* |
-| <img src="{{ '/assets/images/barry/Beam_type_load_cell_with_ADC.png' | relative_url }}" width="140"> <br> **Load Cell with Analog-to-Digital Converter** | ✅ Rated 5V excitation voltage — meets 5V system excitation requirement <br><br> ✅ (Cost: \$2.59) < \$20 <br><br> *Design specifications met*|
+| <img src="{{ '/assets/images/barry/Electronic_solenoid_lock.png' | relative_url }}" width="140"> <br> **Electronic Solenoid Lock** | ✅ Rated 75 kgF — Holding force > 2 × 23 kgF (meets safety factor) <br><br> ✅ (Cost: \$10.94) < \$20 <br><br> **Design specifications met** |
+| <img src="{{ '/assets/images/barry/Beam_type_load_cell_with_ADC.png' | relative_url }}" width="140"> <br> **Load Cell with Analog-to-Digital Converter** | ✅ Rated 5V excitation voltage — meets 5V system excitation requirement <br><br> ✅ (Cost: \$2.59) < \$20 <br><br> **Design specifications met**|
 
 <div style="text-align:center;">
 Table 7.3: Bought items & Reasons
 </div>
 
 
-##### 7.2.2.2.2 Touch Screen GUI
+### 7.2.4 Touch Screen GUI
 
 As per the user journey, a touch screen GUI is required to enter values for pitch, yaw, and force.  
 The implementation of this function requires three primary components:
@@ -133,7 +169,7 @@ The implementation of this function requires three primary components:
 3. A graphical user interface (GUI) library  
 <br>
 
-###### 7.2.2.2.2.1 Touchscreen display / Compatible driver
+##### Touchscreen display / Compatible driver
 
 Balancing between the RAM limitations of the STM32F4 microcontroller, the type of touch sensor, and the screen size, a list of touchscreens was narrowed down in the table below.
 
@@ -155,7 +191,7 @@ Capacitive touch screens are also far more expensive than resistive ones, and si
 
 <br>
 
-###### 7.2.2.2.2.2 GUI library
+#### GUI library
 
 When looking for a graphics user interface, a few libraries came up. Based on library usability, three options were shortlisted for comparison in the table below.
 
@@ -174,7 +210,7 @@ When looking for a graphics user interface, a few libraries came up. Based on li
 Table 7.5: GUI Library Comparison
 </div>
 
-Based on the selection criteria, it was a close decision between LVGL and TouchGFX. LVGL being very flexible and TouchGFX optimise for stm32 chips hardware. With the given STM32F4,  the advantage that touchGFX has in stm32 chips could not be used. This is coupled with the desire of more flexibility in visual design that LVGL offers. Hence,  **LVGL** was chosen as the GUI library.
+Based on the selection criteria, it was a close decision between LVGL and TouchGFX. LVGL being very flexible and TouchGFX is optimise for stm32 chips hardware. With the given STM32F4,  the advantage that touchGFX has in stm32 chips could not be used. This is coupled with the desire of more flexibility in visual design that LVGL offers. Hence,  **LVGL** was chosen as the GUI library.
 
 <br>
 
@@ -196,7 +232,7 @@ After selecting the required components, each part was implemented separately an
 </div>
 
 <div style="text-align:center;">
-Table 7.6: Touch Screen Comparison
+Table 7.6: Module testing and code development table 
 </div>
 
 ---
@@ -219,6 +255,8 @@ Figure 7.3: Critical Function Prototype Video
 
 ### 7.3.2 Current electrical architecture
 
+From the prototype, the dart robot electrical diagram is shown below
+
 <div style="text-align:center;">
   <img src="{{ '/assets/images/barry/Segmented_power_diagram.png' | relative_url }}" style="width:60%;" />
   <p class="figure-caption">Figure 7.4: Segmented Power Diagram of Dart Robot</p>
@@ -229,21 +267,30 @@ Figure 7.3: Critical Function Prototype Video
   <p class="figure-caption">Figure 7.5: Dart Robot Signal Overview</p>
 </div>
 
----
 
 ### 7.3.3 Current software architecture
 
+Likewise, the software architecture is shown below
+
 <div style="text-align:center;">
   <img src="{{ '/assets/images/barry/Data_flow_diagram.jpg' | relative_url }}" style="width:60%;" />
-  <p class="figure-caption">Figure XX: Dart Robot Data Flow Diagram</p>
+  <p class="figure-caption">Figure 7.6: Dart Robot Data Flow Diagram</p>
 </div>
+
+The data flow diagram (DFD) illustrates how data moves within the Dart Robot system. At Level 0, user commands from the remote control, force data from the load cell, and lock status from the solenoid are processed by the Dart Robot, which outputs motor speed, motor status, and display data to the resistive touchscreen. The Level 1 DFD expands this process into specific software tasks within the system. The Remote Control ISR handles user inputs, while the Force Sensor Task processes force data from the sensor. The Solenoid Control Task manages lock control, and the Motor Control Task regulates motor speed and status. The Launching Control Task coordinates between the motor and force sensor for firing operations, and the Resistive Touchscreen Task displays key system data. Together, these tasks define the data interactions and control logic that govern the dart robot’s operation
 
 ---
 
-## Future work
+### 7.3.4 Limitations
+The current prototype tested the integration of the different components and demonstrated the expected overall behaviour. However, the strict engineering requirements for the final dart robot have not yet been met, as these depend on pending mechanical specifications. Once those specifications are available, software modifications should be straightforward. The motor control task will require only a driver change, and the load cell replacement will require only recalibration.
 
-- Tension control accuracy  
-- Task prioritisation  
-- Load cell upgrade  
-- Motor upgrade  
-- GUI + touch implementation remaining  
+The control method shown in the prototype video uses simple bang-bang logic. A full elastic-band model must be developed before selecting an appropriate controller. In addition, the feeding controls for the remaining darts have not yet been designed.
+
+The prototype also revealed a limitation in the current GUI implementation. The selected GUI library updates correctly during the initial write but does not refresh on subsequent writes, preventing real-time parameter display. This issue must be addressed before integrating the GUI into the full control system.
+
+### 7.3.5 Future work
+1. Tension control for the elastic band needs higher accuracy and precision.  
+2. Code scalability for added tasks (feeding, yaw, pitch) and runtime task prioritisation.  
+3. Current load cell is not rated for the final design.  
+4. Current motor is not rated for the final design.  
+5. GUI library and touch functions are not yet implemented.
