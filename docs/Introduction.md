@@ -89,12 +89,12 @@ ASI - 403 would be building a new DART robot. (See Appendix 1 for description of
 <p align="center" class="small-text">
 <em>Figure 1-5: Example Projectile Flight Path</em>
 </p>
-The robot holds up to four projectiles and stays inside the Dart Launching Station with a gate that can open twice per round—once after 30 seconds and again after 4 minutes from the start of the round. Each opening lasts 20 seconds, followed by a 15-second cooldown. Unused openings can be used after the 4 minute mark.
+The robot holds up to four projectiles and stays inside the Dart Launching Station with a gate that can open twice per round—once after 30 seconds and again after 4 minutes from the start of the round. Each opening lasts 20 seconds, followed by a 15-second cooldown. Unused openings can be used after the 4 minute mark. [1]
 
 The operator selects which target (Outpost/Base) the Dart Robot aims at each opening. The team wants us to aim at base.(Strategy explained in Appendix 2)
 
 ## 1.1.6 Base Targeting Mechanics
-Teams can select the desired Base target difficulty. 
+Teams can select the desired Base target difficulty. [1]
 
 <br>
 <table>

@@ -170,7 +170,7 @@ $$
 
 ---
 
-Energy stored (usable 20%–100%) [1]
+Energy stored (usable 20%–100%) [2]
 
 $$
 E_{\text{stored}} = (\text{Capacity} \times 0.8) \times 3600
@@ -227,7 +227,7 @@ The PCB uses JST-PH 2.0 connectors. Users do not need to check individual pin co
 <p align="center" class="small-text"><em>Figure 3-3 Side View of OpenMV Board and Custom PCB</em></p>
 
 The Custom PCB would be pressed on top of the OpenMV board. The PCB helps with the wire management as 7 Power, 6 GND and 4 Signal connections need to be made in a small space. 
-It also has bulk and decoupling capacitors for each servo rail to reduce noise which results in smooth servo motion. [2]
+It also has bulk and decoupling capacitors for each servo rail to reduce noise which results in smooth servo motion. [3]
 
 (See Appendix 6 for PCB Schematic and BOM). 
 
@@ -333,7 +333,7 @@ All thrust comes from the launcher. The projectile does not generate any thrust 
 <p align="center" class="small-text"><em>Figure 3-10 LAB Threshold Editor Window in OpenMV IDE</em></p>
 <br>
 
-A LAB colour space threshold filter is used to filter out everything except the green circular guiding light below the target. After filtering, only the target will be shown as white.
+A LAB colour space threshold filter is used to filter out everything except the green circular guiding light below the target. After filtering, only the target will be shown as white. [4]
 
 #### 3.7.2 Finding X & Y Deviation
 <br>
