@@ -113,7 +113,7 @@ Our system, however, pulls to a pre-set **force target** (e.g., 50 kgF). The mot
 
 
 <details markdown="1">
-<summary style="font-size: 1.5rem; font-weight: 450;"><strong> 📈5. Mathematical Calculations📈 (Click here) </strong></summary>
+<summary style="font-size: 1.5rem; font-weight: 450; color: #0059b3;"><strong> 📈5. Mathematical Calculations📈 (Click here) </strong></summary>
 
 
 ## 5.1. Material Justification
