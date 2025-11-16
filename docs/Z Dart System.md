@@ -8,7 +8,7 @@ has_toc: false
 ---
 
 <!-- intro text -->
-# Our Robot Sunsystems
+# Our Robot Subsystems
 From the functionality table, we derived the following subsystems labelled in the rendering below.
 
 <br>
