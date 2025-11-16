@@ -16,19 +16,20 @@ As the official base cannot be purchased, an in-house version will be built to s
 ## Base: Passive structure
 First iteration will include the competition’s essential base components. It will be built quickly as a reliable target for the dart robot and projectile, and for other NUS Calibur Robotics robots.
 ### Design process: Structure
-The base structure was designed to resist impact damage from various projectiles. Due to the short timeline, a proven structural style was adopted. Inspired by the Eiffel Tower, the base uses a truss design—wider at the bottom and narrower at the top (Figure ??). All trusses are made from 2 mm 6061 aluminum hollow square tubing, joined with 3 mm 6061 aluminum gusset plates for alignment and reinforcement.
+The base structure was designed to resist impact damage from various projectiles. Due to the short timeline, a proven structural style was adopted. Inspired by the Eiffel Tower, the base uses a truss design—wider at the bottom and narrower at the top (Figure 8-1). All trusses are made from 2 mm 6061 aluminum hollow square tubing, joined with 3 mm 6061 aluminum gusset plates for alignment and reinforcement.
 
 <br>
 ![Main Structure](assets/images/jianwen/Base-main_structure.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure ??: Truss structure making up main body of base</em>
+<em>Figure 8-1: Truss structure making up main body of base</em>
 </p>
 The back support trusses connecting the base frame to the mid-section are angled and aligned with the expected impact direction of the dart. This prevents structural instability under diagonal impact of the projectile.
+
 ### Design Process: Guidance Light Source and cooling system
 
-<!-- VJ please add your stuff here <-->
+<!-- VJ please add your stuff here. If you have more Figures, update EVERYTHING accordingly <-->
 ### Design process: Light indicator component
 The base includes a dart target that slides linearly over 980 mm and is mounted 1300 mm above ground on the truss top. A green light, as specified in the competition rules, guides the dart toward the target. Above it, an armor plate inclined at 27° detects hits.
 
@@ -36,14 +37,14 @@ Two design considerations were addressed:
 1. The linear motion mechanism.
 2. A unified mount for the light, cooling system, and armor plate.
 
-To simplify assembly, all components are fixed to a single 3D-printed mount attached to a linear rail and carriage. Figure ?? shows the mount design, and Figure ??a & ??b shows the CAD model and fabricated component respectively.
+To simplify assembly, all components are fixed to a single 3D-printed mount attached to a linear rail and carriage. Figure 8-2 shows the mount design, and Figure 8-3a & 8-3b shows the CAD model and fabricated component respectively.
 
 <br>
 ![3D printed component](assets/images/jianwen/Base-Light_Component.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure ??: 3D printed mounting piece CAD</em>
+<em>Figure 8-2: 3D printed mounting piece CAD</em>
 </p>
 
 <br>
@@ -51,42 +52,42 @@ To simplify assembly, all components are fixed to a single 3D-printed mount atta
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure ??a and ??b: Fully assembly CAD, (a) and fabricated assembly (b)</em>
+<em>Figure 8-3a and 8-3b: Fully assembly CAD, (a) and fabricated assembly (b)</em>
 </p>
 
 ### Design process: Mounting of armor components
 At the client’s request, two extra armor plates were added for use by other Calibur Robotics robots. They are mounted at 487 mm and 1058 mm above ground, with the upper plate inclined 27° as per competition rules.
 
-The mounts use the same truss design, but with 3D-printed TPU pieces between the frame and armor plates to absorb shock from repeated impacts. Figures ??a and ??b show the TPU mount in CAD and after installation.
+The mounts use the same truss design, but with 3D-printed TPU pieces between the frame and armor plates to absorb shock from repeated impacts. Figures 8-4a and 8-4b show the TPU mount in CAD and after installation.
 
 <br>
 ![Armor Mounting](assets/images/jianwen/Base-armor_plate_mount.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure??a and ??b: TPU mounting piece for top large armor plate CAD, right (a), and fabricated, left (b)</em>
+<em>Figure 8-4a and 8-4b: TPU mounting piece for top large armor plate CAD, right (a), and fabricated, left (b)</em>
 </p>
-Figure ?? shows the full assembly of the passive base structure with both large armor plates mounted.
+Figure 8-5 shows the full assembly of the passive base structure with both large armor plates mounted.
 
 <br>
 ![Full CAD](assets/images/jianwen/Base-full_structure_cad.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure ??: Full CAD of the passive base structure</em>
+<em>Figure 8-5: Full CAD of the passive base structure</em>
 </p>
 
 ### Fabrication, Assembly, and Testing
 All trusses, plates, and gussets were fabricated with support from the NUS Central Workshop using standard request procedures. 
 
-Assembly took place in the same workshop, with minor truss adjustments made to correct fabrication errors. These did not delay progress. The completed setup revealed a useful “self-locking” feature in the linear rail, which holds the slider in place after movement (Figure ??).
+Assembly took place in the same workshop, with minor truss adjustments made to correct fabrication errors. These did not delay progress. The completed setup revealed a useful “self-locking” feature in the linear rail, which holds the slider in place after movement (Figure 8-6).
 
 <br>
 ![Fabricated Structure](assets/images/jianwen/Base-fabricated_structure.jpg)
 {: .text-center}
 <br>
 <p align="center" class="small-text">
-<em>Figure ??: Full assembled passive base structure</em>
+<em>Figure 8-6: Full assembled passive base structure</em>
 </p>
 A dummy dart projectile of the required weight was thrown at the structure five times. The base remained stable with no visible damage or component failure.
 
