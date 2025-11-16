@@ -170,7 +170,7 @@ $$
 
 ---
 
-Energy stored (usable 20%–100%)
+Energy stored (usable 20%–100%) [1]
 
 $$
 E_{\text{stored}} = (\text{Capacity} \times 0.8) \times 3600
@@ -227,7 +227,7 @@ The PCB uses JST-PH 2.0 connectors. Users do not need to check individual pin co
 <p align="center" class="small-text"><em>Figure 3-3 Side View of OpenMV Board and Custom PCB</em></p>
 
 The Custom PCB would be pressed on top of the OpenMV board. The PCB helps with the wire management as 7 Power, 6 GND and 4 Signal connections need to be made in a small space. 
-It also has bulk and decoupling capacitors for each servo rail to reduce noise which results in smooth servo motion.
+It also has bulk and decoupling capacitors for each servo rail to reduce noise which results in smooth servo motion. [2]
 
 (See Appendix 6 for PCB Schematic and BOM). 
 
@@ -410,7 +410,7 @@ Mapping of X, Y, Z Deviation to the right servo and angle needs to be carried ou
     <!-- Row 1 -->
     <tr>
       <td>Current mapping between X, Y, Z deviations and servo angles is not fully tuned.</td>
-      <td>Run controlled tests to refine the deviation-to-servo mapping.</td>
+      <td>Run controlled tests to refine the deviation-to-servo-angle mapping.</td>
       <td>Better tuning improves in-flight corrections and increases hit consistency.</td>
     </tr>
 
