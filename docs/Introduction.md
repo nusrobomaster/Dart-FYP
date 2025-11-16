@@ -97,7 +97,6 @@ The operator selects which target (Outpost/Base) the Dart Robot aims at each ope
 Teams can select the desired Base target difficulty. 
 
 <br>
-{% raw %}
 <table>
   <tr>
     <th>Difficulty level</th>
@@ -110,7 +109,7 @@ Teams can select the desired Base target difficulty.
     <td><strong>Easy</strong></td>
     <td>
       <p align="center">
-        <img src="{{ '/docs/assets/images/vj/Base_Module.png' | relative_url }}" width="400">
+        <img src="{{ '/assets/images/vj/Base_Module.png' | relative_url }}" width="400">
       </p>
     </td>
     <td>
@@ -155,7 +154,6 @@ Teams can select the desired Base target difficulty.
   </tr>
 
 </table>
-{% endraw %}
 
 <br>
 <p align="center" class="small-text">
