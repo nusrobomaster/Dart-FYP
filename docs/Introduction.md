@@ -97,8 +97,66 @@ The operator selects which target (Outpost/Base) the Dart Robot aims at each ope
 Teams can select the desired Base target difficulty. 
 
 <br>
-![Difficulty Table](assets/images/vj/Intro-difficulties.jpg)
-{: .text-center}
+{% raw %}
+<table>
+  <tr>
+    <th>Difficulty level</th>
+    <th>Name of target difficulty</th>
+    <th>Description</th>
+  </tr>
+
+  <!-- EASY -->
+  <tr>
+    <td><strong>Easy</strong></td>
+    <td>
+      <p align="center">
+        <img src="{{ '/docs/assets/images/vj/Base_Module.png' | relative_url }}" width="400">
+      </p>
+    </td>
+    <td>
+      Dart Detection Module remains stationary at its initial position.
+    </td>
+  </tr>
+
+  <!-- MEDIUM -->
+  <tr>
+    <td><strong>Medium</strong></td>
+    <td>
+      <iframe width="360" height="215"
+      src="https://www.youtube.com/embed/zaj2007g-zE"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+    </td>
+    <td>
+      Dart Detection Module shifts to a random position before the gate fully opens.
+      If a dart hits the target, it moves to a new random location.
+    </td>
+  </tr>
+
+  <!-- HARD -->
+  <tr>
+    <td><strong>Hard</strong></td>
+    <td>
+      <iframe width="360" height="215"
+      src="https://www.youtube.com/embed/2M_oOt_SI88"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+    </td>
+    <td>
+      Dart Detection Module moves continuously as the gate opens.
+      After a dart is launched, it relocates within 600 ms to a new random position
+      and stays stationary for up to 10 s or until the dart hits.
+      Movement range: −280 mm to +280 mm along the field width.
+    </td>
+  </tr>
+
+</table>
+{% endraw %}
+
 <br>
 <p align="center" class="small-text">
 <em>Table 1-3: Base Target Difficulty Levels</em>

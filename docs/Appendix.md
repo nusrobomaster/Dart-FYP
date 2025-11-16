@@ -75,7 +75,7 @@ Below are 16 boards with small form factor, GPIO capabilities and camera port se
 <br>
 <br>
 <p align="center">
-  <img src="{{ '/assets/images/vj/Projectile/Board_Selection_Table_3.png' | relative_url }}" width="400">
+  <img src="{{ '/assets/images/vj/Projectile/Board_Selection_Table_3.png' | relative_url }}" width="600">
 </p>
 {: .text-center}
 <p align="center" class="small-text"><em>Rejected Boards and Justification for Rejection</em></p>
