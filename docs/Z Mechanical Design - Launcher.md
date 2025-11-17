@@ -220,7 +220,7 @@ As mentioned under section [5.1 Figure 6], we had to experimentally characterise
 
 $$PE_{Band}(L) = \sum_{i=1}^{n} \frac{1}{2} [F(x_i) + F(x_{i-1})] * [x_i - x_{i-1}] \text{, whereby } L = x_n \text{ is the total draw length}$$
 
-This provides a high fidelity P.E.(L) function from the experimental data from section [ ].
+This provides a high fidelity P.E.(L) function from the experimental data from Figure 6.
 
 with efficiency $$\eta = 0.8$$ and a safety factor of $$1.2$$,
 
