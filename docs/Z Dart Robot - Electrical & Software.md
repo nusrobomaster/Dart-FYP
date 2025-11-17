@@ -217,7 +217,7 @@ Based on the selection criteria, it was a close decision between LVGL and TouchG
 
 <br>
 
-### 7.2.4 Module Testing and Code Development
+### 7.2.5 Module Testing and Code Development
 
 After selecting the required components, each part was implemented and tested with dedicated code to verify correct operation before system integration. Code used to test each component is available in the ASI-403 repository, linked at the top-right corner of the page while the [testing videos](https://www.youtube.com/playlist?list=PLNnqZhGC3D1AK7iFgLpn61OiXpmc4Bh3g) can be viewed.
 
