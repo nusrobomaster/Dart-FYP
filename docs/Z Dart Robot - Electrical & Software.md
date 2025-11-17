@@ -120,10 +120,10 @@ The design specifications were drafted based on the critical function prototype 
 |--------------|-------------------|---------------|
 | Maximum Power Supply Voltage (V) | 30 | Follows the building specification requirements from RMOC [5]. |
 | Maximum Total Power Capacity (Wh) | 300 | Follows the building specification requirements from RMOC [5]. |
-| Cost of individual items to be bought | < $20 | Provides a financial buffer for crucial industrial mechanical and electrical components in the next prototype. |
+| Cost of individual items to be bought | < $20 | Provides a **financial buffer** for crucial industrial mechanical and electrical components in the next prototype. |
 | Electronic Lock Holding force |  > 2 × 23 kgF | Safety factor of 2 and based on 23 kgF derived from the launching mechanical subsystem. |
 | Load cell exictation voltage | 5 V | Common excitation voltage for load cells. **Swappable** once the rated load cell is determined, requiring minimal code/electrical changes. |
-| Touch Screen Electrical Interface| Easy interface with RoboMaster’s Development Board A [6] |  Simplifies wiring with existing hardware. |
+| Touch Screen Electrical Interface| Easy interface with RoboMaster’s Development Board A [6] |  **Simplifies wiring** with existing hardware. |
 
 
 <div style="text-align:center;">
@@ -139,7 +139,7 @@ As the project is used for NUS Calibur Robotics, several items were provided by 
 
 | **Items** | **Reasons** |
 |----------|-------------|
-|<img src="{{ '/assets/images/barry/TB48S.png' | relative_url }}" width="140"> <br> **Battery (TB48S)** | ✅ Maximum Power Supply Voltage (24V) < 30 V <br> ✅ Maximum Total Power Capacity (129.96Wh) < 300Wh <br><br> *Design specifications met* |
+|<img src="{{ '/assets/images/barry/TB48S.png' | relative_url }}" width="140"> <br> **Battery (TB48S)** | ✅ Maximum Power Supply Voltage (24V) < 30 V <br> ✅ Maximum Total Power Capacity (129.96Wh) < 300Wh <br><br> **Design specifications met** |
 | <img src="{{ '/assets/images/barry/dev_a.png' | relative_url }}" width="140"> <br> **RoboMaster Development Board A** | 1. Stakeholder ease of operation <br> 2. Easy electrical interface with other stakeholder provided items  <br> 3. Widely available in the stakeholder’s workshop |
 | <img src="{{ '/assets/images/barry/RoboMaster_Remote_Controller.png' | relative_url }}" width="140"> <br> **RoboMaster Remote Controller** | 1. Stakeholder ease of operation <br> 2. Well-documented, with a provided receiver driver <br> 3. Widely available in the stakeholder’s workshop |
 | <img src="{{ '/assets/images/barry/M2006_motor.png' | relative_url }}" width="140"> <br> **M2006 Motor** | 1. Lightweight, easy to bring around for prototyping <br> 3. Well-documented, with a provided motor driver  <br> 2. Widely available in the stakeholder’s workshop |
