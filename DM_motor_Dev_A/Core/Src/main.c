@@ -604,11 +604,12 @@ void StartDefaultTask(void const * argument)
   /* USER CODE BEGIN 5 */
 //	int16_t state = 0;
 //	int16_t unlock = 0;
-
+  vTaskDelay(1000);
+  dm4310_motor_init();
   /* Infinite loop */
   for(;;)
   {
-	  dm4310_motor_init();
+
 	  dm4310_ctrl_send(&hcan1, &dm_pitch_motor);
 //	  switch(state){
 //	  case 0:
