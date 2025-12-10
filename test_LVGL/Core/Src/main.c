@@ -223,8 +223,14 @@ void tft_put_pixel(uint16_t x,uint16_t y,uint16_t color)
 
 void my_flush_cb(lv_display_t * display, const lv_area_t * area, uint8_t * px_map)
 {
+    /* Flush only the area LVGL asked for; sending a bigger block corrupts the frame */
+    const lv_coord_t width  = lv_area_get_width(area);
+    const lv_coord_t height = lv_area_get_height(area);
+    const size_t area_size_bytes = (size_t)width * height *
+                                   lv_color_format_get_size(lv_display_get_color_format(display));
+
 	Displ_SetAddressWindow(area->x1,area->y1, area->x2, area->y2);
-	Displ_WriteData(px_map,DISPL_WIDTH * DISPL_HEIGHT / 10 * BYTES_PER_PIXEL ,0);
+	Displ_WriteData(px_map, area_size_bytes ,0);
     lv_display_flush_ready(display);
 }
 
@@ -372,9 +378,9 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	lv_timer_handler_run_in_period(100);
-//	HAL_Delay(100);
+	HAL_Delay(100);
     counting++;
-	if (counting >= 500000){
+	if (counting >= 50){
 	  static char stable_buf[18];
 	  char *current_text;
 	  current_text = lv_label_get_text(label);
