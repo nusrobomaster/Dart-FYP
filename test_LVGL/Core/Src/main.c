@@ -97,7 +97,9 @@ extern int16_t _width;       								///< (oriented) display width
 extern int16_t _height;
 int32_t count = 450;
 char buf_txt[32];
-volatile lv_display_t * display1;
+lv_display_t * display1;
+static lv_indev_t * touch_indev;
+static uint32_t press_count;
 //uint8_t Displ_SpiAvailable;
 /* USER CODE END PV */
 
@@ -189,14 +191,12 @@ int16_t pid_lol(int16_t setpt, int16_t curr_pt){
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 
 
-	if (GPIO_Pin == GPIO_PIN_0) {
-		hx.ready = true;
-	}
-//	if (GPIO_Pin==TOUCH_INT_Pin){
-////			HAL_NVIC_DisableIRQ(EXTI0_IRQn);
-//			Touch_HandlePenDownInterrupt();
-////			HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-//		}
+//	if (GPIO_Pin == GPIO_PIN_0) {
+//		hx.ready = true;
+//	}
+	if (GPIO_Pin==TOUCH_INT_Pin){
+			Touch_HandlePenDownInterrupt();
+		}
 }
 
 void tft_set_addr_window(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1)
@@ -234,6 +234,54 @@ void my_flush_cb(lv_display_t * display, const lv_area_t * area, uint8_t * px_ma
     lv_display_flush_ready(display);
 }
 
+static void lvgl_touch_read_cb(lv_indev_t * indev, lv_indev_data_t * data)
+{
+    static lv_coord_t last_x;
+    static lv_coord_t last_y;
+    uint16_t touch_x = 0;
+    uint16_t touch_y = 0;
+    uint8_t is_touch = 0;
+
+    Touch_GetXYtouch(&touch_x, &touch_y, &is_touch);
+    if (is_touch) {
+        last_x = (lv_coord_t)touch_x;
+        last_y = (lv_coord_t)touch_y;
+        data->state = LV_INDEV_STATE_PRESSED;
+        data->point.x = last_x;
+        data->point.y = last_y;
+    } else {
+        data->state = LV_INDEV_STATE_RELEASED;
+        data->point.x = last_x;
+        data->point.y = last_y;
+    }
+}
+
+static lv_obj_t *counter_label;
+static lv_obj_t *timer_label;
+
+static void update_counter_label(void)
+{
+    static char text[24];
+    lv_snprintf(text, sizeof(text), "Count: %lu", (unsigned long)press_count);
+    lv_label_set_text(counter_label, text);
+    lv_obj_center(counter_label);
+}
+
+static void update_timer_label(uint32_t value)
+{
+    static char text[24];
+    lv_snprintf(text, sizeof(text), "Value: %lu", (unsigned long)value);
+    lv_label_set_text(timer_label, text);
+}
+
+static void button_event_cb(lv_event_t * e)
+{
+    if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
+        press_count++;
+        update_counter_label();
+    }
+}
+
 
 
 
@@ -246,16 +294,29 @@ void my_flush_cb(lv_display_t * display, const lv_area_t * area, uint8_t * px_ma
 //}
 
 
-lv_obj_t *label;
 
 void ui_init1(void) {
-//	lv_obj_t * spinner = lv_spinner_create(lv_screen_active());
-////	lv_obj_set_size(spinner, 100, 100);
-//	lv_obj_center(spinner);
-	label = lv_label_create(lv_scr_act());
-	lv_label_set_text(label, "Hello");
-	lv_obj_center(label);
-//	lv_spinner_set_anim_params(spinner, 10000, 200);
+	lv_obj_t * spinner = lv_spinner_create(lv_screen_active());
+	lv_obj_set_size(spinner, 60, 60);
+	lv_obj_align(spinner, LV_ALIGN_TOP_LEFT, 10, 10);
+	lv_spinner_set_anim_params(spinner, 1000, 300);
+
+	counter_label = lv_label_create(lv_scr_act());
+	update_counter_label();
+	lv_obj_center(counter_label);
+
+	lv_obj_t * btn = lv_btn_create(lv_scr_act());
+	lv_obj_set_size(btn, 140, 50);
+	lv_obj_align(btn, LV_ALIGN_BOTTOM_MID, 0, -20);
+	lv_obj_add_event_cb(btn, button_event_cb, LV_EVENT_CLICKED, NULL);
+
+	lv_obj_t * btn_label = lv_label_create(btn);
+	lv_label_set_text(btn_label, "Press me");
+	lv_obj_center(btn_label);
+
+	timer_label = lv_label_create(lv_scr_act());
+	update_timer_label(0);
+	lv_obj_align(timer_label, LV_ALIGN_BOTTOM_MID, 0, -60);
 }
 
 uint8_t usbTxBuf[USB_LEN];
@@ -329,6 +390,10 @@ int main(void)
   /* Set display buffer for display `display1`. */
   lv_display_set_buffers(display1, buf1, buf2, sizeof(buf1), LV_DISPLAY_RENDER_MODE_PARTIAL);
   lv_display_set_flush_cb(display1, my_flush_cb);
+  touch_indev = lv_indev_create();
+  lv_indev_set_type(touch_indev, LV_INDEV_TYPE_POINTER);
+  lv_indev_set_display(touch_indev, display1);
+  lv_indev_set_read_cb(touch_indev, lvgl_touch_read_cb);
   ui_init1();
   uint32_t counting = 0;
   uint32_t counter = 0;
@@ -372,32 +437,20 @@ int main(void)
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+	while (1)
+	{
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	lv_timer_handler_run_in_period(100);
-	HAL_Delay(100);
-    counting++;
-	if (counting >= 50){
-	  static char stable_buf[18];
-	  char *current_text;
-	  current_text = lv_label_get_text(label);
-
-	  lv_snprintf(stable_buf, sizeof(stable_buf), "Value: %d", counter);
-//	  lv_mutex_lock(&lv_mutex);
-//	  label = lv_label_create(lv_scr_act());
-	  lv_label_set_text(label, stable_buf);
-	  lv_obj_center(label);
-//	  lv_obj_invalidate(label);
-//	  lv_mutex_unlock(&lv_mutex);
-//	  usbTxBufLen = snprintf((char *) usbTxBuf, USB_LEN, "Value: %d\r\n", counter);
-//	  CDC_Transmit_FS(usbTxBuf, USB_LEN);
-	  counting = 0;
-	  counter++;
+		lv_timer_handler_run_in_period(100);
+		HAL_Delay(100);
+		counting++;
+		if (counting >= 50){
+		  update_timer_label(counter);
+		  counting = 0;
+		  counter++;
+		}
 	}
-  }
   /* USER CODE END 3 */
 }
 
@@ -691,40 +744,40 @@ static void MX_GPIO_Init(void)
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
-{
-  /* init code for USB_DEVICE */
-//  MX_USB_DEVICE_Init();
-  /* USER CODE BEGIN 5 */
-
-  uint32_t counting = 0;
-
-  int counter = 42;
-  /* Infinite loop */
-  for(;;)
-  {
-
-	  lv_timer_periodic_handler();
-//	  uint32_t time  =lv_timer_handler();
-//	  if(time == LV_NO_TIMER_READY) time = LV_DEF_REFR_PERIOD;
-	  counting++;
-	  if (counting >= 5000){
-		  static char stable_buf[18];
-		  char *current_text;
-		  current_text = lv_label_get_text(label);
-		  lv_snprintf(stable_buf, sizeof(stable_buf), "Value");
-		  lv_mutex_lock(&lv_mutex);
-		  lv_label_set_text(label, stable_buf);
-		  lv_obj_invalidate(label);
-		  lv_mutex_unlock(&lv_mutex);
-		  usbTxBufLen = snprintf((char *) usbTxBuf, USB_LEN, "Value: %d\r\n", counter);
-		  CDC_Transmit_FS(usbTxBuf, USB_LEN);
-		  counting = 0;
-	  }
-	  osDelay(1);
-  }
+//void StartDefaultTask(void *argument)
+//{
+//  /* init code for USB_DEVICE */
+////  MX_USB_DEVICE_Init();
+//  /* USER CODE BEGIN 5 */
+//
+//  uint32_t counting = 0;
+//
+//  int counter = 42;
+//  /* Infinite loop */
+//  for(;;)
+//  {
+//
+//	  lv_timer_periodic_handler();
+////	  uint32_t time  =lv_timer_handler();
+////	  if(time == LV_NO_TIMER_READY) time = LV_DEF_REFR_PERIOD;
+//	  counting++;
+//	  if (counting >= 5000){
+//		  static char stable_buf[18];
+//		  char *current_text;
+//		  current_text = lv_label_get_text(label);
+//		  lv_snprintf(stable_buf, sizeof(stable_buf), "Value");
+//		  lv_mutex_lock(&lv_mutex);
+//		  lv_label_set_text(label, stable_buf);
+//		  lv_obj_invalidate(label);
+//		  lv_mutex_unlock(&lv_mutex);
+//		  usbTxBufLen = snprintf((char *) usbTxBuf, USB_LEN, "Value: %d\r\n", counter);
+//		  CDC_Transmit_FS(usbTxBuf, USB_LEN);
+//		  counting = 0;
+//	  }
+//	  osDelay(1);
+//  }
   /* USER CODE END 5 */
-}
+//}
 
 /**
   * @brief  Period elapsed callback in non blocking mode

@@ -27,6 +27,7 @@
 #include "./LCD_tft/z_displ_ILI9XXX.h"
 #include "./LCD_tft/z_touch_XPT2046.h"
 #include "bsp_damiao.h"
+#include <math.h>
 
 /* USER CODE END Includes */
 
@@ -64,6 +65,11 @@ int32_t value;
 extern int16_t _width;       								///< (oriented) display width
 extern int16_t _height;
 extern dm_motor_t dm_pitch_motor;
+static float target_rpm = 0.0f;          /* Desired speed setpoint in RPM; update this variable to change target */
+static float commanded_rpm = 0.0f;       /* Internally ramped RPM command */
+static float measured_rpm = 0.0f;
+static float pid_int = 0.0f;
+static float pid_prev_err = 0.0f;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -111,6 +117,14 @@ if (rx_header.StdId == 0x203)
 {
 	motor_rpm1 = (rx_buffer[2] << 8) + rx_buffer[3];
 }
+/* DM4310 feedback frame: StdId = master ID (0x00). Byte0 low nibble holds motor ID. */
+if (rx_header.StdId == 0x00) {
+	uint8_t motor_id = rx_buffer[0] & 0x0F;
+	if (motor_id == (dm_pitch_motor.id & 0x0F)) {
+		dm4310_fbdata(&dm_pitch_motor, rx_buffer);
+		measured_rpm = dm_pitch_motor.para.vel * (60.0f / (2.0f * (float)M_PI));
+	}
+}
 
 HAL_CAN_ActivateNotification(hcan,
   CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO0_FULL| CAN_IT_RX_FIFO0_OVERRUN);
@@ -148,6 +162,28 @@ int16_t pid_lol(int16_t setpt, int16_t curr_pt){
 
 }
 
+
+static float pid_speed_step(float setpoint_rpm, float measured_rpm_val, float dt_s)
+{
+	const float kp = 0.8f;
+	const float ki = 0.6f;
+	const float kd = 0.0f;
+	const float i_limit = 500.0f;    /* Integral windup guard */
+	const float out_limit = 2000.0f; /* Command clamp in RPM */
+
+	float err = setpoint_rpm - measured_rpm_val;
+	pid_int += err * ki * dt_s;
+	if (pid_int > i_limit) pid_int = i_limit;
+	else if (pid_int < -i_limit) pid_int = -i_limit;
+
+	float der = (err - pid_prev_err) / dt_s;
+	pid_prev_err = err;
+
+	float out = kp * err + pid_int + kd * der;
+	if (out > out_limit) out = out_limit;
+	else if (out < -out_limit) out = -out_limit;
+	return out;
+}
 
 
 #define SPEED rc_ctrl.rc.ch[0]
@@ -606,11 +642,27 @@ void StartDefaultTask(void const * argument)
 //	int16_t unlock = 0;
   vTaskDelay(1000);
   dm4310_motor_init();
+  /* Configure for MIT mode speed control with a gentle slew to the target RPM */
+//  dm_pitch_motor.ctrl.mode   = 0;     /* MIT mode */
+//  dm_pitch_motor.ctrl.pos_set = 0.0f;
+//  dm_pitch_motor.ctrl.kp_set  = 0.0f;
+//  dm_pitch_motor.ctrl.kd_set  = 0.0f;
+  dm_pitch_motor.ctrl.tor_set = 0.0f;
+  target_rpm = 100.0f;                /* Default target RPM; adjust as needed at runtime */
+  const TickType_t loop_period_ms = 10;    /* Control loop period */
   /* Infinite loop */
   for(;;)
   {
 
+	  /* PID speed control using CAN feedback to avoid aggressive spin-up */
+	  const float dt = loop_period_ms / 1000.0f;
+	  commanded_rpm = pid_speed_step(target_rpm, measured_rpm, dt);
+
+	  /* Convert RPM to rad/s for MIT velocity field */
+	  const float cmd_rad_per_s = commanded_rpm * (2.0f * (float)M_PI / 60.0f);
+	  dm_pitch_motor.ctrl.vel_set = cmd_rad_per_s;
 	  dm4310_ctrl_send(&hcan1, &dm_pitch_motor);
+	  vTaskDelay(loop_period_ms);
 //	  switch(state){
 //	  case 0:
 //		  unlock = !HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
