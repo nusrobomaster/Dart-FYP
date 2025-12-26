@@ -50,6 +50,7 @@ int16_t motor_rpm1;
 static uint8_t buf1[DISPL_WIDTH * DISPL_HEIGHT / buffer_divide * BYTES_PER_PIXEL];
 static uint8_t buf2[DISPL_WIDTH * DISPL_HEIGHT / buffer_divide * BYTES_PER_PIXEL];
 volatile lv_mutex_t lv_mutex;
+#define USE_UI_INIT2 0   /* Set to 0 to use ui_init1() instead */
 
 #define USB_LEN 128
 uint8_t usbTxtBuf[USB_LEN];
@@ -258,6 +259,8 @@ static void lvgl_touch_read_cb(lv_indev_t * indev, lv_indev_data_t * data)
 
 static lv_obj_t *counter_label;
 static lv_obj_t *timer_label;
+static lv_obj_t *keypad_display;
+static char keypad_value[32];
 
 static void update_counter_label(void)
 {
@@ -280,6 +283,39 @@ static void button_event_cb(lv_event_t * e)
         press_count++;
         update_counter_label();
     }
+}
+
+static void keypad_update_display(void)
+{
+    /* Show a space when empty so the label keeps its height */
+    const char * text = (keypad_value[0] != '\0') ? keypad_value : " ";
+    lv_label_set_text(keypad_display, text);
+}
+
+static void keypad_btn_event_cb(lv_event_t * e)
+{
+    if (lv_event_get_code(e) != LV_EVENT_VALUE_CHANGED) {
+        return;
+    }
+
+    lv_obj_t * btnm = lv_event_get_target(e);
+    const char * txt = lv_btnmatrix_get_btn_text(btnm, lv_btnmatrix_get_selected_btn(btnm));
+    if (txt == NULL) {
+        return;
+    }
+
+    size_t len = strlen(keypad_value);
+    if (strcmp(txt, "Clr") == 0) {
+        keypad_value[0] = '\0';
+    } else if (strcmp(txt, "Del") == 0) {
+        if (len > 0) {
+            keypad_value[len - 1] = '\0';
+        }
+    } else if (len < sizeof(keypad_value) - 1) {
+        keypad_value[len] = txt[0];
+        keypad_value[len + 1] = '\0';
+    }
+    keypad_update_display();
 }
 
 
@@ -317,6 +353,37 @@ void ui_init1(void) {
 	timer_label = lv_label_create(lv_scr_act());
 	update_timer_label(0);
 	lv_obj_align(timer_label, LV_ALIGN_BOTTOM_MID, 0, -60);
+}
+
+void ui_init2(void) {
+    lv_obj_t * screen = lv_scr_act();
+
+    lv_obj_t * display_panel = lv_obj_create(screen);
+    lv_obj_set_size(display_panel, 280, 80);
+    lv_obj_align(display_panel, LV_ALIGN_TOP_MID, 0, 20);
+    lv_obj_set_style_pad_all(display_panel, 12, LV_PART_MAIN);
+    lv_obj_set_style_radius(display_panel, 10, LV_PART_MAIN);
+
+    keypad_display = lv_label_create(display_panel);
+    lv_obj_set_width(keypad_display, lv_pct(100));
+    lv_label_set_long_mode(keypad_display, LV_LABEL_LONG_SCROLL_CIRCULAR);
+    lv_obj_set_style_text_align(keypad_display, LV_TEXT_ALIGN_CENTER, 0);
+    keypad_value[0] = '\0';
+    keypad_update_display();
+
+    static const char * btn_map[] = {
+        "1", "2", "3", "\n",
+        "4", "5", "6", "\n",
+        "7", "8", "9", "\n",
+        "Clr", "0", "Del", ""
+    };
+
+    lv_obj_t * btnm = lv_btnmatrix_create(screen);
+    lv_btnmatrix_set_map(btnm, btn_map);
+    lv_obj_set_size(btnm, 320, 220);
+    lv_obj_align(btnm, LV_ALIGN_BOTTOM_MID, 0, -10);
+    lv_obj_add_event_cb(btnm, keypad_btn_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
+    lv_obj_set_style_pad_all(btnm, 6, LV_PART_MAIN);
 }
 
 uint8_t usbTxBuf[USB_LEN];
@@ -394,7 +461,11 @@ int main(void)
   lv_indev_set_type(touch_indev, LV_INDEV_TYPE_POINTER);
   lv_indev_set_display(touch_indev, display1);
   lv_indev_set_read_cb(touch_indev, lvgl_touch_read_cb);
+#if USE_UI_INIT2
+  ui_init2();
+#else
   ui_init1();
+#endif
   uint32_t counting = 0;
   uint32_t counter = 0;
   /* USER CODE END 2 */
