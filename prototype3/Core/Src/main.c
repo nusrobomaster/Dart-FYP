@@ -62,8 +62,10 @@
 #include "./LCD_CAP/TOUCH/touch.h"
 #include "./LCD_CAP/GUI/GUI.h"
 #include "lvgl.h"
+#include "bsp_damiao.h"
 //#include "lvgl_private.h"
 #include <stdio.h>
+#include <math.h>
 //#include "ui.h"
 #include "usbd_cdc_if.h"
 #include <string.h>
@@ -92,6 +94,9 @@ uint8_t usbTxtBuf[USB_LEN];
 #define RAW_KNOWN    -141436
 #define WEIGHT_KNOWN 1000.0f
 #define SCALE ((RAW_KNOWN - RAW_ZERO) / WEIGHT_KNOWN)
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -186,6 +191,8 @@ float weight;
 int32_t value;
 extern int16_t _width;       								///< (oriented) display width
 extern int16_t _height;
+extern dm_motor_t dm_pitch_motor;
+static float dm_measured_rpm;
 int32_t count = 450;
 char buf_txt[32];
 volatile lv_display_t * display1;
@@ -254,6 +261,15 @@ if (rx_header.StdId == 0x203)
 {
 	motor_rpm1 = (rx_buffer[2] << 8) + rx_buffer[3];
 	g_motor_rpm = motor_rpm1;
+}
+/* DM4310 feedback frame: StdId = master ID (0x00). Byte0 low nibble holds motor ID. */
+if (rx_header.StdId == 0x00) {
+	uint8_t motor_id = rx_buffer[0] & 0x0F;
+	if (motor_id == (dm_pitch_motor.id & 0x0F)) {
+		dm4310_fbdata(&dm_pitch_motor, rx_buffer);
+		dm_measured_rpm = dm_pitch_motor.para.vel * (60.0f / (2.0f * (float)M_PI));
+		g_motor_rpm = (int16_t)dm_measured_rpm;
+	}
 }
 
 HAL_CAN_ActivateNotification(hcan,
@@ -1114,6 +1130,12 @@ void StartTask05(void *argument)
   /* USER CODE BEGIN StartTask05 */
   int16_t motor = 0;
   int16_t motor_buffer;
+  osDelay(1000);
+  dm4310_motor_init();
+  dm_pitch_motor.ctrl.mode = 0;
+  dm_pitch_motor.ctrl.kp_set = 0.0f;
+  dm_pitch_motor.ctrl.kd_set = 1.0f;
+  dm_pitch_motor.ctrl.tor_set = 0.0f;
   /* Infinite loop */
   for(;;)
   {
@@ -1123,7 +1145,8 @@ void StartTask05(void *argument)
         motor = motor_buffer;
       }
     }
-    ctrl_motor(pid_lol(motor, motor_rpm1));
+    dm_pitch_motor.ctrl.vel_set = (float)motor * (2.0f * (float)M_PI / 60.0f);
+    dm4310_ctrl_send(&hcan1, &dm_pitch_motor);
     osDelay(1);
   }
   /* USER CODE END StartTask05 */
