@@ -156,6 +156,13 @@ const osThreadAttr_t motorTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+/* Definitions for Pitch_Yaw */
+osThreadId_t Pitch_YawHandle;
+const osThreadAttr_t Pitch_Yaw_attributes = {
+  .name = "Pitch_Yaw",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
 /* Definitions for myQueue_screen */
 osMessageQueueId_t myQueue_screenHandle;
 const osMessageQueueAttr_t myQueue_screen_attributes = {
@@ -226,6 +233,7 @@ void StartTask02(void *argument);
 void StartTask03(void *argument);
 void StartTask04(void *argument);
 void StartTask05(void *argument);
+void Pitch_Yaw_Task(void *argument);
 
 /* USER CODE BEGIN PFP */
 static void lvgl_port_init(void);
@@ -558,20 +566,20 @@ int main(void)
 
   /* Create the queue(s) */
   /* creation of myQueue_screen */
-//  myQueue_screenHandle = osMessageQueueNew (16, sizeof(queueLcd), &myQueue_screen_attributes);
+  myQueue_screenHandle = osMessageQueueNew (16, sizeof(queueLcd), &myQueue_screen_attributes);
 
   /* creation of myQueue_lock_loading */
   myQueue_lock_loadingHandle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue_lock_loading_attributes);
 
-/* creation of myQueue_weight_loading */
-myQueue_weight_loadingHandle = osMessageQueueNew (16, sizeof(float), &myQueue_weight_loading_attributes);
+  /* creation of myQueue_weight_loading */
+  myQueue_weight_loadingHandle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue_weight_loading_attributes);
 
-/* creation of myQueue_loading_motor */
-myQueue_loading_motorHandle = osMessageQueueNew (16, sizeof(int16_t), &myQueue_loading_motor_attributes);
+  /* creation of myQueue_loading_motor */
+  myQueue_loading_motorHandle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue_loading_motor_attributes);
 
-/* USER CODE BEGIN RTOS_QUEUES */
+  /* USER CODE BEGIN RTOS_QUEUES */
 /* add queues, ... */
-/* USER CODE END RTOS_QUEUES */
+  /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
   /* creation of defaultTask */
@@ -588,6 +596,9 @@ myQueue_loading_motorHandle = osMessageQueueNew (16, sizeof(int16_t), &myQueue_l
 
   /* creation of motorTask */
   motorTaskHandle = osThreadNew(StartTask05, NULL, &motorTask_attributes);
+
+  /* creation of Pitch_Yaw */
+  Pitch_YawHandle = osThreadNew(Pitch_Yaw_Task, NULL, &Pitch_Yaw_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -1178,6 +1189,24 @@ void StartTask05(void *argument)
     osDelayUntil(last_wake);
   }
   /* USER CODE END StartTask05 */
+}
+
+/* USER CODE BEGIN Header_Pitch_Yaw_Task */
+/**
+* @brief Function implementing the Pitch_Yaw thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Pitch_Yaw_Task */
+__weak void Pitch_Yaw_Task(void *argument)
+{
+  /* USER CODE BEGIN Pitch_Yaw_Task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END Pitch_Yaw_Task */
 }
 
 /**
