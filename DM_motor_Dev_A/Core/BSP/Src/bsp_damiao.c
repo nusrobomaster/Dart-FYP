@@ -26,7 +26,7 @@ void dm4310_motor_init(void)
 		dm_pitch_motor.ctrl.pos_set = 0;
 		dm_pitch_motor.ctrl.vel_set = 2;
 		dm_pitch_motor.ctrl.kp_set = 0;
-		dm_pitch_motor.ctrl.kd_set = 1;
+		dm_pitch_motor.ctrl.kd_set = 1.5;
 		dm_pitch_motor.ctrl.tor_set = 0;
 		dm4310_enable(&hcan1, &dm_pitch_motor);
 		vTaskDelay(3);
@@ -604,8 +604,8 @@ void MFtorque_command(CAN_HandleTypeDef* hcan, uint16_t motor_id, float desired_
 }
 
 //float dm_yaw_encoder_mod(float raw_angle) {
-////    float mapped_angle = fmod(P_MAX + raw_angle, 2*P_MAX/P_ROUNDS);
-////    return mapped_angle - P_MAX/P_ROUNDS;
+//    float mapped_angle = fmod(P_MAX + raw_angle, 2*P_MAX/P_ROUNDS);
+//    return mapped_angle - P_MAX/P_ROUNDS;
 //
 //    while (raw_angle > PI) { raw_angle -= 2 * PI; }
 //    while (raw_angle < -PI) { raw_angle += 2 * PI; }

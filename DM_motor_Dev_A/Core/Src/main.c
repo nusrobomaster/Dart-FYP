@@ -70,6 +70,13 @@ static float commanded_rpm = 0.0f;       /* Internally ramped RPM command */
 static float measured_rpm = 0.0f;
 static float pid_int = 0.0f;
 static float pid_prev_err = 0.0f;
+
+
+static float target_position = 0.0f;
+static float current_position = 0.0f;
+static int round_counter = 0;
+static float tolerance = 0.1f;
+static float prev_pos = 0.0f;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -118,11 +125,19 @@ if (rx_header.StdId == 0x203)
 	motor_rpm1 = (rx_buffer[2] << 8) + rx_buffer[3];
 }
 /* DM4310 feedback frame: StdId = master ID (0x00). Byte0 low nibble holds motor ID. */
-if (rx_header.StdId == 0x00) {
+if (rx_header.StdId == 0x01) {
 	uint8_t motor_id = rx_buffer[0] & 0x0F;
 	if (motor_id == (dm_pitch_motor.id & 0x0F)) {
 		dm4310_fbdata(&dm_pitch_motor, rx_buffer);
 		measured_rpm = dm_pitch_motor.para.vel * (60.0f / (2.0f * (float)M_PI));
+		if ((dm_pitch_motor.para.pos < - 12.5 + tolerance) && (prev_pos > 12.5 - tolerance) ){
+			round_counter += 1;
+		}
+		if ((dm_pitch_motor.para.pos > 12.5 - tolerance) && (prev_pos < - 12.5 + tolerance)) {
+			round_counter -= 1;
+		}
+		current_position = round_counter*8*PI + dm_pitch_motor.para.pos;
+		prev_pos = dm_pitch_motor.para.pos;
 	}
 }
 
@@ -640,85 +655,46 @@ void StartDefaultTask(void const * argument)
   /* USER CODE BEGIN 5 */
 //	int16_t state = 0;
 //	int16_t unlock = 0;
-  vTaskDelay(1000);
+  vTaskDelay(10000);
   dm4310_motor_init();
   /* Configure for MIT mode speed control with a gentle slew to the target RPM */
 //  dm_pitch_motor.ctrl.mode   = 0;     /* MIT mode */
 //  dm_pitch_motor.ctrl.pos_set = 0.0f;
 //  dm_pitch_motor.ctrl.kp_set  = 0.0f;
 //  dm_pitch_motor.ctrl.kd_set  = 0.0f;
-  dm_pitch_motor.ctrl.tor_set = 0.0f;
+//  dm_pitch_motor.ctrl.tor_set = 0.0f;
   target_rpm = 100.0f;                /* Default target RPM; adjust as needed at runtime */
+  float positive_rpm = 100.0f;
   const TickType_t loop_period_ms = 10;    /* Control loop period */
   /* Infinite loop */
   for(;;)
   {
-
+	  float position_difference = target_position - current_position;
+	  volatile int count_spin = (int) target_position / (8 * PI);
+	  volatile float final_pos = fmodf(target_position, 8*PI) - 4*PI;
 	  /* PID speed control using CAN feedback to avoid aggressive spin-up */
-	  const float dt = loop_period_ms / 1000.0f;
-	  commanded_rpm = pid_speed_step(target_rpm, measured_rpm, dt);
-
-	  /* Convert RPM to rad/s for MIT velocity field */
-	  const float cmd_rad_per_s = commanded_rpm * (2.0f * (float)M_PI / 60.0f);
-	  dm_pitch_motor.ctrl.vel_set = cmd_rad_per_s;
+//	  const float dt = loop_period_ms / 1000.0f;
+//	  commanded_rpm = pid_speed_step(target_rpm, measured_rpm, dt);
+//
+//	  /* Convert RPM to rad/s for MIT velocity field */
+	  if (count_spin == round_counter){
+		  dm_pitch_motor.ctrl.vel_set = 0;
+		  dm_pitch_motor.ctrl.pos_set = final_pos;
+		  dm_pitch_motor.ctrl.kp_set = 0.1;
+		  dm_pitch_motor.ctrl.kd_set = 0;
+	  } else {
+		  target_rpm = positive_rpm;
+		  if (count_spin < round_counter){
+			  target_rpm = - target_rpm;
+		  }
+		  dm_pitch_motor.ctrl.pos_set = 0;
+		  const float cmd_rad_per_s = target_rpm * (2.0f * (float)M_PI / 60.0f);
+		  dm_pitch_motor.ctrl.vel_set = cmd_rad_per_s;
+		  dm_pitch_motor.ctrl.kp_set = 0;
+		  dm_pitch_motor.ctrl.kd_set = 1.5;
+	  }
 	  dm4310_ctrl_send(&hcan1, &dm_pitch_motor);
 	  vTaskDelay(loop_period_ms);
-//	  switch(state){
-//	  case 0:
-//		  unlock = !HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
-//		  if (rc_ctrl.rc.s[1] == 1 && unlock){
-//			  __NOP();
-//			  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, 1);
-//			  state = 1;
-//			  osDelay(50);
-//		  }
-//	  case 1:
-//		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, 0);
-//		  state = 0;
-//		  osDelay(2000);
-//	  }
-
-
-//	  Touch_TestDrawing();
-//	  Touch_TestDrawing();
-//	  Displ_FillArea(0,0,320, 480, WHITE);
-//	ctrl_motor(pid_lol(SPEED,motor_rpm1));
-//    osDelay(10);
-//	  	Displ_WriteCommand(0x22);
-//	  	osDelay(1);
-//	  	Displ_WriteCommand(0x23);
-//	  	osDelay(1);
-//	    Displ_WriteCommand(0x36); uint8_t mad=0x48; Displ_WriteData(&mad,1,0);
-//	    Displ_WriteCommand(0x2A);   // Column Address Set
-//	  	uint8_t colData[4] = {0x00, 0x00, 0x01, 0x3F}; // 0..319
-//		Displ_WriteData(colData, 4, 0);
-//		osDelay(100);
-//	  	Displ_WriteCommand(0x2B);   // Page Address Set
-//	  	uint8_t pageData[4] = {0x00, 0x00, 0x01, 0xDF}; // 0..479
-//	  	Displ_WriteData(pageData, 4, 0);
-//	  	 osDelay(100);
-//
-//
-////
-////
-////
-////
-//	    Displ_WriteCommand(0x2C);
-//
-//////	    HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, GPIO_PIN_SET);
-//	    for (int i = 0; i < 320 * 480; i++) {
-//	        uint8_t black[3] = {0xFF, 0xFF, 0xFF};
-//	        Displ_WriteData(black, 3, 0);
-////	        osDelay(1);
-//	    }
-//	    Displ_WriteCommand(ILI9XXX_DISPLAY_ON);
-//	    HAL_Delay(1000);
-//	    Displ_WriteCommand(0x28);
-//	  osDelay(2000);
-//	  Displ_WriteCommand(0x21);
-//	  osDelay(2000);
-//	  Displ_WriteCommand(0x20);
-//	  osDelay(2000);
   }
   /* USER CODE END 5 */
 }
