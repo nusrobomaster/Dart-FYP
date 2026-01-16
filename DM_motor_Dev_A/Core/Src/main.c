@@ -75,8 +75,17 @@ static float pid_prev_err = 0.0f;
 static float target_position = 0.0f;
 static float current_position = 0.0f;
 static int round_counter = 0;
-static float tolerance = 0.1f;
+static float tolerance = 0.06f;
 static float prev_pos = 0.0f;
+
+//faster pid values
+//static float pos_kp = 7.0f;
+//static float pos_kd = 0.4f;
+
+//not as fast pid values
+static float pos_kp = 0.5f;
+static float pos_kd = 0.0f;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -655,7 +664,7 @@ void StartDefaultTask(void const * argument)
   /* USER CODE BEGIN 5 */
 //	int16_t state = 0;
 //	int16_t unlock = 0;
-  vTaskDelay(10000);
+  vTaskDelay(1000);
   dm4310_motor_init();
   /* Configure for MIT mode speed control with a gentle slew to the target RPM */
 //  dm_pitch_motor.ctrl.mode   = 0;     /* MIT mode */
@@ -669,19 +678,18 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	  float position_difference = target_position - current_position;
-	  volatile int count_spin = (int) target_position / (8 * PI);
-	  volatile float final_pos = fmodf(target_position, 8*PI) - 4*PI;
+	  volatile int count_spin = (int) (target_position + 4 * PI) / (8 * PI);
+	  volatile float final_pos = fmodf(target_position + 4 * PI, 8*PI) - 4*PI;
 	  /* PID speed control using CAN feedback to avoid aggressive spin-up */
 //	  const float dt = loop_period_ms / 1000.0f;
 //	  commanded_rpm = pid_speed_step(target_rpm, measured_rpm, dt);
-//
-//	  /* Convert RPM to rad/s for MIT velocity field */
+
+	  /* Convert RPM to rad/s for MIT velocity field */
 	  if (count_spin == round_counter){
 		  dm_pitch_motor.ctrl.vel_set = 0;
 		  dm_pitch_motor.ctrl.pos_set = final_pos;
-		  dm_pitch_motor.ctrl.kp_set = 0.1;
-		  dm_pitch_motor.ctrl.kd_set = 0;
+		  dm_pitch_motor.ctrl.kp_set = pos_kp;
+		  dm_pitch_motor.ctrl.kd_set = pos_kd;
 	  } else {
 		  target_rpm = positive_rpm;
 		  if (count_spin < round_counter){
@@ -693,6 +701,11 @@ void StartDefaultTask(void const * argument)
 		  dm_pitch_motor.ctrl.kp_set = 0;
 		  dm_pitch_motor.ctrl.kd_set = 1.5;
 	  }
+//	  dm_pitch_motor.ctrl.pos_set = 0;
+//	  const float cmd_rad_per_s = target_rpm * (2.0f * (float)M_PI / 60.0f);
+//	  dm_pitch_motor.ctrl.vel_set = cmd_rad_per_s;
+//	  dm_pitch_motor.ctrl.kp_set = 0;
+//	  dm_pitch_motor.ctrl.kd_set = 1.5;
 	  dm4310_ctrl_send(&hcan1, &dm_pitch_motor);
 	  vTaskDelay(loop_period_ms);
   }
