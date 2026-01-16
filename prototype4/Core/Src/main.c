@@ -125,14 +125,14 @@ DMA_HandleTypeDef hdma_usart1_rx;
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 1028 * 4,
+  .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for Readweight */
 osThreadId_t ReadweightHandle;
 const osThreadAttr_t Readweight_attributes = {
   .name = "Readweight",
-  .stack_size = 1028 * 4,
+  .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for controlLock */
@@ -149,10 +149,10 @@ const osThreadAttr_t loadingTask_attributes = {
   .stack_size = 1028 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
-/* Definitions for motorTask */
-osThreadId_t motorTaskHandle;
-const osThreadAttr_t motorTask_attributes = {
-  .name = "motorTask",
+/* Definitions for motor */
+osThreadId_t motorHandle;
+const osThreadAttr_t motor_attributes = {
+  .name = "motor",
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
@@ -162,6 +162,27 @@ const osThreadAttr_t Pitch_Yaw_attributes = {
   .name = "Pitch_Yaw",
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for Touchscreen */
+osThreadId_t TouchscreenHandle;
+const osThreadAttr_t Touchscreen_attributes = {
+  .name = "Touchscreen",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for Launcher */
+osThreadId_t LauncherHandle;
+const osThreadAttr_t Launcher_attributes = {
+  .name = "Launcher",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for Feeder */
+osThreadId_t FeederHandle;
+const osThreadAttr_t Feeder_attributes = {
+  .name = "Feeder",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
 };
 /* Definitions for myQueue_screen */
 osMessageQueueId_t myQueue_screenHandle;
@@ -232,8 +253,11 @@ void StartDefaultTask(void *argument);
 void StartTask02(void *argument);
 void StartTask03(void *argument);
 void StartTask04(void *argument);
-void StartTask05(void *argument);
+void motor_Task(void *argument);
 void Pitch_Yaw_Task(void *argument);
+void Touchscreen_Task(void *argument);
+void Launcher_Task(void *argument);
+void Feeder_Task(void *argument);
 
 /* USER CODE BEGIN PFP */
 static void lvgl_port_init(void);
@@ -594,11 +618,20 @@ int main(void)
   /* creation of loadingTask */
   loadingTaskHandle = osThreadNew(StartTask04, NULL, &loadingTask_attributes);
 
-  /* creation of motorTask */
-  motorTaskHandle = osThreadNew(StartTask05, NULL, &motorTask_attributes);
+  /* creation of motor */
+  motorHandle = osThreadNew(motor_Task, NULL, &motor_attributes);
 
   /* creation of Pitch_Yaw */
   Pitch_YawHandle = osThreadNew(Pitch_Yaw_Task, NULL, &Pitch_Yaw_attributes);
+
+  /* creation of Touchscreen */
+  TouchscreenHandle = osThreadNew(Touchscreen_Task, NULL, &Touchscreen_attributes);
+
+  /* creation of Launcher */
+  LauncherHandle = osThreadNew(Launcher_Task, NULL, &Launcher_attributes);
+
+  /* creation of Feeder */
+  FeederHandle = osThreadNew(Feeder_Task, NULL, &Feeder_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -1133,62 +1166,22 @@ void StartTask04(void *argument)
   /* USER CODE END StartTask04 */
 }
 
-/* USER CODE BEGIN Header_StartTask05 */
+/* USER CODE BEGIN Header_motor_Task */
 /**
-* @brief Function implementing the motorTask thread.
+* @brief Function implementing the motor thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartTask05 */
-void StartTask05(void *argument)
+/* USER CODE END Header_motor_Task */
+void motor_Task(void *argument)
 {
-  /* USER CODE BEGIN StartTask05 */
-  int16_t motor = 0;
-  int16_t motor_buffer;
-  uint32_t last_wake = osKernelGetTickCount();
-  uint32_t servo_accum_ms = 0;
-  uint32_t brushed_accum_ms = 0;
-
-  osDelay(1000);
-  dm4310_motor_init();
-  dm_motor_manager_init();
-  dm_motor_manager_register(&dm_pitch_motor, &hcan1);
-
-  dm_pitch_motor.ctrl.mode = 0;
-  dm_pitch_motor.ctrl.kp_set = 0.0f;
-  dm_pitch_motor.ctrl.kd_set = 1.0f;
-  dm_pitch_motor.ctrl.tor_set = 0.0f;
-
-  motor_servo_init();
-  motor_brushed_init();
-  motor_safety_set(false);
+  /* USER CODE BEGIN motor_Task */
   /* Infinite loop */
   for(;;)
   {
-    if (osMessageQueueGetCount(myQueue_loading_motorHandle) > 0){
-      osStatus_t st = osMessageQueueGet(myQueue_loading_motorHandle, &motor_buffer, NULL, osWaitForever);
-      if (st == osOK) {
-        motor = motor_buffer;
-      }
-    }
-    dm_motor_manager_set_velocity(&dm_pitch_motor, (float)motor * (2.0f * (float)M_PI / 60.0f));
-    dm_motor_manager_tick();
-
-    servo_accum_ms += 1U;
-    brushed_accum_ms += 1U;
-    if (servo_accum_ms >= 20U) {
-      motor_servo_tick();
-      servo_accum_ms = 0U;
-    }
-    if (brushed_accum_ms >= 5U) {
-      motor_brushed_tick();
-      brushed_accum_ms = 0U;
-    }
-
-    last_wake += 1U;
-    osDelayUntil(last_wake);
+    osDelay(1);
   }
-  /* USER CODE END StartTask05 */
+  /* USER CODE END motor_Task */
 }
 
 /* USER CODE BEGIN Header_Pitch_Yaw_Task */
@@ -1207,6 +1200,60 @@ __weak void Pitch_Yaw_Task(void *argument)
     osDelay(1);
   }
   /* USER CODE END Pitch_Yaw_Task */
+}
+
+/* USER CODE BEGIN Header_Touchscreen_Task */
+/**
+* @brief Function implementing the Touchscreen thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Touchscreen_Task */
+__weak void Touchscreen_Task(void *argument)
+{
+  /* USER CODE BEGIN Touchscreen_Task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END Touchscreen_Task */
+}
+
+/* USER CODE BEGIN Header_Launcher_Task */
+/**
+* @brief Function implementing the Launcher thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Launcher_Task */
+__weak void Launcher_Task(void *argument)
+{
+  /* USER CODE BEGIN Launcher_Task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END Launcher_Task */
+}
+
+/* USER CODE BEGIN Header_Feeder_Task */
+/**
+* @brief Function implementing the Feeder thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Feeder_Task */
+__weak void Feeder_Task(void *argument)
+{
+  /* USER CODE BEGIN Feeder_Task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END Feeder_Task */
 }
 
 /**
