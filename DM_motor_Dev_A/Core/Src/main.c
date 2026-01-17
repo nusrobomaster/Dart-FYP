@@ -678,8 +678,14 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+	  volatile float final_pos;
 	  volatile int count_spin = (int) (target_position + 4 * PI) / (8 * PI);
-	  volatile float final_pos = fmodf(target_position + 4 * PI, 8*PI) - 4*PI;
+	  if (target_position < 0){
+		  count_spin -= 1;
+		  final_pos = fmodf(target_position - 4 * PI, 8*PI) + 4*PI;
+	  } else {
+		  final_pos = fmodf(target_position + 4 * PI, 8*PI) - 4*PI;
+	  }
 	  /* PID speed control using CAN feedback to avoid aggressive spin-up */
 //	  const float dt = loop_period_ms / 1000.0f;
 //	  commanded_rpm = pid_speed_step(target_rpm, measured_rpm, dt);
