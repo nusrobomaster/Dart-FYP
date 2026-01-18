@@ -65,26 +65,26 @@ int32_t value;
 extern int16_t _width;       								///< (oriented) display width
 extern int16_t _height;
 extern dm_motor_t dm_pitch_motor;
-static float target_rpm = 0.0f;          /* Desired speed setpoint in RPM; update this variable to change target */
-static float commanded_rpm = 0.0f;       /* Internally ramped RPM command */
-static float measured_rpm = 0.0f;
-static float pid_int = 0.0f;
-static float pid_prev_err = 0.0f;
+float target_rpm = 0.0f;          /* Desired speed setpoint in RPM; update this variable to change target */
+float commanded_rpm = 0.0f;       /* Internally ramped RPM command */
+float measured_rpm = 0.0f;
+float pid_int = 0.0f;
+float pid_prev_err = 0.0f;
 
 
-static float target_position = 0.0f;
-static float current_position = 0.0f;
-static int round_counter = 0;
-static float tolerance = 0.06f;
-static float prev_pos = 0.0f;
+float target_position = 0.0f;
+float current_position = 0.0f;
+int round_counter = 0;
+float tolerance = 0.06f;
+float prev_pos = 0.0f;
 
 //faster pid values
 //static float pos_kp = 7.0f;
 //static float pos_kd = 0.4f;
 
 //not as fast pid values
-static float pos_kp = 0.5f;
-static float pos_kd = 0.0f;
+float pos_kp = 0.5f;
+float pos_kd = 0.0f;
 
 /* USER CODE END PV */
 
