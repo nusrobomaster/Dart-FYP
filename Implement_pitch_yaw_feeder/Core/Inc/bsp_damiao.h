@@ -28,14 +28,14 @@
 #define P_ROUNDS  4.0f  // Number of rotation rounds
 
 // Type definitions for PID control
-typedef struct _PID {
-    float kp, ki, kd;
-    float error, lastError;
-    float integral, maxIntegral;
-    float output, maxOutput;
-    float deadzone;
-    float errLpfRatio;
-} PID;
+//typedef struct _PID {
+//    float kp, ki, kd;
+//    float error, lastError;
+//    float integral, maxIntegral;
+//    float output, maxOutput;
+//    float deadzone;
+//    float errLpfRatio;
+//} PID;
 
 //typedef struct _CascadePID {
 //    PID inner;

@@ -93,6 +93,13 @@ const osThreadAttr_t feederTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+/* Definitions for pitchnyawTask */
+osThreadId_t pitchnyawTaskHandle;
+const osThreadAttr_t pitchnyawTask_attributes = {
+  .name = "pitchnyawTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
 /* USER CODE BEGIN PV */
 
 static uint32_t ui_stack[4096];        // 4096 words = 16 KB
@@ -156,6 +163,7 @@ static void MX_I2C2_Init(void);
 static void MX_TIM5_Init(void);
 void StartDefaultTask(void *argument);
 void FeederTask(void *argument);
+void PitchnYawTask(void *argument);
 
 /* USER CODE BEGIN PFP */
 static void lvgl_port_init(void);
@@ -214,40 +222,6 @@ if (rx_header.StdId == 0x00) {
 	HAL_CAN_ActivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO0_FULL| CAN_IT_RX_FIFO0_OVERRUN);
 }
 
-
-
-void ctrl_motor(int16_t torque1){
- uint8_t tx_msg[8];
- CAN_TxHeaderTypeDef CAN_tx_message;
- uint32_t send_mail_box;
- CAN_tx_message.IDE = CAN_ID_STD;
- CAN_tx_message.RTR = CAN_RTR_DATA;
- CAN_tx_message.DLC = 0x08;
- CAN_tx_message.StdId = 0x200;
- tx_msg[4] = torque1>>8;
- tx_msg[5] = torque1;
- HAL_CAN_AddTxMessage(&hcan1, &CAN_tx_message, tx_msg, &send_mail_box);
-}
-
-
-#define KP 10
-#define KI 0.1
-#define KD 0
-#define INT_MAX 5000
-int16_t pid_lol(int16_t setpt, int16_t curr_pt){
-	static float integral;
-	static float prev_error;
-	float error = setpt - curr_pt;
-	integral += error * KI;
-	integral = (integral > INT_MAX) ? INT_MAX : (integral < -INT_MAX) ? -INT_MAX : integral;
-	float diff = (prev_error - error) * KD;
-	prev_error = error;
-	return (error * KP) + integral + diff;
-
-}
-
-
-
 #define SPEED rc_ctrl.rc.ch[0]
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
@@ -301,18 +275,6 @@ void my_flush_cb(lv_display_t * display, const lv_area_t * area, uint8_t * px_ma
     LCD_CS_SET;
     lv_display_flush_ready(display);
 }
-
-
-
-
-//int32_t get_var_counter(){
-//	return count;
-//}
-
-//void set_var_counter(int32_t value){
-//	count = value;
-//}
-
 
 static void lvgl_port_init(void)
 {
@@ -404,26 +366,6 @@ static void keypad_event_cb(lv_event_t * e)
   lv_textarea_add_text(ta, txt);
 }
 
-uint8_t usbTxBuf[USB_LEN];
-uint8_t usbRxBuf[USB_LEN];
-
-uint16_t usbTxBufLen = 0;
-uint16_t usbRxBufLen = 0;
-
-uint8_t  usbRxFlag 	 = 0;
-
-
-//void my_log_cb(lv_log_level_t level, const char *msg)
-//{
-//    static uint8_t line[USB_LEN];
-//    size_t n = strlen(msg);
-//    if (n > USB_LEN - 3) n = USB_LEN - 3;
-//    memcpy(line, msg, n);
-//    line[n++] = '\r';
-//    line[n++] = '\n';
-//    line[n] = '\0';
-//    CDC_Transmit_FS(line, (uint16_t)n);
-//}
 
 /* USER CODE END 0 */
 
@@ -505,6 +447,9 @@ int main(void)
 
   /* creation of feederTask */
   feederTaskHandle = osThreadNew(FeederTask, NULL, &feederTask_attributes);
+
+  /* creation of pitchnyawTask */
+  pitchnyawTaskHandle = osThreadNew(PitchnYawTask, NULL, &pitchnyawTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -1004,6 +949,24 @@ __weak void FeederTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END FeederTask */
+}
+
+/* USER CODE BEGIN Header_PitchnYawTask */
+/**
+* @brief Function implementing the pitchnyawTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_PitchnYawTask */
+__weak void PitchnYawTask(void *argument)
+{
+  /* USER CODE BEGIN PitchnYawTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END PitchnYawTask */
 }
 
 /**
