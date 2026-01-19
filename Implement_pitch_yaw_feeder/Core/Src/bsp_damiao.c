@@ -10,6 +10,7 @@ uint32_t dm_mailbox[3];
 extern CAN_HandleTypeDef hcan1;
 
 dm_motor_t dm_pitch_motor;
+dm_motor_t dm_yaw_motor;
 //extern dm_motor_t dm_yaw_motor;
 //extern motor_data_t g_can_motors[24];
 //extern motor_data_t g_pitch_motor;
@@ -29,6 +30,18 @@ void dm4310_motor_init(void)
 		dm_pitch_motor.ctrl.kd_set = 1.5;
 		dm_pitch_motor.ctrl.tor_set = 0;
 		dm4310_enable(&hcan1, &dm_pitch_motor);
+		vTaskDelay(3);
+
+		memset(&dm_yaw_motor, 0, sizeof(dm_yaw_motor));
+		dm_yaw_motor.id = 0x76;
+		dm_yaw_motor.ctrl.mode = 0;
+		dm_yaw_motor.ctrl.pos_set = 0;
+		dm_yaw_motor.ctrl.vel_set = 2;
+		dm_yaw_motor.ctrl.kp_set  = 0;
+		dm_yaw_motor.ctrl.kd_set  = 1.5f;
+		dm_yaw_motor.ctrl.tor_set = 0;
+
+		dm4310_enable(&hcan1, &dm_yaw_motor);
 		vTaskDelay(3);
 //	#endif
 

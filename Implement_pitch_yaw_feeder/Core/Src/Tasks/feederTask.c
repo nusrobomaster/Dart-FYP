@@ -114,8 +114,6 @@ void FeederTask(void *argument)
 	HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_4);
 	HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_3);
 	HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_2);
-    vTaskDelay(1000);
-    dm4310_motor_init();
     dm_pitch_motor.ctrl.pos_set = 0;
 	dm_pitch_motor.ctrl.vel_set = 0;
 	dm_pitch_motor.ctrl.kp_set = KP_SET;

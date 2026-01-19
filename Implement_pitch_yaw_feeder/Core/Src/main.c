@@ -15,6 +15,86 @@
   *
   ******************************************************************************
   */
+
+//========================================= Power ================================================//
+// LCD Module STM32 MCU
+// VCC -> DC5V / 3.3V // Power
+// GND -> GND // Ground
+//
+// Pitch encoder power note:
+// - Pitch encoder needs 5V (power from a 5V rail, not GPIO)
+//================================================================================================//
+
+//======================================= LCD Interface ===========================================//
+// The module defaults to SPI mode
+// LCD Module STM32 MCU
+// SDI (MOSI) -> PE6  // SPI data write
+// SDO (MISO) -> PE5  // SPI data read (optional)
+//
+// LCD Module STM32 MCU
+// LED       -> PC1  // Backlight control (or tie to 5V / 3.3V)
+// SCK       -> PE12 // SPI clock
+// LCD_RS    -> PC5  // Data / Command select
+// LCD_RST   -> PA5  // LCD reset
+// LCD_CS    -> PA4  // Chip select
+//================================================================================================//
+
+//===================================== Touch (Optional) ==========================================//
+// If touch is not used, these pins can be left unconnected
+// Touch Module STM32 MCU
+// CTP_INT -> PF10 // Touch interrupt
+// CTP_SDA -> PF0  // I2C data
+// CTP_RST -> PI9  // Touch reset
+// CTP_SCL -> PF1  // I2C clock
+//================================================================================================//
+
+//======================================= HX711 Load Cell =========================================//
+// HX711 STM32 MCU
+// SCLK -> PC0 // HX711 clock
+// DOUT -> PC4 // HX711 data output
+//================================================================================================//
+
+//==================================== Electronic Lock ============================================//
+// Lock Signal STM32 MCU
+// Lock_Input  -> PA0 // Lock status / sense input
+// Lock_Output -> PA1 // Lock / unlock control output
+//================================================================================================//
+
+//======================================== Pitch Motor ============================================//
+// Brushed DC motor control (H-bridge style):
+// 3V3 Logic Power -> PC2 // Logic-level supply only (not for encoder)
+// Forward         -> PC3 // Forward control
+// Backward        -> PB1 // Backward control
+// PWM             -> PB0 // PWM speed control
+//
+// Pitch encoder:
+// - Feedback via CAN
+// - Encoder requires 5V power (external 5V rail)
+//================================================================================================//
+
+//========================================= Yaw Control ===========================================//
+// Yaw control and feedback via CAN only
+// No extra GPIO required
+//================================================================================================//
+
+//=========================================== Feeder ==============================================//
+// Feeder actuation uses both servos and a CAN motor.
+//
+// Servo control (TIM5 PWM):
+// Servo 1 -> PH11 // TIM5_CH2
+// Servo 2 -> PH12 // TIM5_CH3
+// Servo 3 -> PI0  // TIM5_CH4
+//
+// All servos share TIM5:
+// - Same PWM frequency (50 Hz typical)
+// - Independent duty cycle per channel
+//
+// Feeder CAN motor:
+// - Control and feedback via CAN bus
+// - No dedicated GPIO required for motor control
+//================================================================================================//
+
+
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -36,10 +116,13 @@
 #include <string.h>
 #include "bsp_damiao.h"
 #include <math.h>
+#include "typedefs.h"
+#include "briterencoder.h"
 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
 int16_t motor_rpm1;
 /* USER CODE END PTD */
@@ -74,16 +157,22 @@ I2C_HandleTypeDef hi2c2;
 SPI_HandleTypeDef hspi4;
 DMA_HandleTypeDef hdma_spi4_tx;
 
+TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim5;
 
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_rx;
 
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 128 * 4,
+/* Definitions for controlTask */
+osThreadId_t controlTaskHandle;
+uint32_t controlTaskBuffer[ 2048 ];
+osStaticThreadDef_t controlTaskControlBlock;
+const osThreadAttr_t controlTask_attributes = {
+  .name = "controlTask",
+  .cb_mem = &controlTaskControlBlock,
+  .cb_size = sizeof(controlTaskControlBlock),
+  .stack_mem = &controlTaskBuffer[0],
+  .stack_size = sizeof(controlTaskBuffer),
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for feederTask */
@@ -97,6 +186,13 @@ const osThreadAttr_t feederTask_attributes = {
 osThreadId_t pitchnyawTaskHandle;
 const osThreadAttr_t pitchnyawTask_attributes = {
   .name = "pitchnyawTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for launcherTask */
+osThreadId_t launcherTaskHandle;
+const osThreadAttr_t launcherTask_attributes = {
+  .name = "launcherTask",
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
@@ -149,6 +245,10 @@ float prev_pos = 0.0f;
 //not as fast pid values
 float pos_kp = 0.5f;
 float pos_kd = 0.0f;
+
+
+extern briterencoder_t pitch_encoder;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -161,9 +261,11 @@ static void MX_SPI4_Init(void);
 static void MX_DMA2D_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_TIM5_Init(void);
-void StartDefaultTask(void *argument);
+static void MX_TIM3_Init(void);
+void ControlTask(void *argument);
 void FeederTask(void *argument);
 void PitchnYawTask(void *argument);
+void LauncherTask(void *argument);
 
 /* USER CODE BEGIN PFP */
 static void lvgl_port_init(void);
@@ -199,11 +301,6 @@ HAL_CAN_DeactivateNotification(hcan,
   CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO0_FULL| CAN_IT_RX_FIFO0_OVERRUN);
 HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rx_header, rx_buffer);
 
-if (rx_header.StdId == 0x203)
-{
-	motor_rpm1 = (rx_buffer[2] << 8) + rx_buffer[3];
-}
-
 if (rx_header.StdId == 0x00) {
 		uint8_t motor_id = rx_buffer[0] & 0x0F;
 		if (motor_id == (dm_pitch_motor.id & 0x0F)) {
@@ -219,6 +316,11 @@ if (rx_header.StdId == 0x00) {
 			prev_pos = dm_pitch_motor.para.pos;
 		}
 	}
+
+	if (rx_header.StdId == 0x03) {
+		briterencoder_on_can_rx(&pitch_encoder , rx_header.StdId , rx_buffer, (uint8_t)rx_header.DLC);
+	}
+
 	HAL_CAN_ActivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO0_FULL| CAN_IT_RX_FIFO0_OVERRUN);
 }
 
@@ -404,6 +506,7 @@ int main(void)
   MX_DMA2D_Init();
   MX_I2C2_Init();
   MX_TIM5_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   MX_USB_DEVICE_Init();
 
@@ -416,7 +519,8 @@ int main(void)
   TP_Init();
 
   lvgl_port_init();
-
+  HAL_Delay(1000);
+  dm4310_motor_init();
 //  uint32_t counting = 0;
 //  uint32_t counter = 0;
   /* USER CODE END 2 */
@@ -442,14 +546,17 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-//  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* creation of controlTask */
+  controlTaskHandle = osThreadNew(ControlTask, NULL, &controlTask_attributes);
 
   /* creation of feederTask */
   feederTaskHandle = osThreadNew(FeederTask, NULL, &feederTask_attributes);
 
   /* creation of pitchnyawTask */
   pitchnyawTaskHandle = osThreadNew(PitchnYawTask, NULL, &pitchnyawTask_attributes);
+
+  /* creation of launcherTask */
+  launcherTaskHandle = osThreadNew(LauncherTask, NULL, &launcherTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -681,6 +788,55 @@ static void MX_SPI4_Init(void)
 }
 
 /**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 0;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 65535;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+  HAL_TIM_MspPostInit(&htim3);
+
+}
+
+/**
   * @brief TIM5 Initialization Function
   * @param None
   * @retval None
@@ -827,7 +983,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1|GPIO_PIN_0, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PE3 PE4 */
   GPIO_InitStruct.Pin = GPIO_PIN_3|GPIO_PIN_4;
@@ -882,8 +1038,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB1 PB0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_0;
+  /*Configure GPIO pin : PB1 */
+  GPIO_InitStruct.Pin = GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -904,14 +1060,14 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_ControlTask */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the controlTask thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+/* USER CODE END Header_ControlTask */
+__weak void ControlTask(void *argument)
 {
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
@@ -967,6 +1123,24 @@ __weak void PitchnYawTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END PitchnYawTask */
+}
+
+/* USER CODE BEGIN Header_LauncherTask */
+/**
+* @brief Function implementing the launcherTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_LauncherTask */
+__weak void LauncherTask(void *argument)
+{
+  /* USER CODE BEGIN LauncherTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END LauncherTask */
 }
 
 /**
