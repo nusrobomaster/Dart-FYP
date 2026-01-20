@@ -1163,7 +1163,7 @@ void StartDefaultTask(void *argument)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_SET);
   int start_position = 0;
   int current_position = 3000;
-  int direction = 2;
+  int direction = 1;
   __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, start_position);
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_4);
   /* Infinite loop */

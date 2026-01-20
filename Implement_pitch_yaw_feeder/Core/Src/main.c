@@ -165,7 +165,7 @@ DMA_HandleTypeDef hdma_usart1_rx;
 
 /* Definitions for controlTask */
 osThreadId_t controlTaskHandle;
-uint32_t controlTaskBuffer[ 2048 ];
+uint32_t controlTaskBuffer[ 4096 ];
 osStaticThreadDef_t controlTaskControlBlock;
 const osThreadAttr_t controlTask_attributes = {
   .name = "controlTask",
@@ -516,6 +516,7 @@ int main(void)
   remote_control_init();
 //  hx711_init(&hx, GPIOF, GPIO_PIN_0, GPIOF, GPIO_PIN_1,HX711_GAIN_128);
   LCD_Init();
+  LCD_direction(0);
   TP_Init();
 
   lvgl_port_init();
@@ -564,7 +565,7 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_EVENTS */
   /* add events, ... */
-//  ui_init();
+  ui_init();
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
@@ -808,7 +809,7 @@ static void MX_TIM3_Init(void)
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 65535;
+  htim3.Init.Period = 3359;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
@@ -822,7 +823,7 @@ static void MX_TIM3_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 50000;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
