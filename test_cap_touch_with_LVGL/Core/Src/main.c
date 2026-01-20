@@ -268,7 +268,7 @@ static void lvgl_port_init(void)
   lv_init();
   lv_tick_set_cb(HAL_GetTick);
 
-  display1 = lv_display_create(MY_DISP_HOR_RES, MY_DISP_VER_RES);
+  display1 = lv_display_create(MY_DISP_VER_RES, MY_DISP_HOR_RES);
   lv_display_set_color_format((lv_display_t *)display1, LV_COLOR_FORMAT_RGB565_SWAPPED);
   lv_display_set_buffers(display1, buf1, NULL, sizeof(buf1), LV_DISPLAY_RENDER_MODE_PARTIAL);
   lv_display_set_flush_cb(display1, my_flush_cb);
@@ -419,6 +419,7 @@ int main(void)
   remote_control_init();
 //  hx711_init(&hx, GPIOF, GPIO_PIN_0, GPIOF, GPIO_PIN_1,HX711_GAIN_128);
   LCD_Init();
+  LCD_direction(1);
   TP_Init();
 
   lvgl_port_init();
