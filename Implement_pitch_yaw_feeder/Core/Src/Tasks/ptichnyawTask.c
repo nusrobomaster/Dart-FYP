@@ -41,8 +41,8 @@ float pitch_deg = 30.0f; // example command in-range
 
 #define DEG2RAD (0.01745329251994329577f)
 
-#define ANGLE_MIN_DEG 20.0f
-#define ANGLE_MAX_DEG 45.0f
+#define ANGLE_MIN_DEG 0.0f
+#define ANGLE_MAX_DEG 360.0f
 
 #define ANGLE_MIN_RAD (ANGLE_MIN_DEG * DEG2RAD)
 #define ANGLE_MAX_RAD (ANGLE_MAX_DEG * DEG2RAD)
@@ -101,45 +101,45 @@ static inline void Motor_SetPwmCounts(uint16_t duty)
 
 /* --------- Position control (20–45 deg) --------- */
 #define DEG2RAD 0.01745329251994329577f
-#define ANGLE_MIN_RAD (20.0f * DEG2RAD)
-#define ANGLE_MAX_RAD (45.0f * DEG2RAD)
+#define ANGLE_MIN_RAD (0.0f * DEG2RAD)
+#define ANGLE_MAX_RAD (360.0f * DEG2RAD)
 
-void Motor_PositionControlStep(PID *pos_pid,
-                               float target_angle_rad,
-                               float dt,
-                               float deadzone_rad)
-{
-    // 1) clamp command to allowed window
-    float target = clampf(target_angle_rad, ANGLE_MIN_RAD, ANGLE_MAX_RAD);
-
-    // 2) read encoder
-    float angle = briterencoder_u32_to_deg(pitch_encoder.value);
-
-    // 3) if you ever go out-of-bounds, force target back in-range
-    if (angle < ANGLE_MIN_RAD) target = ANGLE_MIN_RAD;
-    if (angle > ANGLE_MAX_RAD) target = ANGLE_MAX_RAD;
-
-    // 4) error (shortest path)
-    float err = wrap_to_pi(target - angle);
-
-    // 5) drive your PID using the wrapped error (setpoint trick)
-    PID_Compute(pos_pid, 0.0f, -err, dt, deadzone_rad);
-    float u = pos_pid->output; // signed command
-
-    // 6) stop near target to avoid buzzing
-    if (fabsf(err) <= deadzone_rad) {
-        Motor_Stop();
-        return;
-    }
-
-    // 7) direction + magnitude -> PWM
-    bool forward = (u >= 0.0f);
-    Motor_SetDirection(forward);
-
-    float mag = fabsf(u);
-    if (mag > (float)PWM_MAX_COUNTS) mag = (float)PWM_MAX_COUNTS;
-    Motor_SetPwmCounts((uint16_t)mag);
-}
+//void Motor_PositionControlStep(PID *pos_pid,
+//                               float target_angle_rad,
+//                               float dt,
+//                               float deadzone_rad)
+//{
+//    // 1) clamp command to allowed window
+//    float target = clampf(target_angle_rad, ANGLE_MIN_RAD, ANGLE_MAX_RAD);
+//
+//    // 2) read encoder
+//    float angle = briterencoder_u32_to_rad(pitch_encoder.value);
+//
+////    // 3) if you ever go out-of-bounds, force target back in-range
+//    if (angle < ANGLE_MIN_RAD) target = ANGLE_MIN_RAD;
+//    if (angle > ANGLE_MAX_RAD) target = ANGLE_MAX_RAD;
+////
+////    // 4) error (shortest path)
+//    float err = wrap_to_pi(target - angle);
+//
+//    // 5) drive your PID using the wrapped error (setpoint trick)
+//    PID_Compute(pos_pid, err, 0.0f, dt, deadzone_rad);
+//    float u = pos_pid->output; // signed command
+//
+//    // 6) stop near target to avoid buzzing
+//    if (fabsf(err) <= deadzone_rad) {
+//        Motor_Stop();
+//        return;
+//    }
+//
+//    // 7) direction + magnitude -> PWM
+//    bool forward = (u >= 0.0f);
+//    Motor_SetDirection(forward);
+//
+//    float mag = fabsf(u);
+//    if (mag > (float)PWM_MAX_COUNTS) mag = (float)PWM_MAX_COUNTS;
+//    Motor_SetPwmCounts((uint16_t)mag);
+//}
 
 
 void PitchnYawTask(void *argument)
@@ -161,6 +161,12 @@ void PitchnYawTask(void *argument)
 	pos.min_output = -(float)PWM_MAX_COUNTS;
 	pos.max_output =  (float)PWM_MAX_COUNTS;
 
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
+
 	HAL_TIM_PWM_Start(&PWM_TIM, PWM_CHANNEL);
 	Motor_Stop();
 
@@ -173,12 +179,23 @@ void PitchnYawTask(void *argument)
     for (;;)
     {
 //    	briterencoder_read_value(&hcan1, &pitch_encoder);
-    	Motor_PositionControlStep(&pos, pitch_deg * DEG2RAD, dt, deadzone);
-
+//    	Motor_PositionControlStep(&pos, pitch_deg * DEG2RAD, dt, deadzone);
+    	float cur_pitch_rad_angle = briterencoder_u32_to_rad(pitch_encoder.value);
+//    	if (cur_pitch_rad_angle > 3.14 + 0.1){
+//    		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
+//    		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
+//    	} else if (cur_pitch_rad_angle < 3.14 - 0.1){
+//    		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
+//    		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
+//
+//    	} else {
+//    		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
+//    		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
+//    	}
 
     	dm_yaw_motor.ctrl.pos_set = deg_to_rad(yaw_angle);
         dm4310_ctrl_send(&hcan1, &dm_yaw_motor);
-        osDelay(1);
+        osDelay(pdMS_TO_TICKS(1));
     }
 
     /* USER CODE END YawTask */

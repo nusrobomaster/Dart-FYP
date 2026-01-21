@@ -3,9 +3,7 @@
 
 #include <lvgl.h>
 
-#include "eez-flow.h"
-
-
+#include "../eez-flow.h"
 
 #if !defined(EEZ_FOR_LVGL)
 #include "screens.h"
@@ -15,7 +13,7 @@
 extern "C" {
 #endif
 
-extern const uint8_t assets[1324];
+extern const uint8_t assets[1572];
 
 void ui_init();
 void ui_tick();
