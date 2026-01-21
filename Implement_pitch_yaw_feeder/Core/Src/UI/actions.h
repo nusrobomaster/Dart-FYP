@@ -7,6 +7,8 @@
 extern "C" {
 #endif
 
+extern void action_button_mat(lv_event_t * e);
+extern void action_ui_selection(lv_event_t * e);
 
 
 #ifdef __cplusplus

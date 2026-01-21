@@ -40,6 +40,7 @@ typedef struct {
     /* Current/actual values from sensors */
     float current_pitch_angle;
     float current_yaw_angle;
+    float current_launcher_force;
     
     /* Flags for subsystem communication */
     volatile bool feeder_reload_request;  /* Set true to trigger reload */
@@ -90,6 +91,13 @@ bool ui_interface_check_reload_request(void);
  * @brief Apply the current input value to the selected parameter
  */
 void ui_interface_apply_value(void);
+
+/**
+ * @brief Apply a value directly to a specific parameter
+ * @param mode The selection mode (which parameter to set)
+ * @param value The value to apply
+ */
+void ui_interface_apply_value_direct(ui_selection_mode_t mode, float value);
 
 /**
  * @brief Get the current input string from textarea

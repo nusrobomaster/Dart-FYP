@@ -9,6 +9,7 @@
 #include "ui.h"
 #include "usb_device.h"
 #include "cmsis_os.h"
+#include "../ui_interface.h"
 
 
 void ControlTask(void *argument)
@@ -26,6 +27,9 @@ void ControlTask(void *argument)
  *
  * the remote controller should be included in this
  */
+
+  /* Initialize UI interface */
+  ui_interface_init();
 
   /* Infinite loop */
   for(;;)
