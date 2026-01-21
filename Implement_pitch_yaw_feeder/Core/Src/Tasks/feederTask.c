@@ -9,6 +9,7 @@
 #include "bsp_damiao.h"
 #include <math.h>
 #include <stdbool.h>
+#include "../ui_interface.h"
 
 
 extern dm_motor_t dm_pitch_motor;
@@ -123,6 +124,11 @@ void FeederTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
+	  /* Check for UI reload request */
+	  if (ui_interface_check_reload_request()) {
+		  ready = true;  /* Trigger the next state transition */
+	  }
+	  
 	  switch (FeederState) {
 
 	  case POS_1:

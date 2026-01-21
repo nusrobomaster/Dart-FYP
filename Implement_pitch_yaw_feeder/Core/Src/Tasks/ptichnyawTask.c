@@ -9,6 +9,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include "briterencoder.h"
+#include "../ui_interface.h"
 
 
 
@@ -181,6 +182,7 @@ void PitchnYawTask(void *argument)
 //    	briterencoder_read_value(&hcan1, &pitch_encoder);
 //    	Motor_PositionControlStep(&pos, pitch_deg * DEG2RAD, dt, deadzone);
     	float cur_pitch_rad_angle = briterencoder_u32_to_rad(pitch_encoder.value);
+    	float cur_pitch_deg_angle = cur_pitch_rad_angle / DEG2RAD;
 //    	if (cur_pitch_rad_angle > 3.14 + 0.1){
 //    		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
 //    		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
@@ -192,6 +194,14 @@ void PitchnYawTask(void *argument)
 //    		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
 //    		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
 //    	}
+
+		/* Get set values from UI interface */
+		yaw_angle = ui_interface_get_set_yaw();
+		pitch_deg = ui_interface_get_set_pitch();
+		
+		/* Update current values for UI display */
+		float cur_yaw_deg_angle = dm_yaw_motor.para.pos / DEG2RAD;
+		ui_interface_update_current_values(cur_pitch_deg_angle, cur_yaw_deg_angle);
 
     	dm_yaw_motor.ctrl.pos_set = deg_to_rad(yaw_angle);
         dm4310_ctrl_send(&hcan1, &dm_yaw_motor);

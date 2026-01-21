@@ -6,7 +6,9 @@
  */
 
 #include "lvgl.h"
-
+#include "ui.h"
+#include "usb_device.h"
+#include "cmsis_os.h"
 
 
 void ControlTask(void *argument)
@@ -30,6 +32,7 @@ void ControlTask(void *argument)
   {
     uint32_t delay = lv_timer_handler();
     ui_tick();
+    ui_interface_update_display();
     if (delay < 5U) {
       delay = 5U;
     }
