@@ -36,9 +36,9 @@ void dm4310_motor_init(void)
 		dm_yaw_motor.id = 0x76;
 		dm_yaw_motor.ctrl.mode = 0;
 		dm_yaw_motor.ctrl.pos_set = 0;
-		dm_yaw_motor.ctrl.vel_set = 2;
+		dm_yaw_motor.ctrl.vel_set = 0;
 		dm_yaw_motor.ctrl.kp_set  = 0;
-		dm_yaw_motor.ctrl.kd_set  = 1.5f;
+		dm_yaw_motor.ctrl.kd_set  = 0;
 		dm_yaw_motor.ctrl.tor_set = 0;
 
 		dm4310_enable(&hcan1, &dm_yaw_motor);

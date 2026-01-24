@@ -249,6 +249,10 @@ float pos_kd = 0.0f;
 
 extern briterencoder_t pitch_encoder;
 
+extern dm_motor_t dm_yaw_motor;
+
+int op_sen = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -270,7 +274,6 @@ void LauncherTask(void *argument);
 /* USER CODE BEGIN PFP */
 static void lvgl_port_init(void);
 static void touch_read_cb(lv_indev_t * indev, lv_indev_data_t * data);
-static void keypad_event_cb(lv_event_t * e);
 
 /* USER CODE END PFP */
 
@@ -315,6 +318,10 @@ if (rx_header.StdId == 0x00) {
 			current_position = round_counter*8*PI + dm_pitch_motor.para.pos;
 			prev_pos = dm_pitch_motor.para.pos;
 		}
+
+		if (motor_id == (dm_yaw_motor.id & 0x0F)){
+			dm4310_fbdata(&dm_yaw_motor, rx_buffer);
+		}
 	}
 
 	if (rx_header.StdId == 0x03) {
@@ -329,6 +336,10 @@ if (rx_header.StdId == 0x00) {
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
     if (GPIO_Pin == GPIO_PIN_10) {
         touch_flag = 1;
+    }
+
+    if (GPIO_Pin == GPIO_PIN_15){
+    	op_sen = 1;
     }
 }
 
@@ -408,64 +419,6 @@ static void touch_read_cb(lv_indev_t * indev, lv_indev_data_t * data)
   } else {
     data->state = LV_INDEV_STATE_RELEASED;
   }
-}
-
-void ui_init1(void) {
-  lv_obj_t * screen = lv_scr_act();
-  lv_obj_t * root = lv_obj_create(screen);
-  lv_obj_set_size(root, LV_PCT(100), LV_PCT(100));
-  lv_obj_set_flex_flow(root, LV_FLEX_FLOW_ROW);
-  lv_obj_set_flex_align(root, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-  lv_obj_set_style_pad_all(root, 12, 0);
-  lv_obj_set_style_pad_gap(root, 12, 0);
-
-  lv_obj_t * spinner = lv_spinner_create(root);
-  lv_obj_set_size(spinner, 80, 80);
-
-  lv_obj_t * right = lv_obj_create(root);
-  lv_obj_set_size(right, LV_PCT(70), LV_PCT(100));
-  lv_obj_set_flex_flow(right, LV_FLEX_FLOW_COLUMN);
-  lv_obj_set_flex_align(right, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-  lv_obj_set_style_pad_all(right, 8, 0);
-  lv_obj_set_style_pad_gap(right, 8, 0);
-
-  keypad_ta = lv_textarea_create(right);
-  lv_obj_set_width(keypad_ta, LV_PCT(100));
-  lv_obj_set_height(keypad_ta, 48);
-  lv_textarea_set_one_line(keypad_ta, true);
-  lv_textarea_set_placeholder_text(keypad_ta, "Enter number");
-
-  static const char * btnm_map[] = {
-    "1", "2", "3", "\n",
-    "4", "5", "6", "\n",
-    "7", "8", "9", "\n",
-    "0", "Del", ""
-  };
-
-  lv_obj_t * btnm = lv_btnmatrix_create(right);
-  lv_btnmatrix_set_map(btnm, btnm_map);
-  lv_obj_set_width(btnm, LV_PCT(100));
-  lv_obj_set_flex_grow(btnm, 1);
-  lv_obj_add_event_cb(btnm, keypad_event_cb, LV_EVENT_VALUE_CHANGED, keypad_ta);
-}
-
-static void keypad_event_cb(lv_event_t * e)
-{
-  lv_obj_t * btnm = lv_event_get_target(e);
-  lv_obj_t * ta = lv_event_get_user_data(e);
-  uint16_t btn_id = lv_btnmatrix_get_selected_btn(btnm);
-  const char * txt = lv_btnmatrix_get_btn_text(btnm, btn_id);
-
-  if (txt == NULL || ta == NULL) {
-    return;
-  }
-
-  if (strcmp(txt, "Del") == 0) {
-    lv_textarea_delete_char(ta);
-    return;
-  }
-
-  lv_textarea_add_text(ta, txt);
 }
 
 
@@ -1002,9 +955,15 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PF10 */
   GPIO_InitStruct.Pin = GPIO_PIN_10;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PD15 */
+  GPIO_InitStruct.Pin = GPIO_PIN_15;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PC0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
