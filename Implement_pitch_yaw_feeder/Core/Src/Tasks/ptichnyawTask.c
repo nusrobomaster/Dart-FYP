@@ -121,19 +121,25 @@ void PitchnYawTask(void *argument)
 
 	float dt = (now - last) * portTICK_PERIOD_MS * 0.001f;
 	last = now;
+	bool velocity = true;
 
 
+//	briterencoder_set_mode(&hcan1, &pitch_encoder, 0xAA);
+//	briterencoder_set_auto_period_us(&hcan1, &pitch_encoder, 100);
 
-	briterencoder_set_mode(&hcan1, &pitch_encoder, 0xAA);
-	briterencoder_set_auto_period_us(&hcan1, &pitch_encoder, 100);
 
-    /* Infinite loop */
+//	briterencoder_set_mode(&hcan1, &pitch_encoder, 0x00);
+//	briterencoder_read_velocity(&hcan1, &pitch_encoder);
+	/* Infinite loop */
     for (;;)
     {
 		/* Get set values from UI interface */
 		yaw_angle = ui_interface_get_set_yaw();
 		pitch_deg = ui_interface_get_set_pitch();
 		
+		Motor_SetPwmCounts(3000);
+		Motor_SetDirection(false);
+
 
 		/* Get cur values from Sensors */
 		float cur_pitch_rad_angle = briterencoder_u32_to_rad(pitch_encoder.value);
@@ -144,6 +150,17 @@ void PitchnYawTask(void *argument)
 		/* Send controls to motors */
     	dm_yaw_motor.ctrl.pos_set = deg_to_rad(yaw_angle);
         dm4310_ctrl_send(&hcan1, &dm_yaw_motor);
+
+        if (velocity){
+        	 briterencoder_read_velocity(&hcan1, &pitch_encoder);
+        	 velocity = false;
+        } else {
+
+        	 velocity = true;
+        }
+        briterencoder_read_value(&hcan1, &pitch_encoder);
+
+
         Motor_PositionControlStep(&Pitch_PID, pitch_deg * DEG2RAD, dt, 0);
         osDelay(pdMS_TO_TICKS(1));
     }

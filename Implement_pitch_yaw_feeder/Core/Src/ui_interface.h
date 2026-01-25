@@ -45,7 +45,8 @@ typedef struct {
     /* Flags for subsystem communication */
     volatile bool feeder_reload_request;  /* Set true to trigger reload */
     volatile bool values_updated;          /* Set true when OK is pressed */
-    
+    volatile bool fire_request;
+    volatile bool draw_request;
 } ui_control_state_t;
 
 /* Global UI control state - shared between UI and tasks */

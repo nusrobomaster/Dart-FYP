@@ -11,6 +11,8 @@ extern CAN_HandleTypeDef hcan1;
 
 dm_motor_t dm_pitch_motor;
 dm_motor_t dm_yaw_motor;
+dm_motor_t dm_launching_motor;
+dm_motor_t dm_feeder_motor;
 //extern dm_motor_t dm_yaw_motor;
 //extern motor_data_t g_can_motors[24];
 //extern motor_data_t g_pitch_motor;
@@ -42,6 +44,30 @@ void dm4310_motor_init(void)
 		dm_yaw_motor.ctrl.tor_set = 0;
 
 		dm4310_enable(&hcan1, &dm_yaw_motor);
+		vTaskDelay(3);
+
+		memset(&dm_launching_motor, 0, sizeof(dm_launching_motor));
+		dm_yaw_motor.id = 0x66;
+		dm_yaw_motor.ctrl.mode = 0;
+		dm_yaw_motor.ctrl.pos_set = 0;
+		dm_yaw_motor.ctrl.vel_set = 0;
+		dm_yaw_motor.ctrl.kp_set  = 0;
+		dm_yaw_motor.ctrl.kd_set  = 0;
+		dm_yaw_motor.ctrl.tor_set = 0;
+
+		dm4310_enable(&hcan1, &dm_launching_motor);
+		vTaskDelay(3);
+
+
+		memset(&dm_feeder_motor, 0, sizeof(dm_feeder_motor));
+		dm_pitch_motor.id = 0x56;
+		dm_pitch_motor.ctrl.mode = 0;
+		dm_pitch_motor.ctrl.pos_set = 0;
+		dm_pitch_motor.ctrl.vel_set = 2;
+		dm_pitch_motor.ctrl.kp_set = 0;
+		dm_pitch_motor.ctrl.kd_set = 1.5;
+		dm_pitch_motor.ctrl.tor_set = 0;
+		dm4310_enable(&hcan1, &dm_feeder_motor);
 		vTaskDelay(3);
 //	#endif
 

@@ -251,7 +251,9 @@ extern briterencoder_t pitch_encoder;
 
 extern dm_motor_t dm_yaw_motor;
 
-int op_sen = 0;
+extern bool op_sen;
+
+extern bool lock;
 
 /* USER CODE END PV */
 
@@ -334,6 +336,10 @@ if (rx_header.StdId == 0x00) {
 #define SPEED rc_ctrl.rc.ch[0]
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if (GPIO_Pin == GPIO_PIN_0){
+		lock = true;
+	}
+
     if (GPIO_Pin == GPIO_PIN_10) {
         touch_flag = 1;
     }
@@ -341,6 +347,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
     if (GPIO_Pin == GPIO_PIN_15){
     	op_sen = 1;
     }
+
+
 }
 
 void tft_set_addr_window(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1)
@@ -965,12 +973,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PC0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
   /*Configure GPIO pins : PC1 PC2 PC3 PC5 */
   GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -994,8 +996,8 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PA0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB1 */

@@ -8,6 +8,7 @@
 
 #include "ui_interface.h"
 #include "UI/screens.h"
+#include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -27,8 +28,38 @@ void ui_interface_init(void)
     ui_state.current_yaw_angle = 0.0f;
     ui_state.feeder_reload_request = false;
     ui_state.values_updated = false;
+    ui_state.fire_request = false;
+    ui_state.draw_request = false;
+
 }
 
+bool ui_interface_check_draw_request(void)
+{
+    if (ui_state.draw_request) {
+        ui_state.draw_request = false;
+        return true;
+    }
+    return false;
+}
+
+void ui_interface_trigger_draw(void)
+{
+    ui_state.draw_request = true;
+}
+
+void ui_interface_trigger_fire(void)
+{
+    ui_state.fire_request = true;
+}
+
+bool ui_interface_check_fire_request(void)
+{
+	if (ui_state.fire_request) {
+	        ui_state.fire_request = false;
+	        return true;
+	    }
+	 return false;
+}
 /* ========================= Selection Mode ========================= */
 
 void ui_interface_set_selection(ui_selection_mode_t mode)

@@ -10,6 +10,21 @@
 #include "bsp_damiao.h"
 #include <math.h>
 #include <stdbool.h>
+#include "../ui_interface.h"
+
+
+#define FORWARD 1;
+#define BACKWARD -1;
+float target = 1000.0f, tol = 50.0f;
+enum {WAIT, SEEK_LOCK_CW, LOCKED, FEED, REVERSE_TO_WEIGHT, HOLD } state = WAIT;
+
+extern dm_motor_t dm_launching_motor;
+
+bool lock = false;
+bool op_sen = false ;
+
+extern bool ready;
+extern CAN_HandleTypeDef hcan1;
 
 
 void LauncherTask(void *argument)
@@ -37,44 +52,62 @@ void LauncherTask(void *argument)
  *
  */
   /* USER CODE BEGIN StartTask04 */
-//   #define FORWARD 200;
-//   #define BACKWARD -200;
-//   float target = 1000.0f, tol = 50.0f;
-//   enum { SEEK_LOCK_CW, LOCKED, REVERSE_TO_WEIGHT, HOLD } state = SEEK_LOCK_CW;
-//
-//   float curr_weight_buffer;
-//   float curr_weight;
-//   osStatus_t st;
-//   int16_t loadingMotor = 200;
+
    /* Infinite loop */
    for(;;)
    {
-//	  if (osMessageQueueGetCount(myQueue_weight_loadingHandle) > 0){
-//		  st = osMessageQueueGet(myQueue_weight_loadingHandle, &curr_weight_buffer, NULL, osWaitForever);
-//		  if (st == osOK) {
-//			  curr_weight = curr_weight_buffer;
-//		  }
-//	  }
-//	switch (state) {
-//	case SEEK_LOCK_CW:
-//		loadingMotor = FORWARD;
-//		if (!unlock) state = REVERSE_TO_WEIGHT;
-//		break;
-//	case REVERSE_TO_WEIGHT:
-//		if (curr_weight < target - tol) {
-//			loadingMotor = BACKWARD;
-//		}
-//		else if (curr_weight > target + tol){
-//			loadingMotor = FORWARD;
-//		}
-//		else {
-//			loadingMotor = 0;
-//		}
-//		if (unlock) state = SEEK_LOCK_CW;
-//		break;
-//	}
-//
-//	st = osMessageQueuePut(myQueue_loading_motorHandle, &loadingMotor, 0, 0);
-	osDelay(1);
+	  switch (state){
+
+	  case WAIT:
+		  if (ui_interface_check_draw_request()){
+			  state = SEEK_LOCK_CW;
+		  }
+		  break;
+
+	  case SEEK_LOCK_CW:
+
+		  if (lock){
+			  state = LOCKED;
+		  }
+		  break;
+
+	  case LOCKED:
+
+		  if (op_sen){
+			  state = FEED;
+			  ready = true;
+
+		  }
+	  case FEED:
+
+		  if (ready == false){
+			  state = REVERSE_TO_WEIGHT;
+		  }
+
+	  case REVERSE_TO_WEIGHT:
+
+		  if (dm_launching_motor.para.tor > target - tol && dm_launching_motor.para.tor < target + tol){
+			  state = HOLD;
+
+		  }
+		  break;
+
+	  case HOLD:
+
+
+		  if (ui_interface_check_fire_request()){
+			  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+			  state = WAIT;
+		  }
+		  break;
+	  }
+
+
+
+	  dm4310_ctrl_send(&hcan1, &dm_launching_motor);
+	  osDelay(1);
    }
 }
+
+
+
