@@ -149,37 +149,37 @@ void ui_interface_update_display(void)
 {
     char buf[64];
     
-    /* Update YAW screen labels (obj6 = current angle, obj7 = set angle) */
-    if (objects.obj7 != NULL) {
+    /* Update YAW labels */
+    if (objects.yaw_set != NULL) {
         snprintf(buf, sizeof(buf), "Set Yaw Angle: %.1f", ui_state.set_yaw_angle);
-        lv_label_set_text(objects.obj7, buf);
+        lv_label_set_text(objects.yaw_set, buf);
     }
-    
-    if (objects.obj6 != NULL) {
-        snprintf(buf, sizeof(buf), "Current Angle: %.1f", ui_state.current_yaw_angle);
-        lv_label_set_text(objects.obj6, buf);
+
+    if (objects.yaw_cu != NULL) {
+        snprintf(buf, sizeof(buf), "Current Yaw Angle: %.1f", ui_state.current_yaw_angle);
+        lv_label_set_text(objects.yaw_cu, buf);
     }
-    
-    /* Update PITCH screen labels (obj8 = current angle, obj9 = set angle) */
-    if (objects.obj9 != NULL) {
-        snprintf(buf, sizeof(buf), "Set Angle: %.1f", ui_state.set_pitch_angle);
-        lv_label_set_text(objects.obj9, buf);
+
+    /* Update PITCH labels */
+    if (objects.pitch_set != NULL) {
+        snprintf(buf, sizeof(buf), "Set Pitch Angle: %.1f", ui_state.set_pitch_angle);
+        lv_label_set_text(objects.pitch_set, buf);
     }
-    
-    if (objects.obj8 != NULL) {
-        snprintf(buf, sizeof(buf), "Current Angle: %.1f", ui_state.current_pitch_angle);
-        lv_label_set_text(objects.obj8, buf);
+
+    if (objects.pitch_cur != NULL) {
+        snprintf(buf, sizeof(buf), "Current Pitch Angle: %.1f", ui_state.current_pitch_angle);
+        lv_label_set_text(objects.pitch_cur, buf);
     }
-    
-    /* Update LAUNCHER screen labels (obj10 = current force, obj11 = set force) */
-    if (objects.obj11 != NULL) {
+
+    /* Update LAUNCHER labels */
+    if (objects.launcher_set != NULL) {
         snprintf(buf, sizeof(buf), "Set Launcher Force: %.1f", ui_state.set_launcher_force);
-        lv_label_set_text(objects.obj11, buf);
+        lv_label_set_text(objects.launcher_set, buf);
     }
-    
-    if (objects.obj10 != NULL) {
+
+    if (objects.launcher_cur != NULL) {
         snprintf(buf, sizeof(buf), "Current Launcher Force: %.1f", ui_state.current_launcher_force);
-        lv_label_set_text(objects.obj10, buf);
+        lv_label_set_text(objects.launcher_cur, buf);
     }
 }
 
@@ -199,10 +199,16 @@ void ui_interface_update_button_styles(void)
 
 const char* ui_interface_get_input_text(void)
 {
-    return "";
+    if (objects.yaw_text_area == NULL) {
+        return "";
+    }
+    return lv_textarea_get_text(objects.yaw_text_area);
 }
 
 void ui_interface_clear_input(void)
 {
-    /* Input clearing is now done directly on textareas in actions.c */
+    if (objects.yaw_text_area == NULL) {
+        return;
+    }
+    lv_textarea_set_text(objects.yaw_text_area, "");
 }
