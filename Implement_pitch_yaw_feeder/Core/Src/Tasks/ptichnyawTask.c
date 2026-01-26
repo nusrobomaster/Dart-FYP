@@ -32,7 +32,7 @@ extern TIM_HandleTypeDef htim3;
 #define PWM_TIM     htim3
 #define PWM_CHANNEL TIM_CHANNEL_3
 
-extern dm_motor_t dm_yaw_motor;
+extern volatile dm_motor_t dm_yaw_motor;
 extern CAN_HandleTypeDef hcan1;
 
 volatile briterencoder_t pitch_encoder;
@@ -99,12 +99,14 @@ void PitchnYawTask(void *argument)
 {
     /* USER CODE BEGIN YawTask */
 	briterencoder_init(&pitch_encoder, 3);
-
+	taskENTER_CRITICAL();
     dm_yaw_motor.ctrl.pos_set = 0.0f;
     dm_yaw_motor.ctrl.vel_set = 0.0f;
     dm_yaw_motor.ctrl.kp_set  = YAW_KP_SET;
     dm_yaw_motor.ctrl.kd_set  = YAW_KD_SET;
     dm_yaw_motor.ctrl.tor_set = 0.0f;
+    taskEXIT_CRITICAL();
+
 
     PID_Init(&Pitch_PID.outer, 200.0f, 0.0f, 10.0f, 10.0f, 350.0f);
     PID_Init(&Pitch_PID.inner, 200.0f, 0.0f, 10.0f, -PWM_MAX_COUNTS, PWM_MAX_COUNTS);
@@ -148,20 +150,22 @@ void PitchnYawTask(void *argument)
 		ui_interface_update_current_values(cur_pitch_deg_angle, cur_yaw_deg_angle);
 
 		/* Send controls to motors */
+		taskENTER_CRITICAL();
     	dm_yaw_motor.ctrl.pos_set = deg_to_rad(yaw_angle);
+    	taskEXIT_CRITICAL();
         dm4310_ctrl_send(&hcan1, &dm_yaw_motor);
 
-        if (velocity){
-        	 briterencoder_read_velocity(&hcan1, &pitch_encoder);
-        	 velocity = false;
-        } else {
+//        if (velocity){
+//        	 briterencoder_read_velocity(&hcan1, &pitch_encoder);
+//        	 velocity = false;
+//        } else {
+//
+//        	 velocity = true;
+//        }
+//        briterencoder_read_value(&hcan1, &pitch_encoder);
 
-        	 velocity = true;
-        }
-        briterencoder_read_value(&hcan1, &pitch_encoder);
 
-
-        Motor_PositionControlStep(&Pitch_PID, pitch_deg * DEG2RAD, dt, 0);
+//        Motor_PositionControlStep(&Pitch_PID, pitch_deg * DEG2RAD, dt, 0);
         osDelay(pdMS_TO_TICKS(1));
     }
 

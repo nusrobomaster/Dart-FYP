@@ -9,10 +9,10 @@ uint32_t dm_mailbox[3];
 
 extern CAN_HandleTypeDef hcan1;
 
-dm_motor_t dm_pitch_motor;
-dm_motor_t dm_yaw_motor;
-dm_motor_t dm_launching_motor;
-dm_motor_t dm_feeder_motor;
+volatile dm_motor_t dm_pitch_motor;
+volatile dm_motor_t dm_yaw_motor;
+volatile dm_motor_t dm_launching_motor;
+volatile dm_motor_t dm_feeder_motor;
 //extern dm_motor_t dm_yaw_motor;
 //extern motor_data_t g_can_motors[24];
 //extern motor_data_t g_pitch_motor;

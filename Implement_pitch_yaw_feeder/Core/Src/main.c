@@ -249,7 +249,7 @@ float pos_kd = 0.0f;
 
 extern briterencoder_t pitch_encoder;
 
-extern dm_motor_t dm_yaw_motor;
+extern volatile dm_motor_t dm_yaw_motor;
 
 extern bool op_sen;
 
@@ -481,7 +481,7 @@ int main(void)
   TP_Init();
 
   lvgl_port_init();
-  HAL_Delay(1000);
+  HAL_Delay(3000);
   dm4310_motor_init();
 //  uint32_t counting = 0;
 //  uint32_t counter = 0;
@@ -953,6 +953,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PI6 */
+  GPIO_InitStruct.Pin = GPIO_PIN_6;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PI9 */
   GPIO_InitStruct.Pin = GPIO_PIN_9;

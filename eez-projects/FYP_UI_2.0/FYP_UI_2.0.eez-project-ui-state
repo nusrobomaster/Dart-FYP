@@ -398,8 +398,8 @@
             {
               "type": "row",
               "id": "#7c2c8d85-43c4-41c1-bf84-584a8ccb1aa0",
-              "weight": 0.6196043165467626,
-              "width": 689,
+              "weight": 0.30035971223021585,
+              "width": 334,
               "children": [
                 {
                   "type": "tabset",
@@ -460,15 +460,14 @@
                       "enableClose": false,
                       "icon": "svg:watch_panel"
                     }
-                  ],
-                  "active": true
+                  ]
                 }
               ]
             },
             {
               "type": "tabset",
               "id": "RUNTIME-EDITORS",
-              "weight": 0.38039568345323743,
+              "weight": 0.6996402877697842,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
@@ -483,7 +482,8 @@
                   },
                   "icon": "svg:page"
                 }
-              ]
+              ],
+              "active": true
             },
             {
               "type": "row",
@@ -1010,19 +1010,15 @@
         "0": {
           "2": {},
           "3": {},
-          "7": {
-            "$selected": true
-          },
-          "8": {
-            "$selected": true
-          },
+          "7": {},
+          "8": {},
           "9": {}
         }
       },
       "transform": {
         "translate": {
           "x": -240,
-          "y": -260
+          "y": -160
         },
         "scale": 1
       },
@@ -1056,7 +1052,7 @@
   "searchMatchWholeWord": false,
   "replaceEnabled": false,
   "replaceText": "",
-  "pageRuntimeFrontFace": true,
+  "pageRuntimeFrontFace": false,
   "breakpoints": {},
   "watchExpressions": [],
   "showComponentDescriptions": true,
