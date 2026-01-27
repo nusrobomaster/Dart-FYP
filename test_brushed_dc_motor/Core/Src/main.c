@@ -118,6 +118,7 @@ I2C_HandleTypeDef hi2c2;
 SPI_HandleTypeDef hspi4;
 DMA_HandleTypeDef hdma_spi4_tx;
 
+TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim8;
 
@@ -128,84 +129,8 @@ DMA_HandleTypeDef hdma_usart1_rx;
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for Readweight */
-osThreadId_t ReadweightHandle;
-const osThreadAttr_t Readweight_attributes = {
-  .name = "Readweight",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for controlLock */
-osThreadId_t controlLockHandle;
-const osThreadAttr_t controlLock_attributes = {
-  .name = "controlLock",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for loadingTask */
-osThreadId_t loadingTaskHandle;
-const osThreadAttr_t loadingTask_attributes = {
-  .name = "loadingTask",
   .stack_size = 1028 * 4,
   .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for motor */
-osThreadId_t motorHandle;
-const osThreadAttr_t motor_attributes = {
-  .name = "motor",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for Pitch_Yaw */
-osThreadId_t Pitch_YawHandle;
-const osThreadAttr_t Pitch_Yaw_attributes = {
-  .name = "Pitch_Yaw",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for Touchscreen */
-osThreadId_t TouchscreenHandle;
-const osThreadAttr_t Touchscreen_attributes = {
-  .name = "Touchscreen",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for Launcher */
-osThreadId_t LauncherHandle;
-const osThreadAttr_t Launcher_attributes = {
-  .name = "Launcher",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for Feeder */
-osThreadId_t FeederHandle;
-const osThreadAttr_t Feeder_attributes = {
-  .name = "Feeder",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityLow,
-};
-/* Definitions for myQueue_screen */
-osMessageQueueId_t myQueue_screenHandle;
-const osMessageQueueAttr_t myQueue_screen_attributes = {
-  .name = "myQueue_screen"
-};
-/* Definitions for myQueue_lock_loading */
-osMessageQueueId_t myQueue_lock_loadingHandle;
-const osMessageQueueAttr_t myQueue_lock_loading_attributes = {
-  .name = "myQueue_lock_loading"
-};
-/* Definitions for myQueue_weight_loading */
-osMessageQueueId_t myQueue_weight_loadingHandle;
-const osMessageQueueAttr_t myQueue_weight_loading_attributes = {
-  .name = "myQueue_weight_loading"
-};
-/* Definitions for myQueue_loading_motor */
-osMessageQueueId_t myQueue_loading_motorHandle;
-const osMessageQueueAttr_t myQueue_loading_motor_attributes = {
-  .name = "myQueue_loading_motor"
 };
 /* USER CODE BEGIN PV */
 
@@ -254,15 +179,8 @@ static void MX_DMA2D_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_TIM5_Init(void);
 static void MX_TIM8_Init(void);
+static void MX_TIM2_Init(void);
 void StartDefaultTask(void *argument);
-void StartTask02(void *argument);
-void StartTask03(void *argument);
-void StartTask04(void *argument);
-void motor_Task(void *argument);
-void Pitch_Yaw_Task(void *argument);
-void Touchscreen_Task(void *argument);
-void Launcher_Task(void *argument);
-void Feeder_Task(void *argument);
 
 /* USER CODE BEGIN PFP */
 static void lvgl_port_init(void);
@@ -509,18 +427,7 @@ uint16_t usbRxBufLen = 0;
 
 uint8_t  usbRxFlag 	 = 0;
 
-
-//void my_log_cb(lv_log_level_t level, const char *msg)
-//{
-//    static uint8_t line[USB_LEN];
-//    size_t n = strlen(msg);
-//    if (n > USB_LEN - 3) n = USB_LEN - 3;
-//    memcpy(line, msg, n);
-//    line[n++] = '\r';
-//    line[n++] = '\n';
-//    line[n] = '\0';
-//    CDC_Transmit_FS(line, (uint16_t)n);
-//}
+uint32_t starting;
 
 /* USER CODE END 0 */
 
@@ -560,6 +467,7 @@ int main(void)
   MX_I2C2_Init();
   MX_TIM5_Init();
   MX_TIM8_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   MX_USB_DEVICE_Init();
 
@@ -595,19 +503,6 @@ int main(void)
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
-  /* Create the queue(s) */
-  /* creation of myQueue_screen */
-//  myQueue_screenHandle = osMessageQueueNew (16, sizeof(queueLcd), &myQueue_screen_attributes);
-//
-//  /* creation of myQueue_lock_loading */
-//  myQueue_lock_loadingHandle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue_lock_loading_attributes);
-//
-//  /* creation of myQueue_weight_loading */
-//  myQueue_weight_loadingHandle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue_weight_loading_attributes);
-//
-//  /* creation of myQueue_loading_motor */
-//  myQueue_loading_motorHandle = osMessageQueueNew (16, sizeof(uint16_t), &myQueue_loading_motor_attributes);
-
   /* USER CODE BEGIN RTOS_QUEUES */
 /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
@@ -615,30 +510,6 @@ int main(void)
   /* Create the thread(s) */
   /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
-
-  /* creation of Readweight */
-//  ReadweightHandle = osThreadNew(StartTask02, NULL, &Readweight_attributes);
-//
-//  /* creation of controlLock */
-//  controlLockHandle = osThreadNew(StartTask03, NULL, &controlLock_attributes);
-//
-//  /* creation of loadingTask */
-//  loadingTaskHandle = osThreadNew(StartTask04, NULL, &loadingTask_attributes);
-//
-//  /* creation of motor */
-//  motorHandle = osThreadNew(motor_Task, NULL, &motor_attributes);
-//
-//  /* creation of Pitch_Yaw */
-//  Pitch_YawHandle = osThreadNew(Pitch_Yaw_Task, NULL, &Pitch_Yaw_attributes);
-//
-//  /* creation of Touchscreen */
-//  TouchscreenHandle = osThreadNew(Touchscreen_Task, NULL, &Touchscreen_attributes);
-//
-//  /* creation of Launcher */
-//  LauncherHandle = osThreadNew(Launcher_Task, NULL, &Launcher_attributes);
-//
-//  /* creation of Feeder */
-//  FeederHandle = osThreadNew(Feeder_Task, NULL, &Feeder_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -869,6 +740,55 @@ static void MX_SPI4_Init(void)
 }
 
 /**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_Encoder_InitTypeDef sConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 0;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 4294967295;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
+  sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
+  sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
+  sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
+  sConfig.IC1Filter = 0;
+  sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
+  sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
+  sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
+  sConfig.IC2Filter = 0;
+  if (HAL_TIM_Encoder_Init(&htim2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
   * @brief TIM5 Initialization Function
   * @param None
   * @retval None
@@ -1062,6 +982,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOI, GPIO_PIN_7|GPIO_PIN_9, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_10, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3
                           |GPIO_PIN_5, GPIO_PIN_RESET);
 
@@ -1069,7 +992,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOG, GPIO_PIN_1, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4|GPIO_PIN_5, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1|GPIO_PIN_0, GPIO_PIN_RESET);
@@ -1090,8 +1013,9 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PF10 */
   GPIO_InitStruct.Pin = GPIO_PIN_10;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PC0 PC1 PC2 PC3
@@ -1110,17 +1034,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA1 PA4 PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5;
+  /*Configure GPIO pins : PA4 PA5 */
+  GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PA0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PC4 */
@@ -1135,10 +1053,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
@@ -1164,7 +1078,9 @@ void StartDefaultTask(void *argument)
   int start_position = 0;
   int current_position = 3000;
   int direction = 1;
+  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_10, GPIO_PIN_SET);
   __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, start_position);
+  HAL_TIM_Encoder_Start(&htim2,  TIM_CHANNEL_ALL);
   HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_4);
   /* Infinite loop */
   for(;;)
@@ -1188,207 +1104,12 @@ void StartDefaultTask(void *argument)
 	  		break;
 	  }
 	__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, current_position);
+	starting = __HAL_TIM_GET_COUNTER(&htim2);
+	int dir = __HAL_TIM_IS_TIM_COUNTING_DOWN(&htim2);
+
     osDelay(100);
   }
   /* USER CODE END 5 */
-}
-
-/* USER CODE BEGIN Header_StartTask02 */
-/**
-* @brief Function implementing the Readweight thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask02 */
-void StartTask02(void *argument)
-{
-  /* USER CODE BEGIN StartTask02 */
-  float curr_weight;
-  /* Infinite loop */
-  for(;;)
-  {
-    curr_weight = hx711_get_units(&hx, 10);
-    weight = curr_weight;
-    g_weight = curr_weight;
-    (void)osMessageQueuePut(myQueue_weight_loadingHandle, &curr_weight, 0, 0);
-    osDelay(10);
-  }
-  /* USER CODE END StartTask02 */
-}
-
-/* USER CODE BEGIN Header_StartTask03 */
-/**
-* @brief Function implementing the controlLock thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask03 */
-void StartTask03(void *argument)
-{
-  /* USER CODE BEGIN StartTask03 */
-  unlock = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
-  g_unlock = unlock;
-  /* Infinite loop */
-  for(;;)
-  {
-    GPIO_PinState curr = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0);
-    if (unlock != curr){
-      unlock = curr;
-      g_unlock = curr;
-    }
-
-    if (rc_ctrl.rc.s[1] == 1 && !unlock){
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-      osDelay(10);
-      HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-    }
-
-    osDelay(1);
-  }
-  /* USER CODE END StartTask03 */
-}
-
-/* USER CODE BEGIN Header_StartTask04 */
-/**
-* @brief Function implementing the loadingTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTask04 */
-void StartTask04(void *argument)
-{
-  /* USER CODE BEGIN StartTask04 */
-  #define FORWARD 200
-  #define BACKWARD -200
-  float target = 1000.0f;
-  float tol = 50.0f;
-  enum { SEEK_LOCK_CW, LOCKED, REVERSE_TO_WEIGHT, HOLD } state = SEEK_LOCK_CW;
-
-  float curr_weight = 0.0f;
-  float curr_weight_buffer;
-  int16_t loadingMotor = 200;
-  /* Infinite loop */
-  for(;;)
-  {
-    if (osMessageQueueGetCount(myQueue_weight_loadingHandle) > 0){
-      osStatus_t st = osMessageQueueGet(myQueue_weight_loadingHandle, &curr_weight_buffer, NULL, osWaitForever);
-      if (st == osOK) {
-        curr_weight = curr_weight_buffer;
-      }
-    }
-    switch (state) {
-    case SEEK_LOCK_CW:
-      loadingMotor = FORWARD;
-      if (!unlock) state = REVERSE_TO_WEIGHT;
-      break;
-    case REVERSE_TO_WEIGHT:
-      if (curr_weight < target - tol) {
-        loadingMotor = BACKWARD;
-      }
-      else if (curr_weight > target + tol){
-        loadingMotor = FORWARD;
-      }
-      else {
-        loadingMotor = 0;
-      }
-      if (unlock) state = SEEK_LOCK_CW;
-      break;
-    }
-
-    (void)osMessageQueuePut(myQueue_loading_motorHandle, &loadingMotor, 0, 0);
-    osDelay(1);
-  }
-  /* USER CODE END StartTask04 */
-}
-
-/* USER CODE BEGIN Header_motor_Task */
-/**
-* @brief Function implementing the motor thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_motor_Task */
-void motor_Task(void *argument)
-{
-  /* USER CODE BEGIN motor_Task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END motor_Task */
-}
-
-/* USER CODE BEGIN Header_Pitch_Yaw_Task */
-/**
-* @brief Function implementing the Pitch_Yaw thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_Pitch_Yaw_Task */
-__weak void Pitch_Yaw_Task(void *argument)
-{
-  /* USER CODE BEGIN Pitch_Yaw_Task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END Pitch_Yaw_Task */
-}
-
-/* USER CODE BEGIN Header_Touchscreen_Task */
-/**
-* @brief Function implementing the Touchscreen thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_Touchscreen_Task */
-__weak void Touchscreen_Task(void *argument)
-{
-  /* USER CODE BEGIN Touchscreen_Task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END Touchscreen_Task */
-}
-
-/* USER CODE BEGIN Header_Launcher_Task */
-/**
-* @brief Function implementing the Launcher thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_Launcher_Task */
-__weak void Launcher_Task(void *argument)
-{
-  /* USER CODE BEGIN Launcher_Task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END Launcher_Task */
-}
-
-/* USER CODE BEGIN Header_Feeder_Task */
-/**
-* @brief Function implementing the Feeder thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_Feeder_Task */
-__weak void Feeder_Task(void *argument)
-{
-  /* USER CODE BEGIN Feeder_Task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END Feeder_Task */
 }
 
 /**

@@ -134,7 +134,7 @@ if (rx_header.StdId == 0x203)
 	motor_rpm1 = (rx_buffer[2] << 8) + rx_buffer[3];
 }
 /* DM4310 feedback frame: StdId = master ID (0x00). Byte0 low nibble holds motor ID. */
-if (rx_header.StdId == 0x01) {
+if (rx_header.StdId == 0x00) {
 	uint8_t motor_id = rx_buffer[0] & 0x0F;
 	if (motor_id == (dm_pitch_motor.id & 0x0F)) {
 		dm4310_fbdata(&dm_pitch_motor, rx_buffer);
