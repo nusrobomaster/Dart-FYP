@@ -29,10 +29,6 @@ extern int   round_counter;
 extern float tolerance;
 extern float prev_pos;
 
-extern float pos_kp;
-extern float pos_kd;
-
-
 
 #include <stdint.h>
 

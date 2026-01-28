@@ -9,20 +9,60 @@ uint32_t dm_mailbox[3];
 
 extern CAN_HandleTypeDef hcan1;
 
-volatile dm_motor_t dm_pitch_motor;
-volatile dm_motor_t dm_yaw_motor;
-volatile dm_motor_t dm_launching_motor;
-volatile dm_motor_t dm_feeder_motor;
-//extern dm_motor_t dm_yaw_motor;
-//extern motor_data_t g_can_motors[24];
-//extern motor_data_t g_pitch_motor;
-//extern EventGroupHandle_t gimbal_event_group;
+volatile dm_motor_t dm_pitch_motor = {
+    .id = 0x86,
+    .ctrl = {
+        .mode    = 0,
+        .pos_set = 0,
+        .vel_set = 2,
+        .kp_set  = 0,
+        .kd_set  = 1.5f,
+        .tor_set = 0,
+    },
+};
+
+volatile dm_motor_t dm_yaw_motor = {
+    .id = 0x76,
+    .ctrl = {
+        .mode    = 0,
+        .pos_set = 0,
+        .vel_set = 0,
+        .kp_set  = 0,
+        .kd_set  = 0,
+        .tor_set = 0,
+    },
+};
+
+volatile dm_motor_t dm_launching_motor = {
+    .id = 0x66,
+    .ctrl = {
+        .mode    = 0,
+        .pos_set = 0,
+        .vel_set = 0,
+        .kp_set  = 0,
+        .kd_set  = 0,
+        .tor_set = 0,
+    },
+};
+
+volatile dm_motor_t dm_feeder_motor = {
+    .id = 0x56,
+    .ctrl = {
+        .mode    = 0,
+        .pos_set = 0,
+        .vel_set = 2,
+        .kp_set  = 0,
+        .kd_set  = 1.5f,
+        .tor_set = 0,
+    },
+};
+
 
 void dm4310_motor_init(void)
 {
 // this function has been implemented in motor_config. should no longer be used
 
-//	#if PITCH_MOTOR_TYPE == TYPE_DM4310
+////	#if PITCH_MOTOR_TYPE == TYPE_DM4310
 //		memset(&dm_pitch_motor, 0, sizeof(dm_pitch_motor));
 //		dm_pitch_motor.id = 0x86;
 //		dm_pitch_motor.ctrl.mode = 0;
@@ -31,17 +71,17 @@ void dm4310_motor_init(void)
 //		dm_pitch_motor.ctrl.kp_set = 0;
 //		dm_pitch_motor.ctrl.kd_set = 1.5;
 //		dm_pitch_motor.ctrl.tor_set = 0;
-//		dm4310_enable(&hcan1, &dm_pitch_motor);
-//		HAL_Delay(3);
+		dm4310_enable(&hcan1, &dm_pitch_motor);
+		HAL_Delay(3);
 
-		memset(&dm_yaw_motor, 0, sizeof(dm_yaw_motor));
-		dm_yaw_motor.id = 0x76;
-		dm_yaw_motor.ctrl.mode = 0;
-		dm_yaw_motor.ctrl.pos_set = 0;
-		dm_yaw_motor.ctrl.vel_set = 0;
-		dm_yaw_motor.ctrl.kp_set  = 0;
-		dm_yaw_motor.ctrl.kd_set  = 0;
-		dm_yaw_motor.ctrl.tor_set = 0;
+//		memset(&dm_yaw_motor, 0, sizeof(dm_yaw_motor));
+//		dm_yaw_motor.id = 0x76;
+//		dm_yaw_motor.ctrl.mode = 0;
+//		dm_yaw_motor.ctrl.pos_set = 0;
+//		dm_yaw_motor.ctrl.vel_set = 0;
+//		dm_yaw_motor.ctrl.kp_set  = 0;
+//		dm_yaw_motor.ctrl.kd_set  = 0;
+//		dm_yaw_motor.ctrl.tor_set = 0;
 
 		dm4310_enable(&hcan1, &dm_yaw_motor);
 		HAL_Delay(3);
@@ -54,11 +94,10 @@ void dm4310_motor_init(void)
 //		dm_yaw_motor.ctrl.kp_set  = 0;
 //		dm_yaw_motor.ctrl.kd_set  = 0;
 //		dm_yaw_motor.ctrl.tor_set = 0;
-//
-//		dm4310_enable(&hcan1, &dm_launching_motor);
-//		HAL_Delay(3);
-////
-//
+
+		dm4310_enable(&hcan1, &dm_launching_motor);
+		HAL_Delay(3);
+
 //		memset(&dm_feeder_motor, 0, sizeof(dm_feeder_motor));
 //		dm_pitch_motor.id = 0x56;
 //		dm_pitch_motor.ctrl.mode = 0;
@@ -67,8 +106,8 @@ void dm4310_motor_init(void)
 //		dm_pitch_motor.ctrl.kp_set = 0;
 //		dm_pitch_motor.ctrl.kd_set = 1.5;
 //		dm_pitch_motor.ctrl.tor_set = 0;
-//		dm4310_enable(&hcan1, &dm_feeder_motor);
-//		HAL_Delay(3);
+		dm4310_enable(&hcan1, &dm_feeder_motor);
+		HAL_Delay(3);
 //	#endif
 
 //	#if YAW_MOTOR_TYPE == TYPE_DM4310

@@ -197,18 +197,6 @@ const osThreadAttr_t launcherTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE BEGIN PV */
-
-static uint32_t ui_stack[4096];        // 4096 words = 16 KB
-static StaticTask_t ui_tcb;
-
-static const osThreadAttr_t ui_attr = {
-  .name       = "ui",
-  .stack_mem  = ui_stack,
-  .stack_size = sizeof(ui_stack),      // BYTES
-  .cb_mem     = &ui_tcb,
-  .cb_size    = sizeof(ui_tcb),
-  .priority   = osPriorityNormal,
-};
 RC_ctrl_t rc_ctrl;
 HX711 hx;
 int32_t weight;
@@ -224,13 +212,10 @@ static lv_indev_t * touch_indev;
 static lv_obj_t * keypad_ta;
 
 
-extern dm_motor_t dm_pitch_motor;
-float target_rpm = 0.0f;          /* Desired speed setpoint in RPM; update this variable to change target */
-float commanded_rpm = 0.0f;       /* Internally ramped RPM command */
-float measured_rpm = 0.0f;
-float pid_int = 0.0f;
-float pid_prev_err = 0.0f;
-
+extern volatile dm_motor_t dm_pitch_motor;
+extern volatile dm_motor_t dm_yaw_motor;
+extern volatile dm_launching_motor;
+extern volatile dm_feeder_motor;
 
 float target_position = 0.0f;
 float current_position = 0.0f;
@@ -238,18 +223,8 @@ int round_counter = 0;
 float tolerance = 0.06f;
 float prev_pos = 0.0f;
 
-//faster pid values
-//static float pos_kp = 7.0f;
-//static float pos_kd = 0.4f;
-
-//not as fast pid values
-float pos_kp = 0.5f;
-float pos_kd = 0.0f;
-
-
 extern briterencoder_t pitch_encoder;
 
-extern volatile dm_motor_t dm_yaw_motor;
 
 extern bool op_sen;
 
@@ -310,7 +285,7 @@ if (rx_header.StdId == 0x00) {
 		uint8_t motor_id = rx_buffer[0] & 0x0F;
 		if (motor_id == (dm_pitch_motor.id & 0x0F)) {
 			dm4310_fbdata(&dm_pitch_motor, rx_buffer);
-			measured_rpm = dm_pitch_motor.para.vel * (60.0f / (2.0f * (float)M_PI));
+//			measured_rpm = dm_pitch_motor.para.vel * (60.0f / (2.0f * (float)M_PI));
 			if ((dm_pitch_motor.para.pos < - 12.5 + tolerance) && (prev_pos > 12.5 - tolerance) ){
 				round_counter += 1;
 			}

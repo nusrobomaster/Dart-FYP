@@ -31,7 +31,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define USART1_IRQHandler USART1_IRQHandler_CUBEMX
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -195,16 +195,16 @@ void CAN1_RX0_IRQHandler(void)
 /**
   * @brief This function handles USART1 global interrupt.
 //  */
-//void USART1_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN USART1_IRQn 0 */
-////////////////////////////////////////////////////////////////////////
-//  /* USER CODE END USART1_IRQn 0 */
-//  HAL_UART_IRQHandler(&huart1);
-//  /* USER CODE BEGIN USART1_IRQn 1 */
-////////////////////////////////////////////////////////////////////////
-//  /* USER CODE END USART1_IRQn 1 */
-//}
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+//////////////////////////////////////////////////////////////////////
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&huart1);
+  /* USER CODE BEGIN USART1_IRQn 1 */
+//////////////////////////////////////////////////////////////////////
+  /* USER CODE END USART1_IRQn 1 */
+}
 
 /**
   * @brief This function handles EXTI line[15:10] interrupts.
