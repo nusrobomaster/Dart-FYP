@@ -4,12 +4,15 @@
  *  Created on: Jan 18, 2026
  *      Author: Barry Ang
  */
+
+#include <DART_CONFIG.h>
 #include "main.h"
 #include "bsp_damiao.h"
 #include <math.h>
 #include <stdbool.h>
 #include "briterencoder.h"
 #include "../ui_interface.h"
+#include "remote_control.h"
 
 
 
@@ -17,6 +20,16 @@ static inline float deg_to_rad(float deg)
 {
     return deg * 0.017453292519943295f;
 }
+
+typedef enum {
+    MODE_BREAKING = 0,
+    MODE_FORWARD = 1,
+    MODE_BACKWARD = 2,
+	MODE_COASTING = 3
+} Mode_t;
+
+Mode_t mode = MODE_BREAKING;
+
 
 #define YAW_KP_SET 10.0f
 #define YAW_KD_SET 1.5f
@@ -51,6 +64,9 @@ float pitch_deg = 30.0f; // example command in-range
 
 CascadePID Pitch_PID;
 
+extern RC_ctrl_t rc_ctrl;
+
+yaw_threshold_velocity = 4;
 
 
 static inline void Motor_Stop(void)
@@ -64,15 +80,30 @@ static inline void Motor_Stop(void)
 }
 
 /* Set direction safely (never both high) */
-static inline void Motor_SetDirection(bool forward)
+static inline void Motor_SetDirection(Mode_t direction)
 {
-    if (forward) {
-        HAL_GPIO_WritePin(BWD_GPIO_Port, BWD_Pin, GPIO_PIN_RESET);
-        HAL_GPIO_WritePin(FWD_GPIO_Port, FWD_Pin, GPIO_PIN_SET);
-    } else {
-        HAL_GPIO_WritePin(FWD_GPIO_Port, FWD_Pin, GPIO_PIN_RESET);
-        HAL_GPIO_WritePin(BWD_GPIO_Port, BWD_Pin, GPIO_PIN_SET);
-    }
+  switch (direction) {
+	  case MODE_COASTING:
+		  HAL_GPIO_WritePin(FWD_GPIO_Port, FWD_Pin, GPIO_PIN_RESET);
+		  HAL_GPIO_WritePin(BWD_GPIO_Port, BWD_Pin, GPIO_PIN_RESET);
+		  break;
+	  case MODE_FORWARD:
+		HAL_GPIO_WritePin(FWD_GPIO_Port, FWD_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(BWD_GPIO_Port, BWD_Pin, GPIO_PIN_RESET);
+		break;
+	  case MODE_BACKWARD:
+		HAL_GPIO_WritePin(FWD_GPIO_Port, FWD_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(BWD_GPIO_Port, BWD_Pin, GPIO_PIN_SET);
+		break;
+	  case MODE_BREAKING:
+		HAL_GPIO_WritePin(FWD_GPIO_Port, FWD_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(BWD_GPIO_Port, BWD_Pin, GPIO_PIN_SET);
+		break;
+	  default:
+		HAL_GPIO_WritePin(FWD_GPIO_Port, FWD_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(BWD_GPIO_Port, BWD_Pin, GPIO_PIN_RESET);
+		break;
+  }
 }
 
 static inline void Motor_SetPwmCounts(uint16_t duty)
@@ -100,11 +131,19 @@ void PitchnYawTask(void *argument)
     /* USER CODE BEGIN YawTask */
 	briterencoder_init(&pitch_encoder, 3);
 	taskENTER_CRITICAL();
+#if TESTING
+	dm_yaw_motor.ctrl.pos_set = 0.0f;
+	dm_yaw_motor.ctrl.vel_set = 0.0f;
+	dm_yaw_motor.ctrl.kp_set  = 0.0f;
+	dm_yaw_motor.ctrl.kd_set  = YAW_KD_SET;
+	dm_yaw_motor.ctrl.tor_set = 0.0f;
+#else
     dm_yaw_motor.ctrl.pos_set = 0.0f;
     dm_yaw_motor.ctrl.vel_set = 0.0f;
     dm_yaw_motor.ctrl.kp_set  = YAW_KP_SET;
     dm_yaw_motor.ctrl.kd_set  = YAW_KD_SET;
     dm_yaw_motor.ctrl.tor_set = 0.0f;
+#endif;
     taskEXIT_CRITICAL();
 
 
@@ -123,8 +162,6 @@ void PitchnYawTask(void *argument)
 
 	float dt = (now - last) * portTICK_PERIOD_MS * 0.001f;
 	last = now;
-	bool velocity = true;
-
 
 //	briterencoder_set_mode(&hcan1, &pitch_encoder, 0xAA);
 //	briterencoder_set_auto_period_us(&hcan1, &pitch_encoder, 100);
@@ -132,9 +169,41 @@ void PitchnYawTask(void *argument)
 
 //	briterencoder_set_mode(&hcan1, &pitch_encoder, 0x00);
 //	briterencoder_read_velocity(&hcan1, &pitch_encoder);
+
 	/* Infinite loop */
     for (;;)
     {
+		#if TESTING
+
+		// Set velocity and direction for the brushed dc motor (pitch motor)
+    		int16_t velocity = rc_ctrl.rc.ch[3];
+    		if (velocity == 0){
+    			Motor_SetDirection(MODE_COASTING);
+    		}
+    		else if (velocity > 0){
+    			Motor_SetDirection(MODE_FORWARD);
+    		}
+    		else {
+				// negative velocity
+    			Motor_SetDirection(MODE_BACKWARD);
+    		}
+    		Motor_SetPwmCounts(abs(velocity*5));
+
+		// Set Velocity for the brushless motor (yaw motor)
+		    float yaw_velocity = rc_ctrl.rc.ch[2] / 5;
+
+			if (yaw_velocity > yaw_threshold_velocity) {
+				yaw_velocity = yaw_threshold_velocity;
+			}
+			else if (yaw_velocity < -yaw_threshold_velocity) {
+				yaw_velocity = -yaw_threshold_velocity;
+			}
+
+			dm_yaw_motor.ctrl.vel_set = yaw_velocity;
+			dm4310_ctrl_send(&hcan1, &dm_yaw_motor);
+    	#else
+
+
 		/* Get set values from UI interface */
 		yaw_angle = ui_interface_get_set_yaw();
 		pitch_deg = ui_interface_get_set_pitch();
@@ -166,6 +235,7 @@ void PitchnYawTask(void *argument)
 
 
 //        Motor_PositionControlStep(&Pitch_PID, pitch_deg * DEG2RAD, dt, 0);
+		#endif
         osDelay(pdMS_TO_TICKS(1));
     }
 

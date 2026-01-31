@@ -194,7 +194,7 @@ void CAN1_RX0_IRQHandler(void)
 
 /**
   * @brief This function handles USART1 global interrupt.
-//  */
+  */
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */

@@ -177,27 +177,42 @@ const osThreadAttr_t controlTask_attributes = {
 };
 /* Definitions for feederTask */
 osThreadId_t feederTaskHandle;
+uint32_t feederTaskBuffer[ 128 ];
+osStaticThreadDef_t feederTaskControlBlock;
 const osThreadAttr_t feederTask_attributes = {
   .name = "feederTask",
-  .stack_size = 128 * 4,
+  .cb_mem = &feederTaskControlBlock,
+  .cb_size = sizeof(feederTaskControlBlock),
+  .stack_mem = &feederTaskBuffer[0],
+  .stack_size = sizeof(feederTaskBuffer),
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for pitchnyawTask */
 osThreadId_t pitchnyawTaskHandle;
+uint32_t pitchnyawTaskBuffer[ 128 ];
+osStaticThreadDef_t pitchnyawTaskControlBlock;
 const osThreadAttr_t pitchnyawTask_attributes = {
   .name = "pitchnyawTask",
-  .stack_size = 128 * 4,
+  .cb_mem = &pitchnyawTaskControlBlock,
+  .cb_size = sizeof(pitchnyawTaskControlBlock),
+  .stack_mem = &pitchnyawTaskBuffer[0],
+  .stack_size = sizeof(pitchnyawTaskBuffer),
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for launcherTask */
 osThreadId_t launcherTaskHandle;
+uint32_t launcherTaskBuffer[ 128 ];
+osStaticThreadDef_t launcherTaskControlBlock;
 const osThreadAttr_t launcherTask_attributes = {
   .name = "launcherTask",
-  .stack_size = 128 * 4,
+  .cb_mem = &launcherTaskControlBlock,
+  .cb_size = sizeof(launcherTaskControlBlock),
+  .stack_mem = &launcherTaskBuffer[0],
+  .stack_size = sizeof(launcherTaskBuffer),
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE BEGIN PV */
-RC_ctrl_t rc_ctrl;
+RC_ctrl_t rc_ctrl = {0};
 HX711 hx;
 int32_t weight;
 int32_t value;
@@ -846,10 +861,10 @@ static void MX_USART1_UART_Init(void)
 
   /* USER CODE END USART1_Init 1 */
   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.BaudRate = 100000;
+  huart1.Init.WordLength = UART_WORDLENGTH_9B;
   huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Parity = UART_PARITY_EVEN;
   huart1.Init.Mode = UART_MODE_TX_RX;
   huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
   huart1.Init.OverSampling = UART_OVERSAMPLING_16;
@@ -917,7 +932,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOG, GPIO_PIN_1, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_3, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
@@ -968,8 +983,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA1 PA4 PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5;
+  /*Configure GPIO pins : PA1 PA4 PA5 PA3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_3;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -979,6 +994,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = GPIO_PIN_0;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA2 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB1 */

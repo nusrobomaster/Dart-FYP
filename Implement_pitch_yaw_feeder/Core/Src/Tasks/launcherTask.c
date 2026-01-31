@@ -6,11 +6,13 @@
  */
 
 
+#include <DART_CONFIG.h>
 #include "main.h"
 #include "bsp_damiao.h"
 #include <math.h>
 #include <stdbool.h>
 #include "../ui_interface.h"
+#include "remote_control.h"
 
 
 #define FORWARD 1;
@@ -57,7 +59,7 @@ float target = 1000.0f, tol = 50.0f;
 enum {WAIT, SEEK_LOCK_CW, LOCKED, FEED, REVERSE_TO_WEIGHT, HOLD } state = WAIT;
 
 extern dm_motor_t dm_launching_motor;
-
+extern RC_ctrl_t rc_ctrl;
 bool lock = false;
 bool op_sen = false ;
 
@@ -100,6 +102,34 @@ void LauncherTask(void *argument)
    /* Infinite loop */
    for(;;)
    {
+
+	#if TESTING
+	   GPIO_PinState unlock = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_2);
+	   if (rc_ctrl.rc.s[1] == 1 && !unlock){
+		  __NOP();
+		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, 1);
+		  osDelay(100);
+		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, 0);
+	   }
+
+	   float velocity = rc_ctrl.rc.ch[1];
+
+	   if (velocity > 8) {
+		   velocity = 8;
+	   } else if (velocity < -8) {
+		  velocity = -8;
+	   }
+
+	   dm_launching_motor.ctrl.pos_set = 0;
+	   dm_launching_motor.ctrl.vel_set = velocity;
+	   dm_launching_motor.ctrl.kp_set  = 0;
+	   dm_launching_motor.ctrl.kd_set  = 4;
+	   dm_launching_motor.ctrl.tor_set = 0;
+	   dm4310_ctrl_send(&hcan1, &dm_launching_motor);
+
+	#else
+
+
 //	  switch (state){
 //	  case WAIT:
 //
@@ -225,6 +255,7 @@ void LauncherTask(void *argument)
 //		  break;
 //	  }
 //	  dm4310_ctrl_send(&hcan1, &dm_launching_motor);
+	#endif
 	  osDelay(1);
    }
 }

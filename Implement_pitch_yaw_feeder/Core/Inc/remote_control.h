@@ -59,7 +59,7 @@ typedef struct __attribute__((packed))
     struct __attribute__((packed))
     {
         int16_t ch[5];
-        char s[2];
+        int8_t s[2];
     }  rc;
     struct __attribute__((packed))
     {
