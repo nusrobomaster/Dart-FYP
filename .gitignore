@@ -35,3 +35,32 @@ Desktop.ini
 *~
 *.swp
 *.bak
+
+################################
+# KiCad (only inside kicad_files)
+################################
+
+# Backups
+kicad_files/**/*.kicad_sch-bak
+kicad_files/**/*.kicad_pcb-bak
+kicad_files/**/*.kicad_pro-bak
+
+# User-specific UI state
+kicad_files/**/*.kicad_prl
+
+# Lock & temp files
+kicad_files/**/*.lck
+kicad_files/**/fp-info-cache
+
+# Netlists & cache
+kicad_files/**/*.net
+kicad_files/**/*.cache
+
+# Simulation
+kicad_files/**/*.raw
+kicad_files/**/*.cir
+
+# Generated outputs
+kicad_files/**/gerber/
+kicad_files/**/fabrication/
+kicad_files/**/manufacturing/
