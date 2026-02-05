@@ -40,27 +40,45 @@ Desktop.ini
 # KiCad (only inside kicad_files)
 ################################
 
-# Backups
+# --- Backups & autosave ---
+kicad_files/**/*-backups/
 kicad_files/**/*.kicad_sch-bak
 kicad_files/**/*.kicad_pcb-bak
 kicad_files/**/*.kicad_pro-bak
+kicad_files/**/*.bck
+kicad_files/**/*.bak
+kicad_files/**/*.000
+kicad_files/**/*~
+kicad_files/**/~*
+kicad_files/**/*-save.pro
+kicad_files/**/*-save.kicad_pcb
+kicad_files/**/*_autosave-*
+kicad_files/**/#auto_saved_files#
+kicad_files/**/\#auto_saved_files\#
 
-# User-specific UI state
+# --- User / local state ---
 kicad_files/**/*.kicad_prl
-
-# Lock & temp files
 kicad_files/**/*.lck
 kicad_files/**/fp-info-cache
 
-# Netlists & cache
-kicad_files/**/*.net
+# --- Temporary / cache ---
+kicad_files/**/*.tmp
+kicad_files/**/*-cache*
 kicad_files/**/*.cache
 
-# Simulation
+# --- Netlists & autorouter ---
+kicad_files/**/*.net
+kicad_files/**/*.dsn
+kicad_files/**/*.ses
+
+# --- Simulation ---
 kicad_files/**/*.raw
 kicad_files/**/*.cir
 
-# Generated outputs
+# --- Exported outputs ---
+kicad_files/**/*.xml
+kicad_files/**/*.csv
 kicad_files/**/gerber/
 kicad_files/**/fabrication/
 kicad_files/**/manufacturing/
+
