@@ -76,6 +76,7 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
 int16_t motor_rpm1;
 /* USER CODE END PTD */
@@ -127,9 +128,14 @@ DMA_HandleTypeDef hdma_usart1_rx;
 
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
+uint32_t defaultTaskBuffer[ 1028 ];
+osStaticThreadDef_t defaultTaskControlBlock;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 1028 * 4,
+  .cb_mem = &defaultTaskControlBlock,
+  .cb_size = sizeof(defaultTaskControlBlock),
+  .stack_mem = &defaultTaskBuffer[0],
+  .stack_size = sizeof(defaultTaskBuffer),
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE BEGIN PV */
@@ -767,11 +773,11 @@ static void MX_TIM2_Init(void)
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC1Filter = 0;
+  sConfig.IC1Filter = 5;
   sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC2Filter = 0;
+  sConfig.IC2Filter = 5;
   if (HAL_TIM_Encoder_Init(&htim2, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -1072,12 +1078,16 @@ static void MX_GPIO_Init(void)
 void StartDefaultTask(void *argument)
 {
   /* init code for USB_DEVICE */
-  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_SET);
   int start_position = 0;
   int current_position = 3000;
   int direction = 1;
+  uint32_t counterValue = 0;
+  uint32_t pastCounterValue = 0;
+  float angleValue = 0.0f;
+
+  char printMessage[64];
   HAL_GPIO_WritePin(GPIOF, GPIO_PIN_10, GPIO_PIN_SET);
   __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, start_position);
   HAL_TIM_Encoder_Start(&htim2,  TIM_CHANNEL_ALL);
@@ -1104,9 +1114,25 @@ void StartDefaultTask(void *argument)
 	  		break;
 	  }
 	__HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_4, current_position);
-	starting = __HAL_TIM_GET_COUNTER(&htim2);
-	int dir = __HAL_TIM_IS_TIM_COUNTING_DOWN(&htim2);
+//	int32_t starting = (int32_t)__HAL_TIM_GET_COUNTER(&htim2);
+//
+//	char msg[32];
+//	int len = snprintf(msg, sizeof(msg), "Start=%ld\r\n", starting);
 
+	counterValue = TIM2->CNT;
+
+	if (counterValue != pastCounterValue)
+	{
+		angleValue = (360.0f / 2400.0f) * (float)counterValue;
+
+		int len = snprintf(printMessage,
+				 sizeof(printMessage),
+				 "Current angle is: %.2f\r\n",
+				 angleValue);
+		CDC_Transmit_FS((uint8_t *)printMessage, len);
+	}
+
+	pastCounterValue = counterValue;
     osDelay(100);
   }
   /* USER CODE END 5 */

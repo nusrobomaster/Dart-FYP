@@ -128,7 +128,7 @@
             {
               "type": "row",
               "id": "#e5fa2360-bf7f-41d1-acb1-0808bd2b3f35",
-              "weight": 17.698483496877788,
+              "weight": 21.980374665477253,
               "children": [
                 {
                   "type": "tabset",
@@ -199,14 +199,13 @@
             {
               "type": "tabset",
               "id": "EDITORS",
-              "weight": 62.301516503122215,
-              "selected": 1,
+              "weight": 58.01962533452275,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
                 {
                   "type": "tab",
-                  "id": "#a4b4ac80-8b53-4b7b-9dc9-e09eeb1c8707",
+                  "id": "#7c82d557-8e16-4dcb-b010-ae426d1fef14",
                   "name": "Settings",
                   "component": "editor",
                   "config": {
@@ -398,8 +397,8 @@
             {
               "type": "row",
               "id": "#7c2c8d85-43c4-41c1-bf84-584a8ccb1aa0",
-              "weight": 0.30035971223021585,
-              "width": 334,
+              "weight": 0.05725415315506191,
+              "width": 78,
               "children": [
                 {
                   "type": "tabset",
@@ -467,7 +466,7 @@
             {
               "type": "tabset",
               "id": "RUNTIME-EDITORS",
-              "weight": 0.6996402877697842,
+              "weight": 0.6063068013600146,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
@@ -488,8 +487,8 @@
             {
               "type": "row",
               "id": "#b850dcae-da08-4f07-935f-5a68ee8fb972",
-              "weight": 0,
-              "width": 320,
+              "weight": 0.3364390454849236,
+              "width": 528,
               "children": [
                 {
                   "type": "tabset",
@@ -1008,11 +1007,13 @@
     "[FYP_UI_2.0.eez-project]:/userPages/0[flow-state]": {
       "selection": {
         "0": {
+          "0": {},
           "2": {},
           "3": {},
           "7": {},
           "8": {},
-          "9": {}
+          "10": {},
+          "12": {}
         }
       },
       "transform": {
@@ -1052,7 +1053,7 @@
   "searchMatchWholeWord": false,
   "replaceEnabled": false,
   "replaceText": "",
-  "pageRuntimeFrontFace": false,
+  "pageRuntimeFrontFace": true,
   "breakpoints": {},
   "watchExpressions": [],
   "showComponentDescriptions": true,

@@ -66,6 +66,7 @@ bool op_sen = false ;
 extern bool ready;
 extern CAN_HandleTypeDef hcan1;
 
+#define MAX_VELOCITY 32
 
 void LauncherTask(void *argument)
 {
@@ -112,12 +113,12 @@ void LauncherTask(void *argument)
 		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, 0);
 	   }
 
-	   float velocity = rc_ctrl.rc.ch[1];
+	   float velocity = rc_ctrl.rc.ch[1]/10;
 
-	   if (velocity > 8) {
-		   velocity = 8;
-	   } else if (velocity < -8) {
-		  velocity = -8;
+	   if (velocity > MAX_VELOCITY) {
+		   velocity = MAX_VELOCITY;
+	   } else if (velocity < -MAX_VELOCITY) {
+		  velocity = -MAX_VELOCITY;
 	   }
 
 	   dm_launching_motor.ctrl.pos_set = 0;

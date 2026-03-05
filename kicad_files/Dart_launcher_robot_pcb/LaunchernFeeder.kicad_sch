@@ -5,49 +5,50 @@
 	(uuid "9acd6888-13fb-42a2-a628-bc512224018b")
 	(paper "A4")
 	(lib_symbols
-		(symbol "Connector:Conn_01x03_Pin"
+		(symbol "Molex_0705430037:705430037"
 			(pin_names
-				(offset 1.016)
-				(hide yes)
+				(offset 0.254)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "J"
-				(at 0 5.08 0)
+				(at 8.89 6.35 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1.524 1.524)
 					)
 				)
 			)
-			(property "Value" "Conn_01x03_Pin"
-				(at 0 -5.08 0)
+			(property "Value" "705430037"
+				(at 0 0 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1.524 1.524)
 					)
 				)
 			)
-			(property "Footprint" ""
+			(property "Footprint" "CONN_SDA-70543-xxxx_03_MOL"
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
+						(italic yes)
 					)
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "~"
+			(property "Datasheet" "https://www.molex.com/en-us/products/part-detail-pdf/705430037?display=pdf"
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
+						(italic yes)
 					)
 					(hide yes)
 				)
 			)
-			(property "Description" "Generic connector, single row, 01x03, script generated"
+			(property "Description" ""
 				(at 0 0 0)
 				(effects
 					(font
@@ -64,7 +65,7 @@
 					)
 				)
 			)
-			(property "ki_keywords" "connector"
+			(property "ki_keywords" "705430037"
 				(at 0 0 0)
 				(effects
 					(font
@@ -73,7 +74,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "Connector*:*_1x??_*"
+			(property "ki_fp_filters" "CONN_SDA-70543-xxxx_03_MOL"
 				(at 0 0 0)
 				(effects
 					(font
@@ -82,46 +83,13 @@
 					(hide yes)
 				)
 			)
-			(symbol "Conn_01x03_Pin_1_1"
-				(rectangle
-					(start 0.8636 2.667)
-					(end 0 2.413)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(rectangle
-					(start 0.8636 0.127)
-					(end 0 -0.127)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(rectangle
-					(start 0.8636 -2.413)
-					(end 0 -2.667)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
+			(symbol "705430037_1_1"
 				(polyline
 					(pts
-						(xy 1.27 2.54) (xy 0.8636 2.54)
+						(xy 5.08 2.54) (xy 5.08 -7.62)
 					)
 					(stroke
-						(width 0.1524)
+						(width 0.127)
 						(type default)
 					)
 					(fill
@@ -130,10 +98,10 @@
 				)
 				(polyline
 					(pts
-						(xy 1.27 0) (xy 0.8636 0)
+						(xy 5.08 -7.62) (xy 12.7 -7.62)
 					)
 					(stroke
-						(width 0.1524)
+						(width 0.127)
 						(type default)
 					)
 					(fill
@@ -142,20 +110,140 @@
 				)
 				(polyline
 					(pts
-						(xy 1.27 -2.54) (xy 0.8636 -2.54)
+						(xy 10.16 0) (xy 5.08 0)
 					)
 					(stroke
-						(width 0.1524)
+						(width 0.127)
 						(type default)
 					)
 					(fill
 						(type none)
 					)
 				)
-				(pin passive line
-					(at 5.08 2.54 180)
-					(length 3.81)
-					(name "Pin_1"
+				(polyline
+					(pts
+						(xy 10.16 0) (xy 8.89 0.8467)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 0) (xy 8.89 -0.8467)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -2.54) (xy 5.08 -2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -2.54) (xy 8.89 -1.6933)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -2.54) (xy 8.89 -3.3867)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -5.08) (xy 5.08 -5.08)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -5.08) (xy 8.89 -4.2333)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -5.08) (xy 8.89 -5.9267)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 12.7 2.54) (xy 5.08 2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 12.7 -7.62) (xy 12.7 2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at 0 0 0)
+					(length 5.08)
+					(name "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -170,10 +258,10 @@
 						)
 					)
 				)
-				(pin passive line
-					(at 5.08 0 180)
-					(length 3.81)
-					(name "Pin_2"
+				(pin unspecified line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -188,10 +276,222 @@
 						)
 					)
 				)
-				(pin passive line
-					(at 5.08 -2.54 180)
-					(length 3.81)
-					(name "Pin_3"
+				(pin unspecified line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "705430037_1_2"
+				(polyline
+					(pts
+						(xy 5.08 2.54) (xy 5.08 -7.62)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.08 -7.62) (xy 12.7 -7.62)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 0) (xy 5.08 0)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 0) (xy 8.89 0.8467)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 0) (xy 8.89 -0.8467)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -2.54) (xy 5.08 -2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -2.54) (xy 8.89 -1.6933)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -2.54) (xy 8.89 -3.3867)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -5.08) (xy 5.08 -5.08)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -5.08) (xy 8.89 -4.2333)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -5.08) (xy 8.89 -5.9267)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 12.7 2.54) (xy 5.08 2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 12.7 -7.62) (xy 12.7 2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at 0 0 0)
+					(length 5.08)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(name "3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -209,49 +509,50 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Connector:Conn_01x04_Pin"
+		(symbol "Molex_705430038:705430038"
 			(pin_names
-				(offset 1.016)
-				(hide yes)
+				(offset 0.254)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "J"
-				(at 0 5.08 0)
+				(at 8.89 6.35 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1.524 1.524)
 					)
 				)
 			)
-			(property "Value" "Conn_01x04_Pin"
-				(at 0 -7.62 0)
+			(property "Value" "705430038"
+				(at 0 0 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1.524 1.524)
 					)
 				)
 			)
-			(property "Footprint" ""
+			(property "Footprint" "CONN_SDA-70543-xxxx_04_MOL"
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
+						(italic yes)
 					)
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "~"
+			(property "Datasheet" "https://www.molex.com/en-us/products/part-detail-pdf/705430038?display=pdf"
 				(at 0 0 0)
 				(effects
 					(font
 						(size 1.27 1.27)
+						(italic yes)
 					)
 					(hide yes)
 				)
 			)
-			(property "Description" "Generic connector, single row, 01x04, script generated"
+			(property "Description" ""
 				(at 0 0 0)
 				(effects
 					(font
@@ -268,7 +569,7 @@
 					)
 				)
 			)
-			(property "ki_keywords" "connector"
+			(property "ki_keywords" "705430038"
 				(at 0 0 0)
 				(effects
 					(font
@@ -277,7 +578,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "Connector*:*_1x??_*"
+			(property "ki_fp_filters" "CONN_SDA-70543-xxxx_04_MOL"
 				(at 0 0 0)
 				(effects
 					(font
@@ -286,57 +587,13 @@
 					(hide yes)
 				)
 			)
-			(symbol "Conn_01x04_Pin_1_1"
-				(rectangle
-					(start 0.8636 2.667)
-					(end 0 2.413)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(rectangle
-					(start 0.8636 0.127)
-					(end 0 -0.127)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(rectangle
-					(start 0.8636 -2.413)
-					(end 0 -2.667)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(rectangle
-					(start 0.8636 -4.953)
-					(end 0 -5.207)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
+			(symbol "705430038_1_1"
 				(polyline
 					(pts
-						(xy 1.27 2.54) (xy 0.8636 2.54)
+						(xy 5.08 2.54) (xy 5.08 -10.16)
 					)
 					(stroke
-						(width 0.1524)
+						(width 0.127)
 						(type default)
 					)
 					(fill
@@ -345,10 +602,10 @@
 				)
 				(polyline
 					(pts
-						(xy 1.27 0) (xy 0.8636 0)
+						(xy 5.08 -10.16) (xy 12.7 -10.16)
 					)
 					(stroke
-						(width 0.1524)
+						(width 0.127)
 						(type default)
 					)
 					(fill
@@ -357,10 +614,10 @@
 				)
 				(polyline
 					(pts
-						(xy 1.27 -2.54) (xy 0.8636 -2.54)
+						(xy 10.16 0) (xy 5.08 0)
 					)
 					(stroke
-						(width 0.1524)
+						(width 0.127)
 						(type default)
 					)
 					(fill
@@ -369,20 +626,164 @@
 				)
 				(polyline
 					(pts
-						(xy 1.27 -5.08) (xy 0.8636 -5.08)
+						(xy 10.16 0) (xy 8.89 0.8467)
 					)
 					(stroke
-						(width 0.1524)
+						(width 0.127)
 						(type default)
 					)
 					(fill
 						(type none)
 					)
 				)
-				(pin passive line
-					(at 5.08 2.54 180)
-					(length 3.81)
-					(name "Pin_1"
+				(polyline
+					(pts
+						(xy 10.16 0) (xy 8.89 -0.8467)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -2.54) (xy 5.08 -2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -2.54) (xy 8.89 -1.6933)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -2.54) (xy 8.89 -3.3867)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -5.08) (xy 5.08 -5.08)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -5.08) (xy 8.89 -4.2333)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -5.08) (xy 8.89 -5.9267)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -7.62) (xy 5.08 -7.62)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -7.62) (xy 8.89 -6.7733)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -7.62) (xy 8.89 -8.4667)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 12.7 2.54) (xy 5.08 2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 12.7 -10.16) (xy 12.7 2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at 0 0 0)
+					(length 5.08)
+					(name "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -397,10 +798,10 @@
 						)
 					)
 				)
-				(pin passive line
-					(at 5.08 0 180)
-					(length 3.81)
-					(name "Pin_2"
+				(pin unspecified line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -415,10 +816,10 @@
 						)
 					)
 				)
-				(pin passive line
-					(at 5.08 -2.54 180)
-					(length 3.81)
-					(name "Pin_3"
+				(pin unspecified line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(name "3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -433,10 +834,276 @@
 						)
 					)
 				)
-				(pin passive line
-					(at 5.08 -5.08 180)
-					(length 3.81)
-					(name "Pin_4"
+				(pin unspecified line
+					(at 0 -7.62 0)
+					(length 5.08)
+					(name "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "705430038_1_2"
+				(polyline
+					(pts
+						(xy 5.08 2.54) (xy 5.08 -10.16)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.08 -10.16) (xy 12.7 -10.16)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 0) (xy 5.08 0)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 0) (xy 8.89 0.8467)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 0) (xy 8.89 -0.8467)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -2.54) (xy 5.08 -2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -2.54) (xy 8.89 -1.6933)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -2.54) (xy 8.89 -3.3867)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -5.08) (xy 5.08 -5.08)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -5.08) (xy 8.89 -4.2333)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -5.08) (xy 8.89 -5.9267)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -7.62) (xy 5.08 -7.62)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -7.62) (xy 8.89 -6.7733)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.62 -7.62) (xy 8.89 -8.4667)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 12.7 2.54) (xy 5.08 2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 12.7 -10.16) (xy 12.7 2.54)
+					)
+					(stroke
+						(width 0.127)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin unspecified line
+					(at 0 0 0)
+					(length 5.08)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 0 -7.62 0)
+					(length 5.08)
+					(name "4"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -457,7 +1124,7 @@
 	)
 	(rectangle
 		(start 100.33 24.13)
-		(end 151.13 86.36)
+		(end 158.75 93.98)
 		(stroke
 			(width 0)
 			(type default)
@@ -468,8 +1135,8 @@
 		(uuid 34f532b8-5eca-4eb8-9012-6ee485d958a3)
 	)
 	(rectangle
-		(start 100.33 97.79)
-		(end 175.26 162.56)
+		(start 97.79 100.33)
+		(end 205.74 162.56)
 		(stroke
 			(width 0)
 			(type default)
@@ -478,6 +1145,36 @@
 			(type none)
 		)
 		(uuid a16b6dbc-2078-490a-9950-8c8a15a3cf71)
+	)
+	(text "Launcher Servo"
+		(exclude_from_sim no)
+		(at 128.524 77.978 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "093a045d-28da-4d35-90a6-373c422fbc86")
+	)
+	(text "Lock Ctrl"
+		(exclude_from_sim no)
+		(at 129.794 44.45 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "0ad05454-3dfd-43c0-b049-5757e707e01c")
+	)
+	(text "Servo 3"
+		(exclude_from_sim no)
+		(at 181.102 111.506 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "5fa4d2ce-a555-4f2f-a62d-834ad14c0f89")
 	)
 	(text "launcher\n"
 		(exclude_from_sim no)
@@ -489,6 +1186,16 @@
 		)
 		(uuid "78162e4d-7c3f-4c1b-bfea-d7b38237059f")
 	)
+	(text "Lock Status"
+		(exclude_from_sim no)
+		(at 128.524 30.988 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "8db11148-3e8f-44dc-b308-b847032e9603")
+	)
 	(text "Feeder\n"
 		(exclude_from_sim no)
 		(at 106.934 103.886 0)
@@ -498,6 +1205,46 @@
 			)
 		)
 		(uuid "8f5da625-9b65-443b-827f-d64529708bae")
+	)
+	(text "Servo 2"
+		(exclude_from_sim no)
+		(at 131.572 134.366 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "bccbdce4-ed82-4901-bdd5-06a7d7d82b01")
+	)
+	(text "Load Cell"
+		(exclude_from_sim no)
+		(at 130.048 58.928 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "d9ffc091-58cd-465f-8250-40384e6d0bef")
+	)
+	(text "Servo 1\n"
+		(exclude_from_sim no)
+		(at 133.096 103.378 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "e1815663-56bb-4c9e-9f4b-f061c4f69ba8")
+	)
+	(text "Feeder Optical Endstop"
+		(exclude_from_sim no)
+		(at 184.404 134.62 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "f6cffb4a-aacd-42f1-8bd2-5831b722dce7")
 	)
 	(wire
 		(pts
@@ -541,7 +1288,7 @@
 	)
 	(wire
 		(pts
-			(xy 121.92 119.38) (xy 124.46 119.38)
+			(xy 121.92 110.49) (xy 124.46 110.49)
 		)
 		(stroke
 			(width 0)
@@ -561,17 +1308,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 143.51) (xy 156.21 143.51)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1e5b70ad-8b60-4e5a-8f37-0c583327cafa")
-	)
-	(wire
-		(pts
-			(xy 124.46 124.46) (xy 124.46 121.92)
+			(xy 124.46 115.57) (xy 124.46 113.03)
 		)
 		(stroke
 			(width 0)
@@ -581,7 +1318,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 76.2) (xy 120.65 77.47)
+			(xy 120.65 81.28) (xy 120.65 82.55)
 		)
 		(stroke
 			(width 0)
@@ -601,7 +1338,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 120.65) (xy 154.94 120.65)
+			(xy 166.37 119.38) (xy 172.72 119.38)
 		)
 		(stroke
 			(width 0)
@@ -611,7 +1348,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 140.97) (xy 156.21 140.97)
+			(xy 168.91 139.7) (xy 176.53 139.7)
 		)
 		(stroke
 			(width 0)
@@ -621,17 +1358,7 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 125.73) (xy 154.94 123.19)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4ec1c1a7-9821-4f5c-b410-4af1824c921f")
-	)
-	(wire
-		(pts
-			(xy 118.11 116.84) (xy 124.46 116.84)
+			(xy 118.11 107.95) (xy 124.46 107.95)
 		)
 		(stroke
 			(width 0)
@@ -641,7 +1368,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 124.46) (xy 124.46 124.46)
+			(xy 118.11 115.57) (xy 124.46 115.57)
 		)
 		(stroke
 			(width 0)
@@ -651,7 +1378,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 125.73) (xy 154.94 125.73)
+			(xy 166.37 124.46) (xy 172.72 124.46)
 		)
 		(stroke
 			(width 0)
@@ -671,7 +1398,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 120.65) (xy 121.92 120.65)
+			(xy 118.11 111.76) (xy 121.92 111.76)
 		)
 		(stroke
 			(width 0)
@@ -681,13 +1408,23 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 148.59) (xy 156.21 148.59)
+			(xy 168.91 147.32) (xy 176.53 147.32)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "7053a8f4-e7cf-4e9b-9731-3d5e8eb243ae")
+	)
+	(wire
+		(pts
+			(xy 168.91 142.24) (xy 176.53 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "77423098-d6ee-4764-8ffc-b4c500f59116")
 	)
 	(wire
 		(pts
@@ -751,7 +1488,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 83.82) (xy 120.65 82.55)
+			(xy 120.65 88.9) (xy 120.65 87.63)
 		)
 		(stroke
 			(width 0)
@@ -761,7 +1498,7 @@
 	)
 	(wire
 		(pts
-			(xy 115.57 80.01) (xy 120.65 80.01)
+			(xy 115.57 85.09) (xy 120.65 85.09)
 		)
 		(stroke
 			(width 0)
@@ -781,7 +1518,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 118.11) (xy 154.94 118.11)
+			(xy 166.37 116.84) (xy 172.72 116.84)
 		)
 		(stroke
 			(width 0)
@@ -791,7 +1528,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 121.92) (xy 148.59 120.65)
+			(xy 166.37 120.65) (xy 166.37 119.38)
 		)
 		(stroke
 			(width 0)
@@ -801,7 +1538,7 @@
 	)
 	(wire
 		(pts
-			(xy 156.21 148.59) (xy 156.21 146.05)
+			(xy 176.53 147.32) (xy 176.53 144.78)
 		)
 		(stroke
 			(width 0)
@@ -821,7 +1558,7 @@
 	)
 	(wire
 		(pts
-			(xy 115.57 76.2) (xy 120.65 76.2)
+			(xy 115.57 81.28) (xy 120.65 81.28)
 		)
 		(stroke
 			(width 0)
@@ -861,7 +1598,7 @@
 	)
 	(wire
 		(pts
-			(xy 121.92 120.65) (xy 121.92 119.38)
+			(xy 121.92 111.76) (xy 121.92 110.49)
 		)
 		(stroke
 			(width 0)
@@ -871,7 +1608,7 @@
 	)
 	(wire
 		(pts
-			(xy 115.57 83.82) (xy 120.65 83.82)
+			(xy 115.57 88.9) (xy 120.65 88.9)
 		)
 		(stroke
 			(width 0)
@@ -901,26 +1638,6 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 144.78) (xy 152.4 144.78)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "daf39e50-af87-446f-910d-b846fe7eea73")
-	)
-	(wire
-		(pts
-			(xy 152.4 144.78) (xy 152.4 143.51)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e5eb533f-0578-44e1-b9e3-121c141fa367")
-	)
-	(wire
-		(pts
 			(xy 116.84 146.05) (xy 123.19 146.05)
 		)
 		(stroke
@@ -928,6 +1645,26 @@
 			(type default)
 		)
 		(uuid "e7149d00-5617-4be2-9ec2-ce9cf3c76b08")
+	)
+	(wire
+		(pts
+			(xy 168.91 143.51) (xy 168.91 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eee43962-814e-4008-bb8f-972a0664df5f")
+	)
+	(wire
+		(pts
+			(xy 172.72 121.92) (xy 172.72 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f3a28cc1-383f-4853-a87b-3bac72fe8251")
 	)
 	(wire
 		(pts
@@ -963,7 +1700,7 @@
 	)
 	(global_label "GND"
 		(shape input)
-		(at 115.57 83.82 180)
+		(at 115.57 88.9 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -973,7 +1710,7 @@
 		)
 		(uuid "175ba41a-ba44-4bc0-b0bb-cbd864c0be8e")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 108.7143 83.82 0)
+			(at 108.7143 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -985,7 +1722,7 @@
 	)
 	(global_label "PI5"
 		(shape input)
-		(at 148.59 140.97 180)
+		(at 168.91 139.7 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -995,7 +1732,7 @@
 		)
 		(uuid "21e1904d-ea13-460f-b999-4ffa1810e6e4")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 142.5205 140.97 0)
+			(at 162.8405 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1073,7 +1810,7 @@
 	)
 	(global_label "VCC_5V_ADJ"
 		(shape input)
-		(at 148.59 144.78 180)
+		(at 168.91 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1083,7 +1820,7 @@
 		)
 		(uuid "684d6f7b-b6f8-47cf-b455-e76ff9ce82d8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 134.4167 144.78 0)
+			(at 154.7367 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1095,7 +1832,7 @@
 	)
 	(global_label "GND"
 		(shape input)
-		(at 148.59 125.73 180)
+		(at 166.37 124.46 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1105,7 +1842,7 @@
 		)
 		(uuid "6be5d822-8216-4737-bcb2-b459141686e9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 141.7343 125.73 0)
+			(at 159.5143 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1161,7 +1898,7 @@
 	)
 	(global_label "VCC_5V_ADJ"
 		(shape input)
-		(at 118.11 120.65 180)
+		(at 118.11 111.76 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1171,7 +1908,7 @@
 		)
 		(uuid "812be58d-4b43-4417-b3fd-40a021387863")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 103.9367 120.65 0)
+			(at 103.9367 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1183,7 +1920,7 @@
 	)
 	(global_label "VCC_5V_ADJ"
 		(shape input)
-		(at 115.57 80.01 180)
+		(at 115.57 85.09 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1193,7 +1930,7 @@
 		)
 		(uuid "8a87d1ba-3a28-4dc1-b395-233cd4db5657")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 101.3967 80.01 0)
+			(at 101.3967 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1249,7 +1986,7 @@
 	)
 	(global_label "PD13"
 		(shape input)
-		(at 148.59 118.11 180)
+		(at 166.37 116.84 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1259,7 +1996,7 @@
 		)
 		(uuid "c1e7a517-1ca1-43f9-aaab-0109ce32b0db")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 140.6458 118.11 0)
+			(at 158.4258 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1271,7 +2008,7 @@
 	)
 	(global_label "VCC_5V_ADJ"
 		(shape input)
-		(at 148.59 121.92 180)
+		(at 166.37 120.65 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1281,7 +2018,7 @@
 		)
 		(uuid "ca022744-7ce4-45c1-a358-e77b936e3a19")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 134.4167 121.92 0)
+			(at 152.1967 120.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1293,7 +2030,7 @@
 	)
 	(global_label "PD15"
 		(shape input)
-		(at 115.57 76.2 180)
+		(at 115.57 81.28 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1303,7 +2040,7 @@
 		)
 		(uuid "d723ff12-4d5b-4b2f-9dd0-be22ca313de0")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 107.6258 76.2 0)
+			(at 107.6258 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1359,7 +2096,7 @@
 	)
 	(global_label "PD12"
 		(shape input)
-		(at 118.11 116.84 180)
+		(at 118.11 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1369,7 +2106,7 @@
 		)
 		(uuid "e98d179f-ce23-401b-a609-6987dc92c26b")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 110.1658 116.84 0)
+			(at 110.1658 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1425,7 +2162,7 @@
 	)
 	(global_label "GND"
 		(shape input)
-		(at 148.59 148.59 180)
+		(at 168.91 147.32 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1435,7 +2172,7 @@
 		)
 		(uuid "f871d60f-531c-42ec-aa33-2a7d763c8ceb")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 141.7343 148.59 0)
+			(at 162.0543 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1447,7 +2184,7 @@
 	)
 	(global_label "GND"
 		(shape input)
-		(at 118.11 124.46 180)
+		(at 118.11 115.57 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1457,7 +2194,7 @@
 		)
 		(uuid "f935091c-9942-4acd-a409-1531834ad54c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 111.2543 124.46 0)
+			(at 111.2543 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1490,282 +2227,70 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x04_Pin")
-		(at 125.73 64.77 0)
-		(mirror y)
+		(lib_id "Molex_0705430037:705430037")
+		(at 120.65 82.55 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "0312b5f4-f78f-4005-b278-eb5610a04b8a")
-		(property "Reference" "J15"
-			(at 125.095 57.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Conn_01x04_Pin"
-			(at 125.095 59.69 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
-			(at 125.73 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 125.73 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x04, script generated"
-			(at 125.73 64.77 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "3"
-			(uuid "6a9407c3-ab38-4867-bc58-de019843b8b7")
-		)
-		(pin "2"
-			(uuid "9b603942-3d39-4ba9-ada1-97b033840c12")
-		)
-		(pin "1"
-			(uuid "89760db5-3a2e-401e-948b-757425b2bccd")
-		)
-		(pin "4"
-			(uuid "aeff1709-60dc-4fb7-8326-6a2bcd7a159e")
-		)
-		(instances
-			(project "Dart_launcher_robot_pcb"
-				(path "/0364073f-421a-481f-b2fb-26279bd7c9a9/215cc465-55bc-4370-93ac-f0311553138e"
-					(reference "J15")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Conn_01x03_Pin")
-		(at 125.73 50.8 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "2588c715-29ee-461f-b094-482e5cec4b2e")
-		(property "Reference" "J14"
-			(at 125.095 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Conn_01x03_Pin"
-			(at 125.095 45.72 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
-			(at 125.73 50.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 125.73 50.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x03, script generated"
-			(at 125.73 50.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "c3172a38-a80e-4d29-b29c-2c3e11d52a22")
-		)
-		(pin "2"
-			(uuid "493be81a-9b8b-40e1-b8ee-5411f94c736b")
-		)
-		(pin "3"
-			(uuid "24c076a2-8f37-42e0-9cb1-e93359ea0016")
-		)
-		(instances
-			(project "Dart_launcher_robot_pcb"
-				(path "/0364073f-421a-481f-b2fb-26279bd7c9a9/215cc465-55bc-4370-93ac-f0311553138e"
-					(reference "J14")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Conn_01x03_Pin")
-		(at 161.29 143.51 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "63dda619-b263-4fb0-87e9-1e06d9754cd7")
-		(property "Reference" "J19"
-			(at 160.655 135.89 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "Conn_01x03_Pin"
-			(at 160.655 138.43 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
-			(at 161.29 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 161.29 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x03, script generated"
-			(at 161.29 143.51 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "fc703c64-8772-40f3-93eb-1f355846693d")
-		)
-		(pin "2"
-			(uuid "5b70908e-dc6c-4116-b0f0-d845b2c82a73")
-		)
-		(pin "3"
-			(uuid "631d6317-1843-4d4e-86f0-c4d32a55ff35")
-		)
-		(instances
-			(project "Dart_launcher_robot_pcb"
-				(path "/0364073f-421a-481f-b2fb-26279bd7c9a9/215cc465-55bc-4370-93ac-f0311553138e"
-					(reference "J19")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:Conn_01x03_Pin")
-		(at 125.73 80.01 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "91077d5f-8805-40ab-9075-62443638eb15")
+		(fields_autoplaced yes)
+		(uuid "30672452-2226-4264-a717-f0f7332c2272")
 		(property "Reference" "J21"
-			(at 125.095 72.39 0)
+			(at 134.62 83.8199 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "705430037"
+			(at 134.62 86.3599 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "CONN_SDA-70543-xxxx_03_MOL"
+			(at 120.65 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+					(italic yes)
 				)
+				(hide yes)
 			)
 		)
-		(property "Value" "Conn_01x03_Pin"
-			(at 125.095 74.93 0)
+		(property "Datasheet" "https://www.molex.com/en-us/products/part-detail-pdf/705430037?display=pdf"
+			(at 120.65 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+					(italic yes)
 				)
+				(hide yes)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
-			(at 125.73 80.01 0)
+		(property "Description" ""
+			(at 120.65 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
 			)
-		)
-		(property "Datasheet" "~"
-			(at 125.73 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x03, script generated"
-			(at 125.73 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8dda2fd7-5418-494f-996a-479b9c77b543")
-		)
-		(pin "2"
-			(uuid "a3238a79-940f-434b-a397-2d97a323982e")
 		)
 		(pin "3"
-			(uuid "a1d3e199-466c-4b0b-a6ad-0fa6d58a56f7")
+			(uuid "bf008163-3e9e-43bb-8327-6a887539203a")
+		)
+		(pin "1"
+			(uuid "49e40368-7d85-4c08-a25e-ee8e4a79e4f1")
+		)
+		(pin "2"
+			(uuid "d39893f5-5a80-4994-b756-deb62cd0673a")
 		)
 		(instances
 			(project "Dart_launcher_robot_pcb"
@@ -1777,66 +2302,70 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x03_Pin")
-		(at 129.54 119.38 0)
-		(mirror y)
+		(lib_id "Molex_0705430037:705430037")
+		(at 124.46 107.95 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "bced74a2-79b4-44f4-8fba-8a193aae4865")
+		(fields_autoplaced yes)
+		(uuid "34f3ca28-2c1c-461c-9119-0c2838c57093")
 		(property "Reference" "J17"
-			(at 128.905 111.76 0)
+			(at 138.43 109.2199 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "705430037"
+			(at 138.43 111.7599 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "CONN_SDA-70543-xxxx_03_MOL"
+			(at 124.46 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+					(italic yes)
 				)
+				(hide yes)
 			)
 		)
-		(property "Value" "Conn_01x03_Pin"
-			(at 128.905 114.3 0)
+		(property "Datasheet" "https://www.molex.com/en-us/products/part-detail-pdf/705430037?display=pdf"
+			(at 124.46 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+					(italic yes)
 				)
+				(hide yes)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
-			(at 129.54 119.38 0)
+		(property "Description" ""
+			(at 124.46 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
 			)
-		)
-		(property "Datasheet" "~"
-			(at 129.54 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x03, script generated"
-			(at 129.54 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2fc08585-fc59-4421-b62a-c5e6e7aae5e4")
-		)
-		(pin "2"
-			(uuid "8a2c4127-b13a-4cdc-a4a5-1d8a2246b8e5")
 		)
 		(pin "3"
-			(uuid "0b680780-6058-4312-af93-fc8093f66292")
+			(uuid "1dc01dec-c3b7-45be-ac92-c2fd3f467412")
+		)
+		(pin "1"
+			(uuid "232f3437-3ad0-4455-b802-b6f0fb15ac9e")
+		)
+		(pin "2"
+			(uuid "92e71eb9-a626-42b5-a4ad-79e2ebac3448")
 		)
 		(instances
 			(project "Dart_launcher_robot_pcb"
@@ -1848,104 +2377,130 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x03_Pin")
-		(at 128.27 140.97 0)
-		(mirror y)
+		(lib_id "Molex_0705430037:705430037")
+		(at 120.65 48.26 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c6067805-7f46-4fa0-998c-84fd0f0aaf6d")
-		(property "Reference" "J20"
-			(at 127.635 133.35 0)
+		(fields_autoplaced yes)
+		(uuid "3bea6b3a-3e68-416c-9124-6aa2db7e8783")
+		(property "Reference" "J14"
+			(at 134.62 49.5299 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "705430037"
+			(at 134.62 52.0699 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "CONN_SDA-70543-xxxx_03_MOL"
+			(at 120.65 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+					(italic yes)
 				)
+				(hide yes)
 			)
 		)
-		(property "Value" "Conn_01x03_Pin"
-			(at 127.635 135.89 0)
+		(property "Datasheet" "https://www.molex.com/en-us/products/part-detail-pdf/705430037?display=pdf"
+			(at 120.65 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+					(italic yes)
 				)
+				(hide yes)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
-			(at 128.27 140.97 0)
+		(property "Description" ""
+			(at 120.65 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
 			)
-		)
-		(property "Datasheet" "~"
-			(at 128.27 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x03, script generated"
-			(at 128.27 140.97 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "0c8c5f32-7722-4378-ab6b-778d96f1c34a")
-		)
-		(pin "2"
-			(uuid "9b01a131-9ef0-455f-be5b-c7939409e05a")
 		)
 		(pin "3"
-			(uuid "cad4dff5-4454-4d10-b522-c5bace475ef1")
+			(uuid "6a809a57-712a-470b-b86f-a929bd60f28b")
+		)
+		(pin "1"
+			(uuid "f9439977-18ab-413c-bc73-ba33db9dcb27")
+		)
+		(pin "2"
+			(uuid "bd0f3e66-4c09-4aa4-887c-c63b15559c9a")
 		)
 		(instances
 			(project "Dart_launcher_robot_pcb"
 				(path "/0364073f-421a-481f-b2fb-26279bd7c9a9/215cc465-55bc-4370-93ac-f0311553138e"
-					(reference "J20")
+					(reference "J14")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x03_Pin")
-		(at 160.02 120.65 0)
-		(mirror y)
+		(lib_id "Molex_0705430037:705430037")
+		(at 176.53 139.7 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c64fddc6-9baa-421f-915a-0aba4692b282")
-		(property "Reference" "J18"
-			(at 159.385 113.03 0)
+		(fields_autoplaced yes)
+		(uuid "5fb47800-a72f-4306-87fa-8df7a02e2d75")
+		(property "Reference" "J19"
+			(at 190.5 140.9699 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "705430037"
+			(at 190.5 143.5099 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "CONN_SDA-70543-xxxx_03_MOL"
+			(at 176.53 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+					(italic yes)
 				)
+				(hide yes)
 			)
 		)
-		(property "Value" "Conn_01x03_Pin"
-			(at 159.385 115.57 0)
+		(property "Datasheet" "https://www.molex.com/en-us/products/part-detail-pdf/705430037?display=pdf"
+			(at 176.53 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+					(italic yes)
 				)
+				(hide yes)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
-			(at 160.02 120.65 0)
+		(property "Description" ""
+			(at 176.53 139.7 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1953,8 +2508,74 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 160.02 120.65 0)
+		(pin "3"
+			(uuid "1534af5a-5fd1-4424-9ee3-7828602655a0")
+		)
+		(pin "1"
+			(uuid "5edef5b6-4bd7-46e7-8bdb-52b24a2c4510")
+		)
+		(pin "2"
+			(uuid "359085fe-687e-424f-9826-57df999edfdd")
+		)
+		(instances
+			(project "Dart_launcher_robot_pcb"
+				(path "/0364073f-421a-481f-b2fb-26279bd7c9a9/215cc465-55bc-4370-93ac-f0311553138e"
+					(reference "J19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Molex_0705430037:705430037")
+		(at 119.38 35.56 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ace46d25-b56e-4f8c-95a4-dcf30571841b")
+		(property "Reference" "J13"
+			(at 133.35 36.8299 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "705430037"
+			(at 133.35 39.3699 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "CONN_SDA-70543-xxxx_03_MOL"
+			(at 119.38 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.molex.com/en-us/products/part-detail-pdf/705430037?display=pdf"
+			(at 119.38 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 119.38 35.56 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1962,8 +2583,74 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x03, script generated"
-			(at 160.02 120.65 0)
+		(pin "3"
+			(uuid "4fa4bfdc-537e-4ccc-9be7-ba920e8c0288")
+		)
+		(pin "1"
+			(uuid "059ced57-7dfe-4f14-9b6a-eb5f2d6dfe43")
+		)
+		(pin "2"
+			(uuid "a6f2f049-e7a4-46e7-8069-05041629e258")
+		)
+		(instances
+			(project "Dart_launcher_robot_pcb"
+				(path "/0364073f-421a-481f-b2fb-26279bd7c9a9/215cc465-55bc-4370-93ac-f0311553138e"
+					(reference "J13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Molex_705430038:705430038")
+		(at 120.65 62.23 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b649a638-5f27-46b8-a6c4-d2a643c3539b")
+		(property "Reference" "J15"
+			(at 134.62 64.7699 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "705430038"
+			(at 134.62 67.3099 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "CONN_SDA-70543-xxxx_04_MOL"
+			(at 120.65 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.molex.com/en-us/products/part-detail-pdf/705430038?display=pdf"
+			(at 120.65 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 120.65 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1972,13 +2659,91 @@
 			)
 		)
 		(pin "1"
-			(uuid "c4896ad6-3eeb-4c4b-bdc2-3bb2829e80b0")
+			(uuid "8d0aa413-e1c3-4a38-aca8-f4a166192de9")
+		)
+		(pin "4"
+			(uuid "9ccf3600-6b17-46da-a1b3-bbc6e64e19b1")
 		)
 		(pin "2"
-			(uuid "b1ee0d90-1022-4aaf-87d8-804d92124406")
+			(uuid "fcf14eae-8880-46cc-b600-e4c5a9cefd17")
 		)
 		(pin "3"
-			(uuid "f0a4ee51-5e0f-4b4b-838a-31491e4ded80")
+			(uuid "4896b659-237e-40b6-802d-dcf2d64fd367")
+		)
+		(instances
+			(project "Dart_launcher_robot_pcb"
+				(path "/0364073f-421a-481f-b2fb-26279bd7c9a9/215cc465-55bc-4370-93ac-f0311553138e"
+					(reference "J15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Molex_0705430037:705430037")
+		(at 172.72 116.84 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ba87291c-0421-4fde-bedf-964430a6cdde")
+		(property "Reference" "J18"
+			(at 186.69 118.1099 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "705430037"
+			(at 186.69 120.6499 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "CONN_SDA-70543-xxxx_03_MOL"
+			(at 172.72 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.molex.com/en-us/products/part-detail-pdf/705430037?display=pdf"
+			(at 172.72 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 172.72 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "3"
+			(uuid "5c8d285f-de09-4b14-92b9-bbf1e0decafe")
+		)
+		(pin "1"
+			(uuid "6c307afd-813f-42b2-8d9d-368ed9eb7052")
+		)
+		(pin "2"
+			(uuid "a9144ebd-eb94-4c9f-8907-aba615ddc736")
 		)
 		(instances
 			(project "Dart_launcher_robot_pcb"
@@ -1990,71 +2755,75 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Conn_01x03_Pin")
-		(at 124.46 38.1 0)
-		(mirror y)
+		(lib_id "Molex_0705430037:705430037")
+		(at 123.19 138.43 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "ee0f9685-6682-47f4-b3f7-61c72dfcd10a")
-		(property "Reference" "J13"
-			(at 123.825 30.48 0)
+		(fields_autoplaced yes)
+		(uuid "dbb739d3-513b-46a3-a805-fdb0f58e336f")
+		(property "Reference" "J20"
+			(at 137.16 139.6999 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "705430037"
+			(at 137.16 142.2399 0)
+			(effects
+				(font
+					(size 1.524 1.524)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "CONN_SDA-70543-xxxx_03_MOL"
+			(at 123.19 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+					(italic yes)
 				)
+				(hide yes)
 			)
 		)
-		(property "Value" "Conn_01x03_Pin"
-			(at 123.825 33.02 0)
+		(property "Datasheet" "https://www.molex.com/en-us/products/part-detail-pdf/705430037?display=pdf"
+			(at 123.19 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
+					(italic yes)
 				)
+				(hide yes)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
-			(at 124.46 38.1 0)
+		(property "Description" ""
+			(at 123.19 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(hide yes)
 			)
-		)
-		(property "Datasheet" "~"
-			(at 124.46 38.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x03, script generated"
-			(at 124.46 38.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ace38c5f-d34f-4922-a52d-e60c33cb0c13")
-		)
-		(pin "2"
-			(uuid "e23625e4-803e-4ad5-87a4-a72e8f11c5d9")
 		)
 		(pin "3"
-			(uuid "53464797-727b-4047-bb25-194b9c27a61a")
+			(uuid "902e1cf4-fcbd-4c94-a938-c88efb71989d")
+		)
+		(pin "1"
+			(uuid "2de06222-990f-4784-a865-f20257ff71b6")
+		)
+		(pin "2"
+			(uuid "98fbef38-25be-4fa6-856d-a1455398e11e")
 		)
 		(instances
 			(project "Dart_launcher_robot_pcb"
 				(path "/0364073f-421a-481f-b2fb-26279bd7c9a9/215cc465-55bc-4370-93ac-f0311553138e"
-					(reference "J13")
+					(reference "J20")
 					(unit 1)
 				)
 			)

@@ -1,0 +1,10 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Molex_070543")(type "KiCad")(uri "C:/Users/user/Downloads/705430004/KiCADv6/Molex_070543.kicad_sym")(options "")(descr ""))
+  (lib (name "Molex_0705430037")(type "KiCad")(uri "C:/Users/user/Downloads/705430037/KiCADv6/Molex_0705430037.kicad_sym")(options "")(descr ""))
+  (lib (name "Molex_705430042")(type "KiCad")(uri "C:/Users/user/Downloads/705430042/KiCADv6/Molex_705430042.kicad_sym")(options "")(descr ""))
+  (lib (name "Molex_705430038")(type "KiCad")(uri "C:/Users/user/Downloads/705430038/KiCADv6/Molex_0705430038.kicad_sym")(options "")(descr ""))
+  (lib (name "Molex_705430009")(type "KiCad")(uri "C:/Users/user/Downloads/705430009/KiCADv6/2026-02-07_07-41-40.kicad_sym")(options "")(descr ""))
+  (lib (name "Molex_705430011")(type "KiCad")(uri "C:/Users/user/Downloads/705430011/KiCADv6/2026-02-07_07-48-41.kicad_sym")(options "")(descr ""))
+  (lib (name "Molex_705430036")(type "KiCad")(uri "C:/Users/user/Downloads/705430036/KiCADv6/2026-02-07_07-57-26.kicad_sym")(options "")(descr ""))
+)
