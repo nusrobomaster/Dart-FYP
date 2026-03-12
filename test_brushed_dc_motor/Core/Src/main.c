@@ -47,6 +47,26 @@
 // Lock Signal STM32 MCU
 // Lock_Input -> PA0 // Lock status / sense input
 // Lock_Output -> PA1 // Lock / unlock control output
+
+
+// PC3 is  pitch down
+// PB1 is  pitch up
+// PA2 is pitch upper optical endstop
+// PA3 is pitch lower optical endstop
+
+// PI0 is for lock status
+// PH12 is for launcher optical endstop
+// PD15 is for  launcher servo to release the dart
+
+//D12 is for feeder servo 1
+//D13 is for feeder servo 2
+//D14 is for feeder servo 3
+//DI5 is for feeder optical endstop
+
+
+
+
+//
 //================================================================================================//
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/

@@ -1,10 +1,10 @@
 {
   "navigation": {
     "selectedUserPageObject": "[FYP_UI_2.0.eez-project]:/userPages/0",
-    "selectedGlobalVariableObject": "[FYP_UI_2.0.eez-project]:/variables/globalVariables/3",
+    "selectedGlobalVariableObject": "[FYP_UI_2.0.eez-project]:/variables/globalVariables/11",
     "selectedEnumObject": "[FYP_UI_2.0.eez-project]:/variables/enums/0",
     "subnavigationSelectedItems": {
-      "variables-tab/sub-navigation/selected-item": "Enums"
+      "variables-tab/sub-navigation/selected-item": "Global"
     }
   },
   "layoutModel": {
@@ -128,12 +128,12 @@
             {
               "type": "row",
               "id": "#e5fa2360-bf7f-41d1-acb1-0808bd2b3f35",
-              "weight": 21.980374665477253,
+              "weight": 32.90425386548603,
               "children": [
                 {
                   "type": "tabset",
                   "id": "#61f16214-2023-49bf-9f78-fea86b0e12c6",
-                  "weight": 1,
+                  "weight": 0.5180616740088105,
                   "enableClose": false,
                   "children": [
                     {
@@ -165,7 +165,7 @@
                 {
                   "type": "tabset",
                   "id": "#9dd91dfa-134d-4cb4-907e-c22472057227",
-                  "weight": 0.8766519823788547,
+                  "weight": 1.3311250423585228,
                   "enableClose": false,
                   "children": [
                     {
@@ -181,7 +181,7 @@
                 {
                   "type": "tabset",
                   "id": "#525ab3d0-43c0-4c89-b0d2-136b472d12d7",
-                  "weight": 1.1233480176211454,
+                  "weight": 1.150813283632667,
                   "enableClose": false,
                   "children": [
                     {
@@ -199,7 +199,8 @@
             {
               "type": "tabset",
               "id": "EDITORS",
-              "weight": 58.01962533452275,
+              "weight": 22.270077440391873,
+              "selected": 1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
@@ -232,12 +233,12 @@
             {
               "type": "row",
               "id": "#d822d9ce-efc1-45d5-8cfe-86da82264e3f",
-              "weight": 20,
+              "weight": 44.8256686941221,
               "children": [
                 {
                   "type": "tabset",
                   "id": "#b407ff28-f2f0-43d2-9699-3c9218083a3e",
-                  "weight": 2.0052631578947366,
+                  "weight": 2.1315789473684212,
                   "children": [
                     {
                       "type": "tab",
@@ -252,7 +253,7 @@
                 {
                   "type": "tabset",
                   "id": "#956b0e57-fb28-491d-ad84-6f29c688ea53",
-                  "weight": 0.9947368421052631,
+                  "weight": 0.868421052631579,
                   "children": [
                     {
                       "type": "tab",
@@ -1012,14 +1013,16 @@
           "3": {},
           "7": {},
           "8": {},
+          "9": {},
           "10": {},
-          "12": {}
+          "12": {},
+          "13": {}
         }
       },
       "transform": {
         "translate": {
-          "x": -240,
-          "y": -160
+          "x": -227.32540466671895,
+          "y": -221.6851808854512
         },
         "scale": 1
       },
@@ -1061,7 +1064,11 @@
   "selectedStylePropertyName": "",
   "lvglPart": "MAIN",
   "lvglState": "DEFAULT",
-  "lvglExpandedPropertiesGroup": [],
+  "lvglExpandedPropertiesGroup": [
+    "IMAGE",
+    "BACKGROUND",
+    "ARC"
+  ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
   "flowZoom": 1,

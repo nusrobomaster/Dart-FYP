@@ -13,7 +13,9 @@ extern "C" {
 typedef enum {
     Subsystem_Launcher = 0,
     Subsystem_Pitch = 1,
-    Subsystem_Yaw = 2
+    Subsystem_Yaw = 2,
+    Subsystem_RC = 3,
+    Subsystem_Auto = 4
 } Subsystem;
 
 // Flow global variables
@@ -34,6 +36,8 @@ enum FlowGlobalVariables {
 
 // Native global variables
 
+extern bool get_var_firing();
+extern void set_var_firing(bool value);
 
 
 #ifdef __cplusplus

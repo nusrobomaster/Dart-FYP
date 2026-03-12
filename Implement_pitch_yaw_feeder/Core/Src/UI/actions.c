@@ -18,7 +18,7 @@ static ui_selection_mode_t selection_from_dropdown(void)
         return ui_interface_get_selection();
     }
 
-    /* Dropdown options: "Launcher", "Pitch", "Yaw" */
+    /* Dropdown pages: Launcher, Pitch, Yaw, RC, Auto (match Subsystem enum) */
     int32_t selected = lv_dropdown_get_selected(objects.obj0);
     switch (selected) {
         case 0:
@@ -27,6 +27,10 @@ static ui_selection_mode_t selection_from_dropdown(void)
             return SELECT_PITCH_ANGLE;
         case 2:
             return SELECT_YAW_ANGLE;
+        case 3:
+            return SELECT_RC;
+        case 4:
+            return SELECT_AUTO;
         default:
             return SELECT_NONE;
     }
@@ -60,7 +64,7 @@ void action_button_mat(lv_event_t *e)
     ui_selection_mode_t mode = selection_from_dropdown();
     ui_interface_set_selection(mode);
 
-    /* Handle button press */
+    /* Same numpad for all pages: digits/textarea + OK apply value (force/pitch/yaw or auto_dart_count) */
     if (strcmp(txt, "DEL") == 0) {
         lv_textarea_delete_char(textarea);
     } else if (strcmp(txt, "OK") == 0) {
@@ -100,14 +104,4 @@ void action_ui_selection(lv_event_t *e)
         ui_interface_set_selection(SELECT_NONE);
     }
 }
-
-//void action_trigger_reload(lv_event_t * e){
-//
-// }
-//void action_trigger_fire(lv_event_t * e){
-//
-//}
-//void action_trigger_draw(lv_event_t * e){
-//
-// }
 

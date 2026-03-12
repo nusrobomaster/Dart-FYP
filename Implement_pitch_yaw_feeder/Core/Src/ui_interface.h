@@ -19,11 +19,14 @@ extern "C" {
 
 /* ========================= Selection Modes ========================= */
 
+/* Dropdown pages: Launcher, Pitch, Yaw, RC, Auto (match Subsystem in vars.h) */
 typedef enum {
     SELECT_NONE = 0,
     SELECT_PITCH_ANGLE,
     SELECT_YAW_ANGLE,
-    SELECT_LAUNCHER_FORCE
+    SELECT_LAUNCHER_FORCE,
+    SELECT_RC,   /* RC page - no value edit */
+    SELECT_AUTO  /* Auto page - no value edit */
 } ui_selection_mode_t;
 
 /* ========================= UI Control State ========================= */
@@ -47,6 +50,12 @@ typedef struct {
     volatile bool values_updated;          /* Set true when OK is pressed */
     volatile bool fire_request;
     volatile bool draw_request;
+
+    /* Firing state - native variable for UI (get_var_firing / set_var_firing) */
+    volatile bool firing;
+
+    /* Auto page: number of darts to shoot (set by matrix button, 1..9) */
+    uint8_t auto_dart_count;
 } ui_control_state_t;
 
 /* Global UI control state - shared between UI and tasks */
@@ -58,6 +67,28 @@ extern ui_control_state_t ui_state;
  * @brief Initialize the UI interface state
  */
 void ui_interface_init(void);
+
+/**
+ * @brief Check if UI requested a redraw and clear the flag
+ * @return true if draw was requested
+ */
+bool ui_interface_check_draw_request(void);
+
+/**
+ * @brief Request UI to redraw
+ */
+void ui_interface_trigger_draw(void);
+
+/**
+ * @brief Trigger a fire request (from UI Fire button)
+ */
+void ui_interface_trigger_fire(void);
+
+/**
+ * @brief Check if fire was requested and clear the flag
+ * @return true if fire was requested
+ */
+bool ui_interface_check_fire_request(void);
 
 /**
  * @brief Handle number pad button press
@@ -143,6 +174,32 @@ float ui_interface_get_set_force(void);
  * Updates labels with current values and highlights selected button
  */
 void ui_interface_update_display(void);
+
+/**
+ * @brief Set the firing state (for native variable; also call from launcher task)
+ * @param firing true when system is firing
+ */
+void ui_interface_set_firing(bool firing);
+
+/**
+ * @brief Get the firing state
+ * @return true when system is firing
+ */
+bool ui_interface_get_firing(void);
+
+/* ========================= Auto page: dart count ========================= */
+
+/**
+ * @brief Set number of darts to shoot in Auto mode (from matrix button, 1..9)
+ * @param count Number of darts (1 to 9)
+ */
+void ui_interface_set_auto_dart_count(uint8_t count);
+
+/**
+ * @brief Get number of darts to shoot in Auto mode
+ * @return Number of darts (1 to 9)
+ */
+uint8_t ui_interface_get_auto_dart_count(void);
 
 #ifdef __cplusplus
 }

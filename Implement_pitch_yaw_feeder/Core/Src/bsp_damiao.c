@@ -3,6 +3,22 @@
 #include "math.h"
 #include "stm32f4xx_hal_can.h"
 
+/* Optional RTOS-aware protection for shared CAN TX when using FreeRTOS.
+ * Define DM_CAN_USE_FREERTOS in your project when building with FreeRTOS
+ * to serialize access to the shared hcan1 / dm_TxHeader from multiple tasks.
+ */
+//#define DM_CAN_USE_FREERTOS
+
+#ifdef DM_CAN_USE_FREERTOS
+#include "FreeRTOS.h"
+#include "task.h"
+#define DM_CAN_TX_ENTER_CRITICAL() taskENTER_CRITICAL()
+#define DM_CAN_TX_EXIT_CRITICAL()  taskEXIT_CRITICAL()
+#else
+#define DM_CAN_TX_ENTER_CRITICAL()
+#define DM_CAN_TX_EXIT_CRITICAL()
+#endif
+
 // Global variables for CAN communication
 CAN_TxHeaderTypeDef dm_TxHeader;
 uint32_t dm_mailbox[3];
@@ -58,7 +74,7 @@ volatile dm_motor_t dm_feeder_motor = {
 };
 
 
-void dm4310_motor_init(void)
+void dm_motor_init(void)
 {
 // this function has been implemented in motor_config. should no longer be used
 
@@ -71,7 +87,7 @@ void dm4310_motor_init(void)
 //		dm_pitch_motor.ctrl.kp_set = 0;
 //		dm_pitch_motor.ctrl.kd_set = 1.5;
 //		dm_pitch_motor.ctrl.tor_set = 0;
-		dm4310_enable(&hcan1, &dm_pitch_motor);
+		dm_enable(&hcan1, &dm_pitch_motor);
 		HAL_Delay(3);
 
 //		memset(&dm_yaw_motor, 0, sizeof(dm_yaw_motor));
@@ -83,7 +99,7 @@ void dm4310_motor_init(void)
 //		dm_yaw_motor.ctrl.kd_set  = 0;
 //		dm_yaw_motor.ctrl.tor_set = 0;
 
-		dm4310_enable(&hcan1, &dm_yaw_motor);
+		dm_enable(&hcan1, &dm_yaw_motor);
 		HAL_Delay(3);
 
 //		memset(&dm_launching_motor, 0, sizeof(dm_launching_motor));
@@ -95,7 +111,7 @@ void dm4310_motor_init(void)
 //		dm_yaw_motor.ctrl.kd_set  = 0;
 //		dm_yaw_motor.ctrl.tor_set = 0;
 
-		dm4310_enable(&hcan1, &dm_launching_motor);
+		dm_enable(&hcan1, &dm_launching_motor);
 		HAL_Delay(3);
 
 //		memset(&dm_feeder_motor, 0, sizeof(dm_feeder_motor));
@@ -106,7 +122,7 @@ void dm4310_motor_init(void)
 //		dm_pitch_motor.ctrl.kp_set = 0;
 //		dm_pitch_motor.ctrl.kd_set = 1.5;
 //		dm_pitch_motor.ctrl.tor_set = 0;
-		dm4310_enable(&hcan1, &dm_feeder_motor);
+		dm_enable(&hcan1, &dm_feeder_motor);
 		HAL_Delay(3);
 //	#endif
 
@@ -114,20 +130,20 @@ void dm4310_motor_init(void)
 //		memset(&dm_yaw_motor, 0, sizeof(dm_yaw_motor));
 //		dm_yaw_motor.id = 0x61;
 //		dm_yaw_motor.ctrl.mode = 0;		// 0: MITģʽ   1: λ���ٶ�ģʽ   2: �ٶ�ģʽ
-//		dm4310_enable(&hcan2, &dm_yaw_motor);
+//		dm_enable(&hcan2, &dm_yaw_motor);
 //		vTaskDelay(3);
 //	#endif
 }
 
 /** ************************************************************************
- * @brief:       dm4310_enable: Enables the control mode of the DM4310 motor
+ * @brief:       dm_enable: Enables the control mode of the DM motor
  * @param[in]:   hcan:    Pointer to a CAN_HandleTypeDef structure
  * @param[in]:   motor:   Pointer to a dm_motor_t structure, which contains configuration and control parameters for the motor
  * @retval:      void
  * @details:     Based on the motor's control mode, selects the appropriate mode and sends control commands via the CAN bus
  *               Supported control modes include position control, position-speed composite control, and speed control
  ************************************************************************ **/
-void dm4310_enable(CAN_HandleTypeDef* hcan, dm_motor_t* motor)
+void dm_enable(CAN_HandleTypeDef* hcan, dm_motor_t* motor)
 {
     switch(motor->ctrl.mode)
     {
@@ -148,7 +164,7 @@ void dm4310_enable(CAN_HandleTypeDef* hcan, dm_motor_t* motor)
 
 /**
 ************************************************************************
-* @brief:      	dm4310_disable: Disables the control mode of the DM4310 motor
+* @brief:      	dm_disable: Disables the control mode of the DM motor
 * @param[in]:   hcan:    Pointer to a CAN_HandleTypeDef structure
 * @param[in]:   motor:   Pointer to a dm_motor_t structure, which contains configuration and control parameters for the motor
 * @retval:     	void
@@ -156,7 +172,7 @@ void dm4310_enable(CAN_HandleTypeDef* hcan, dm_motor_t* motor)
 *               Supported control modes include position control, position-speed composite control, and speed control
 ************************************************************************
 **/
-void dm4310_disable(CAN_HandleTypeDef* hcan, dm_motor_t *motor)
+void dm_disable(CAN_HandleTypeDef* hcan, dm_motor_t *motor)
 {
     switch(motor->ctrl.mode)
     {
@@ -173,20 +189,20 @@ void dm4310_disable(CAN_HandleTypeDef* hcan, dm_motor_t *motor)
             disable_motor_mode(hcan, motor->id, POSI_MODE);
             break;
     }    
-    dm4310_clear_para(motor);
+    dm_clear_para(motor);
 }
 
 /**
 ************************************************************************
-* @brief:      	dm4310_ctrl_send: Sends control commands to the DM4310
+* @brief:      	dm_ctrl_send: Sends control commands to the DM motor
 * @param[in]:   hcan:    Pointer to a CAN_HandleTypeDef structure
 * @param[in]:   motor:   Pointer to a dm_motor_t structure, containing motor configuration and control parameters
 * @retval:     	void
-* @details:    	Sends corresponding commands to the DM4310 based on the control mode
+* @details:    	Sends corresponding commands to the DM motor based on the control mode
 *               Supported control modes include position control, position-speed composite control, and speed control
 ************************************************************************
 **/
-void dm4310_ctrl_send(CAN_HandleTypeDef* hcan, dm_motor_t *motor)
+void dm_ctrl_send(CAN_HandleTypeDef* hcan, dm_motor_t *motor)
 {
     switch(motor->ctrl.mode)
     {
@@ -208,14 +224,14 @@ void dm4310_ctrl_send(CAN_HandleTypeDef* hcan, dm_motor_t *motor)
 
 /**
 ************************************************************************
-* @brief:      	dm4310_set: Sets the target control parameters for DM4310
+* @brief:      	dm_set: Sets the target control parameters for DM motor
 * @param[in]:   motor:   Pointer to a dm_motor_t structure, containing motor configuration and control parameters
 * @retval:     	void
-* @details:    	Sets the target control parameters for the DM4310, such as position, speed,
+* @details:    	Sets the target control parameters for the DM motor, such as position, speed,
 *               proportional gain (KP), derivative gain (KD), and torque
 ************************************************************************
 **/
-void dm4310_set(dm_motor_t *motor)
+void dm_set(dm_motor_t *motor)
 {
     motor->ctrl.kd_set  = motor->cmd.kd_set;
     motor->ctrl.kp_set  = motor->cmd.kp_set;
@@ -226,14 +242,14 @@ void dm4310_set(dm_motor_t *motor)
 
 /**
 ************************************************************************
-* @brief:      	dm4310_clear: Clears the target control parameters for DM4310
+* @brief:      	dm_clear_para: Clears the target control parameters for DM motor
 * @param[in]:   motor:   Pointer to a dm_motor_t structure, containing motor configuration and control parameters
 * @retval:     	void
-* @details:    	Clears the target control parameters of the DM4310, including position, speed,
+* @details:    	Clears the target control parameters of the DM motor, including position, speed,
 *               proportional gain (KP), derivative gain (KD), and torque
 ************************************************************************
 **/
-void dm4310_clear_para(dm_motor_t *motor)
+void dm_clear_para(dm_motor_t *motor)
 {
 //    motor->cmd.kd_set   = 0;
 //    motor->cmd.kp_set   = 0;
@@ -250,14 +266,14 @@ void dm4310_clear_para(dm_motor_t *motor)
 
 /**
 ************************************************************************
-* @brief:      	dm4310_clear_err: Clears error state of DM4310
+* @brief:      	dm_clear_err: Clears error state of DM motor
 * @param[in]:   hcan: 	 Pointer to CAN controller structure
 * @param[in]:   motor:   Pointer to motor structure
 * @retval:     	void
 * @details:    	Sends the appropriate error-clearing command based on the target control mode
 ************************************************************************
 **/
-void dm4310_clear_err(CAN_HandleTypeDef* hcan, dm_motor_t *motor)
+void dm_clear_err(CAN_HandleTypeDef* hcan, dm_motor_t *motor)
 {
     switch(motor->ctrl.mode)
     {
@@ -275,7 +291,7 @@ void dm4310_clear_err(CAN_HandleTypeDef* hcan, dm_motor_t *motor)
 
 /**
 ************************************************************************
-* @brief:      	dm4310_fbdata: Retrieves feedback data from DM4310
+* @brief:      	dm_fbdata: Retrieves feedback data from DM motor
 * @param[in]:   motor:    Pointer to dm_motor_t structure, containing motor info and feedback buffer
 * @param[in]:   rx_data:  Pointer to the received data buffer
 * @retval:     	void
@@ -283,7 +299,7 @@ void dm4310_clear_err(CAN_HandleTypeDef* hcan, dm_motor_t *motor)
 *               status, position, speed, torque, and temperature
 ************************************************************************
 **/
-void dm4310_fbdata(dm_motor_t *motor, uint8_t *rx_data)
+void dm_fbdata(dm_motor_t *motor, uint8_t *rx_data)
 {
     motor->para.id = (rx_data[0])&0x0F;
     motor->para.state = (rx_data[0])>>4;
@@ -366,6 +382,8 @@ float uint_to_float(int x_int, float x_min, float x_max, int bits)
 **/
 void enable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id)
 {
+    DM_CAN_TX_ENTER_CRITICAL();
+
     uint8_t data[8];
     dm_TxHeader.DLC = 8; //The Data Bytes of the data. For the C620, it is 8 bytes of data.
     dm_TxHeader.IDE = CAN_ID_STD; //Standard CAN BUS transmission
@@ -395,6 +413,8 @@ void enable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode
 	if (status == HAL_CAN_AddTxMessage(hcan, &dm_TxHeader, data, dm_mailbox)){
 			status = HAL_ERROR; // HIHIHIH
     }
+
+    DM_CAN_TX_EXIT_CRITICAL();
 }
 
 /**
@@ -409,6 +429,8 @@ void enable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode
 **/
 void disable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id)
 {
+    DM_CAN_TX_ENTER_CRITICAL();
+
     uint8_t data[8];
     dm_TxHeader.DLC = 8; //The Data Bytes of the data. For the C620, it is 8 bytes of data.
     dm_TxHeader.IDE = CAN_ID_STD; //Standard CAN BUS transmission
@@ -425,6 +447,8 @@ void disable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mod
     data[7] = 0xFD;
     
     HAL_CAN_AddTxMessage(hcan, &dm_TxHeader, data, dm_mailbox);
+
+    DM_CAN_TX_EXIT_CRITICAL();
 }
 
 /**
@@ -439,6 +463,8 @@ void disable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mod
 **/
 void save_pos_zero(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id)
 {
+    DM_CAN_TX_ENTER_CRITICAL();
+
     uint8_t data[8];
     dm_TxHeader.DLC = 8; //The Data Bytes of the data. For the C620, it is 8 bytes of data.
     dm_TxHeader.IDE = CAN_ID_STD; //Standard CAN BUS transmission
@@ -455,6 +481,8 @@ void save_pos_zero(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id)
     data[7] = 0xFE;
     
     HAL_CAN_AddTxMessage(hcan, &dm_TxHeader, data, dm_mailbox);
+
+    DM_CAN_TX_EXIT_CRITICAL();
 }
 
 /**
@@ -469,6 +497,8 @@ void save_pos_zero(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id)
 **/
 void clear_err(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id)
 {
+    DM_CAN_TX_ENTER_CRITICAL();
+
     uint8_t data[8];
     dm_TxHeader.DLC = 8; //The Data Bytes of the data. For the C620, it is 8 bytes of data.
     dm_TxHeader.IDE = CAN_ID_STD; //Standard CAN BUS transmission
@@ -485,6 +515,8 @@ void clear_err(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id)
     data[7] = 0xFB;
     
     HAL_CAN_AddTxMessage(hcan, &dm_TxHeader, data, dm_mailbox);
+
+    DM_CAN_TX_EXIT_CRITICAL();
 }
 
 /**
@@ -503,6 +535,8 @@ void clear_err(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id)
 **/
 void mit_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float pos, float vel, float kp, float kd, float torq)
 {
+    DM_CAN_TX_ENTER_CRITICAL();
+
     uint8_t data[8];
     uint16_t pos_tmp, vel_tmp, kp_tmp, kd_tmp, tor_tmp;
     
@@ -527,10 +561,12 @@ void mit_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float pos, float vel, 
     data[7] = tor_tmp;
     
     HAL_CAN_AddTxMessage(hcan, &dm_TxHeader, data, dm_mailbox);
+
+    DM_CAN_TX_EXIT_CRITICAL();
 }
 
 /**
- * @brief  Position and speed control for DM4310
+ * @brief  Position and speed control for DM motor
  * @param  hcan: Pointer to CAN handle structure
  * @param  motor_id: Motor ID
  * @param  pos: Position setpoint
@@ -539,6 +575,8 @@ void mit_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float pos, float vel, 
  */
 void pos_speed_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float pos, float vel)
 {
+    DM_CAN_TX_ENTER_CRITICAL();
+
     dm_TxHeader.DLC = 8; //The Data Bytes of the data. For the C620, it is 8 bytes of data.
     dm_TxHeader.IDE = CAN_ID_STD; //Standard CAN BUS transmission
     dm_TxHeader.RTR = CAN_RTR_DATA; //RTR
@@ -561,6 +599,8 @@ void pos_speed_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float pos, float
     data[7] = *(vbuf+3);
     
     HAL_CAN_AddTxMessage(hcan, &dm_TxHeader, data, dm_mailbox);
+
+    DM_CAN_TX_EXIT_CRITICAL();
 }
 
 /**
@@ -575,6 +615,8 @@ void pos_speed_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float pos, float
 **/
 void speed_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float vel)
 {
+    DM_CAN_TX_ENTER_CRITICAL();
+
     dm_TxHeader.DLC = 8; //The Data Bytes of the data. For the C620, it is 8 bytes of data.
     dm_TxHeader.IDE = CAN_ID_STD; //Standard CAN BUS transmission
     dm_TxHeader.RTR = CAN_RTR_DATA; //RTR
@@ -591,10 +633,14 @@ void speed_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float vel)
     data[3] = *(vbuf+3);
     
     HAL_CAN_AddTxMessage(hcan, &dm_TxHeader, data, dm_mailbox);
+
+    DM_CAN_TX_EXIT_CRITICAL();
 }
 
 void pos_force_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float pos, uint16_t vel, uint16_t i)
 {
+    DM_CAN_TX_ENTER_CRITICAL();
+
     dm_TxHeader.DLC = 8; //The Data Bytes of the data. For the C620, it is 8 bytes of data.
     dm_TxHeader.IDE = CAN_ID_STD; //Standard CAN BUS transmission
     dm_TxHeader.RTR = CAN_RTR_DATA; //RTR
@@ -619,10 +665,14 @@ void pos_force_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float pos, uint1
     data[7] = *(ibuf+1);
     
     HAL_CAN_AddTxMessage(hcan, &dm_TxHeader, data, dm_mailbox);
+
+    DM_CAN_TX_EXIT_CRITICAL();
 }
 
 void MFspeed_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float vel)
 {
+    DM_CAN_TX_ENTER_CRITICAL();
+
     // Setting up the CAN header for 8 bytes data and standard frame
     dm_TxHeader.DLC = 8;                   // Data Length Code: 8 bytes of data
     dm_TxHeader.IDE = CAN_ID_STD;          // Standard CAN ID
@@ -650,6 +700,8 @@ void MFspeed_ctrl(CAN_HandleTypeDef* hcan, uint16_t motor_id, float vel)
         // Handle transmission error
         Error_Handler();
     }
+
+    DM_CAN_TX_EXIT_CRITICAL();
 }
 
 void MFtorque_command(CAN_HandleTypeDef* hcan, uint16_t motor_id, float desired_torque)

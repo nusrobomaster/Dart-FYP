@@ -8,6 +8,7 @@
 
 #include "ui_interface.h"
 #include "UI/screens.h"
+#include "UI/vars.h"
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
@@ -30,7 +31,44 @@ void ui_interface_init(void)
     ui_state.values_updated = false;
     ui_state.fire_request = false;
     ui_state.draw_request = false;
+    ui_state.firing = false;
+    ui_state.auto_dart_count = 0;
+}
 
+/* ========================= Native variable: firing ========================= */
+
+bool get_var_firing(void)
+{
+    return ui_state.firing;
+}
+
+void set_var_firing(bool value)
+{
+    ui_state.firing = value;
+}
+
+void ui_interface_set_firing(bool firing)
+{
+    ui_state.firing = firing;
+}
+
+bool ui_interface_get_firing(void)
+{
+    return ui_state.firing;
+}
+
+/* ========================= Auto page: dart count ========================= */
+
+void ui_interface_set_auto_dart_count(uint8_t count)
+{
+    if (count >= 0 && count <= 4) {
+        ui_state.auto_dart_count = count;
+    }
+}
+
+uint8_t ui_interface_get_auto_dart_count(void)
+{
+    return ui_state.auto_dart_count;
 }
 
 bool ui_interface_check_draw_request(void)
@@ -95,6 +133,17 @@ void ui_interface_apply_value_direct(ui_selection_mode_t mode, float value)
             ui_state.set_launcher_force = value;
             ui_state.values_updated = true;
             break;
+        case SELECT_AUTO: {
+            /* Same numpad + OK as force/pitch/yaw: value = number of darts (1..9) */
+            int n = (int)(value + 0.5f);
+            if (n < 1) n = 1;
+            if (n > 4) n = 4;
+            ui_state.auto_dart_count = (uint8_t)n;
+            ui_state.values_updated = true;
+            break;
+        }
+        case SELECT_RC:
+            break;
         default:
             /* No selection - don't apply */
             break;
@@ -151,35 +200,48 @@ void ui_interface_update_display(void)
     
     /* Update YAW labels */
     if (objects.yaw_set != NULL) {
-        snprintf(buf, sizeof(buf), "Set Yaw Angle: %.1f", ui_state.set_yaw_angle);
+        snprintf(buf, sizeof(buf), "Set Yaw Angle: \n%.2f", ui_state.set_yaw_angle);
         lv_label_set_text(objects.yaw_set, buf);
     }
 
     if (objects.yaw_cu != NULL) {
-        snprintf(buf, sizeof(buf), "Current Yaw Angle: %.1f", ui_state.current_yaw_angle);
+        snprintf(buf, sizeof(buf), "Current Yaw Angle: \n%.2f", ui_state.current_yaw_angle);
         lv_label_set_text(objects.yaw_cu, buf);
     }
-
+    if (objects.yaw_cu_1 != NULL){
+    	snprintf(buf, sizeof(buf), "Current Yaw Angle: \n%.2f", ui_state.current_yaw_angle);
+    	lv_label_set_text(objects.yaw_cu_1, buf);
+    }
     /* Update PITCH labels */
     if (objects.pitch_set != NULL) {
-        snprintf(buf, sizeof(buf), "Set Pitch Angle: %.1f", ui_state.set_pitch_angle);
+        snprintf(buf, sizeof(buf), "Set Pitch Angle: \n%.2f", ui_state.set_pitch_angle);
         lv_label_set_text(objects.pitch_set, buf);
     }
 
     if (objects.pitch_cur != NULL) {
-        snprintf(buf, sizeof(buf), "Current Pitch Angle: %.1f", ui_state.current_pitch_angle);
+        snprintf(buf, sizeof(buf), "Current Pitch Angle: \n%.2f", ui_state.current_pitch_angle);
         lv_label_set_text(objects.pitch_cur, buf);
+    }
+
+    if (objects.pitch_cur_1 != NULL) {
+        snprintf(buf, sizeof(buf), "Current Pitch Angle: \n%.2f", ui_state.current_pitch_angle);
+        lv_label_set_text(objects.pitch_cur_1, buf);
     }
 
     /* Update LAUNCHER labels */
     if (objects.launcher_set != NULL) {
-        snprintf(buf, sizeof(buf), "Set Launcher Force: %.1f", ui_state.set_launcher_force);
+        snprintf(buf, sizeof(buf), "Set Launcher Force: \n%.2f", ui_state.set_launcher_force);
         lv_label_set_text(objects.launcher_set, buf);
     }
 
     if (objects.launcher_cur != NULL) {
-        snprintf(buf, sizeof(buf), "Current Launcher Force: %.1f", ui_state.current_launcher_force);
+        snprintf(buf, sizeof(buf), "Current Launcher Force: \n%.2f", ui_state.current_launcher_force);
         lv_label_set_text(objects.launcher_cur, buf);
+    }
+
+    if (objects.launcher_cur_1 != NULL) {
+        snprintf(buf, sizeof(buf), "Current Launcher Force: \n%.2f", ui_state.current_launcher_force);
+        lv_label_set_text(objects.launcher_cur_1, buf);
     }
 }
 

@@ -1876,6 +1876,16 @@
 		)
 		(uuid "339475db-9dc7-4d6a-b5c5-2e6f029490aa")
 	)
+	(text "lower optical endstop"
+		(exclude_from_sim no)
+		(at 79.248 120.65 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "64c1649b-814a-455a-8ec9-c40a0d6261e9")
+	)
 	(text "Pitch Encoder"
 		(exclude_from_sim no)
 		(at 137.414 28.956 0)
@@ -1906,6 +1916,16 @@
 		)
 		(uuid "b88cc0b9-24b6-4322-a7c8-7feb1e615a99")
 	)
+	(text "Upper optical endstop"
+		(exclude_from_sim no)
+		(at 67.564 73.152 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "c6cab7f1-81a0-4e6b-a141-72c1aead2697")
+	)
 	(text "Yaw Optical Switch"
 		(exclude_from_sim no)
 		(at 150.876 117.602 0)
@@ -1925,6 +1945,16 @@
 			)
 		)
 		(uuid "d690f865-aec0-4111-9637-2d3392d96a25")
+	)
+	(text "Pitch will canabalise yaw optical switch\n"
+		(exclude_from_sim no)
+		(at 77.724 127 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "fad61f0c-d12d-403d-b4d9-4884e4076c10")
 	)
 	(wire
 		(pts

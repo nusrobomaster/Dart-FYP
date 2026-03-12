@@ -1176,6 +1176,16 @@
 		)
 		(uuid "5fa4d2ce-a555-4f2f-a62d-834ad14c0f89")
 	)
+	(text "need to add one optical end stop for launcher, which will come from lock ctrl"
+		(exclude_from_sim no)
+		(at 55.626 51.562 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "68ba4c01-3c5b-4dcf-94f1-586f7e3abe95")
+	)
 	(text "launcher\n"
 		(exclude_from_sim no)
 		(at 109.982 27.432 0)
@@ -1215,6 +1225,16 @@
 			)
 		)
 		(uuid "bccbdce4-ed82-4901-bdd5-06a7d7d82b01")
+	)
+	(text "dont need to use the load cell"
+		(exclude_from_sim no)
+		(at 58.42 64.516 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "d3e8fc5e-6ca7-4d6e-a9d8-c63d023a7732")
 	)
 	(text "Load Cell"
 		(exclude_from_sim no)

@@ -8,13 +8,13 @@
 #include "stm32f4xx_hal_can.h"
 #include <stdint.h>
 
-// DM4310 Motor Control Modes
+// DM Motor Control Modes
 #define MIT_MODE     0x00
 #define POS_MODE     0x10
 #define SPEED_MODE   0x20
 #define POSI_MODE    0x30
 
-// Parameter Limits for DM4310
+// Parameter Limits for DM
 #define P_MIN   -(PI * 4)
 #define P_MAX    (PI * 4)
 #define V_MIN   -45.0f
@@ -54,7 +54,7 @@ typedef struct {
 } dm_motor_cmd_t;
 
 // Motor Control Structure
-// values to be sent to the DM4310 motor
+// values to be sent to the DM motor
 typedef struct {
     uint8_t mode;   // 0: MIT Mode, 1: Position-Speed Mode, 2: Speed Mode, 3: Position Force Mode
     float kp_set;
@@ -101,14 +101,14 @@ typedef struct {
 } dm_motor_t;
 
 // Function prototypes
-void dm4310_motor_init(void);
-void dm4310_enable(CAN_HandleTypeDef* hcan, dm_motor_t* motor);
-void dm4310_disable(CAN_HandleTypeDef* hcan, dm_motor_t* motor);
-void dm4310_ctrl_send(CAN_HandleTypeDef* hcan, dm_motor_t* motor);
-void dm4310_set(dm_motor_t* motor);
-void dm4310_clear_para(dm_motor_t* motor);
-void dm4310_clear_err(CAN_HandleTypeDef* hcan, dm_motor_t* motor);
-void dm4310_fbdata(dm_motor_t* motor, uint8_t* rx_data);
+void dm_motor_init(void);
+void dm_enable(CAN_HandleTypeDef* hcan, dm_motor_t* motor);
+void dm_disable(CAN_HandleTypeDef* hcan, dm_motor_t* motor);
+void dm_ctrl_send(CAN_HandleTypeDef* hcan, dm_motor_t* motor);
+void dm_set(dm_motor_t* motor);
+void dm_clear_para(dm_motor_t* motor);
+void dm_clear_err(CAN_HandleTypeDef* hcan, dm_motor_t* motor);
+void dm_fbdata(dm_motor_t* motor, uint8_t* rx_data);
 
 // Low-level control functions
 void enable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id);

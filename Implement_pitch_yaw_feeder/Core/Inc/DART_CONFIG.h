@@ -8,7 +8,8 @@
 #ifndef INC_DART_CONFIG_H_
 #define INC_DART_CONFIG_H_
 
-#define TESTING 1
+#define TESTING 0
+//#define DM_CAN_USE_FREERTOS
 
 
 

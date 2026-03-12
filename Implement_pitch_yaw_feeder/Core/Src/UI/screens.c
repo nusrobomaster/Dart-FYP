@@ -33,7 +33,7 @@ static void event_handler_cb_yaw_yaw_text_area(lv_event_t *e) {
         lv_obj_t *ta = lv_event_get_target(e);
         if (tick_value_change_obj != ta) {
             const char *value = lv_textarea_get_text(ta);
-            assignStringProperty(flowState, 2, 3, value, "Failed to assign Text in Textarea widget");
+            assignStringProperty(flowState, 2, 4, value, "Failed to assign Text in Textarea widget");
         }
     }
 }
@@ -138,7 +138,7 @@ void create_screen_yaw() {
             objects.obj0 = obj;
             lv_obj_set_pos(obj, 31, 24);
             lv_obj_set_size(obj, 112, LV_SIZE_CONTENT);
-            lv_dropdown_set_options(obj, "Launcher\nPitch\nYaw");
+            lv_dropdown_set_options(obj, "Launcher\nPitch\nYaw\nRC\nAuto");
             lv_obj_add_event_cb(obj, event_handler_cb_yaw_obj0, LV_EVENT_ALL, flowState);
         }
         {
@@ -175,7 +175,7 @@ void create_screen_yaw() {
         }
         {
             lv_obj_t *obj = lv_button_create(parent_obj);
-            objects.obj1 = obj;
+            objects.obj2 = obj;
             lv_obj_set_pos(obj, 69, 209);
             lv_obj_set_size(obj, 74, 50);
             {
@@ -189,6 +189,38 @@ void create_screen_yaw() {
                 }
             }
         }
+        {
+            // yaw_cu_1
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.yaw_cu_1 = obj;
+            lv_obj_set_pos(obj, 13, 91);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "");
+        }
+        {
+            // pitch_cur_1
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.pitch_cur_1 = obj;
+            lv_obj_set_pos(obj, 13, 128);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "");
+        }
+        {
+            // launcher_cur_1
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.launcher_cur_1 = obj;
+            lv_obj_set_pos(obj, 13, 168);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_text(obj, "");
+        }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.obj1 = obj;
+            lv_obj_set_pos(obj, 71, 242);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xffe10505), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_label_set_text(obj, "FIRING");
+        }
     }
     
     tick_screen_yaw();
@@ -198,7 +230,27 @@ void tick_screen_yaw() {
     void *flowState = getFlowState(0, 0);
     (void)flowState;
     {
-        const char *new_val = evalTextProperty(flowState, 2, 3, "Failed to evaluate Text in Textarea widget");
+        bool new_val = evalBooleanProperty(flowState, 0, 3, "Failed to evaluate Hidden flag");
+        bool cur_val = lv_obj_has_flag(objects.yaw_button_matrix, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.yaw_button_matrix;
+            if (new_val) lv_obj_add_flag(objects.yaw_button_matrix, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.yaw_button_matrix, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 2, 3, "Failed to evaluate Hidden flag");
+        bool cur_val = lv_obj_has_flag(objects.yaw_text_area, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.yaw_text_area;
+            if (new_val) lv_obj_add_flag(objects.yaw_text_area, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.yaw_text_area, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 2, 4, "Failed to evaluate Text in Textarea widget");
         const char *cur_val = lv_textarea_get_text(objects.yaw_text_area);
         uint32_t max_length = lv_textarea_get_max_length(objects.yaw_text_area);
         if (strncmp(new_val, cur_val, max_length) != 0) {
@@ -334,6 +386,73 @@ void tick_screen_yaw() {
     }
     {
         bool new_val = evalBooleanProperty(flowState, 10, 3, "Failed to evaluate Hidden flag");
+        bool cur_val = lv_obj_has_flag(objects.obj2, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.obj2;
+            if (new_val) lv_obj_add_flag(objects.obj2, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.obj2, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 12, 3, "Failed to evaluate Hidden flag");
+        bool cur_val = lv_obj_has_flag(objects.yaw_cu_1, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.yaw_cu_1;
+            if (new_val) lv_obj_add_flag(objects.yaw_cu_1, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.yaw_cu_1, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 12, 4, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.yaw_cu_1);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.yaw_cu_1;
+            lv_label_set_text(objects.yaw_cu_1, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 13, 3, "Failed to evaluate Hidden flag");
+        bool cur_val = lv_obj_has_flag(objects.pitch_cur_1, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.pitch_cur_1;
+            if (new_val) lv_obj_add_flag(objects.pitch_cur_1, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.pitch_cur_1, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 13, 4, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.pitch_cur_1);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.pitch_cur_1;
+            lv_label_set_text(objects.pitch_cur_1, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 14, 3, "Failed to evaluate Hidden flag");
+        bool cur_val = lv_obj_has_flag(objects.launcher_cur_1, LV_OBJ_FLAG_HIDDEN);
+        if (new_val != cur_val) {
+            tick_value_change_obj = objects.launcher_cur_1;
+            if (new_val) lv_obj_add_flag(objects.launcher_cur_1, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.launcher_cur_1, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        const char *new_val = evalTextProperty(flowState, 14, 4, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.launcher_cur_1);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.launcher_cur_1;
+            lv_label_set_text(objects.launcher_cur_1, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
+    {
+        bool new_val = evalBooleanProperty(flowState, 15, 3, "Failed to evaluate Hidden flag");
         bool cur_val = lv_obj_has_flag(objects.obj1, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
             tick_value_change_obj = objects.obj1;
@@ -345,8 +464,12 @@ void tick_screen_yaw() {
 }
 
 
+extern void add_style(lv_obj_t *obj, int32_t styleIndex);
+extern void remove_style(lv_obj_t *obj, int32_t styleIndex);
+
 static const char *screen_names[] = { "yaw" };
-static const char *object_names[] = { "yaw", "yaw_button_matrix", "yaw_text_area", "yaw_set", "yaw_cu", "obj0", "pitch_set", "pitch_cur", "launcher_set", "launcher_cur", "obj1" };
+static const char *object_names[] = { "yaw", "yaw_button_matrix", "yaw_text_area", "yaw_set", "yaw_cu", "obj0", "pitch_set", "pitch_cur", "launcher_set", "launcher_cur", "yaw_cu_1", "pitch_cur_1", "launcher_cur_1", "obj1", "obj2" };
+static const char *style_names[] = { "red" };
 
 
 typedef void (*tick_screen_func_t)();
@@ -361,8 +484,11 @@ void tick_screen_by_id(enum ScreensEnum screenId) {
 }
 
 void create_screens() {
+    eez_flow_init_styles(add_style, remove_style);
+    
     eez_flow_init_screen_names(screen_names, sizeof(screen_names) / sizeof(const char *));
     eez_flow_init_object_names(object_names, sizeof(object_names) / sizeof(const char *));
+    eez_flow_init_style_names(style_names, sizeof(style_names) / sizeof(const char *));
     
     lv_disp_t *dispp = lv_disp_get_default();
     lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED), false, LV_FONT_DEFAULT);

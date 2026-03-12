@@ -48,28 +48,28 @@
 // CTP_SCL -> PF1  // I2C clock
 //================================================================================================//
 
-//======================================= HX711 Load Cell =========================================//
-// HX711 STM32 MCU
-// SCLK -> PC0 // HX711 clock
-// DOUT -> PC4 // HX711 data output
-//================================================================================================//
-
 //==================================== Electronic Lock ============================================//
 // Lock Signal STM32 MCU
-// Lock_Input  -> PA0 // Lock status / sense input
-// Lock_Output -> PA1 // Lock / unlock control output
+// Lock status -> PI0
 //================================================================================================//
 
 //======================================== Pitch Motor ============================================//
-// Brushed DC motor control (H-bridge style):
-// 3V3 Logic Power -> PC2 // Logic-level supply only (not for encoder)
-// Forward         -> PC3 // Forward control
-// Backward        -> PB1 // Backward control
-// PWM             -> PB0 // PWM speed control
+// Brushed DC pitch motor (H-bridge + PWM):
+// 3V3 Logic Power      -> PC2           // Logic-level supply only (not for encoder)
+// Forward  (Pitch up)  -> PB1 (FWD_Pin) // FWD_GPIO_Port / FWD_Pin in main.h
+// Backward (Pitch down)-> PC3 (BWD_Pin) // BWD_GPIO_Port / BWD_Pin in main.h
+// PWM                 -> PB0           // TIM3_CH3, mapped via PWM_TIM / PWM_CHANNEL
 //
-// Pitch encoder:
-// - Feedback via CAN
-// - Encoder requires 5V power (external 5V rail)
+// Pitch optical endstops:
+// - Upper -> PA2 (pitch upper optical endstop 45 degrees)
+// - Lower -> PA3 (pitch lower optical endstop 35 degrees)
+//
+// Pitch Hall effect channel A and B incremental encoder:
+// - A0 and A1 are the channel A and B pins of the encoder
+// - A0 is the channel A pin of the encoder
+// - A1 is the channel B pin of the encoder
+// - The encoder requires 3.3V logic power (external 3.3V rail)
+// - uses TIM2 for the encoder
 //================================================================================================//
 
 //========================================= Yaw Control ===========================================//
@@ -77,17 +77,19 @@
 // No extra GPIO required
 //================================================================================================//
 
+//========================================= Launcher =============================================//
+// Launcher optical endstop -> PH12 (cannot pull beyond this point)
+// Launcher servo (release dart) -> PD15 (TIM4_CH4)
+//================================================================================================//
+
 //=========================================== Feeder ==============================================//
-// Feeder actuation uses both servos and a CAN motor.
+// Feeder actuation uses servos (TIM4) and a CAN motor.
 //
-// Servo control (TIM5 PWM):
-// Servo 1 -> PH11 // TIM5_CH2
-// Servo 2 -> PH12 // TIM5_CH3
-// Servo 3 -> PI0  // TIM5_CH4
+// Feeder servo 1 -> PD12 (TIM4_CH1)
+// Feeder servo 2 -> PD13 (TIM4_CH2)
+// Feeder servo 3 -> PD14 (TIM4_CH3)
+// Feeder optical endstop -> PI5
 //
-// All servos share TIM5:
-// - Same PWM frequency (50 Hz typical)
-// - Independent duty cycle per channel
 //
 // Feeder CAN motor:
 // - Control and feedback via CAN bus
@@ -109,7 +111,6 @@
 #include "./LCD_CAP/TOUCH/touch.h"
 #include "./LCD_CAP/GUI/GUI.h"
 #include "lvgl.h"
-//#include "lvgl_private.h"
 #include <stdio.h>
 #include "ui.h"
 #include "usbd_cdc_if.h"
@@ -117,14 +118,12 @@
 #include "bsp_damiao.h"
 #include <math.h>
 #include "typedefs.h"
-#include "briterencoder.h"
 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
-int16_t motor_rpm1;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -157,8 +156,9 @@ I2C_HandleTypeDef hi2c2;
 SPI_HandleTypeDef hspi4;
 DMA_HandleTypeDef hdma_spi4_tx;
 
+TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
-TIM_HandleTypeDef htim5;
+TIM_HandleTypeDef htim4;
 
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_rx;
@@ -173,18 +173,6 @@ const osThreadAttr_t controlTask_attributes = {
   .cb_size = sizeof(controlTaskControlBlock),
   .stack_mem = &controlTaskBuffer[0],
   .stack_size = sizeof(controlTaskBuffer),
-  .priority = (osPriority_t) osPriorityNormal,
-};
-/* Definitions for feederTask */
-osThreadId_t feederTaskHandle;
-uint32_t feederTaskBuffer[ 128 ];
-osStaticThreadDef_t feederTaskControlBlock;
-const osThreadAttr_t feederTask_attributes = {
-  .name = "feederTask",
-  .cb_mem = &feederTaskControlBlock,
-  .cb_size = sizeof(feederTaskControlBlock),
-  .stack_mem = &feederTaskBuffer[0],
-  .stack_size = sizeof(feederTaskBuffer),
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for pitchnyawTask */
@@ -222,29 +210,20 @@ int32_t count = 450;
 char buf_txt[32];
 volatile lv_display_t * display1;
 volatile uint8_t touch_flag;
-//uint8_t Displ_SpiAvailable;
 static lv_indev_t * touch_indev;
 static lv_obj_t * keypad_ta;
 
 
 extern volatile dm_motor_t dm_pitch_motor;
 extern volatile dm_motor_t dm_yaw_motor;
-extern volatile dm_launching_motor;
-extern volatile dm_feeder_motor;
+extern volatile dm_motor_t dm_feeder_motor;
+extern volatile dm_motor_t dm_launching_motor;
 
-float target_position = 0.0f;
-float current_position = 0.0f;
-int round_counter = 0;
-float tolerance = 0.06f;
-float prev_pos = 0.0f;
-
-extern briterencoder_t pitch_encoder;
-
-
-extern bool op_sen;
-
+ bool op_sen_yaw_45deg;
+ bool op_sen_yaw_35deg;
+extern bool op_sen_launcher_limits;
+extern bool op_sen_feeder;
 extern bool lock;
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -256,10 +235,10 @@ static void MX_USART1_UART_Init(void);
 static void MX_SPI4_Init(void);
 static void MX_DMA2D_Init(void);
 static void MX_I2C2_Init(void);
-static void MX_TIM5_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_TIM2_Init(void);
+static void MX_TIM4_Init(void);
 void ControlTask(void *argument);
-void FeederTask(void *argument);
 void PitchnYawTask(void *argument);
 void LauncherTask(void *argument);
 
@@ -290,36 +269,27 @@ void setup_can(){
 
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
-CAN_RxHeaderTypeDef rx_header;
-uint8_t rx_buffer[8];
-HAL_CAN_DeactivateNotification(hcan,
-  CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO0_FULL| CAN_IT_RX_FIFO0_OVERRUN);
-HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rx_header, rx_buffer);
+	CAN_RxHeaderTypeDef rx_header;
+	uint8_t rx_buffer[8];
+	HAL_CAN_DeactivateNotification(hcan,
+	  CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO0_FULL| CAN_IT_RX_FIFO0_OVERRUN);
+	HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rx_header, rx_buffer);
 
-if (rx_header.StdId == 0x00) {
+	if (rx_header.StdId == 0x00) {
 		uint8_t motor_id = rx_buffer[0] & 0x0F;
 		if (motor_id == (dm_pitch_motor.id & 0x0F)) {
-			dm4310_fbdata(&dm_pitch_motor, rx_buffer);
-//			measured_rpm = dm_pitch_motor.para.vel * (60.0f / (2.0f * (float)M_PI));
-			if ((dm_pitch_motor.para.pos < - 12.5 + tolerance) && (prev_pos > 12.5 - tolerance) ){
-				round_counter += 1;
-			}
-			if ((dm_pitch_motor.para.pos > 12.5 - tolerance) && (prev_pos < - 12.5 + tolerance)) {
-				round_counter -= 1;
-			}
-			current_position = round_counter*8*PI + dm_pitch_motor.para.pos;
-			prev_pos = dm_pitch_motor.para.pos;
+			dm_fbdata(&dm_pitch_motor, rx_buffer);
 		}
-
 		if (motor_id == (dm_yaw_motor.id & 0x0F)){
-			dm4310_fbdata(&dm_yaw_motor, rx_buffer);
+			dm_fbdata(&dm_yaw_motor, rx_buffer);
+		}
+		if (motor_id == (dm_feeder_motor.id & 0x0F)){
+		  dm_fbdata(&dm_feeder_motor, rx_buffer);
+		}
+		if (motor_id == (dm_launching_motor.id & 0x0F)){
+		  dm_fbdata(&dm_launching_motor, rx_buffer);
 		}
 	}
-
-	if (rx_header.StdId == 0x03) {
-		briterencoder_on_can_rx(&pitch_encoder , rx_header.StdId , rx_buffer, (uint8_t)rx_header.DLC);
-	}
-
 	HAL_CAN_ActivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO0_FULL| CAN_IT_RX_FIFO0_OVERRUN);
 }
 
@@ -329,16 +299,21 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == GPIO_PIN_0){
 		lock = true;
 	}
-
-    if (GPIO_Pin == GPIO_PIN_10) {
+  if (GPIO_Pin == GPIO_PIN_10) {
         touch_flag = 1;
     }
-
-    if (GPIO_Pin == GPIO_PIN_15){
-    	op_sen = 1;
-    }
-
-
+   if (GPIO_Pin == GPIO_PIN_2){
+    op_sen_yaw_45deg = true;
+   }
+   if (GPIO_Pin == GPIO_PIN_3){
+    op_sen_yaw_35deg = true;
+   }
+   if (GPIO_Pin == GPIO_PIN_12){
+    op_sen_launcher_limits = true;
+   }
+   if (GPIO_Pin == GPIO_PIN_5){
+    op_sen_feeder = true;
+   }
 }
 
 void tft_set_addr_window(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1)
@@ -456,8 +431,9 @@ int main(void)
   MX_SPI4_Init();
   MX_DMA2D_Init();
   MX_I2C2_Init();
-  MX_TIM5_Init();
   MX_TIM3_Init();
+  MX_TIM2_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   MX_USB_DEVICE_Init();
 
@@ -472,7 +448,7 @@ int main(void)
 
   lvgl_port_init();
   HAL_Delay(3000);
-  dm4310_motor_init();
+  dm_motor_init();
 //  uint32_t counting = 0;
 //  uint32_t counter = 0;
   /* USER CODE END 2 */
@@ -500,9 +476,6 @@ int main(void)
   /* Create the thread(s) */
   /* creation of controlTask */
   controlTaskHandle = osThreadNew(ControlTask, NULL, &controlTask_attributes);
-
-  /* creation of feederTask */
-  feederTaskHandle = osThreadNew(FeederTask, NULL, &feederTask_attributes);
 
   /* creation of pitchnyawTask */
   pitchnyawTaskHandle = osThreadNew(PitchnYawTask, NULL, &pitchnyawTask_attributes);
@@ -669,7 +642,7 @@ static void MX_I2C2_Init(void)
 
   /* USER CODE END I2C2_Init 1 */
   hi2c2.Instance = I2C2;
-  hi2c2.Init.ClockSpeed = 100000;
+  hi2c2.Init.ClockSpeed = 50000;
   hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
   hi2c2.Init.OwnAddress1 = 0;
   hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -724,7 +697,7 @@ static void MX_SPI4_Init(void)
   hspi4.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi4.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi4.Init.NSS = SPI_NSS_SOFT;
-  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
+  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
   hspi4.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi4.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi4.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -736,6 +709,55 @@ static void MX_SPI4_Init(void)
   /* USER CODE BEGIN SPI4_Init 2 */
 
   /* USER CODE END SPI4_Init 2 */
+
+}
+
+/**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_Encoder_InitTypeDef sConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 0;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 4294967295;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
+  sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
+  sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
+  sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
+  sConfig.IC1Filter = 3;
+  sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
+  sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
+  sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
+  sConfig.IC2Filter = 3;
+  if (HAL_TIM_Encoder_Init(&htim2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
 
 }
 
@@ -789,36 +811,36 @@ static void MX_TIM3_Init(void)
 }
 
 /**
-  * @brief TIM5 Initialization Function
+  * @brief TIM4 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_TIM5_Init(void)
+static void MX_TIM4_Init(void)
 {
 
-  /* USER CODE BEGIN TIM5_Init 0 */
+  /* USER CODE BEGIN TIM4_Init 0 */
 
-  /* USER CODE END TIM5_Init 0 */
+  /* USER CODE END TIM4_Init 0 */
 
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
 
-  /* USER CODE BEGIN TIM5_Init 1 */
+  /* USER CODE BEGIN TIM4_Init 1 */
 
-  /* USER CODE END TIM5_Init 1 */
-  htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 83;
-  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 19999;
-  htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_PWM_Init(&htim5) != HAL_OK)
+  /* USER CODE END TIM4_Init 1 */
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 83;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 19999;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
   {
     Error_Handler();
   }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
@@ -826,22 +848,26 @@ static void MX_TIM5_Init(void)
   sConfigOC.Pulse = 0;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
   {
     Error_Handler();
   }
-  if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
-  if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN TIM5_Init 2 */
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM4_Init 2 */
 
-  /* USER CODE END TIM5_Init 2 */
-  HAL_TIM_MspPostInit(&htim5);
+  /* USER CODE END TIM4_Init 2 */
+  HAL_TIM_MspPostInit(&htim4);
 
 }
 
@@ -920,7 +946,10 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3|GPIO_PIN_4, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_4, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOI, GPIO_PIN_9, GPIO_PIN_RESET);
@@ -932,7 +961,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOG, GPIO_PIN_1, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_3, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4|GPIO_PIN_5, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_RESET);
@@ -950,6 +979,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : PI5 PI0 */
+  GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_0;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
+
   /*Configure GPIO pin : PI9 */
   GPIO_InitStruct.Pin = GPIO_PIN_9;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -957,17 +992,17 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PH12 */
+  GPIO_InitStruct.Pin = GPIO_PIN_12;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
+
   /*Configure GPIO pin : PF10 */
   GPIO_InitStruct.Pin = GPIO_PIN_10;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PD15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_15;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PC1 PC2 PC3 PC5 */
   GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_5;
@@ -983,23 +1018,23 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA1 PA4 PA5 PA3 */
-  GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_3;
+  /*Configure GPIO pins : PA4 PA5 */
+  GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PA0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PA2 */
   GPIO_InitStruct.Pin = GPIO_PIN_2;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PB1 */
@@ -1010,9 +1045,6 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
@@ -1051,24 +1083,6 @@ __weak void ControlTask(void *argument)
 
   }
   /* USER CODE END 5 */
-}
-
-/* USER CODE BEGIN Header_FeederTask */
-/**
-* @brief Function implementing the feederTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_FeederTask */
-__weak void FeederTask(void *argument)
-{
-  /* USER CODE BEGIN FeederTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END FeederTask */
 }
 
 /* USER CODE BEGIN Header_PitchnYawTask */
