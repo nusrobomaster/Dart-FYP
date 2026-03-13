@@ -38,6 +38,9 @@
 #define LAUNCHER_FEED_TOR   0.0f
 
 /* REVERSE_TO_WEIGHT: motor ctrl gains + torque PID for v_cmd */
+#if LAUNCH_CONTROL == 1
+	#define LAUNCHER_REVERSE_VEL  4.0f
+#endif
 #define LAUNCHER_REVERSE_KP  4.0f
 #define LAUNCHER_REVERSE_KD  1.0f
 #define LAUNCHER_REVERSE_TOR 0.0f

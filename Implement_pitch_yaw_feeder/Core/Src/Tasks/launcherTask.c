@@ -40,7 +40,7 @@ feeder_state_t FeederState = POS_1_0;
 static const float LOAD_ANGLE = 180.0f;
 static const float UNLOAD_ANGLE = 90.0f;
 #define UNLOAD_DURATION  1000
-#define LOOP_DELAY 0;
+#define LOOP_DELAY       0
 TickType_t loop_period_ms;
 
 bool ready = false;
@@ -112,7 +112,7 @@ HOLD
 
 launcher_state_t LauncherState = LAUNCHER_WAIT;
 
-float target = 1000.0f, tol = 50.0f;
+float target = 7.0f, tol = 0.5f;
 
 enum LaunchernFeederState {
 	WAIT = 0,
@@ -184,11 +184,12 @@ void LauncherTask(void *argument)
 			HAL_TIM_PWM_Start(&FEEDER_SERVO_TIM, FEEDER_SERVO2_CHANNEL);
 			HAL_TIM_PWM_Start(&FEEDER_SERVO_TIM, FEEDER_SERVO3_CHANNEL);
 			HAL_TIM_PWM_Start(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL);
-
+			set_var_firing(false);
 
 			//TODO make the button on changable for different numbers of dart
 			if (ui_interface_get_auto_dart_count() > 0){
 				LnF_state = FIRING;
+				set_var_firing(true);
 			}
 			break;
 		case FIRING:
@@ -222,21 +223,30 @@ void LauncherTask(void *argument)
 			dm_launching_motor.ctrl.kd_set  = LAUNCHER_SEEK_LOCK_KD;
 			dm_launching_motor.ctrl.tor_set = LAUNCHER_SEEK_LOCK_TOR;
 			if (lock){
+				lock = false;
 				LauncherState = LOCKED;
 				__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_5);
 				NVIC_EnableIRQ(EXTI9_5_IRQn);
+				ready = true;
 			}
 			break;
 
 			case LOCKED:
-			dm_launching_motor.ctrl.pos_set = 0;
-			dm_launching_motor.ctrl.vel_set = LAUNCHER_LOCKED_VEL;
-			dm_launching_motor.ctrl.kp_set  = LAUNCHER_LOCKED_KP;
-			dm_launching_motor.ctrl.kd_set  = LAUNCHER_LOCKED_KD;
-			dm_launching_motor.ctrl.tor_set = LAUNCHER_LOCKED_TOR;
+			if (((FeederState == POS_1_1) || (FeederState == POS_2_1) || (FeederState == POS_3_1)) && done){
+				dm_launching_motor.ctrl.pos_set = 0;
+				dm_launching_motor.ctrl.vel_set = LAUNCHER_LOCKED_VEL;
+				dm_launching_motor.ctrl.kp_set  = LAUNCHER_LOCKED_KP;
+				dm_launching_motor.ctrl.kd_set  = LAUNCHER_LOCKED_KD;
+				dm_launching_motor.ctrl.tor_set = LAUNCHER_LOCKED_TOR;
+			} else {
+				dm_launching_motor.ctrl.pos_set = 0;
+				dm_launching_motor.ctrl.vel_set = 0;
+				dm_launching_motor.ctrl.kp_set  = LAUNCHER_LOCKED_KP;
+				dm_launching_motor.ctrl.kd_set  = LAUNCHER_LOCKED_KD;
+				dm_launching_motor.ctrl.tor_set = LAUNCHER_LOCKED_TOR;
+			}
 			if (op_sen_feeder){
 				LauncherState = FEED;
-				ready = true;
 
 			}
 			break;
@@ -251,10 +261,12 @@ void LauncherTask(void *argument)
 				if ((FeederState == POS_2_0  || FeederState == POS_3_0  || FeederState == POS_4_0) && done ){
 					LauncherState = REVERSE_TO_WEIGHT;
 					NVIC_DisableIRQ(EXTI9_5_IRQn);
+					op_sen_feeder = false;
 				}
 				break;
 
 			case REVERSE_TO_WEIGHT: {
+				#if LAUNCH_CONTROL == 0
 				/* Torque PID: e = T_target - T_measured -> v_cmd (motor speed command) */
 				PID_Compute(&reverse_to_weight_pid, target, dm_launching_motor.para.tor, 0.01f, 0.0f);
 				dm_launching_motor.ctrl.pos_set = 0;
@@ -266,6 +278,17 @@ void LauncherTask(void *argument)
 					LauncherState = HOLD;
 				}
 				break;
+				#else if LAUNCH_CONTROL == 1
+					dm_launching_motor.ctrl.pos_set = 0;
+					dm_launching_motor.ctrl.vel_set = LAUNCHER_REVERSE_VEL;
+					dm_launching_motor.ctrl.kp_set  = LAUNCHER_REVERSE_KP;
+					dm_launching_motor.ctrl.kd_set  = LAUNCHER_REVERSE_KD;
+					dm_launching_motor.ctrl.tor_set = LAUNCHER_REVERSE_TOR;
+
+					if (dm_launching_motor.para.tor > target) {
+						LauncherState = HOLD;
+					}
+				#endif
 			}
 
 			case HOLD: {
@@ -274,23 +297,12 @@ void LauncherTask(void *argument)
 				dm_launching_motor.ctrl.kp_set  = LAUNCHER_HOLD_KP;
 				dm_launching_motor.ctrl.kd_set  = LAUNCHER_HOLD_KD;
 				dm_launching_motor.ctrl.tor_set = LAUNCHER_HOLD_TOR;
-
-				/* Release sequence: move servo to release, wait, then back to rest */
-				if (hold_release_phase == 0) {
-					servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_RELEASE);
-					hold_release_ticks = xTaskGetTickCount();
-					hold_release_phase = 1;
-				} else if (hold_release_phase == 1) {
-					if ((xTaskGetTickCount() - hold_release_ticks) >= pdMS_TO_TICKS(LAUNCHER_SERVO_RELEASE_MS)) {
-						servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_REST);
-						hold_release_phase = 2;
-					}
-				}
+				servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_RELEASE);
 
 				if (HAL_GPIO_ReadPin(LOCK_GPIO_Port, LOCK_Pin)){
+					servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_REST);
 					LauncherState = WAIT;
 					dart_count--;
-					hold_release_phase = 0;  /* reset for next HOLD */
 				}
 				break;
 			}
@@ -328,7 +340,13 @@ void LauncherTask(void *argument)
 			      if ((dm_feeder_motor.para.pos > (POS_RAD_1_1 - POS_RAD_TOL)) &&
 			          (dm_feeder_motor.para.pos < (POS_RAD_1_1 + POS_RAD_TOL)))
 			      {
-			          FeederState = UNLOAD_1;
+			    	  done = true;
+			      } else {
+			    	  done = false;
+			      }
+
+			      if ((LauncherState == FEED) && done){
+ 			          FeederState = UNLOAD_1;
 			      }
 			      break;
 
@@ -368,7 +386,8 @@ void LauncherTask(void *argument)
 			      pos_angle = POS_RAD_2_1;
 
 			      if ((dm_feeder_motor.para.pos > (POS_RAD_2_1 - POS_RAD_TOL)) &&
-				   (dm_feeder_motor.para.pos < (POS_RAD_2_1 + POS_RAD_TOL))){
+				   (dm_feeder_motor.para.pos < (POS_RAD_2_1 + POS_RAD_TOL)) &&
+				   (LauncherState == FEED)){
 			    	  FeederState = UNLOAD_2;
 				  }
 			      break;
@@ -391,7 +410,8 @@ void LauncherTask(void *argument)
 			      pos_angle = POS_RAD_3_0;
 
 			      if ((dm_feeder_motor.para.pos > (POS_RAD_3_0 - POS_RAD_TOL)) &&
-			          (dm_feeder_motor.para.pos < (POS_RAD_3_0 + POS_RAD_TOL)))
+			          (dm_feeder_motor.para.pos < (POS_RAD_3_0 + POS_RAD_TOL)) &&
+					  (LauncherState == FEED))
 			      {
 			          FeederState = UNLOAD_3;
 			      }
@@ -450,26 +470,32 @@ void LauncherTask(void *argument)
 }
 
 void testing_launcher(void){
-	GPIO_PinState unlock = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_2);
-	if (rc_ctrl.rc.s[1] == 1 && !unlock){
-		__NOP();
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, 1);
-		osDelay(100);
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, 0);
+	if (rc_ctrl.rc.s[0] != 1){
+		if (rc_ctrl.rc.s[1] == 1){
+			servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_RELEASE);
+		} else {
+			servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_REST);
+		}
+
+		float velocity = rc_ctrl.rc.ch[1]/10;
+
+		if (velocity > MAX_VELOCITY) {
+			velocity = MAX_VELOCITY;
+		} else if (velocity < -MAX_VELOCITY) {
+			velocity = -MAX_VELOCITY;
+		}
+
+		dm_launching_motor.ctrl.pos_set = 0;
+		dm_launching_motor.ctrl.vel_set = velocity;
+		dm_launching_motor.ctrl.kp_set  = LAUNCHER_IDLE_KP;
+		dm_launching_motor.ctrl.kd_set  = LAUNCHER_TEST_KD;
+		dm_launching_motor.ctrl.tor_set = LAUNCHER_IDLE_TOR;
+		dm_ctrl_send(&hcan1, &dm_launching_motor);
+	} else {
+		dm_launching_motor.ctrl.pos_set = 0;
+		dm_launching_motor.ctrl.vel_set = 0;
+		dm_launching_motor.ctrl.kp_set  = LAUNCHER_IDLE_KP;
+		dm_launching_motor.ctrl.kd_set  = LAUNCHER_TEST_KD;
+		dm_launching_motor.ctrl.tor_set = LAUNCHER_IDLE_TOR;
 	}
-
-	float velocity = rc_ctrl.rc.ch[1]/10;
-
-	if (velocity > MAX_VELOCITY) {
-		velocity = MAX_VELOCITY;
-	} else if (velocity < -MAX_VELOCITY) {
-		velocity = -MAX_VELOCITY;
-	}
-
-	dm_launching_motor.ctrl.pos_set = 0;
-	dm_launching_motor.ctrl.vel_set = velocity;
-	dm_launching_motor.ctrl.kp_set  = LAUNCHER_IDLE_KP;
-	dm_launching_motor.ctrl.kd_set  = LAUNCHER_TEST_KD;
-	dm_launching_motor.ctrl.tor_set = LAUNCHER_IDLE_TOR;
-	dm_ctrl_send(&hcan1, &dm_launching_motor);
 }

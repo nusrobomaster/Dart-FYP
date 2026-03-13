@@ -43,6 +43,9 @@ extern bool op_sen_yaw_35deg;
 
 extern TIM_HandleTypeDef htim2;
 
+float cur_pitch_deg_angle;
+float yaw_velocity;
+
 
 static inline void Motor_Stop(void)
 {
@@ -177,22 +180,24 @@ void PitchnYawTask(void *argument)
 
     	if (ui_interface_get_selection() == SELECT_RC){
     		//TODO
-    		yaw_angle += rc_ctrl.rc.ch[2] / 100;
-    		//NEED TO CHECK FOR INVERSION
-    		if (yaw_angle > RIGHT_YAW_LIMIT){
-    			yaw_angle = RIGHT_YAW_LIMIT;
-    		} else if (yaw_angle < LEFT_YAW_LIMIT) {
-    			yaw_angle = LEFT_YAW_LIMIT;
-    		}
+    		if (rc_ctrl.rc.s[0] != 0){
+				yaw_angle += rc_ctrl.rc.ch[2] / 100;
+				//NEED TO CHECK FOR INVERSION
+				if (yaw_angle > RIGHT_YAW_LIMIT){
+					yaw_angle = RIGHT_YAW_LIMIT;
+				} else if (yaw_angle < LEFT_YAW_LIMIT) {
+					yaw_angle = LEFT_YAW_LIMIT;
+				}
 
-    		pitch_angle += rc_ctrl.rc.ch[3] / 100;
-    		if (pitch_angle > UPPER_PITCH_LIMIT){
-    			pitch_angle = UPPER_PITCH_LIMIT;
-    		} else if (pitch_angle < LOWER_PITCH_LIMIT){
-    			pitch_angle = LOWER_PITCH_LIMIT;
+				pitch_angle += rc_ctrl.rc.ch[3] / 100;
+				if (pitch_angle > UPPER_PITCH_LIMIT){
+					pitch_angle = UPPER_PITCH_LIMIT;
+				} else if (pitch_angle < LOWER_PITCH_LIMIT){
+					pitch_angle = LOWER_PITCH_LIMIT;
+				}
+				ui_interface_apply_value_direct(SELECT_PITCH_ANGLE, pitch_angle);
+				ui_interface_apply_value_direct(SELECT_YAW_ANGLE, yaw_angle);
     		}
-    		ui_interface_apply_value_direct(SELECT_PITCH_ANGLE, pitch_angle);
-    		ui_interface_apply_value_direct(SELECT_YAW_ANGLE, yaw_angle);
     	} else if (ui_interface_get_selection() == SELECT_AUTO){
     		//place holder for vj
     		if (true){
@@ -216,7 +221,7 @@ void PitchnYawTask(void *argument)
 		// reductiongear ratio is 1:5000 and there is 17 basic pulse per revolution with a 4x ab encoder
 		// so 1 revolution = 360 degrees
 		// so TIM2->CNT * (360.0f / (17.0f * 4.0f * 5000.0f)) = current pitch angle in degrees
-		float cur_pitch_deg_angle = TIM2->CNT * (360.0f / (17.0f * 4.0f * 5000.0f)) + LOWER_PITCH_LIMIT;
+		cur_pitch_deg_angle = TIM2->CNT * (360.0f / (17.0f * 4.0f * 5000.0f)) + LOWER_PITCH_LIMIT;
 
 
 		// convert the yaw angle from radians to degrees
@@ -249,6 +254,15 @@ void PitchnYawTask(void *argument)
 
 void testing_pitch_n_yaw(void){
 	// Set velocity and direction for the brushed dc motor (pitch motor)
+	if (op_sen_yaw_35deg){
+		op_sen_yaw_35deg = 0;
+		__HAL_TIM_SET_COUNTER(&htim2, 0);
+	}
+
+	cur_pitch_deg_angle = TIM2->CNT * (360.0f / (17.0f * 4.0f * 5000.0f)) + LOWER_PITCH_LIMIT;
+
+	//turn on controller
+	if (rc_ctrl.rc.s[0] != 1){
 		int16_t velocity = rc_ctrl.rc.ch[3];
 		if (velocity == 0){
 			Motor_SetDirection(MODE_COASTING);
@@ -263,7 +277,7 @@ void testing_pitch_n_yaw(void){
 		Motor_SetPwmCounts(abs(velocity*5));
 
 	// Set Velocity for the brushless motor (yaw motor)
-		float yaw_velocity = rc_ctrl.rc.ch[2] / 5;
+		yaw_velocity = rc_ctrl.rc.ch[2] / 5;
 
 		if (yaw_velocity > yaw_threshold_velocity) {
 			yaw_velocity = yaw_threshold_velocity;
@@ -274,4 +288,14 @@ void testing_pitch_n_yaw(void){
 
 		dm_yaw_motor.ctrl.vel_set = yaw_velocity;
 		dm_ctrl_send(&hcan1, &dm_yaw_motor);
+	} else {
+		// turn off controller
+		Motor_SetPwmCounts(0);
+		Motor_SetDirection(MODE_COASTING);
+
+		yaw_velocity = 0;
+		dm_yaw_motor.ctrl.vel_set = yaw_velocity;
+		dm_ctrl_send(&hcan1, &dm_yaw_motor);
+
+	}
 }
