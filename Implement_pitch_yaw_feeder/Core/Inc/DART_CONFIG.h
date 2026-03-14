@@ -8,9 +8,9 @@
 #ifndef INC_DART_CONFIG_H_
 #define INC_DART_CONFIG_H_
 
-#define TESTING 0
-//#define DM_CAN_USE_FREERTOS
-
+#define TESTING 1
+#define TESTING_WOUT_YAW 1
+#define LAUNCH_CONTROL 1
 
 
 #endif /* INC_DART_CONFIG_H_ */

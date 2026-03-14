@@ -7,7 +7,7 @@
  * Define DM_CAN_USE_FREERTOS in your project when building with FreeRTOS
  * to serialize access to the shared hcan1 / dm_TxHeader from multiple tasks.
  */
-//#define DM_CAN_USE_FREERTOS
+#define DM_CAN_USE_FREERTOS
 
 #ifdef DM_CAN_USE_FREERTOS
 #include "FreeRTOS.h"
@@ -382,7 +382,7 @@ float uint_to_float(int x_int, float x_min, float x_max, int bits)
 **/
 void enable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id)
 {
-    DM_CAN_TX_ENTER_CRITICAL();
+//    DM_CAN_TX_ENTER_CRITICAL();
 
     uint8_t data[8];
     dm_TxHeader.DLC = 8; //The Data Bytes of the data. For the C620, it is 8 bytes of data.
@@ -414,7 +414,7 @@ void enable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode
 			status = HAL_ERROR; // HIHIHIH
     }
 
-    DM_CAN_TX_EXIT_CRITICAL();
+//    DM_CAN_TX_EXIT_CRITICAL();
 }
 
 /**
