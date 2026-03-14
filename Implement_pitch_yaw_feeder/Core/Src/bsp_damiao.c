@@ -329,6 +329,14 @@ void dm_fbdata(dm_motor_t *motor, uint8_t *rx_data)
 //    }
 }
 
+void dm_motor_snapshot(dm_motor_t *out, const volatile dm_motor_t *motor)
+{
+    if (out == NULL || motor == NULL) return;
+    DM_CAN_TX_ENTER_CRITICAL();
+    memcpy(out, (const void *)motor, sizeof(dm_motor_t));
+    DM_CAN_TX_EXIT_CRITICAL();
+}
+
 /**
 ************************************************************************
 * @brief:       float_to_uint: Convert float to unsigned integer encoding

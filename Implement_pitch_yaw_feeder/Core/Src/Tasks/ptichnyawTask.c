@@ -222,9 +222,10 @@ void PitchnYawTask(void *argument)
 		// so TIM2->CNT * (360.0f / (17.0f * 4.0f * 5000.0f)) = current pitch angle in degrees
 		cur_pitch_deg_angle = TIM2->CNT * (360.0f / (17.0f * 4.0f * 5000.0f)) + LOWER_PITCH_LIMIT;
 
-
+		dm_motor_t yaw_snap;
+		dm_motor_snapshot(&yaw_snap, &dm_yaw_motor);
 		// convert the yaw angle from radians to degrees
-		float cur_yaw_deg_angle = dm_yaw_motor.para.pos / DEG2RAD;
+		float cur_yaw_deg_angle = yaw_snap.para.pos / DEG2RAD;
 		ui_interface_update_current_values(cur_pitch_deg_angle, cur_yaw_deg_angle);
 
 		/* Time step for PID (s) */

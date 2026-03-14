@@ -110,6 +110,13 @@ void dm_clear_para(dm_motor_t* motor);
 void dm_clear_err(CAN_HandleTypeDef* hcan, dm_motor_t* motor);
 void dm_fbdata(dm_motor_t* motor, uint8_t* rx_data);
 
+/**
+ * @brief Get a consistent snapshot of a motor (use in tasks to avoid torn reads of para).
+ * @param out   buffer to copy into
+ * @param motor pointer to volatile motor (e.g. &dm_yaw_motor)
+ */
+void dm_motor_snapshot(dm_motor_t *out, const volatile dm_motor_t *motor);
+
 // Low-level control functions
 void enable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id);
 void disable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id);
