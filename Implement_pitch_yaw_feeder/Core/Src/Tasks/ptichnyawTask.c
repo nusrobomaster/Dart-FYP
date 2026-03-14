@@ -34,8 +34,6 @@ float pitch_angle = 30.0f; // example command in-range
 
 PID Pitch_PID;
 
-extern RC_ctrl_t rc_ctrl;
-
 float yaw_threshold_velocity = 4.0f;
 
 extern bool op_sen_yaw_45deg;
@@ -179,9 +177,10 @@ void PitchnYawTask(void *argument)
 		/* Get set values from UI interface */
 
     	if (ui_interface_get_selection() == SELECT_RC){
-    		//TODO
-    		if (rc_ctrl.rc.s[0] != 0){
-				yaw_angle += rc_ctrl.rc.ch[2] / 100;
+    		RC_ctrl_t rc;
+    		get_remote_control_snapshot(&rc);
+    		if (rc.rc.s[0] != 0){
+				yaw_angle += rc.rc.ch[2] / 100;
 				//NEED TO CHECK FOR INVERSION
 				if (yaw_angle > RIGHT_YAW_LIMIT){
 					yaw_angle = RIGHT_YAW_LIMIT;
@@ -189,7 +188,7 @@ void PitchnYawTask(void *argument)
 					yaw_angle = LEFT_YAW_LIMIT;
 				}
 
-				pitch_angle += rc_ctrl.rc.ch[3] / 100;
+				pitch_angle += rc.rc.ch[3] / 100;
 				if (pitch_angle > UPPER_PITCH_LIMIT){
 					pitch_angle = UPPER_PITCH_LIMIT;
 				} else if (pitch_angle < LOWER_PITCH_LIMIT){
@@ -261,9 +260,11 @@ void testing_pitch_n_yaw(void){
 
 	cur_pitch_deg_angle = TIM2->CNT * (360.0f / (17.0f * 4.0f * 5000.0f)) + LOWER_PITCH_LIMIT;
 
+	RC_ctrl_t rc;
+	get_remote_control_snapshot(&rc);
 	//turn on controller
-	if (rc_ctrl.rc.s[0] != 1){
-		int16_t velocity = rc_ctrl.rc.ch[3];
+	if (rc.rc.s[0] != 1){
+		int16_t velocity = rc.rc.ch[3];
 		if (velocity == 0){
 			Motor_SetDirection(MODE_COASTING);
 		}
@@ -278,7 +279,7 @@ void testing_pitch_n_yaw(void){
 		Motor_SetPwmCounts(abs(velocity*5));
 
 	// Set Velocity for the brushless motor (yaw motor)
-		yaw_velocity = rc_ctrl.rc.ch[2] / 5;
+		yaw_velocity = rc.rc.ch[2] / 5;
 
 		if (yaw_velocity > yaw_threshold_velocity) {
 			yaw_velocity = yaw_threshold_velocity;

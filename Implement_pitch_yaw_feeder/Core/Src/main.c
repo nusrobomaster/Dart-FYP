@@ -177,7 +177,7 @@ const osThreadAttr_t controlTask_attributes = {
 };
 /* Definitions for pitchnyawTask */
 osThreadId_t pitchnyawTaskHandle;
-uint32_t pitchnyawTaskBuffer[ 128 ];
+uint32_t pitchnyawTaskBuffer[ 1024 ];
 osStaticThreadDef_t pitchnyawTaskControlBlock;
 const osThreadAttr_t pitchnyawTask_attributes = {
   .name = "pitchnyawTask",
@@ -189,7 +189,7 @@ const osThreadAttr_t pitchnyawTask_attributes = {
 };
 /* Definitions for launcherTask */
 osThreadId_t launcherTaskHandle;
-uint32_t launcherTaskBuffer[ 128 ];
+uint32_t launcherTaskBuffer[ 1024 ];
 osStaticThreadDef_t launcherTaskControlBlock;
 const osThreadAttr_t launcherTask_attributes = {
   .name = "launcherTask",
@@ -200,7 +200,7 @@ const osThreadAttr_t launcherTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE BEGIN PV */
-RC_ctrl_t rc_ctrl = {0};
+extern RC_ctrl_t rc_ctrl;  /* defined in remote_control.c with guard to avoid affecting adjacent variables */
 HX711 hx;
 int32_t weight;
 int32_t value;

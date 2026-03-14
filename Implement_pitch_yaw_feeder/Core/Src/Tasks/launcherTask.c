@@ -134,7 +134,6 @@ static TickType_t hold_release_ticks = 0;
 
 extern dm_motor_t dm_launching_motor;
 extern dm_motor_t dm_feeder_motor;
-extern RC_ctrl_t rc_ctrl;
 extern CAN_HandleTypeDef hcan1;
 bool lock = false;
 bool op_sen_feeder = false;
@@ -481,14 +480,16 @@ void LauncherTask(void *argument)
 }
 
 void testing_launcher(void){
-	if (rc_ctrl.rc.s[0] != 1){
-		if (rc_ctrl.rc.s[1] == 1){
+	RC_ctrl_t rc;
+	get_remote_control_snapshot(&rc);
+	if (rc.rc.s[0] != 1){
+		if (rc.rc.s[1] == 1){
 			servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_RELEASE);
 		} else {
 			servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_REST);
 		}
 
-		float velocity = rc_ctrl.rc.ch[1]/10;
+		float velocity = rc.rc.ch[1]/10;
 
 		if (velocity > MAX_VELOCITY) {
 			velocity = MAX_VELOCITY;
