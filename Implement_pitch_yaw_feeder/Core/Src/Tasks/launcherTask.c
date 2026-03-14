@@ -37,7 +37,8 @@ feeder_state_t FeederState = POS_1_0;
 #define UNLOAD_MS  500
 #define KP_SET     10.0f
 #define KD_SET     1.5f
-static const float LOAD_ANGLE = 180.0f;
+// might need change more
+static const float LOAD_ANGLE = 160.0f;
 static const float UNLOAD_ANGLE = 90.0f;
 #define UNLOAD_DURATION  1000
 #define LOOP_DELAY       0
@@ -51,7 +52,7 @@ bool done = false;
 #define POS_DEG_INC       60.0f
 
 #define POS_DEG_TOL	      10.0f
-#define POS_DEG_1_0		  0.0f
+#define POS_DEG_1_0		  180.0f
 #define POS_DEG_1_1         (POS_DEG_1_0 + POS_DEG_INC)
 #define POS_DEG_2_0         (POS_DEG_1_1 + POS_DEG_INC)
 #define POS_DEG_2_1         (POS_DEG_2_0 + POS_DEG_INC)
@@ -68,9 +69,10 @@ bool done = false;
 #define POS_RAD_3_1         (POS_DEG_3_1 * DEG_TO_RAD)
 #define POS_RAD_4_0			(POS_DEG_4_0 * DEG_TO_RAD)
 
-float servo_1 = 0.0f;
-float servo_2 = 0.0f;
-float servo_3 = 0.0f;
+float servo_1 = LOAD_ANGLE;
+float servo_2 = LOAD_ANGLE;
+float servo_3 = LOAD_ANGLE;
+float servo_4 = LAUNCHER_SERVO_ANGLE_REST;
 float pos_angle = 0.0f;
 
 
@@ -150,9 +152,18 @@ void LauncherTask(void *argument)
 
 	FeederState = POS_1_0;
 	LauncherState = LAUNCHER_WAIT;
+	#if testing != 0
 	NVIC_DisableIRQ(EXTI9_5_IRQn);
+	#endif
 	PID_Init(&reverse_to_weight_pid, REVERSE_TORQUE_PID_KP, REVERSE_TORQUE_PID_KI, REVERSE_TORQUE_PID_KD, REVERSE_V_MIN, REVERSE_V_MAX);
-
+	servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO1_CHANNEL, LOAD_ANGLE);
+	servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO2_CHANNEL, LOAD_ANGLE);
+	servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO3_CHANNEL, LOAD_ANGLE);
+	servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LOAD_ANGLE);
+	HAL_TIM_PWM_Start(&FEEDER_SERVO_TIM, FEEDER_SERVO1_CHANNEL);
+	HAL_TIM_PWM_Start(&FEEDER_SERVO_TIM, FEEDER_SERVO2_CHANNEL);
+	HAL_TIM_PWM_Start(&FEEDER_SERVO_TIM, FEEDER_SERVO3_CHANNEL);
+	HAL_TIM_PWM_Start(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL);
    /* Infinite loop */
    for(;;)
    {
@@ -175,23 +186,23 @@ void LauncherTask(void *argument)
 			
 			dart_fire = 0;
 			dart_count = 4;
+			servo_1 = LOAD_ANGLE;
+			servo_2 = LOAD_ANGLE;
+			servo_3 = LOAD_ANGLE;
+			servo_4 = LAUNCHER_SERVO_ANGLE_REST;
+			pos_angle = POS_RAD_1_0;
 
-			servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO1_CHANNEL, LOAD_ANGLE);
-			servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO2_CHANNEL, LOAD_ANGLE);
-			servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO3_CHANNEL, LOAD_ANGLE);
-			servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LOAD_ANGLE);
-			HAL_TIM_PWM_Start(&FEEDER_SERVO_TIM, FEEDER_SERVO1_CHANNEL);
-			HAL_TIM_PWM_Start(&FEEDER_SERVO_TIM, FEEDER_SERVO2_CHANNEL);
-			HAL_TIM_PWM_Start(&FEEDER_SERVO_TIM, FEEDER_SERVO3_CHANNEL);
-			HAL_TIM_PWM_Start(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL);
+			#if TESTING_WOUT_YAW
+				LnF_state = FIRING;
+			#else
 			set_var_firing(false);
-
 			//TODO make the button on changable for different numbers of dart
 			if (ui_interface_get_auto_dart_count() > 0){
 				LnF_state = FIRING;
 				set_var_firing(true);
 			}
 			break;
+			#endif
 		case FIRING:
 
 		/*Launcher State Machine--------------------------------------------------------*/
@@ -204,7 +215,7 @@ void LauncherTask(void *argument)
 			dm_launching_motor.ctrl.kd_set  = LAUNCHER_WAIT_KD;
 			dm_launching_motor.ctrl.tor_set = LAUNCHER_WAIT_TOR;
 
-			if (dart_count == 4){
+			if (dart_count == 4 && !HAL_GPIO_ReadPin(LOCK_GPIO_Port, LOCK_Pin)){
 				LauncherState = REVERSE_TO_WEIGHT;
 			} else if (dart_count > 0) {
 				LauncherState = SEEK_LOCK_CW;
@@ -222,7 +233,7 @@ void LauncherTask(void *argument)
 			dm_launching_motor.ctrl.kp_set  = LAUNCHER_SEEK_LOCK_KP;
 			dm_launching_motor.ctrl.kd_set  = LAUNCHER_SEEK_LOCK_KD;
 			dm_launching_motor.ctrl.tor_set = LAUNCHER_SEEK_LOCK_TOR;
-			if (lock){
+			if (lock || !HAL_GPIO_ReadPin(LOCK_GPIO_Port, LOCK_Pin)){
 				lock = false;
 				LauncherState = LOCKED;
 				__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_5);
@@ -288,8 +299,10 @@ void LauncherTask(void *argument)
 					if (dm_launching_motor.para.tor > target) {
 						LauncherState = HOLD;
 					}
+				break;
 				#endif
 			}
+
 
 			case HOLD: {
 				dm_launching_motor.ctrl.pos_set = 0;
@@ -297,11 +310,11 @@ void LauncherTask(void *argument)
 				dm_launching_motor.ctrl.kp_set  = LAUNCHER_HOLD_KP;
 				dm_launching_motor.ctrl.kd_set  = LAUNCHER_HOLD_KD;
 				dm_launching_motor.ctrl.tor_set = LAUNCHER_HOLD_TOR;
-				servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_RELEASE);
+				servo_4 = LAUNCHER_SERVO_ANGLE_RELEASE;
 
 				if (HAL_GPIO_ReadPin(LOCK_GPIO_Port, LOCK_Pin)){
-					servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_REST);
-					LauncherState = WAIT;
+					servo_4 = LAUNCHER_SERVO_ANGLE_REST;
+					LauncherState = LAUNCHER_WAIT;
 					dart_count--;
 				}
 				break;
@@ -452,19 +465,17 @@ void LauncherTask(void *argument)
 			      ready = false;
 			      break;
 			}
-
-
-
-			dm_feeder_motor.ctrl.pos_set = pos_angle;
-			servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO3_CHANNEL, servo_3);
-			servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO2_CHANNEL, servo_2);
-			servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO1_CHANNEL, servo_1);
-			dm_ctrl_send(&hcan1, &dm_feeder_motor);
-			vTaskDelay(1);
-			dm_ctrl_send(&hcan1, &dm_launching_motor);
-
-			vTaskDelay(loop_period_ms);
 		}
+		dm_feeder_motor.ctrl.pos_set = pos_angle;
+		servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, servo_4);
+		servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO3_CHANNEL, servo_3);
+		servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO2_CHANNEL, servo_2);
+		servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO1_CHANNEL, servo_1);
+		dm_ctrl_send(&hcan1, &dm_feeder_motor);
+		vTaskDelay(1);
+		dm_ctrl_send(&hcan1, &dm_launching_motor);
+
+		vTaskDelay(loop_period_ms);
 	#endif
 	}
 }

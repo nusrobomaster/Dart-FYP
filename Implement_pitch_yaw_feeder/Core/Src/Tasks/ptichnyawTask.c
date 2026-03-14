@@ -129,7 +129,7 @@ void PitchnYawTask(void *argument)
 	// Initialize the encoder TIM2 for the pitch motor
 	HAL_TIM_Encoder_Start(&htim2,  TIM_CHANNEL_ALL);
 	taskENTER_CRITICAL();
-#if TESTING
+#if TESTING | TESTING_WOUT_YAW
 	dm_yaw_motor.ctrl.pos_set = 0.0f;
 	dm_yaw_motor.ctrl.vel_set = 0.0f;
 	dm_yaw_motor.ctrl.kp_set  = 0.0f;
@@ -155,7 +155,7 @@ void PitchnYawTask(void *argument)
 
 	static TickType_t last = 0;
 
-	#if !TESTING
+	#if !(TESTING | TESTING_WOUT_YAW)
 		yaw_angle = CENTRE_ANGLE;
 		dm_yaw_motor.ctrl.pos_set = yaw_angle * DEG2RAD;
 		dm_ctrl_send(&hcan1, &dm_yaw_motor);
@@ -172,7 +172,7 @@ void PitchnYawTask(void *argument)
 	/* Infinite loop */
     for (;;)
     {
-		#if TESTING
+		#if TESTING | TESTING_WOUT_YAW
     		testing_pitch_n_yaw();
     	#else
 
@@ -268,11 +268,12 @@ void testing_pitch_n_yaw(void){
 			Motor_SetDirection(MODE_COASTING);
 		}
 		else if (velocity > 0){
-			Motor_SetDirection(MODE_FORWARD);
+			Motor_SetDirection(MODE_BACKWARD);
+
 		}
 		else {
 			// negative velocity
-			Motor_SetDirection(MODE_BACKWARD);
+			Motor_SetDirection(MODE_FORWARD);
 		}
 		Motor_SetPwmCounts(abs(velocity*5));
 
