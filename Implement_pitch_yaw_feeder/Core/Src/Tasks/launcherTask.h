@@ -35,11 +35,18 @@
 /* FEED */
 #define LAUNCHER_FEED_KP    LAUNCHER_IDLE_KP
 #define LAUNCHER_FEED_KD    LAUNCHER_IDLE_KD
-#define LAUNCHER_FEED_TOR   3.0f
+#define LAUNCHER_FEED_TOR   0.0f
 
 /* REVERSE_TO_WEIGHT: motor ctrl gains + torque PID for v_cmd */
 #if LAUNCH_CONTROL == 1
 	#define LAUNCHER_REVERSE_VEL  4.0f
+#endif
+#if LAUNCH_CONTROL == 2
+	/* P-only velocity control to reach desired launcher_abs_position (rad) */
+	#define LAUNCHER_REVERSE_POS_KP    0.5f   /* low P, no I, no D */
+	#define LAUNCHER_REVERSE_POS_TARGET 8.0f   /* desired launcher_abs_position in rad */
+	#define LAUNCHER_REVERSE_POS_TOL   0.05f  /* rad, consider at target */
+	#define LAUNCHER_REVERSE_POS_VEL_MAX 5.0f /* clamp velocity command */
 #endif
 #define LAUNCHER_REVERSE_KP  0.0f
 #define LAUNCHER_REVERSE_KD  4.0f

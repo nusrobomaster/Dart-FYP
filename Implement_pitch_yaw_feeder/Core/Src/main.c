@@ -267,6 +267,20 @@ void setup_can(){
 }
 
 
+/* Launcher absolute position: delta-based wrap (4*PI = one encoder range), 8*PI = one mechanical turn.
+ * Updated in CAN RX callback; read in launcherTask. */
+#define LAUNCHER_ENC_RANGE      (4.0f * PI)
+#define LAUNCHER_RAD_PER_ROUND  (8.0f * PI)
+
+extern float launcher_abs_position;
+
+static float launcher_prev = 0.0f;
+static int   launcher_turns = 0;
+static uint8_t launcher_prev_valid = 0;
+
+void launcher_turns_reset(void) {
+	launcher_turns = 0;
+}
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 	CAN_RxHeaderTypeDef rx_header;
@@ -287,7 +301,22 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 		  dm_fbdata(&dm_feeder_motor, rx_buffer);
 		}
 		if (motor_id == (dm_launching_motor.id & 0x0F)){
-		  dm_fbdata(&dm_launching_motor, rx_buffer);
+			dm_fbdata(&dm_launching_motor, rx_buffer);
+			{
+				float angle = dm_launching_motor.para.pos;
+
+				if (launcher_prev_valid) {
+					float delta = angle - launcher_prev;
+					if (delta > 4.0f * PI) {
+						launcher_turns -= 1;
+					} else if (delta < -4.0f * PI) {
+						launcher_turns += 1;
+					}
+				}
+				launcher_prev_valid = 1;
+				launcher_prev = angle;
+				launcher_abs_position = angle + (float)launcher_turns * (8.0f * PI);
+			}
 		}
 	}
 	HAL_CAN_ActivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO0_FULL| CAN_IT_RX_FIFO0_OVERRUN);
@@ -296,10 +325,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 #define SPEED rc_ctrl.rc.ch[0]
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	if (GPIO_Pin == GPIO_PIN_0){
+   if (GPIO_Pin == GPIO_PIN_0){
 		lock = true;
-	}
-  if (GPIO_Pin == GPIO_PIN_10) {
+   }
+   if (GPIO_Pin == GPIO_PIN_10) {
         touch_flag = 1;
     }
    if (GPIO_Pin == GPIO_PIN_2){

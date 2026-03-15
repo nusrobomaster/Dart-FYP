@@ -10,7 +10,7 @@
 
 #define TESTING 0
 #define TESTING_WOUT_YAW 1
-#define LAUNCH_CONTROL 1
+#define LAUNCH_CONTROL 2
 
 
 #endif /* INC_DART_CONFIG_H_ */
