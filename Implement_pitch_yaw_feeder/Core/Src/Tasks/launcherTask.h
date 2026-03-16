@@ -43,13 +43,15 @@
 #endif
 #if LAUNCH_CONTROL == 2
 	/* P-only velocity control to reach desired launcher_abs_position (rad) */
-	#define LAUNCHER_REVERSE_POS_KP    0.5f   /* low P, no I, no D */
-	#define LAUNCHER_REVERSE_POS_TARGET 8.0f   /* desired launcher_abs_position in rad */
+	#define LAUNCHER_REVERSE_POS_KP    1.0f   /* low P, no I, no D */
+	#define LAUNCHER_REVERSE_POS_KI	   0.0f
+	#define LAUNCHER_REVERSE_POS_KD    4.5f
+	#define LAUNCHER_REVERSE_POS_TARGET 30.0f   /* desired launcher_abs_position in rad */
 	#define LAUNCHER_REVERSE_POS_TOL   0.05f  /* rad, consider at target */
 	#define LAUNCHER_REVERSE_POS_VEL_MAX 5.0f /* clamp velocity command */
 #endif
 #define LAUNCHER_REVERSE_KP  0.0f
-#define LAUNCHER_REVERSE_KD  4.0f
+#define LAUNCHER_REVERSE_KD  1.0f
 #define LAUNCHER_REVERSE_TOR 0.0f
 /* Torque PID: e = T_target - T_measured, output v_cmd (clamped) */
 #define REVERSE_TORQUE_PID_KP  0.5f
@@ -57,6 +59,7 @@
 #define REVERSE_TORQUE_PID_KD  0.02f
 #define REVERSE_V_MIN  -20.0f
 #define REVERSE_V_MAX   20.0f
+#define TOL 0.2f
 
 /* HOLD */
 #define LAUNCHER_HOLD_KP    4.0f

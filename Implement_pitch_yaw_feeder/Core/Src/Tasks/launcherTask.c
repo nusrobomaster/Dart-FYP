@@ -136,7 +136,7 @@ static TickType_t hold_release_ticks = 0;
 int launcher_round_counter = 0;
 float launcher_prev_pos = 0.0f;
 /* Updated in main.c CAN RX callback (delta-based wrap); read here for absolute position in rad. */
-float launcher_abs_position = 5.0f;
+float launcher_abs_position = 7.0f;
 
 
 extern dm_motor_t dm_launching_motor;
@@ -165,7 +165,7 @@ void LauncherTask(void *argument)
 	#endif
 	PID_Init(&reverse_to_weight_pid, REVERSE_TORQUE_PID_KP, REVERSE_TORQUE_PID_KI, REVERSE_TORQUE_PID_KD, REVERSE_V_MIN, REVERSE_V_MAX);
 	#if LAUNCH_CONTROL == 2
-	PID_Init(&reverse_pos_pid, LAUNCHER_REVERSE_POS_KP, 0.0f, 0.0f, -LAUNCHER_REVERSE_POS_VEL_MAX, LAUNCHER_REVERSE_POS_VEL_MAX);
+	PID_Init(&reverse_pos_pid, LAUNCHER_REVERSE_POS_KP, LAUNCHER_REVERSE_POS_KI, LAUNCHER_REVERSE_POS_KD, -LAUNCHER_REVERSE_POS_VEL_MAX, LAUNCHER_REVERSE_POS_VEL_MAX);
 	#endif
 	servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO1_CHANNEL, LOAD_ANGLE);
 	servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO2_CHANNEL, LOAD_ANGLE);
@@ -337,15 +337,13 @@ void LauncherTask(void *argument)
 					dm_launching_motor.ctrl.kd_set   = LAUNCHER_REVERSE_KD;
 					dm_launching_motor.ctrl.tor_set = LAUNCHER_REVERSE_TOR;
 
-					if (reverse_pos_pid.prev_error < LAUNCHER_REVERSE_POS_TOL && reverse_pos_pid.prev_error > -LAUNCHER_REVERSE_POS_TOL) {
-						dm_launching_motor.ctrl.tor_set = 0;
-						LauncherState =  LAUNCHER_WAIT;
+					if ((launcher_abs_position < LAUNCHER_REVERSE_POS_TARGET + TOL) || (launcher_abs_position > LAUNCHER_REVERSE_POS_TARGET - TOL) ) {
+//						LauncherState =  LA;
 						servo_4 = LAUNCHER_SERVO_ANGLE_RELEASE;
 						dart_count--;
 					} else {
 						servo_4 = LAUNCHER_SERVO_ANGLE_REST;
 					}
-	
 				#endif
 				}
 			break;
