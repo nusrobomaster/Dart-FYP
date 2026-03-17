@@ -26,7 +26,7 @@ uint32_t dm_mailbox[3];
 extern CAN_HandleTypeDef hcan1;
 
 volatile dm_motor_t dm_pitch_motor = {
-    .id = 0x86,
+    .id = 0x60,
     .ctrl = {
         .mode    = 0,
         .pos_set = 0,
@@ -38,7 +38,7 @@ volatile dm_motor_t dm_pitch_motor = {
 };
 
 volatile dm_motor_t dm_yaw_motor = {
-    .id = 0x76,
+    .id = 0x73,
     .ctrl = {
         .mode    = 0,
         .pos_set = 0,
@@ -50,7 +50,7 @@ volatile dm_motor_t dm_yaw_motor = {
 };
 
 volatile dm_motor_t dm_launching_motor = {
-    .id = 0x66,
+    .id = 0x65,
     .ctrl = {
         .mode    = 0,
         .pos_set = 0,
@@ -256,7 +256,10 @@ void dm_clear_para(dm_motor_t *motor)
 //    motor->cmd.pos_set  = 0;
 //    motor->cmd.vel_set  = 0;
 //    motor->cmd.tor_set  = 0;
-    
+    motor->para.pos_wrap = 0.0f;
+    motor->pos_prev = 0.0f;
+    motor->pos_turns = 0;
+    motor->pos_prev_valid = 0;
     motor->ctrl.kd_set  = 0;
     motor->ctrl.kp_set  = 0;
     motor->ctrl.pos_set = 0;
@@ -312,6 +315,28 @@ void dm_fbdata(dm_motor_t *motor, uint8_t *rx_data)
     motor->para.Tmos = (float)(rx_data[6]);
     motor->para.Tcoil = (float)(rx_data[7]);
 //    motor->disconnect_time = get_microseconds();
+
+    /* Application-level multi-turn wrap tracking.
+     * Assumes encoder range of 4*PI per electrical wrap and 8*PI per mechanical turn.
+     * If your mechanics differ, adjust ENC_RANGE and RAD_PER_ROUND accordingly.
+     */
+    {
+        const float ENC_RANGE = 4.0f * PI;
+        const float RAD_PER_ROUND = 8.0f * PI;
+        float angle = motor->para.pos;
+
+        if (motor->pos_prev_valid) {
+            float delta = angle - motor->pos_prev;
+            if (delta > ENC_RANGE) {
+                motor->pos_turns -= 1;
+            } else if (delta < -ENC_RANGE) {
+                motor->pos_turns += 1;
+            }
+        }
+        motor->pos_prev_valid = 1;
+        motor->pos_prev = angle;
+        motor->para.pos_wrap = angle + (float)motor->pos_turns * RAD_PER_ROUND;
+    }
 
 //	//initialise task switching variables
 //	BaseType_t xHigherPriorityTaskWoken, xResult;

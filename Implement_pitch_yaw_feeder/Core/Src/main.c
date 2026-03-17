@@ -267,20 +267,8 @@ void setup_can(){
 }
 
 
-/* Launcher absolute position: delta-based wrap (4*PI = one encoder range), 8*PI = one mechanical turn.
- * Updated in CAN RX callback; read in launcherTask. */
-#define LAUNCHER_ENC_RANGE      (4.0f * PI)
-#define LAUNCHER_RAD_PER_ROUND  (8.0f * PI)
-
-extern float launcher_abs_position;
-
-static float launcher_prev = 0.0f;
-static int   launcher_turns = 0;
-static uint8_t launcher_prev_valid = 0;
-
-void launcher_turns_reset(void) {
-	launcher_turns = 0;
-}
+/* Launcher absolute position handling is implemented in launcherTask.c.
+ * main.c only initializes and uses the interface (e.g. launcher_turns_reset). */
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 	CAN_RxHeaderTypeDef rx_header;
@@ -290,33 +278,16 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 	HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rx_header, rx_buffer);
 
 	if (rx_header.StdId == 0x00) {
+		/* D[0] lower 4 bits = motor ID, upper 4 = ERR (per DM-J8009 manual). Motor IDs must have unique lower 4 bits. */
 		uint8_t motor_id = rx_buffer[0] & 0x0F;
 		if (motor_id == (dm_pitch_motor.id & 0x0F)) {
 			dm_fbdata(&dm_pitch_motor, rx_buffer);
-		}
-		if (motor_id == (dm_yaw_motor.id & 0x0F)){
+		} else if (motor_id == (dm_yaw_motor.id & 0x0F)) {
 			dm_fbdata(&dm_yaw_motor, rx_buffer);
-		}
-		if (motor_id == (dm_feeder_motor.id & 0x0F)){
-		  dm_fbdata(&dm_feeder_motor, rx_buffer);
-		}
-		if (motor_id == (dm_launching_motor.id & 0x0F)){
+		} else if (motor_id == (dm_feeder_motor.id & 0x0F)) {
+			dm_fbdata(&dm_feeder_motor, rx_buffer);
+		} else if (motor_id == (dm_launching_motor.id & 0x0F)) {
 			dm_fbdata(&dm_launching_motor, rx_buffer);
-			{
-				float angle = dm_launching_motor.para.pos;
-
-				if (launcher_prev_valid) {
-					float delta = angle - launcher_prev;
-					if (delta > 4.0f * PI) {
-						launcher_turns -= 1;
-					} else if (delta < -4.0f * PI) {
-						launcher_turns += 1;
-					}
-				}
-				launcher_prev_valid = 1;
-				launcher_prev = angle;
-				launcher_abs_position = angle + (float)launcher_turns * (8.0f * PI);
-			}
 		}
 	}
 	HAL_CAN_ActivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO0_FULL| CAN_IT_RX_FIFO0_OVERRUN);
@@ -478,6 +449,7 @@ int main(void)
   lvgl_port_init();
   HAL_Delay(3000);
   dm_motor_init();
+
 //  uint32_t counting = 0;
 //  uint32_t counter = 0;
   /* USER CODE END 2 */
@@ -1107,7 +1079,7 @@ static void MX_GPIO_Init(void)
 __weak void ControlTask(void *argument)
 {
   /* init code for USB_DEVICE */
-  MX_USB_DEVICE_Init();
+//  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
 
 //  uint32_t counting = 0;
@@ -1116,11 +1088,12 @@ __weak void ControlTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    uint32_t delay = lv_timer_handler();
-    if (delay < 5U) {
-      delay = 5U;
-    }
-    osDelay(delay);
+	  osDelay(1000);
+//    uint32_t delay = lv_timer_handler();
+//    if (delay < 5U) {
+//      delay = 5U;
+//    }
+//    osDelay(delay);
 
   }
   /* USER CODE END 5 */
