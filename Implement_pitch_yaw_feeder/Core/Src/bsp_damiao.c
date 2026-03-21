@@ -59,6 +59,7 @@ volatile dm_motor_t dm_launching_motor = {
         .kd_set  = 0,
         .tor_set = 0,
     },
+	.pos_turns = 0,
 };
 
 volatile dm_motor_t dm_feeder_motor = {

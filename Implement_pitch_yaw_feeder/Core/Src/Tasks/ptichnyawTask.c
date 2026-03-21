@@ -127,7 +127,7 @@ void PitchnYawTask(void *argument)
 	// Initialize the encoder TIM2 for the pitch motor
 	HAL_TIM_Encoder_Start(&htim2,  TIM_CHANNEL_ALL);
 	taskENTER_CRITICAL();
-#if TESTING | TESTING_WOUT_YAW
+#if TESTING || TESTING_WOUT_YAW
 	dm_yaw_motor.ctrl.pos_set = 0.0f;
 	dm_yaw_motor.ctrl.vel_set = 0.0f;
 	dm_yaw_motor.ctrl.kp_set  = 0.0f;
@@ -138,8 +138,8 @@ void PitchnYawTask(void *argument)
     dm_yaw_motor.ctrl.vel_set = 0.0f;
     dm_yaw_motor.ctrl.kp_set  = YAW_KP_SET;
     dm_yaw_motor.ctrl.kd_set  = YAW_KD_SET;
-    dm_yaw_motor.ctrl.tor_set = 0.0f;
-#endif;
+	dm_yaw_motor.ctrl.tor_set = 0.0f;
+#endif
     taskEXIT_CRITICAL();
 
 

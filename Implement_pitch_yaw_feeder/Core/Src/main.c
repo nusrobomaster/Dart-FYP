@@ -223,7 +223,7 @@ extern volatile dm_motor_t dm_launching_motor;
  bool op_sen_yaw_35deg;
 extern bool op_sen_launcher_limits;
 extern bool op_sen_feeder;
-extern bool lock;
+//extern bool lock;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -296,9 +296,9 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 #define SPEED rc_ctrl.rc.ch[0]
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-   if (GPIO_Pin == GPIO_PIN_0){
-		lock = true;
-   }
+//   if (GPIO_Pin == GPIO_PIN_0){
+//		lock = true;
+//   }
    if (GPIO_Pin == GPIO_PIN_10) {
         touch_flag = 1;
     }
@@ -995,7 +995,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PI0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
@@ -1046,9 +1046,6 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-
   HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI2_IRQn);
 
@@ -1079,7 +1076,7 @@ static void MX_GPIO_Init(void)
 __weak void ControlTask(void *argument)
 {
   /* init code for USB_DEVICE */
-//  MX_USB_DEVICE_Init();
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
 
 //  uint32_t counting = 0;
