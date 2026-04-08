@@ -13,6 +13,7 @@ typedef enum {
 	POS_1_1,
 	UNLOAD_1,
 	PAUSE_1,
+	PAUSE_1_1,
 	RELOAD_1,
 	POS_2_0,
 	POS_2_1,
@@ -21,11 +22,13 @@ typedef enum {
 	PAUSE_2_2,
 	PAUSE_2_3,
 	PAUSE_2_4,
+	PAUSE_2_5,
 	RELOAD_2,
 	POS_3_0,
 	POS_3_1,
 	UNLOAD_3,
 	PAUSE_3,
+	PAUSE_3_1,
 	RELOAD_3,
 	POS_4_0
 } feeder_state_t;
@@ -76,7 +79,7 @@ typedef enum {
 #define POS_RAD_2_1         (POS_DEG_2_1 * DEG_TO_RAD)
 #define POS_RAD_3_0         (POS_DEG_3_0 * DEG_TO_RAD)
 #define POS_RAD_3_1         (POS_DEG_3_1 * DEG_TO_RAD)
-#define POS_RAD_3_1_0		8.3282f
+#define POS_RAD_3_1_0		8.34f
 #define POS_RAD_4_0			(POS_DEG_4_0 * DEG_TO_RAD)
 
 #define POS_RAD_1_KP  15.0f
@@ -85,8 +88,8 @@ typedef enum {
 #define POS_RAD_2_KP  15.0f
 #define POS_RAD_2_KD  1.5f
 
-#define POS_RAD_3_KP  15.0f
-#define POS_RAD_3_KD  1.5f
+#define POS_RAD_3_KP  20.0f
+#define POS_RAD_3_KD  3.0f
 
 // might need change more
 #define UNLOAD_DURATION  1000
@@ -102,7 +105,7 @@ typedef enum {
 #define UNLOAD_ANGLE_2_0  50.0f
 
 #define LOAD_ANGLE_3 0.0f
-#define UNLOAD_ANGLE_3  30.0f
+#define UNLOAD_ANGLE_3  35.0f
 
 
 
@@ -112,11 +115,13 @@ typedef enum {
 
 //TODO figure out the distance that hit the back of the fin
 
-#define PAUSE_1_DIST -8.76f
-#define PAUSE_2_123DIST 4.0f
-#define PAUSE_2_4DIST -4.0f
-#define PAUSE_3_DIST -11.0f
-#define DIST_TOL 0.4f
+#define PAUSE_1_DIST -10.0f
+#define PAUSE_2_123DIST 2.0f
+#define PAUSE_2_4DIST -9.5f
+#define PAUSE_3_DIST -11.5275772f
+#define PAUSE_3_DIST_PID -0.1f
+#define DIST_TOL 0.8f
+#define OFFSET 20.0f
 
 typedef enum {
 LAUNCHER_WAIT,
@@ -140,7 +145,7 @@ enum LaunchernFeederState {
 /* LauncherState WAIT (in FIRING) */
 #define LAUNCHER_WAIT_KP    LAUNCHER_IDLE_KP
 #define LAUNCHER_WAIT_KD    LAUNCHER_IDLE_KD
-#define LAUNCHER_WAIT_TOR   LAUNCHER_IDLE_TOR 
+#define LAUNCHER_WAIT_TOR   LAUNCHER_IDLE_TOR
 
 /* SEEK_LOCK_CW */
 #define LAUNCHER_SEEK_LOCK_KP   0.0f
@@ -157,7 +162,7 @@ enum LaunchernFeederState {
 /* FEED */
 #define LAUNCHER_FEED_KP    LAUNCHER_IDLE_KP
 #define LAUNCHER_FEED_KD    LAUNCHER_IDLE_KD
-#define LAUNCHER_FEED_TOR   0.0f
+#define LAUNCHER_FEED_TOR   1.3f
 
 /* REVERSE_TO_WEIGHT: motor ctrl gains + torque PID for v_cmd */
 #if LAUNCH_CONTROL == 1
@@ -165,16 +170,16 @@ enum LaunchernFeederState {
 #endif
 #if LAUNCH_CONTROL == 2
 	/* P-only velocity control to reach desired launcher_abs_position (rad) */
-	#define LAUNCHER_REVERSE_POS_KP    2.0f   /* proportional gain for position -> velocity */
-	#define LAUNCHER_REVERSE_POS_KI	   0.0f   /* integral gain (used in inline PI controller) */
-	#define LAUNCHER_REVERSE_POS_KD    0.3f
-	#define LAUNCHER_REVERSE_POS_TARGET 10.0f   /* desired launcher_abs_position in rad */
-	#define LAUNCHER_REVERSE_POS_VEL_MAX 2.0f /* clamp velocity command */
-	#define TOL 3.0f
+	#define LAUNCHER_REVERSE_POS_KP    33.0f   /* proportional gain for position -> velocity */
+	#define LAUNCHER_REVERSE_POS_KI	   0.01f   /* integral gain (used in inline PI controller) */
+	#define LAUNCHER_REVERSE_POS_KD    0.5f
+	#define LAUNCHER_REVERSE_POS_TARGET 30.0f   /* desired launcher_abs_position in rad */
+	#define LAUNCHER_REVERSE_POS_VEL_MAX 10.0f /* clamp velocity command */
+	#define TOL 4.0f
 #endif
 #define LAUNCHER_REVERSE_KP  0.0f
 #define LAUNCHER_REVERSE_KD  5.0f
-#define LAUNCHER_REVERSE_TOR 0.0f
+#define LAUNCHER_REVERSE_TOR 1.3f
 /* Torque PID: e = T_target - T_measured, output v_cmd (clamped) */
 #define REVERSE_TORQUE_PID_KP  0.5f
 #define REVERSE_TORQUE_PID_KI  0.05f
