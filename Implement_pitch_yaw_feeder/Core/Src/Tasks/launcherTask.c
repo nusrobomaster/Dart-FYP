@@ -27,9 +27,13 @@ float servo_1 = LOAD_ANGLE_1;
 float servo_2 = LOAD_ANGLE_2;
 float servo_3 = LOAD_ANGLE_3;
 float servo_4 = LAUNCHER_SERVO_ANGLE_REST;
-float pos_angle = 0.0f;
+float pos_angle = POS_RAD_1_0;
 float kp_set_feed =  KP_SET_FEEDER;
 float kd_set_feed =  KD_SET_FEEDER;
+float pos_rad_3_1_0 = POS_RAD_3_1_0;
+float launcher_reverse_tor = LAUNCHER_REVERSE_TOR;
+float dist_tol = DIST_TOL;
+float pause_3_dist = PAUSE_3_DIST;
 
 void servo_set_angle(TIM_HandleTypeDef *htim,
 	uint32_t channel,
@@ -58,6 +62,7 @@ __HAL_TIM_SET_COMPARE(htim, channel, (uint16_t)pulse_us);
 
 
 /* Launcher--------------------------------------------------------*/
+bool hit_op = false;
 static launcher_state_t LauncherState = LAUNCHER_WAIT;
 float rev_to_feed = 0.0f;
 float target = 6.0f, tol = 0.5f;
@@ -70,11 +75,15 @@ extern CAN_HandleTypeDef hcan1;
 //bool lock = false;
 bool op_sen_feeder = false;
 bool op_sen_launcher_limits = false;
-PID reverse_to_weight_pid;
 float op_endstop_position = 0.0f;
 #if LAUNCH_CONTROL == 2
 static PID reverse_pos_pid;
 #endif
+
+float feeding_max_velocity = 4.0f;
+float firing_max_velocity = 10.0f;
+
+float extra_front = PAUSE_3_DIST_PID;
 
 void LauncherTask(void *argument)
 {
@@ -92,7 +101,6 @@ void LauncherTask(void *argument)
 	#if TESTING != 0
 	NVIC_DisableIRQ(EXTI9_5_IRQn);
 	#endif
-	PID_Init(&reverse_to_weight_pid, REVERSE_TORQUE_PID_KP, REVERSE_TORQUE_PID_KI, REVERSE_TORQUE_PID_KD, REVERSE_V_MIN, REVERSE_V_MAX);
 	#if LAUNCH_CONTROL == 2
 	PID_Init(&reverse_pos_pid, LAUNCHER_REVERSE_POS_KP, LAUNCHER_REVERSE_POS_KI, LAUNCHER_REVERSE_POS_KD, -LAUNCHER_REVERSE_POS_VEL_MAX, LAUNCHER_REVERSE_POS_VEL_MAX);
 	#endif
@@ -149,14 +157,18 @@ void LauncherTask(void *argument)
 	/* Infinite loop */
    for(;;)
    {
+	   RC_ctrl_t rc;
+	   get_remote_control_snapshot(&rc);
 	#if TESTING == 1
 		testing_launcher();
 		test_servo_dm_feeder();
 	#else
+
+
 		dm_motor_t feeder_snap, launching_snap;
 		dm_motor_snapshot(&feeder_snap, (const volatile dm_motor_t *)&dm_feeder_motor);
 		dm_motor_snapshot(&launching_snap, (const volatile dm_motor_t *)&dm_launching_motor);
-
+		if (rc.rc.s[1] == 1) {
 		switch (LnF_state){
 		case WAIT:
 			dm_launching_motor.ctrl.pos_set = 0;
@@ -167,8 +179,8 @@ void LauncherTask(void *argument)
 
 			dm_feeder_motor.ctrl.pos_set = 0;
 			dm_feeder_motor.ctrl.vel_set = 0;
-			dm_feeder_motor.ctrl.kp_set  = KP_SET_FEEDER;
-			dm_feeder_motor.ctrl.kd_set  = KD_SET_FEEDER;
+			dm_feeder_motor.ctrl.kp_set  = kp_set_feed;
+			dm_feeder_motor.ctrl.kd_set  = kd_set_feed;
 			dm_feeder_motor.ctrl.tor_set = 0;
 			
 
@@ -184,23 +196,26 @@ void LauncherTask(void *argument)
 			servo_4 = LAUNCHER_SERVO_ANGLE_REST;
 			pos_angle = POS_RAD_1_0;
 			ready = false;
-			#if TESTING_WOUT_YAW
-				LnF_state = FIRING;
+			#if TESTING_WOUT_YAW && TESTING_SERVO != 0
+				if (rc.rc.s[0] == 1) {
+					LnF_state = FIRING;
+				}
 			break;
 			#else
-			set_var_firing(false);
+				LnF_state = FIRING;
+			#endif
+
+				set_var_firing(false);
 			//TODO make the button on changable for different numbers of dart
 			if (ui_interface_get_auto_dart_count() > 0){
 				LnF_state = FIRING;
 				set_var_firing(true);
 			}
 			break;
-			#endif
 		case FIRING: {
 		/*Launcher State Machine--------------------------------------------------------*/
 			switch (LauncherState){
 			case LAUNCHER_WAIT:
-
 			dm_launching_motor.ctrl.pos_set = 0;
 			dm_launching_motor.ctrl.vel_set = 0;
 			dm_launching_motor.ctrl.kp_set  = LAUNCHER_WAIT_KP;
@@ -208,6 +223,11 @@ void LauncherTask(void *argument)
 			dm_launching_motor.ctrl.tor_set = LAUNCHER_WAIT_TOR;
 			servo_4 = LAUNCHER_SERVO_ANGLE_REST;
 
+			#if TESTING_WOUT_YAW && TESTING_SERVO != 0
+				if (rc.rc.s[0] == 3) {
+					LauncherState = SEEK_LOCK_CW;
+				}
+			#else
 			if (dart_count == 4 && !HAL_GPIO_ReadPin(LOCK_GPIO_Port, LOCK_Pin)){
 				LauncherState = SEEK_LOCK_CW;
 			} else if (dart_count > 0) {
@@ -217,6 +237,7 @@ void LauncherTask(void *argument)
 				LauncherState = LAUNCHER_WAIT;
 				LnF_state = WAIT;
 			}
+			#endif
 //			lock = false;
 			break;
 
@@ -297,20 +318,21 @@ void LauncherTask(void *argument)
 				dm_launching_motor.ctrl.vel_set = 0;
 				dm_launching_motor.ctrl.kp_set  = LAUNCHER_FEED_KP;
 				dm_launching_motor.ctrl.kd_set  = LAUNCHER_FEED_KD;
-				dm_launching_motor.ctrl.tor_set = 0;
-
+				dm_launching_motor.ctrl.tor_set = launcher_reverse_tor;
+				reverse_pos_pid.max_output = feeding_max_velocity;
+				reverse_pos_pid.min_output = -reverse_pos_pid.max_output;
 				/* Use PID.c position PID (reverse_pos_pid) to generate velocity command */
 				const float dt = 0.01f; /* 10 ms loop assumption (matches previous PID_Compute) */
 				//TODO configure servo angle for UNLOAD_1 and UNLOAD_3
-				if ((FeederState  == PAUSE_1)|| (FeederState  == PAUSE_2_1) || (FeederState  == PAUSE_2_2) || (FeederState  == PAUSE_2_3) || (FeederState  == PAUSE_2_4) ||(FeederState  == PAUSE_3)){
-					if (FeederState  == PAUSE_1){
+				if ((FeederState  == PAUSE_1)|| (FeederState  == PAUSE_1_1)||(FeederState  == PAUSE_2_1) || (FeederState  == PAUSE_2_2) || (FeederState  == PAUSE_2_3) || (FeederState  == PAUSE_2_4) || (FeederState  == PAUSE_2_5) ||(FeederState  == PAUSE_3) || (FeederState == PAUSE_3_1)){
+					if ((FeederState  == PAUSE_1) || (FeederState  == PAUSE_1_1) ){
 						rev_to_feed = PAUSE_1_DIST;
 					} else if (FeederState  == PAUSE_2_1 || FeederState  == PAUSE_2_2 || FeederState  == PAUSE_2_3){
 						rev_to_feed = PAUSE_2_123DIST;
-					} else if (FeederState  == PAUSE_2_4) {
+					} else if ((FeederState  == PAUSE_2_4)  || (FeederState  == PAUSE_2_5)) {
 						rev_to_feed = PAUSE_2_4DIST;
-					} else if (FeederState  == PAUSE_3){
-						rev_to_feed = PAUSE_3_DIST;
+					} else if ((FeederState  == PAUSE_3) || (FeederState  == PAUSE_3_1)){
+						rev_to_feed = pause_3_dist + extra_front;
 
 					}
 					PID_Compute(&reverse_pos_pid,
@@ -323,10 +345,10 @@ void LauncherTask(void *argument)
 					dm_launching_motor.ctrl.vel_set = vel_cmd;
 					dm_launching_motor.ctrl.kp_set   = LAUNCHER_REVERSE_KP;
 					dm_launching_motor.ctrl.kd_set   = LAUNCHER_REVERSE_KD;
-					dm_launching_motor.ctrl.tor_set = LAUNCHER_REVERSE_TOR;
+					dm_launching_motor.ctrl.tor_set = launcher_reverse_tor;
 				} else if ((FeederState == RELOAD_1)  || (FeederState == RELOAD_2) || (FeederState == RELOAD_3)){
 					PID_Compute(&reverse_pos_pid,
-								op_endstop_position,
+								op_endstop_position + OFFSET,
 								launching_snap.para.pos_wrap,
 								dt,
 								0.0f);
@@ -335,7 +357,7 @@ void LauncherTask(void *argument)
 					dm_launching_motor.ctrl.vel_set = vel_cmd;
 					dm_launching_motor.ctrl.kp_set   = LAUNCHER_REVERSE_KP;
 					dm_launching_motor.ctrl.kd_set   = LAUNCHER_REVERSE_KD;
-					dm_launching_motor.ctrl.tor_set = LAUNCHER_REVERSE_TOR;
+					dm_launching_motor.ctrl.tor_set = launcher_reverse_tor;
 				}
 
 
@@ -347,31 +369,8 @@ void LauncherTask(void *argument)
 				break;
 
 			case REVERSE_TO_WEIGHT: {
-				#if LAUNCH_CONTROL == 0
-				/* Torque PID: e = T_target - T_measured -> v_cmd (motor speed command) */
-				PID_Compute(&reverse_to_weight_pid, target, launching_snap.para.tor, 0.01f, 0.0f);
-				dm_launching_motor.ctrl.pos_set = 0;
-				dm_launching_motor.ctrl.vel_set = reverse_to_weight_pid.output;
-				dm_launching_motor.ctrl.kp_set  = LAUNCHER_REVERSE_KP;
-				dm_launching_motor.ctrl.kd_set  = LAUNCHER_REVERSE_KD;
-				dm_launching_motor.ctrl.tor_set = LAUNCHER_REVERSE_TOR;
-				if (launching_snap.para.tor > target - tol && launching_snap.para.tor < target + tol) {
-					LauncherState = HOLD;
-				}
-				
-				#elif LAUNCH_CONTROL == 1
-					dm_launching_motor.ctrl.pos_set = 0;
-					dm_launching_motor.ctrl.vel_set = LAUNCHER_REVERSE_VEL;
-					dm_launching_motor.ctrl.kp_set  = LAUNCHER_REVERSE_KP;
-					dm_launching_motor.ctrl.kd_set  = LAUNCHER_REVERSE_KD;
-					dm_launching_motor.ctrl.tor_set = LAUNCHER_REVERSE_TOR;
-
-					if (launching_snap.para.tor > target) {
-						LauncherState = HOLD;
-					}
-		
-				#elif LAUNCH_CONTROL == 2
-
+					reverse_pos_pid.max_output = firing_max_velocity ;
+					reverse_pos_pid.min_output = -reverse_pos_pid.max_output;
 					/* Use PID.c position PID (reverse_pos_pid) to generate velocity command */
 					const float dt = 0.01f; /* 10 ms loop assumption (matches previous PID_Compute) */
 					PID_Compute(&reverse_pos_pid,
@@ -386,16 +385,22 @@ void LauncherTask(void *argument)
 					dm_launching_motor.ctrl.vel_set = vel_cmd;
 					dm_launching_motor.ctrl.kp_set   = LAUNCHER_REVERSE_KP;
 					dm_launching_motor.ctrl.kd_set   = LAUNCHER_REVERSE_KD;
-					dm_launching_motor.ctrl.tor_set = LAUNCHER_REVERSE_TOR;
+					dm_launching_motor.ctrl.tor_set = launcher_reverse_tor;
 
 					/* When we reach the reverse position, release for 300 ms then go back to LAUNCHER_WAIT */
 					{
 						static TickType_t reverse_hold_start_tick = 0;
 						static uint8_t reverse_hold_active = 0;
 
+						#if !(TESTING_WOUT_YAW && TESTING_SERVO != 0)
 						if ((launching_snap.para.pos_wrap < op_endstop_position + LAUNCHER_REVERSE_POS_TARGET + TOL) &&
 							(launching_snap.para.pos_wrap > op_endstop_position + LAUNCHER_REVERSE_POS_TARGET - TOL)) {
 							/* First time reaching position: start 300 ms window and release lock */
+						#else
+						if ((launching_snap.para.pos_wrap < op_endstop_position + LAUNCHER_REVERSE_POS_TARGET + TOL) &&
+							(launching_snap.para.pos_wrap > op_endstop_position + LAUNCHER_REVERSE_POS_TARGET - TOL) &&
+							(rc.rc.s[0] == 2)) {
+						#endif
 							if (!reverse_hold_active && HAL_GPIO_ReadPin(LOCK_GPIO_Port, LOCK_Pin)) {
 								reverse_hold_active = 1;
 								reverse_hold_start_tick = xTaskGetTickCount();
@@ -410,6 +415,9 @@ void LauncherTask(void *argument)
 							dm_launching_motor.ctrl.tor_set = 0.0f;
 							servo_4 = LAUNCHER_SERVO_ANGLE_REST;
 							LauncherState = LAUNCHER_WAIT;
+							#if (TESTING_WOUT_YAW && TESTING_SERVO != 0)
+								LnF_state = WAIT;
+							#endif;
 							#if TESTING_SERVO == 0
 								dart_count--;
 							#endif
@@ -419,7 +427,6 @@ void LauncherTask(void *argument)
 							}
 						}
 					}
-				#endif
 				}
 			break;
 			}
@@ -496,9 +503,24 @@ void LauncherTask(void *argument)
 			      pos_angle = POS_RAD_1_1_0;
 			      //within tolerance of move forward distance will trigger change state to RELOAD
 			      //check equivalenc for respective forward distance and the state of the launcher
-			      if ((launching_snap.para.pos_wrap < op_endstop_position + PAUSE_1_DIST +DIST_TOL) && (launching_snap.para.pos_wrap > op_endstop_position + PAUSE_1_DIST - DIST_TOL)){
-			    	  FeederState = RELOAD_1;
+			      if ((launching_snap.para.pos_wrap < op_endstop_position + PAUSE_1_DIST +dist_tol) && (launching_snap.para.pos_wrap > op_endstop_position + PAUSE_1_DIST - dist_tol)){
+			    	  FeederState = PAUSE_1_1;
 			      }
+				  break;
+			  case PAUSE_1_1:
+				  servo_1 = LOAD_ANGLE_1;
+			      servo_2 = LOAD_ANGLE_2;
+			      servo_3 = LOAD_ANGLE_3;
+			      pos_angle = POS_RAD_1_1_0;
+			      if (!feeder_hold_active) {
+					  feeder_hold_active = 1;
+					  feeder_hold_start_tick = xTaskGetTickCount();
+				  }
+
+				  if ((xTaskGetTickCount() - feeder_hold_start_tick) >= pdMS_TO_TICKS(2000)) {
+					feeder_hold_active = 0;
+					FeederState = RELOAD_1;
+				  }
 				  break;
 
 			  case RELOAD_1:
@@ -512,7 +534,7 @@ void LauncherTask(void *argument)
 					  feeder_hold_start_tick = xTaskGetTickCount();
 				  }
 
-				 if (((xTaskGetTickCount() - feeder_hold_start_tick) >= pdMS_TO_TICKS(2000)) && (launching_snap.para.pos_wrap < op_endstop_position + DIST_TOL) && (launching_snap.para.pos_wrap > op_endstop_position - DIST_TOL)) {
+				 if (((xTaskGetTickCount() - feeder_hold_start_tick) >= pdMS_TO_TICKS(2000)) && (launching_snap.para.pos_wrap < op_endstop_position + OFFSET + dist_tol) && (launching_snap.para.pos_wrap > op_endstop_position + OFFSET - dist_tol)) {
 					feeder_hold_active = 0;
 					FeederState = POS_2_0;
 				 }
@@ -589,7 +611,7 @@ void LauncherTask(void *argument)
 			      pos_angle = POS_RAD_2_1_0;
 			      //within tolerance of move forward distance will trigger change state to RELOAD
 			      //check equivalenc for respective forward distance and the state of the launcher
-			      if ((launching_snap.para.pos_wrap < op_endstop_position + PAUSE_2_123DIST +DIST_TOL) && (launching_snap.para.pos_wrap > op_endstop_position + PAUSE_2_123DIST - DIST_TOL)){
+			      if ((launching_snap.para.pos_wrap < op_endstop_position + PAUSE_2_123DIST +dist_tol) && (launching_snap.para.pos_wrap > op_endstop_position + PAUSE_2_123DIST - dist_tol)){
 			    	  FeederState = PAUSE_2_2;
 			      }
 				  break;
@@ -631,10 +653,26 @@ void LauncherTask(void *argument)
 			      pos_angle = POS_RAD_2_1_1;
 			      //within tolerance of move forward distance will trigger change state to RELOAD
 			      //check equivalenc for respective forward distance and the state of the launcher
-			      if ((launching_snap.para.pos_wrap < op_endstop_position + PAUSE_2_4DIST +DIST_TOL) && (launching_snap.para.pos_wrap > op_endstop_position + PAUSE_2_4DIST - DIST_TOL)){
-			    	  FeederState = RELOAD_2;
+			      if ((launching_snap.para.pos_wrap < op_endstop_position + PAUSE_2_4DIST +dist_tol) && (launching_snap.para.pos_wrap > op_endstop_position + PAUSE_2_4DIST - dist_tol)){
+			    	  FeederState = PAUSE_2_5;
 			      }
 				  break;
+			  case PAUSE_2_5:
+				  servo_1 = LOAD_ANGLE_1;
+			      servo_2 = LOAD_ANGLE_2;
+			      servo_3 = LOAD_ANGLE_3;
+			      pos_angle = POS_RAD_2_1_1;
+
+			      if (!feeder_hold_active) {
+					  feeder_hold_active = 1;
+					  feeder_hold_start_tick = xTaskGetTickCount();
+				  }
+
+				  if ((xTaskGetTickCount() - feeder_hold_start_tick) >= pdMS_TO_TICKS(2000)) {
+					feeder_hold_active = 0;
+					FeederState = RELOAD_2;
+				  }
+			      break;
 
 			  case RELOAD_2:
 			      servo_1 = LOAD_ANGLE_1;
@@ -646,7 +684,7 @@ void LauncherTask(void *argument)
 					  feeder_hold_start_tick = xTaskGetTickCount();
 				  }
 
-				 if ((xTaskGetTickCount() - feeder_hold_start_tick) >= pdMS_TO_TICKS(2000) && (launching_snap.para.pos_wrap < op_endstop_position + DIST_TOL) && (launching_snap.para.pos_wrap > op_endstop_position - DIST_TOL)) {
+				 if ((xTaskGetTickCount() - feeder_hold_start_tick) >= pdMS_TO_TICKS(2000) && (launching_snap.para.pos_wrap < op_endstop_position + OFFSET + dist_tol) && (launching_snap.para.pos_wrap > op_endstop_position + OFFSET - dist_tol)) {
 					feeder_hold_active = 0;
 					FeederState = POS_3_0;
 				 }
@@ -682,7 +720,7 @@ void LauncherTask(void *argument)
 			      servo_1 = LOAD_ANGLE_1;
 			      servo_2 = LOAD_ANGLE_2;
 			      servo_3 = LOAD_ANGLE_3;
-			      pos_angle = POS_RAD_3_1_0;
+			      pos_angle = pos_rad_3_1_0;
 			      kp_set_feed = POS_RAD_3_KP;
 			      kd_set_feed = POS_RAD_3_KD;
 				  
@@ -692,19 +730,17 @@ void LauncherTask(void *argument)
 				  } else {
 					  done = false;
 				  }
-				  #if TESTING_FEEDER == 0
 				  if ((LauncherState == FEED) && done){
 					  FeederState = UNLOAD_3;
 					  done = false;
 				  }
-				  #endif
 				  break;
 
 			  case UNLOAD_3:
 			      servo_1 = LOAD_ANGLE_1;
 			      servo_2 = LOAD_ANGLE_2;
 			      servo_3 = UNLOAD_ANGLE_3;
-			      pos_angle = POS_RAD_3_1_0;
+			      pos_angle = pos_rad_3_1_0;
 				  if (!feeder_hold_active) {
 					  feeder_hold_active = 1;
 					  feeder_hold_start_tick = xTaskGetTickCount();
@@ -720,24 +756,39 @@ void LauncherTask(void *argument)
 			      servo_1 = LOAD_ANGLE_1;
 			      servo_2 = LOAD_ANGLE_2;
 			      servo_3 = UNLOAD_ANGLE_3;
-			      pos_angle = POS_RAD_3_1_0;
+			      pos_angle = pos_rad_3_1_0;
 
-				  if ((launching_snap.para.pos_wrap < op_endstop_position + PAUSE_3_DIST + DIST_TOL) && (launching_snap.para.pos_wrap > op_endstop_position + PAUSE_3_DIST - DIST_TOL)){
-					  FeederState = RELOAD_3;
+				  if ((launching_snap.para.pos_wrap < op_endstop_position + pause_3_dist + dist_tol) && (launching_snap.para.pos_wrap > op_endstop_position + pause_3_dist - dist_tol)){
+					  FeederState = PAUSE_3_1;
 				  }
 				  break;
+			  case PAUSE_3_1:
+				  servo_1 = LOAD_ANGLE_1;
+			      servo_2 = LOAD_ANGLE_2;
+			      servo_3 = LOAD_ANGLE_3;
+			      pos_angle = pos_rad_3_1_0;
 
+			      if (!feeder_hold_active) {
+					  feeder_hold_active = 1;
+					  feeder_hold_start_tick = xTaskGetTickCount();
+				  }
+
+				  if ((xTaskGetTickCount() - feeder_hold_start_tick) >= pdMS_TO_TICKS(2000)) {
+					feeder_hold_active = 0;
+					FeederState = RELOAD_3;
+				  }
+				  break;
 			  case RELOAD_3:
 			      servo_1 = LOAD_ANGLE_1;
 			      servo_2 = LOAD_ANGLE_2;
 			      servo_3 = LOAD_ANGLE_3;
-			      pos_angle = POS_RAD_3_1_0;
+			      pos_angle = pos_rad_3_1_0;
 				  if (!feeder_hold_active) {
 					  feeder_hold_active = 1;
 					  feeder_hold_start_tick = xTaskGetTickCount();
 				  }
 
-				 if (((xTaskGetTickCount() - feeder_hold_start_tick) >= pdMS_TO_TICKS(2000)) &&  (launching_snap.para.pos_wrap < op_endstop_position + DIST_TOL) && (launching_snap.para.pos_wrap > op_endstop_position - DIST_TOL)) {
+				 if (((xTaskGetTickCount() - feeder_hold_start_tick) >= pdMS_TO_TICKS(2000)) &&  (launching_snap.para.pos_wrap < op_endstop_position + OFFSET + dist_tol) && (launching_snap.para.pos_wrap > op_endstop_position + OFFSET - dist_tol)) {
 					feeder_hold_active = 0;
 					FeederState = POS_4_0;
 				 }
@@ -778,6 +829,28 @@ void LauncherTask(void *argument)
 				}
 			}
 		}
+		} else {
+			float velocity = - ((float) rc.rc.ch[1])/10;
+
+			if (velocity > MAX_VELOCITY) {
+				velocity = MAX_VELOCITY;
+			} else if (velocity < -MAX_VELOCITY) {
+				velocity = -MAX_VELOCITY;
+			}
+
+			dm_launching_motor.ctrl.pos_set = 0;
+			dm_launching_motor.ctrl.vel_set = velocity;
+			dm_launching_motor.ctrl.kp_set  = LAUNCHER_IDLE_KP;
+			dm_launching_motor.ctrl.kd_set  = LAUNCHER_TEST_KD;
+			dm_launching_motor.ctrl.tor_set = LAUNCHER_IDLE_TOR;
+
+
+			if (rc.rc.s[0] == 2) {
+				servo_4 = LAUNCHER_SERVO_ANGLE_RELEASE;
+			} else {
+				servo_4 = LAUNCHER_SERVO_ANGLE_REST;
+			}
+		}
 		dm_feeder_motor.ctrl.pos_set = pos_angle;
 		dm_feeder_motor.ctrl.kp_set  = kp_set_feed;
 		dm_feeder_motor.ctrl.kd_set  = kd_set_feed;
@@ -795,7 +868,16 @@ void LauncherTask(void *argument)
 
 void testing_launcher(void){
 	RC_ctrl_t rc;
+	dm_motor_t launching_snap;
 	get_remote_control_snapshot(&rc);
+	dm_motor_snapshot(&launching_snap, (const volatile dm_motor_t *)&dm_launching_motor);
+	float current_position = launching_snap.para.pos_wrap;
+	if (op_sen_feeder && !hit_op){
+		hit_op = true;
+		op_sen_feeder = false;
+		op_endstop_position = launching_snap.para.pos_wrap;
+
+	}
 	NVIC_EnableIRQ(EXTI9_5_IRQn);
 	if (rc.rc.s[0] != 1){
 		if (rc.rc.s[1] == 1){
@@ -804,45 +886,72 @@ void testing_launcher(void){
 			servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, LAUNCHER_SERVO_ANGLE_REST);
 		}
 
-		float velocity = rc.rc.ch[1]/10;
+		if (rc.rc.s[1] == 2  && hit_op){
+			const float dt = 0.01f; /* 10 ms loop assumption (matches previous PID_Compute) */
+			PID_Compute(&reverse_pos_pid,
+						(rev_to_feed + op_endstop_position),
+						launching_snap.para.pos_wrap,
+						dt,
+						0.0f);
+			float vel_cmd = reverse_pos_pid.output;
+			dm_launching_motor.ctrl.pos_set = 0;
+			dm_launching_motor.ctrl.vel_set = vel_cmd;
+			dm_launching_motor.ctrl.kp_set   = LAUNCHER_REVERSE_KP;
+			dm_launching_motor.ctrl.kd_set   = LAUNCHER_REVERSE_KD;
+			dm_launching_motor.ctrl.tor_set = launcher_reverse_tor;
+			dm_ctrl_send(&hcan1, &dm_launching_motor);
+		} else {
+			float velocity = - ((float) rc.rc.ch[1])/10;
 
-		if (velocity > MAX_VELOCITY) {
-			velocity = MAX_VELOCITY;
-		} else if (velocity < -MAX_VELOCITY) {
-			velocity = -MAX_VELOCITY;
+			if (velocity > MAX_VELOCITY) {
+				velocity = MAX_VELOCITY;
+			} else if (velocity < -MAX_VELOCITY) {
+				velocity = -MAX_VELOCITY;
+			}
+
+			dm_launching_motor.ctrl.pos_set = 0;
+			dm_launching_motor.ctrl.vel_set = velocity;
+			dm_launching_motor.ctrl.kp_set  = LAUNCHER_IDLE_KP;
+			dm_launching_motor.ctrl.kd_set  = LAUNCHER_TEST_KD;
+			dm_launching_motor.ctrl.tor_set = LAUNCHER_IDLE_TOR;
+			dm_ctrl_send(&hcan1, &dm_launching_motor);
 		}
-
-		dm_launching_motor.ctrl.pos_set = 0;
-		dm_launching_motor.ctrl.vel_set = velocity;
-		dm_launching_motor.ctrl.kp_set  = LAUNCHER_IDLE_KP;
-		dm_launching_motor.ctrl.kd_set  = LAUNCHER_TEST_KD;
-		dm_launching_motor.ctrl.tor_set = LAUNCHER_IDLE_TOR;
-		dm_ctrl_send(&hcan1, &dm_launching_motor);
 	} else {
-		dm_launching_motor.ctrl.pos_set = 0;
-		dm_launching_motor.ctrl.vel_set = 0;
-		dm_launching_motor.ctrl.kp_set  = LAUNCHER_IDLE_KP;
-		dm_launching_motor.ctrl.kd_set  = LAUNCHER_TEST_KD;
-		dm_launching_motor.ctrl.tor_set = LAUNCHER_IDLE_TOR;
+			hit_op = false;
+			dm_launching_motor.ctrl.pos_set = 0;
+			dm_launching_motor.ctrl.vel_set = 0;
+			dm_launching_motor.ctrl.kp_set  = LAUNCHER_IDLE_KP;
+			dm_launching_motor.ctrl.kd_set  = LAUNCHER_TEST_KD;
+			dm_launching_motor.ctrl.tor_set = LAUNCHER_IDLE_TOR;
+			dm_ctrl_send(&hcan1, &dm_launching_motor);
 	}
 }
 
 void test_servo_dm_feeder(void){
-	dm_motor_t feeder_snap, launching_snap;
+	dm_motor_t feeder_snap;
 	dm_motor_snapshot(&feeder_snap, (const volatile dm_motor_t *)&dm_feeder_motor);
-	dm_motor_snapshot(&launching_snap, (const volatile dm_motor_t *)&dm_launching_motor);
-	if (op_sen_feeder){
-		op_sen_feeder = false;
-		op_endstop_position = launching_snap.para.pos_wrap;
-
+	RC_ctrl_t rc;
+	get_remote_control_snapshot(&rc);
+	if (rc.rc.s[0] == 2){
+		dm_feeder_motor.ctrl.pos_set = 0;
+		dm_feeder_motor.ctrl.vel_set = 6;
+		dm_feeder_motor.ctrl.kp_set  = 0;
+		dm_feeder_motor.ctrl.kd_set  = 6;
+		dm_feeder_motor.ctrl.tor_set = 0;
+		servo_3 = 0;
+		servo_2 = 0;
+		servo_1 = 0;
+	} else {
+		dm_feeder_motor.ctrl.pos_set = pos_angle;
+		dm_feeder_motor.ctrl.vel_set = 0;
+		dm_feeder_motor.ctrl.kp_set  = kp_set_feed;
+		dm_feeder_motor.ctrl.kd_set  = kd_set_feed;
+		dm_feeder_motor.ctrl.tor_set = 0;
+		servo_3 = 0;
+		servo_2 = 0;
+		servo_1 = 0;
 	}
-	float current_position = launching_snap.para.pos_wrap;
-	dm_feeder_motor.ctrl.pos_set = pos_angle;
-	dm_feeder_motor.ctrl.vel_set = 0;
-	dm_feeder_motor.ctrl.kp_set  = kp_set_feed;
-	dm_feeder_motor.ctrl.kd_set  = kd_set_feed;
-	dm_feeder_motor.ctrl.tor_set = 0;
-	servo_set_angle(&LAUNCHER_SERVO_TIM, LAUNCHER_SERVO_CHANNEL, servo_4);
+
 	servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO3_CHANNEL, servo_3);
 	servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO2_CHANNEL, servo_2);
 	servo_set_angle(&FEEDER_SERVO_TIM, FEEDER_SERVO1_CHANNEL, servo_1);

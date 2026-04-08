@@ -29,7 +29,7 @@ extern volatile dm_motor_t dm_yaw_motor;
 extern CAN_HandleTypeDef hcan1;
 
 
-float yaw_angle = 0.0f;
+float yaw_angle = ZERO;
 float pitch_angle = 30.0f; // example command in-range
 
 PID Pitch_PID;
@@ -170,7 +170,7 @@ void PitchnYawTask(void *argument)
 	/* Infinite loop */
     for (;;)
     {
-		#if TESTING | TESTING_WOUT_YAW
+		#if TESTING || TESTING_WOUT_YAW
     		testing_pitch_n_yaw();
     	#else
 
@@ -253,6 +253,8 @@ void PitchnYawTask(void *argument)
 
 
 void testing_pitch_n_yaw(void){
+	dm_motor_t yaw_snap;
+	dm_motor_snapshot(&yaw_snap, (const volatile dm_motor_t *)&dm_yaw_motor);
 	// Set velocity and direction for the brushed dc motor (pitch motor)
 	if (op_sen_yaw_35deg){
 		op_sen_yaw_35deg = 0;
@@ -280,6 +282,25 @@ void testing_pitch_n_yaw(void){
 		Motor_SetPwmCounts(abs(velocity*5));
 
 	// Set Velocity for the brushless motor (yaw motor)
+
+		#if TESTING_YAW_ANGLE == 1
+			#if TESTING_ONLY_YAW == 0
+				yaw_angle -= ((float) rc.rc.ch[2]) * PI / (660 * 180 * 100);
+			#endif
+			//NEED TO CHECK FOR INVERSION
+			if (yaw_angle > RIGHT_YAW_LIMIT){
+				yaw_angle = RIGHT_YAW_LIMIT;
+			} else if (yaw_angle < LEFT_YAW_LIMIT) {
+				yaw_angle = LEFT_YAW_LIMIT;
+			}
+			dm_yaw_motor.ctrl.pos_set = yaw_angle;
+			dm_yaw_motor.ctrl.vel_set = 0.0f;
+			dm_yaw_motor.ctrl.kp_set  =  YAW_KP_SET;
+			dm_yaw_motor.ctrl.kd_set  = YAW_KD_SET;
+			dm_yaw_motor.ctrl.tor_set = 0.0f;
+			dm_ctrl_send(&hcan1, &dm_yaw_motor);
+		#else
+
 		yaw_velocity = rc.rc.ch[2] / 5;
 
 		if (yaw_velocity > yaw_threshold_velocity) {
@@ -289,16 +310,28 @@ void testing_pitch_n_yaw(void){
 			yaw_velocity = -yaw_threshold_velocity;
 		}
 
-		dm_yaw_motor.ctrl.vel_set = yaw_velocity;
+		if ((yaw_snap.para.pos > 1.66995525) && (yaw_snap.para.pos < 2.23408604)){
+			dm_yaw_motor.ctrl.vel_set = yaw_velocity;
+		} else {
+			dm_yaw_motor.ctrl.vel_set = 0;
+		}
 		dm_ctrl_send(&hcan1, &dm_yaw_motor);
+		#endif
 	} else {
 		// turn off controller
 		Motor_SetPwmCounts(0);
 		Motor_SetDirection(MODE_COASTING);
-
-		yaw_velocity = 0;
-		dm_yaw_motor.ctrl.vel_set = yaw_velocity;
-		dm_ctrl_send(&hcan1, &dm_yaw_motor);
-
+		#if TESTING_YAW_ANGLE
+			dm_yaw_motor.ctrl.pos_set = yaw_angle;
+			dm_yaw_motor.ctrl.vel_set = 0.0f;
+			dm_yaw_motor.ctrl.kp_set  =  YAW_KP_SET;
+			dm_yaw_motor.ctrl.kd_set  = YAW_KD_SET;
+			dm_yaw_motor.ctrl.tor_set = 0.0f;
+			dm_ctrl_send(&hcan1, &dm_yaw_motor);
+		#else
+			yaw_velocity = 0;
+			dm_yaw_motor.ctrl.vel_set = yaw_velocity;
+			dm_ctrl_send(&hcan1, &dm_yaw_motor);
+		#endif
 	}
 }
