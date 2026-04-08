@@ -177,7 +177,7 @@ const osThreadAttr_t controlTask_attributes = {
 };
 /* Definitions for pitchnyawTask */
 osThreadId_t pitchnyawTaskHandle;
-uint32_t pitchnyawTaskBuffer[ 128 ];
+uint32_t pitchnyawTaskBuffer[ 1024 ];
 osStaticThreadDef_t pitchnyawTaskControlBlock;
 const osThreadAttr_t pitchnyawTask_attributes = {
   .name = "pitchnyawTask",
@@ -189,7 +189,7 @@ const osThreadAttr_t pitchnyawTask_attributes = {
 };
 /* Definitions for launcherTask */
 osThreadId_t launcherTaskHandle;
-uint32_t launcherTaskBuffer[ 128 ];
+uint32_t launcherTaskBuffer[ 1024 ];
 osStaticThreadDef_t launcherTaskControlBlock;
 const osThreadAttr_t launcherTask_attributes = {
   .name = "launcherTask",
@@ -200,7 +200,7 @@ const osThreadAttr_t launcherTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE BEGIN PV */
-RC_ctrl_t rc_ctrl = {0};
+extern RC_ctrl_t rc_ctrl;  /* defined in remote_control.c with guard to avoid affecting adjacent variables */
 HX711 hx;
 int32_t weight;
 int32_t value;
@@ -223,7 +223,7 @@ extern volatile dm_motor_t dm_launching_motor;
  bool op_sen_yaw_35deg;
 extern bool op_sen_launcher_limits;
 extern bool op_sen_feeder;
-extern bool lock;
+//extern bool lock;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -267,6 +267,8 @@ void setup_can(){
 }
 
 
+/* Launcher absolute position handling is implemented in launcherTask.c.
+ * main.c only initializes and uses the interface (e.g. launcher_turns_reset). */
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 	CAN_RxHeaderTypeDef rx_header;
@@ -276,18 +278,16 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 	HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &rx_header, rx_buffer);
 
 	if (rx_header.StdId == 0x00) {
+		/* D[0] lower 4 bits = motor ID, upper 4 = ERR (per DM-J8009 manual). Motor IDs must have unique lower 4 bits. */
 		uint8_t motor_id = rx_buffer[0] & 0x0F;
 		if (motor_id == (dm_pitch_motor.id & 0x0F)) {
 			dm_fbdata(&dm_pitch_motor, rx_buffer);
-		}
-		if (motor_id == (dm_yaw_motor.id & 0x0F)){
+		} else if (motor_id == (dm_yaw_motor.id & 0x0F)) {
 			dm_fbdata(&dm_yaw_motor, rx_buffer);
-		}
-		if (motor_id == (dm_feeder_motor.id & 0x0F)){
-		  dm_fbdata(&dm_feeder_motor, rx_buffer);
-		}
-		if (motor_id == (dm_launching_motor.id & 0x0F)){
-		  dm_fbdata(&dm_launching_motor, rx_buffer);
+		} else if (motor_id == (dm_feeder_motor.id & 0x0F)) {
+			dm_fbdata(&dm_feeder_motor, rx_buffer);
+		} else if (motor_id == (dm_launching_motor.id & 0x0F)) {
+			dm_fbdata(&dm_launching_motor, rx_buffer);
 		}
 	}
 	HAL_CAN_ActivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING | CAN_IT_RX_FIFO0_FULL| CAN_IT_RX_FIFO0_OVERRUN);
@@ -296,10 +296,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 #define SPEED rc_ctrl.rc.ch[0]
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	if (GPIO_Pin == GPIO_PIN_0){
-		lock = true;
-	}
-  if (GPIO_Pin == GPIO_PIN_10) {
+//   if (GPIO_Pin == GPIO_PIN_0){
+//		lock = true;
+//   }
+   if (GPIO_Pin == GPIO_PIN_10) {
         touch_flag = 1;
     }
    if (GPIO_Pin == GPIO_PIN_2){
@@ -449,6 +449,7 @@ int main(void)
   lvgl_port_init();
   HAL_Delay(3000);
   dm_motor_init();
+
 //  uint32_t counting = 0;
 //  uint32_t counter = 0;
   /* USER CODE END 2 */
@@ -888,7 +889,7 @@ static void MX_USART1_UART_Init(void)
   /* USER CODE END USART1_Init 1 */
   huart1.Instance = USART1;
   huart1.Init.BaudRate = 100000;
-  huart1.Init.WordLength = UART_WORDLENGTH_9B;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_EVEN;
   huart1.Init.Mode = UART_MODE_TX_RX;
@@ -994,7 +995,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PI0 */
   GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
@@ -1045,9 +1046,6 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-
   HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI2_IRQn);
 
@@ -1087,11 +1085,12 @@ __weak void ControlTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    uint32_t delay = lv_timer_handler();
-    if (delay < 5U) {
-      delay = 5U;
-    }
-    osDelay(delay);
+	  osDelay(1000);
+//    uint32_t delay = lv_timer_handler();
+//    if (delay < 5U) {
+//      delay = 5U;
+//    }
+//    osDelay(delay);
 
   }
   /* USER CODE END 5 */

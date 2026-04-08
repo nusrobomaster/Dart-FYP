@@ -79,6 +79,7 @@ typedef struct {
     float Tmos;         // MOSFET temperature
     float Tcoil;        // Coil temperature
     uint16_t disconnect_time; // used to check if dm motor is initialised
+    float pos_wrap;     // Multi-turn wrapped position (application-defined)
 } dm_motor_para_t;
 
 typedef struct {
@@ -98,6 +99,9 @@ typedef struct {
     pid_data_t angle_pid;
     dm_angle_data_t angle_data;
     uint32_t disconnect_time; // Time since last feedback in ms
+    float pos_prev;           // Last single-turn position sample
+    int32_t pos_turns;        // Accumulated turns for wrap tracking
+    uint8_t pos_prev_valid;   // Whether pos_prev has been initialised
 } dm_motor_t;
 
 // Function prototypes
@@ -109,6 +113,13 @@ void dm_set(dm_motor_t* motor);
 void dm_clear_para(dm_motor_t* motor);
 void dm_clear_err(CAN_HandleTypeDef* hcan, dm_motor_t* motor);
 void dm_fbdata(dm_motor_t* motor, uint8_t* rx_data);
+
+/**
+ * @brief Get a consistent snapshot of a motor (use in tasks to avoid torn reads of para).
+ * @param out   buffer to copy into
+ * @param motor pointer to volatile motor (e.g. &dm_yaw_motor)
+ */
+void dm_motor_snapshot(dm_motor_t *out, const volatile dm_motor_t *motor);
 
 // Low-level control functions
 void enable_motor_mode(CAN_HandleTypeDef* hcan, uint16_t motor_id, uint16_t mode_id);

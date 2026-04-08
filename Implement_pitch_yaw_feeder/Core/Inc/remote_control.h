@@ -101,4 +101,13 @@ extern void remote_control_init(void);
   */
 extern const RC_ctrl_t *get_remote_control_point(void);
 
+/**
+  * @brief  Get a consistent snapshot of RC data (use this in tasks to avoid torn reads).
+  * @param  out  buffer to copy into (must hold sizeof(RC_ctrl_t))
+  */
+void get_remote_control_snapshot(RC_ctrl_t *out);
+
+/** rc_ctrl is defined in remote_control.c; other files use: extern RC_ctrl_t rc_ctrl; */
+extern RC_ctrl_t rc_ctrl;
+
 #endif
