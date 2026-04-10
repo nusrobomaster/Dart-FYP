@@ -175,7 +175,7 @@ void create_screen_yaw() {
         }
         {
             lv_obj_t *obj = lv_button_create(parent_obj);
-            objects.obj2 = obj;
+            objects.obj3 = obj;
             lv_obj_set_pos(obj, 69, 209);
             lv_obj_set_size(obj, 74, 50);
             {
@@ -220,6 +220,18 @@ void create_screen_yaw() {
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
             lv_obj_set_style_text_color(obj, lv_color_hex(0xffe10505), LV_PART_MAIN | LV_STATE_DEFAULT);
             lv_label_set_text(obj, "FIRING");
+        }
+        {
+            lv_obj_t *obj = lv_label_create(parent_obj);
+            objects.obj2 = obj;
+            lv_obj_set_pos(obj, 13, 267);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_label_set_long_mode(obj, LV_LABEL_LONG_SCROLL_CIRCULAR);
+            lv_obj_set_style_text_color(obj, lv_color_hex(0xfff1360d), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_max_width(obj, 200, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_max_height(obj, 200, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_text_font(obj, &lv_font_montserrat_16, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_label_set_text(obj, "");
         }
     }
     
@@ -386,11 +398,11 @@ void tick_screen_yaw() {
     }
     {
         bool new_val = evalBooleanProperty(flowState, 10, 3, "Failed to evaluate Hidden flag");
-        bool cur_val = lv_obj_has_flag(objects.obj2, LV_OBJ_FLAG_HIDDEN);
+        bool cur_val = lv_obj_has_flag(objects.obj3, LV_OBJ_FLAG_HIDDEN);
         if (new_val != cur_val) {
-            tick_value_change_obj = objects.obj2;
-            if (new_val) lv_obj_add_flag(objects.obj2, LV_OBJ_FLAG_HIDDEN);
-            else lv_obj_clear_flag(objects.obj2, LV_OBJ_FLAG_HIDDEN);
+            tick_value_change_obj = objects.obj3;
+            if (new_val) lv_obj_add_flag(objects.obj3, LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_clear_flag(objects.obj3, LV_OBJ_FLAG_HIDDEN);
             tick_value_change_obj = NULL;
         }
     }
@@ -461,6 +473,15 @@ void tick_screen_yaw() {
             tick_value_change_obj = NULL;
         }
     }
+    {
+        const char *new_val = evalTextProperty(flowState, 16, 3, "Failed to evaluate Text in Label widget");
+        const char *cur_val = lv_label_get_text(objects.obj2);
+        if (strcmp(new_val, cur_val) != 0) {
+            tick_value_change_obj = objects.obj2;
+            lv_label_set_text(objects.obj2, new_val);
+            tick_value_change_obj = NULL;
+        }
+    }
 }
 
 
@@ -468,7 +489,7 @@ extern void add_style(lv_obj_t *obj, int32_t styleIndex);
 extern void remove_style(lv_obj_t *obj, int32_t styleIndex);
 
 static const char *screen_names[] = { "yaw" };
-static const char *object_names[] = { "yaw", "yaw_button_matrix", "yaw_text_area", "yaw_set", "yaw_cu", "obj0", "pitch_set", "pitch_cur", "launcher_set", "launcher_cur", "yaw_cu_1", "pitch_cur_1", "launcher_cur_1", "obj1", "obj2" };
+static const char *object_names[] = { "yaw", "yaw_button_matrix", "yaw_text_area", "yaw_set", "yaw_cu", "obj0", "pitch_set", "pitch_cur", "launcher_set", "launcher_cur", "yaw_cu_1", "pitch_cur_1", "launcher_cur_1", "obj1", "obj2", "obj3" };
 static const char *style_names[] = { "red" };
 
 

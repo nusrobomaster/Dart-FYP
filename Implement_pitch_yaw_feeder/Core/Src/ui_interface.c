@@ -9,6 +9,8 @@
 #include "ui_interface.h"
 #include "UI/screens.h"
 #include "UI/vars.h"
+#include "UI/ui.h"
+#include "Tasks/pitchnyawTask.h"
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
@@ -16,6 +18,30 @@
 
 /* Global UI control state */
 ui_control_state_t ui_state = {0};
+
+#define UI_ERROR_TEXT_COMPONENT_INDEX 16u
+#define UI_ERROR_TEXT_PROPERTY_INDEX 3u
+#define UI_ERROR_CLEAR_MS 10000u
+
+static char s_error_text[128];
+static uint32_t s_error_set_tick_ms;
+static bool s_error_active;
+
+static void ui_interface_publish_error_text(const char *text)
+{
+    void *flowState = getFlowState(0, 0);
+    if (flowState == NULL) {
+        return;
+    }
+
+    assignStringProperty(
+        flowState,
+        UI_ERROR_TEXT_COMPONENT_INDEX,
+        UI_ERROR_TEXT_PROPERTY_INDEX,
+        text != NULL ? text : "",
+        "Failed to assign Error Text label"
+    );
+}
 
 /* ========================= Initialization ========================= */
 
@@ -33,6 +59,10 @@ void ui_interface_init(void)
     ui_state.draw_request = false;
     ui_state.firing = false;
     ui_state.auto_dart_count = 0;
+
+    s_error_text[0] = '\0';
+    s_error_set_tick_ms = 0;
+    s_error_active = false;
 }
 
 /* ========================= Native variable: firing ========================= */
@@ -151,6 +181,75 @@ void ui_interface_apply_value_direct(ui_selection_mode_t mode, float value)
     
     /* Update display to show new set values */
     ui_interface_update_display();
+}
+
+bool ui_interface_apply_value_validated(ui_selection_mode_t mode, float value)
+{
+    if (mode == SELECT_PITCH_ANGLE) {
+        if (value < LOWER_PITCH_LIMIT || value > UPPER_PITCH_LIMIT) {
+            char msg[96];
+            snprintf(
+                msg,
+                sizeof(msg),
+                "Pitch out of range (%.1f..%.1f)",
+                (double)LOWER_PITCH_LIMIT,
+                (double)UPPER_PITCH_LIMIT
+            );
+            ui_interface_set_error(msg);
+            return false;
+        }
+    } else if (mode == SELECT_YAW_ANGLE) {
+        const float yaw_min = (LEFT_YAW_LIMIT < RIGHT_YAW_LIMIT) ? LEFT_YAW_LIMIT : RIGHT_YAW_LIMIT;
+        const float yaw_max = (LEFT_YAW_LIMIT > RIGHT_YAW_LIMIT) ? LEFT_YAW_LIMIT : RIGHT_YAW_LIMIT;
+        if (value < yaw_min || value > yaw_max) {
+            char msg[96];
+            snprintf(
+                msg,
+                sizeof(msg),
+                "Yaw out of range (%.2f..%.2f)",
+                (double)yaw_min,
+                (double)yaw_max
+            );
+            ui_interface_set_error(msg);
+            return false;
+        }
+    }
+
+    ui_interface_apply_value_direct(mode, value);
+    ui_interface_clear_error();
+    return true;
+}
+
+void ui_interface_set_error(const char *msg)
+{
+    if (msg == NULL || msg[0] == '\0') {
+        ui_interface_clear_error();
+        return;
+    }
+
+    strncpy(s_error_text, msg, sizeof(s_error_text) - 1);
+    s_error_text[sizeof(s_error_text) - 1] = '\0';
+    s_error_active = true;
+    s_error_set_tick_ms = lv_tick_get();
+    ui_interface_publish_error_text(s_error_text);
+}
+
+void ui_interface_clear_error(void)
+{
+    s_error_text[0] = '\0';
+    s_error_active = false;
+    ui_interface_publish_error_text("");
+}
+
+void ui_interface_error_tick(uint32_t now_ms)
+{
+    if (!s_error_active) {
+        return;
+    }
+
+    if ((uint32_t)(now_ms - s_error_set_tick_ms) >= UI_ERROR_CLEAR_MS) {
+        ui_interface_clear_error();
+    }
 }
 
 /* ========================= Feeder Reload ========================= */

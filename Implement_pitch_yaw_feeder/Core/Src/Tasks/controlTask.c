@@ -36,6 +36,7 @@ void ControlTask(void *argument)
   {
     uint32_t delay = lv_timer_handler();
     ui_tick();
+    ui_interface_error_tick(lv_tick_get());
     ui_interface_update_display();
     if (delay < 5U) {
       delay = 5U;

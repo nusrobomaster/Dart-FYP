@@ -405,6 +405,17 @@
 			(uuid "0614ae58-41c7-4fde-969c-49fda18d1e84")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/3PIN_FYP/705430037.stp"
+			(offset
+				(xyz -2.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder"
 		(layer "F.Cu")
@@ -974,6 +985,17 @@
 			(uuid "39d1df5e-9b18-471e-b504-f8c0b59fe675")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/10PIN_FYP/705430009.stp"
+			(offset
+				(xyz -11.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_03_MOL"
 		(layer "F.Cu")
@@ -1232,6 +1254,17 @@
 			(uuid "9ea689a5-e011-4bff-ab3b-8dacd1fc599a")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/3PIN_FYP/705430037.stp"
+			(offset
+				(xyz -2.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "MountingHole:MountingHole_3.2mm_M3"
 		(layer "F.Cu")
@@ -1644,6 +1677,17 @@
 			(uuid "d36828ea-142b-41af-9cb5-ca99abff055b")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/8PIN_FYP/705430042.stp"
+			(offset
+				(xyz -9 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_04_MOL"
 		(layer "F.Cu")
@@ -1913,6 +1957,17 @@
 			(uuid "38776a8e-3fa4-4b5c-a5d0-45801c374aeb")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/4PIN_FYP/705430038.stp"
+			(offset
+				(xyz -4 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder"
 		(layer "F.Cu")
@@ -2405,6 +2460,17 @@
 			(uuid "cbdb6308-27ca-4bac-82cf-24670efeba1e")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/3PIN_FYP/705430037.stp"
+			(offset
+				(xyz -2.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_12_MOL"
 		(layer "F.Cu")
@@ -2762,6 +2828,17 @@
 			(uuid "1b30518a-e10b-485e-bc98-5596a17fc4e8")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/12PIN_FYP/705430011.stp"
+			(offset
+				(xyz -14 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 		(layer "F.Cu")
@@ -3241,7 +3318,7 @@
 			(uuid "0f22188a-9790-4b8a-984f-d9914aa52ab3")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/user/Downloads/705430004/705430004.stp"
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/5PIN_FYP/705430004.stp"
 			(offset
 				(xyz -5 0 7.5)
 			)
@@ -4131,6 +4208,17 @@
 			(uuid "fcff07f7-adc2-4251-9a64-2d9bb9eef273")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/2PIN_FYP/705430036.stp"
+			(offset
+				(xyz -1.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_08_MOL"
 		(layer "F.Cu")
@@ -4444,6 +4532,17 @@
 			(uuid "71568502-1d35-4bbf-aa3d-2547418295ee")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/8PIN_FYP/705430042.stp"
+			(offset
+				(xyz -9 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_03_MOL"
 		(layer "F.Cu")
@@ -4702,6 +4801,17 @@
 			(uuid "579729b3-b70f-4982-b524-6fd58a8d218a")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/3PIN_FYP/705430037.stp"
+			(offset
+				(xyz -2.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_03_MOL"
 		(layer "F.Cu")
@@ -4960,6 +5070,17 @@
 			(uuid "1782dfa0-b29f-4d1e-a3e2-0ca1b273b27a")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/3PIN_FYP/705430037.stp"
+			(offset
+				(xyz -2.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_03_MOL"
 		(layer "F.Cu")
@@ -5218,6 +5339,17 @@
 			(uuid "800f0767-1f93-4089-9762-f8065fdc5c58")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/3PIN_FYP/705430037.stp"
+			(offset
+				(xyz -2.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_08_MOL"
 		(layer "F.Cu")
@@ -5531,6 +5663,17 @@
 			(uuid "23e2c1e2-8b22-4ec0-b871-573aad454eba")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/8PIN_FYP/705430042.stp"
+			(offset
+				(xyz -9 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_10_MOL"
 		(layer "F.Cu")
@@ -5866,6 +6009,17 @@
 			(uuid "09b55176-8b55-4590-8ae7-2817487f21dc")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/10PIN_FYP/705430009.stp"
+			(offset
+				(xyz -11.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "Images:fourth_hokage"
 		(layer "F.Cu")
@@ -8107,6 +8261,17 @@
 			(uuid "b84cdcd8-c613-4a6d-a209-7d33f6439f87")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/3PIN_FYP/705430037.stp"
+			(offset
+				(xyz -2.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "MountingHole:MountingHole_3.2mm_M3"
 		(layer "F.Cu")
@@ -8464,6 +8629,17 @@
 			(uuid "db92e11a-7cfd-4b95-83e3-0174d0c0b17c")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/3PIN_FYP/705430037.stp"
+			(offset
+				(xyz -2.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_08_MOL"
 		(layer "F.Cu")
@@ -8777,6 +8953,17 @@
 			(uuid "2f78e36b-5465-48f9-93da-2319350a5713")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/8PIN_FYP/705430042.stp"
+			(offset
+				(xyz -9 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_08_MOL"
 		(layer "F.Cu")
@@ -9090,6 +9277,17 @@
 			(uuid "cd9a997c-58f0-40c7-9acd-40a48a575bc0")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/8PIN_FYP/705430042.stp"
+			(offset
+				(xyz -9 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_08_MOL"
 		(layer "F.Cu")
@@ -9403,6 +9601,17 @@
 			(uuid "2e9ce079-28bc-45d6-8343-3eb51af2d109")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/8PIN_FYP/705430042.stp"
+			(offset
+				(xyz -9 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_02_MOL"
 		(layer "F.Cu")
@@ -9650,6 +9859,17 @@
 			(uuid "fc57712c-1577-4849-82aa-885890989506")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/2PIN_FYP/705430036.stp"
+			(offset
+				(xyz -1.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_04_MOL"
 		(layer "F.Cu")
@@ -9919,6 +10139,17 @@
 			(uuid "4913835e-058b-40ee-b58e-256695d57667")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/4PIN_FYP/705430038.stp"
+			(offset
+				(xyz -4 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "footprints_3:CONN_SDA-70543-xxxx_03_MOL"
 		(layer "F.Cu")
@@ -10177,6 +10408,17 @@
 			(uuid "6fcfae27-59d5-4050-ad5a-eb54488cf60e")
 		)
 		(embedded_fonts no)
+		(model "C:/Users/user/Desktop/Y4S2/fyp/sources/pcb/3PIN_FYP/705430037.stp"
+			(offset
+				(xyz -2.5 0 8)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz -0 -0 -0)
+			)
+		)
 	)
 	(footprint "Images:monica_smaller"
 		(layer "B.Cu")

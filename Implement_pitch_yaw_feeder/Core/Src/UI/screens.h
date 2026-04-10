@@ -23,6 +23,7 @@ typedef struct _objects_t {
     lv_obj_t *launcher_cur_1;
     lv_obj_t *obj1;
     lv_obj_t *obj2;
+    lv_obj_t *obj3;
 } objects_t;
 
 extern objects_t objects;

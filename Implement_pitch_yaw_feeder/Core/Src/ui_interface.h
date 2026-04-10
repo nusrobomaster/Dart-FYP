@@ -132,6 +132,14 @@ void ui_interface_apply_value(void);
 void ui_interface_apply_value_direct(ui_selection_mode_t mode, float value);
 
 /**
+ * @brief Apply a value with UI validation rules (manual keypad path)
+ * @param mode The selection mode (which parameter to set)
+ * @param value The value to apply
+ * @return true if value is valid and applied, false if rejected
+ */
+bool ui_interface_apply_value_validated(ui_selection_mode_t mode, float value);
+
+/**
  * @brief Get the current input string from textarea
  * @return Pointer to the input string
  */
@@ -141,6 +149,23 @@ const char* ui_interface_get_input_text(void);
  * @brief Clear the input textarea
  */
 void ui_interface_clear_input(void);
+
+/**
+ * @brief Set UI error text and publish to flow
+ * @param msg Error message to display
+ */
+void ui_interface_set_error(const char *msg);
+
+/**
+ * @brief Clear UI error text and publish empty text to flow
+ */
+void ui_interface_clear_error(void);
+
+/**
+ * @brief Update error timeout state; auto-clears active error after timeout
+ * @param now_ms Current system tick in milliseconds
+ */
+void ui_interface_error_tick(uint32_t now_ms);
 
 /**
  * @brief Update current sensor values (call from tasks)

@@ -71,8 +71,10 @@ void action_button_mat(lv_event_t *e)
         const char *value_str = lv_textarea_get_text(textarea);
         if (value_str != NULL && strlen(value_str) > 0) {
             float value = (float)atof(value_str);
-            ui_interface_apply_value_direct(mode, value);
-            lv_textarea_set_text(textarea, "");
+            bool applied = ui_interface_apply_value_validated(mode, value);
+            if (applied) {
+                lv_textarea_set_text(textarea, "");
+            }
         }
     } else {
         /* It's a digit or decimal point - add to textarea */
