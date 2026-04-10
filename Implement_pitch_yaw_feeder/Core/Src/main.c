@@ -118,6 +118,7 @@
 #include "bsp_damiao.h"
 #include <math.h>
 #include "typedefs.h"
+#include <DART_CONFIG.h>
 
 /* USER CODE END Includes */
 
@@ -478,11 +479,13 @@ int main(void)
   /* creation of controlTask */
   controlTaskHandle = osThreadNew(ControlTask, NULL, &controlTask_attributes);
 
+#if !TESTING_SCREEN
   /* creation of pitchnyawTask */
   pitchnyawTaskHandle = osThreadNew(PitchnYawTask, NULL, &pitchnyawTask_attributes);
 
   /* creation of launcherTask */
   launcherTaskHandle = osThreadNew(LauncherTask, NULL, &launcherTask_attributes);
+#endif
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */

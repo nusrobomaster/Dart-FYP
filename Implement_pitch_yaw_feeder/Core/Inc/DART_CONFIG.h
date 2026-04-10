@@ -14,4 +14,11 @@
 #define LAUNCH_CONTROL 2
 #define TESTING_SERVO 3
 #define TESTING_ONLY_YAW 0
+
+/*
+ * TESTING_SCREEN: 1 = only controlTask is started (LVGL / USB / ui_interface).
+ * Pitch/yaw and launcher RTOS tasks are not created, so the UI is not driven or
+ * contended by those loops. Set to 0 for normal full-firmware operation.
+ */
+#define TESTING_SCREEN 0
 #endif /* INC_DART_CONFIG_H_ */
