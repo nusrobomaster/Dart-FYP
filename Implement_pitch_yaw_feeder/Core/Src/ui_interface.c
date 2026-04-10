@@ -199,16 +199,18 @@ bool ui_interface_apply_value_validated(ui_selection_mode_t mode, float value)
             return false;
         }
     } else if (mode == SELECT_YAW_ANGLE) {
-        const float yaw_min = (LEFT_YAW_LIMIT < RIGHT_YAW_LIMIT) ? LEFT_YAW_LIMIT : RIGHT_YAW_LIMIT;
-        const float yaw_max = (LEFT_YAW_LIMIT > RIGHT_YAW_LIMIT) ? LEFT_YAW_LIMIT : RIGHT_YAW_LIMIT;
-        if (value < yaw_min || value > yaw_max) {
+        const float left_limit_deg = LEFT_YAW_LIMIT_DEG;
+        const float right_limit_deg = RIGHT_YAW_LIMIT_DEG;
+        const float yaw_min_deg = (left_limit_deg < right_limit_deg) ? left_limit_deg : right_limit_deg;
+        const float yaw_max_deg = (left_limit_deg > right_limit_deg) ? left_limit_deg : right_limit_deg;
+        if (value < yaw_min_deg || value > yaw_max_deg) {
             char msg[96];
             snprintf(
                 msg,
                 sizeof(msg),
-                "Yaw out of range (%.2f..%.2f)",
-                (double)yaw_min,
-                (double)yaw_max
+                "Yaw out of range (%.2f..%.2f deg)",
+                (double)yaw_min_deg,
+                (double)yaw_max_deg
             );
             ui_interface_set_error(msg);
             return false;

@@ -29,7 +29,7 @@ extern volatile dm_motor_t dm_yaw_motor;
 extern CAN_HandleTypeDef hcan1;
 
 
-float yaw_angle = ZERO;
+float yaw_angle = ZERO / DEG2RAD;
 float pitch_angle = 30.0f; // example command in-range
 
 PID Pitch_PID;
@@ -120,6 +120,27 @@ static inline void Motor_SetTorque(float torque_cmd)
     Motor_SetPwmCounts(duty);
 }
 
+static float clamp_yaw_angle_deg(float yaw_deg)
+{
+	if (yaw_deg > RIGHT_YAW_LIMIT_DEG) {
+		return RIGHT_YAW_LIMIT_DEG;
+	}
+	if (yaw_deg < LEFT_YAW_LIMIT_DEG) {
+		return LEFT_YAW_LIMIT_DEG;
+	}
+	return yaw_deg;
+}
+
+/* Clamp yaw setpoint to [LEFT_YAW_LIMIT_DEG, RIGHT_YAW_LIMIT_DEG]; sync UI if value changed. */
+static void clamp_yaw_sync_ui(void)
+{
+	float y_prev = yaw_angle;
+	yaw_angle = clamp_yaw_angle_deg(yaw_angle);
+	if (fabsf(yaw_angle - y_prev) > 1e-3f) {
+		ui_interface_apply_value_direct(SELECT_YAW_ANGLE, yaw_angle);
+	}
+}
+
 void PitchnYawTask(void *argument)
 {
     /* USER CODE BEGIN YawTask */
@@ -154,8 +175,8 @@ void PitchnYawTask(void *argument)
 	static TickType_t last = 0;
 
 	#if !(TESTING | TESTING_WOUT_YAW)
-		yaw_angle = CENTRE_ANGLE;
-		dm_yaw_motor.ctrl.pos_set = yaw_angle * DEG2RAD;
+		yaw_angle = ZERO / DEG2RAD;
+		dm_yaw_motor.ctrl.pos_set = ZERO;
 		dm_ctrl_send(&hcan1, &dm_yaw_motor);
 		while (!op_sen_yaw_35deg || !op_sen_yaw_45deg){
 			//need check direction
@@ -180,13 +201,8 @@ void PitchnYawTask(void *argument)
     		RC_ctrl_t rc;
     		get_remote_control_snapshot(&rc);
     		if (rc.rc.s[0] != 0){
-				yaw_angle += rc.rc.ch[2] / 100;
+				yaw_angle -= (float)rc.rc.ch[2] / 100.0f;
 				//NEED TO CHECK FOR INVERSION
-				if (yaw_angle > RIGHT_YAW_LIMIT){
-					yaw_angle = RIGHT_YAW_LIMIT;
-				} else if (yaw_angle < LEFT_YAW_LIMIT) {
-					yaw_angle = LEFT_YAW_LIMIT;
-				}
 
 				pitch_angle += rc.rc.ch[3] / 100;
 				if (pitch_angle > UPPER_PITCH_LIMIT){
@@ -214,8 +230,6 @@ void PitchnYawTask(void *argument)
 			pitch_angle = ui_interface_get_set_pitch();
     	}
 
-
-
 		/* Get cur values from Sensors */
 		// reductiongear ratio is 1:5000 and there is 17 basic pulse per revolution with a 4x ab encoder
 		// so 1 revolution = 360 degrees
@@ -241,6 +255,7 @@ void PitchnYawTask(void *argument)
 		// apply torque command from PID
 		Motor_SetTorque(Pitch_PID.output);
 		/* Send controls to motors */
+		clamp_yaw_sync_ui();
     	dm_yaw_motor.ctrl.pos_set = yaw_angle * DEG2RAD;
         dm_ctrl_send(&hcan1, &dm_yaw_motor);
 
@@ -285,15 +300,12 @@ void testing_pitch_n_yaw(void){
 
 		#if TESTING_YAW_ANGLE == 1
 			#if TESTING_ONLY_YAW == 0
-				yaw_angle -= ((float) rc.rc.ch[2]) * PI / (660 * 180 * 100);
+				/* Same degree delta as SELECT_RC in PitchnYawTask */
+				yaw_angle -= (float)rc.rc.ch[2] / 100.0f;
 			#endif
 			//NEED TO CHECK FOR INVERSION
-			if (yaw_angle > RIGHT_YAW_LIMIT){
-				yaw_angle = RIGHT_YAW_LIMIT;
-			} else if (yaw_angle < LEFT_YAW_LIMIT) {
-				yaw_angle = LEFT_YAW_LIMIT;
-			}
-			dm_yaw_motor.ctrl.pos_set = yaw_angle;
+			clamp_yaw_sync_ui();
+			dm_yaw_motor.ctrl.pos_set = yaw_angle * DEG2RAD;
 			dm_yaw_motor.ctrl.vel_set = 0.0f;
 			dm_yaw_motor.ctrl.kp_set  =  YAW_KP_SET;
 			dm_yaw_motor.ctrl.kd_set  = YAW_KD_SET;
@@ -322,7 +334,7 @@ void testing_pitch_n_yaw(void){
 		Motor_SetPwmCounts(0);
 		Motor_SetDirection(MODE_COASTING);
 		#if TESTING_YAW_ANGLE
-			dm_yaw_motor.ctrl.pos_set = yaw_angle;
+			dm_yaw_motor.ctrl.pos_set = yaw_angle * DEG2RAD;
 			dm_yaw_motor.ctrl.vel_set = 0.0f;
 			dm_yaw_motor.ctrl.kp_set  =  YAW_KP_SET;
 			dm_yaw_motor.ctrl.kd_set  = YAW_KD_SET;
@@ -333,5 +345,12 @@ void testing_pitch_n_yaw(void){
 			dm_yaw_motor.ctrl.vel_set = yaw_velocity;
 			dm_ctrl_send(&hcan1, &dm_yaw_motor);
 		#endif
+	}
+
+	/* Keep UI current pitch/yaw in sync with sensors (same as non-testing loop) */
+	dm_motor_snapshot(&yaw_snap, (const volatile dm_motor_t *)&dm_yaw_motor);
+	{
+		float cur_yaw_deg_angle = yaw_snap.para.pos / DEG2RAD;
+		ui_interface_update_current_values(cur_pitch_deg_angle, cur_yaw_deg_angle);
 	}
 }
