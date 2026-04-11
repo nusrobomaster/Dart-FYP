@@ -1,7 +1,7 @@
 {
   "navigation": {
     "selectedUserPageObject": "[FYP_UI_2.0.eez-project]:/userPages/0",
-    "selectedGlobalVariableObject": "[FYP_UI_2.0.eez-project]:/variables/globalVariables/11",
+    "selectedGlobalVariableObject": "[FYP_UI_2.0.eez-project]:/variables/globalVariables/12",
     "selectedEnumObject": "[FYP_UI_2.0.eez-project]:/variables/enums/0",
     "subnavigationSelectedItems": {
       "variables-tab/sub-navigation/selected-item": "Global"
@@ -199,7 +199,7 @@
             {
               "type": "tabset",
               "id": "EDITORS",
-              "weight": 51.606621760908084,
+              "weight": 46.733091008112346,
               "selected": 1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
@@ -233,12 +233,12 @@
             {
               "type": "row",
               "id": "#d822d9ce-efc1-45d5-8cfe-86da82264e3f",
-              "weight": 15.489124373605886,
+              "weight": 20.362655126401627,
               "children": [
                 {
                   "type": "tabset",
                   "id": "#b407ff28-f2f0-43d2-9699-3c9218083a3e",
-                  "weight": 2.1315789473684212,
+                  "weight": 1.4539385847797062,
                   "children": [
                     {
                       "type": "tab",
@@ -253,7 +253,7 @@
                 {
                   "type": "tabset",
                   "id": "#956b0e57-fb28-491d-ad84-6f29c688ea53",
-                  "weight": 0.868421052631579,
+                  "weight": 1.5460614152202938,
                   "children": [
                     {
                       "type": "tab",
@@ -1021,10 +1021,10 @@
       },
       "transform": {
         "translate": {
-          "x": -227.32540466671895,
-          "y": -221.6851808854512
+          "x": -208.15794513339088,
+          "y": -240.82869897399627
         },
-        "scale": 1
+        "scale": 1.1
       },
       "timeline": {
         "isEditorActive": false,
@@ -1065,12 +1065,11 @@
   "lvglPart": "MAIN",
   "lvglState": "DEFAULT",
   "lvglExpandedPropertiesGroup": [
-    "IMAGE",
-    "BACKGROUND",
-    "ARC"
+    "TEXT",
+    "POSITION AND SIZE"
   ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
-  "flowZoom": 1,
+  "flowZoom": 1.1,
   "implementationLanguage": "C"
 }

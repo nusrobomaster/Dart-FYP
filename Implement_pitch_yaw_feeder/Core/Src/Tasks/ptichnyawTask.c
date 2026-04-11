@@ -354,3 +354,11 @@ void testing_pitch_n_yaw(void){
 		ui_interface_update_current_values(cur_pitch_deg_angle, cur_yaw_deg_angle);
 	}
 }
+
+//void testing_yaw_screen(void){
+//
+//}
+//
+//void testing_pitch_screen(void){
+//
+//}
