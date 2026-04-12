@@ -141,6 +141,10 @@ static void clamp_yaw_sync_ui(void)
 	}
 }
 
+static void testing_pitch_n_yaw(void);
+static void testing_yaw_screen(void);
+static void testing_pitch_screen(void);
+
 void PitchnYawTask(void *argument)
 {
     /* USER CODE BEGIN YawTask */
@@ -192,7 +196,15 @@ void PitchnYawTask(void *argument)
     for (;;)
     {
 		#if TESTING || TESTING_WOUT_YAW
-    		testing_pitch_n_yaw();
+			#if TESTING_PITCH_YAW_INPUT == 0
+				testing_pitch_n_yaw();
+			#elif TESTING_PITCH_YAW_INPUT == 1
+				testing_yaw_screen();
+			#elif TESTING_PITCH_YAW_INPUT == 2
+				testing_pitch_screen();
+			#else
+				#error "TESTING_PITCH_YAW_INPUT must be 0, 1, or 2"
+			#endif
     	#else
 
 		/* Get set values from UI interface */
@@ -267,7 +279,8 @@ void PitchnYawTask(void *argument)
 }
 
 
-void testing_pitch_n_yaw(void){
+static void testing_pitch_n_yaw(void)
+{
 	dm_motor_t yaw_snap;
 	dm_motor_snapshot(&yaw_snap, (const volatile dm_motor_t *)&dm_yaw_motor);
 	// Set velocity and direction for the brushed dc motor (pitch motor)
@@ -355,10 +368,81 @@ void testing_pitch_n_yaw(void){
 	}
 }
 
-//void testing_yaw_screen(void){
-//
-//}
-//
-//void testing_pitch_screen(void){
-//
-//}
+static void testing_yaw_screen(void)
+{
+	dm_motor_t yaw_snap;
+
+	if (op_sen_yaw_35deg) {
+		op_sen_yaw_35deg = 0;
+		__HAL_TIM_SET_COUNTER(&htim2, 0);
+	}
+
+	cur_pitch_deg_angle = TIM2->CNT * (360.0f / (17.0f * 4.0f * 5000.0f)) + LOWER_PITCH_LIMIT;
+
+	yaw_angle = ui_interface_get_set_yaw();
+	clamp_yaw_sync_ui();
+
+	Motor_SetTorque(0.0f);
+
+	dm_yaw_motor.ctrl.pos_set = yaw_angle * DEG2RAD;
+	dm_yaw_motor.ctrl.vel_set = 0.0f;
+	dm_yaw_motor.ctrl.kp_set = YAW_KP_SET;
+	dm_yaw_motor.ctrl.kd_set = YAW_KD_SET;
+	dm_yaw_motor.ctrl.tor_set = 0.0f;
+	dm_ctrl_send(&hcan1, &dm_yaw_motor);
+
+	dm_motor_snapshot(&yaw_snap, (const volatile dm_motor_t *)&dm_yaw_motor);
+	{
+		float cur_yaw_deg_angle = yaw_snap.para.pos / DEG2RAD;
+		ui_interface_update_current_values(cur_pitch_deg_angle, cur_yaw_deg_angle);
+	}
+}
+
+static void testing_pitch_screen(void)
+{
+	dm_motor_t yaw_snap;
+	static TickType_t last = 0;
+
+	if (op_sen_yaw_35deg) {
+		op_sen_yaw_35deg = 0;
+		__HAL_TIM_SET_COUNTER(&htim2, 0);
+	}
+
+	cur_pitch_deg_angle = TIM2->CNT * (360.0f / (17.0f * 4.0f * 5000.0f)) + LOWER_PITCH_LIMIT;
+
+	pitch_angle = ui_interface_get_set_pitch();
+	{
+		float p_prev = pitch_angle;
+		if (pitch_angle > UPPER_PITCH_LIMIT) {
+			pitch_angle = UPPER_PITCH_LIMIT;
+		} else if (pitch_angle < LOWER_PITCH_LIMIT) {
+			pitch_angle = LOWER_PITCH_LIMIT;
+		}
+		if (fabsf(pitch_angle - p_prev) > 1e-3f) {
+			ui_interface_apply_value_direct(SELECT_PITCH_ANGLE, pitch_angle);
+		}
+	}
+
+	TickType_t now = xTaskGetTickCount();
+	float dt = (now - last) * portTICK_PERIOD_MS * 0.001f;
+	if (dt <= 0.0f) {
+		dt = 0.001f;
+	}
+	last = now;
+	PID_Compute(&Pitch_PID, pitch_angle, cur_pitch_deg_angle, dt, 0.0f);
+	Motor_SetTorque(Pitch_PID.output);
+
+	dm_motor_snapshot(&yaw_snap, (const volatile dm_motor_t *)&dm_yaw_motor);
+	dm_yaw_motor.ctrl.pos_set = yaw_snap.para.pos;
+	dm_yaw_motor.ctrl.vel_set = 0.0f;
+	dm_yaw_motor.ctrl.kp_set = YAW_KP_SET;
+	dm_yaw_motor.ctrl.kd_set = YAW_KD_SET;
+	dm_yaw_motor.ctrl.tor_set = 0.0f;
+	dm_ctrl_send(&hcan1, &dm_yaw_motor);
+
+	dm_motor_snapshot(&yaw_snap, (const volatile dm_motor_t *)&dm_yaw_motor);
+	{
+		float cur_yaw_deg_angle = yaw_snap.para.pos / DEG2RAD;
+		ui_interface_update_current_values(cur_pitch_deg_angle, cur_yaw_deg_angle);
+	}
+}
