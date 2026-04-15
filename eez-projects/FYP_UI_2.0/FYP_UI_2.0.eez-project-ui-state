@@ -398,8 +398,8 @@
             {
               "type": "row",
               "id": "#7c2c8d85-43c4-41c1-bf84-584a8ccb1aa0",
-              "weight": 0.05725415315506191,
-              "width": 78,
+              "weight": 0.21580411573831026,
+              "width": 294,
               "children": [
                 {
                   "type": "tabset",
@@ -430,7 +430,8 @@
                       "enableClose": false,
                       "icon": "material:code"
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
@@ -467,7 +468,7 @@
             {
               "type": "tabset",
               "id": "RUNTIME-EDITORS",
-              "weight": 0.6063068013600146,
+              "weight": 0.4477568387767662,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
@@ -482,8 +483,7 @@
                   },
                   "icon": "svg:page"
                 }
-              ],
-              "active": true
+              ]
             },
             {
               "type": "row",
@@ -1021,10 +1021,10 @@
       },
       "transform": {
         "translate": {
-          "x": -208.15794513339088,
-          "y": -240.82869897399627
+          "x": -229.4421506200518,
+          "y": -137.12082907659664
         },
-        "scale": 1.1
+        "scale": 0.9
       },
       "timeline": {
         "isEditorActive": false,
@@ -1070,6 +1070,6 @@
   ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
-  "flowZoom": 1.1,
+  "flowZoom": 0.9,
   "implementationLanguage": "C"
 }

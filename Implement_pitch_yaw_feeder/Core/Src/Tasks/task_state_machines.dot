@@ -1,0 +1,159 @@
+digraph TaskStateMachines {
+  rankdir=LR;
+  graph [fontsize=11, fontname="Arial", label="State Machines: controlTask, launcherTask, ptichnyawTask", labelloc=t];
+  node  [shape=box, style="rounded,filled", fillcolor="#f7f7f7", fontname="Arial", fontsize=10];
+  edge  [fontname="Arial", fontsize=9];
+
+  // -------------------------------------------------------------------------
+  // controlTask.c
+  // -------------------------------------------------------------------------
+  subgraph cluster_controlTask {
+    label = "controlTask.c";
+    color = "#9ecae1";
+
+    ctl_start [shape=circle, label="", width=0.18, fillcolor="#ffffff"];
+    ctl_init  [label="MX_USB_DEVICE_Init\nui_interface_init"];
+    ctl_loop  [label="UI Tick Loop\nlv_timer_handler\nui_tick\nui_interface_error_tick\nui_interface_update_display\nosDelay(max(delay,5))"];
+
+    ctl_start -> ctl_init;
+    ctl_init  -> ctl_loop;
+    ctl_loop  -> ctl_loop [label="for(;;)"];
+  }
+
+  // -------------------------------------------------------------------------
+  // launcherTask.c
+  // -------------------------------------------------------------------------
+  subgraph cluster_launcherTask {
+    label = "launcherTask.c";
+    color = "#fdae6b";
+
+    lnf_entry [shape=circle, label="", width=0.18, fillcolor="#ffffff"];
+    lnf_wait  [label="LnF: WAIT"];
+    lnf_fire  [label="LnF: FIRING"];
+    lnf_manual [label="Manual launcher control\n(rc.s[1] != 1)"];
+
+    lnf_entry -> lnf_wait;
+    lnf_wait -> lnf_fire [label="arm condition met\n(auto dart count > 0\nor testing switch)"];
+    lnf_fire -> lnf_wait [label="dart_count exhausted\nor reverse cycle completes"];
+    lnf_wait -> lnf_manual [label="rc.s[1] != 1"];
+    lnf_fire -> lnf_manual [label="rc.s[1] != 1"];
+    lnf_manual -> lnf_wait [label="rc.s[1] == 1"];
+
+    // LauncherState sub-machine (active while LnF == FIRING)
+    l_wait   [label="Launcher: LAUNCHER_WAIT"];
+    l_seek   [label="Launcher: SEEK_LOCK_CW"];
+    l_locked [label="Launcher: LOCKED"];
+    l_feed   [label="Launcher: FEED"];
+    l_rev    [label="Launcher: REVERSE_TO_WEIGHT"];
+
+    l_wait -> l_seek   [label="dart_count > 0\n(or lock precondition)"];
+    l_wait -> l_wait   [label="no darts"];
+    l_seek -> l_locked [label="LOCK pin active\nfor 2000 ms"];
+    l_locked -> l_feed [label="op_sen_feeder interrupt"];
+    l_feed -> l_rev    [label="(Feeder at POS_2_0/POS_3_0/POS_4_0 && done)\nor dart_count == 4"];
+    l_rev -> l_wait    [label="reverse target reached\nhold 10000 ms\nrelease servo"];
+
+    // FeederState sub-machine (active while LnF == FIRING)
+    f_p10 [label="Feeder: POS_1_0"];
+    f_p11 [label="Feeder: POS_1_1"];
+    f_u1  [label="Feeder: UNLOAD_1"];
+    f_pa1 [label="Feeder: PAUSE_1"];
+    f_pa11 [label="Feeder: PAUSE_1_1"];
+    f_r1  [label="Feeder: RELOAD_1"];
+    f_p20 [label="Feeder: POS_2_0"];
+    f_p21 [label="Feeder: POS_2_1"];
+    f_u2  [label="Feeder: UNLOAD_2"];
+    f_pa21 [label="Feeder: PAUSE_2_1"];
+    f_pa22 [label="Feeder: PAUSE_2_2"];
+    f_pa23 [label="Feeder: PAUSE_2_3"];
+    f_pa24 [label="Feeder: PAUSE_2_4"];
+    f_pa25 [label="Feeder: PAUSE_2_5"];
+    f_r2  [label="Feeder: RELOAD_2"];
+    f_p30 [label="Feeder: POS_3_0"];
+    f_p31 [label="Feeder: POS_3_1"];
+    f_u3  [label="Feeder: UNLOAD_3"];
+    f_pa3 [label="Feeder: PAUSE_3"];
+    f_pa31 [label="Feeder: PAUSE_3_1"];
+    f_r3  [label="Feeder: RELOAD_3"];
+    f_p40 [label="Feeder: POS_4_0"];
+
+    f_p10 -> f_p11  [label="ready && done"];
+    f_p11 -> f_u1   [label="LauncherState == FEED && done"];
+    f_u1  -> f_pa1  [label="4000 ms"];
+    f_pa1 -> f_pa11 [label="launch pos ~= PAUSE_1_DIST"];
+    f_pa11 -> f_r1  [label="2000 ms"];
+    f_r1  -> f_p20  [label="2000 ms && launch pos ~= OFFSET"];
+
+    f_p20 -> f_p21  [label="ready && done"];
+    f_p21 -> f_u2   [label="LauncherState == FEED && done"];
+    f_u2  -> f_pa21 [label="3000 ms"];
+    f_pa21 -> f_pa22 [label="launch pos ~= PAUSE_2_123DIST"];
+    f_pa22 -> f_pa23 [label="done"];
+    f_pa23 -> f_pa24 [label="3000 ms"];
+    f_pa24 -> f_pa25 [label="launch pos ~= PAUSE_2_4DIST"];
+    f_pa25 -> f_r2   [label="2000 ms"];
+    f_r2  -> f_p30   [label="2000 ms && launch pos ~= OFFSET"];
+
+    f_p30 -> f_p31  [label="ready && done"];
+    f_p31 -> f_u3   [label="LauncherState == FEED && done"];
+    f_u3  -> f_pa3  [label="2000 ms"];
+    f_pa3 -> f_pa31 [label="launch pos ~= pause_3_dist"];
+    f_pa31 -> f_r3  [label="2000 ms"];
+    f_r3  -> f_p40  [label="2000 ms && launch pos ~= OFFSET"];
+    f_p40 -> f_p10  [label="final && done"];
+
+    // Cross-coupling between launcher and feeder sub-state machines
+    l_feed -> f_u1  [style=dashed, color="#636363", label="if Feeder at POS_1_1"];
+    l_feed -> f_u2  [style=dashed, color="#636363", label="if Feeder at POS_2_1"];
+    l_feed -> f_u3  [style=dashed, color="#636363", label="if Feeder at POS_3_1"];
+    f_p10 -> l_seek [style=dotted, color="#636363", label="ready path begins"];
+    f_p20 -> l_seek [style=dotted, color="#636363"];
+    f_p30 -> l_seek [style=dotted, color="#636363"];
+  }
+
+  // -------------------------------------------------------------------------
+  // ptichnyawTask.c
+  // -------------------------------------------------------------------------
+  subgraph cluster_ptichnyawTask {
+    label = "ptichnyawTask.c";
+    color = "#74c476";
+
+    py_start [shape=circle, label="", width=0.18, fillcolor="#ffffff"];
+    py_init [label="Init hardware\nEncoder start\nPID init\nPWM start\nMotor_Stop"];
+    py_cal  [label="Startup calibration\n(wait for yaw opto sensors)\n[non-testing builds]"];
+    py_loop [label="Main loop dispatcher"];
+
+    py_start -> py_init;
+    py_init  -> py_cal  [label="if !TESTING && !TESTING_WOUT_YAW"];
+    py_init  -> py_loop [label="if TESTING || TESTING_WOUT_YAW"];
+    py_cal   -> py_loop [label="calibration done"];
+
+    // Runtime (normal) branch
+    py_rc    [label="SELECT_RC\nread remote deltas\nclamp pitch/yaw"];
+    py_auto  [label="SELECT_AUTO\nuse preset target"];
+    py_ui    [label="UI direct setpoint\n(ui_interface_get_set_*)"];
+    py_ctrl  [label="Control update\nread sensors\nPitch PID -> Motor_SetTorque\nclamp_yaw_sync_ui\nsend yaw motor cmd"];
+
+    py_loop -> py_rc   [label="selection == SELECT_RC"];
+    py_loop -> py_auto [label="selection == SELECT_AUTO"];
+    py_loop -> py_ui   [label="else"];
+    py_rc   -> py_ctrl;
+    py_auto -> py_ctrl;
+    py_ui   -> py_ctrl;
+    py_ctrl -> py_loop [label="next iteration"];
+
+    // Testing branch
+    py_test_dispatch [label="Testing dispatcher"];
+    py_test0 [label="testing_pitch_n_yaw()"];
+    py_test1 [label="testing_yaw_screen()"];
+    py_test2 [label="testing_pitch_screen()"];
+
+    py_loop -> py_test_dispatch [label="if TESTING || TESTING_WOUT_YAW", style=dashed];
+    py_test_dispatch -> py_test0 [label="TESTING_PITCH_YAW_INPUT == 0", style=dashed];
+    py_test_dispatch -> py_test1 [label="TESTING_PITCH_YAW_INPUT == 1", style=dashed];
+    py_test_dispatch -> py_test2 [label="TESTING_PITCH_YAW_INPUT == 2", style=dashed];
+    py_test0 -> py_loop [style=dashed];
+    py_test1 -> py_loop [style=dashed];
+    py_test2 -> py_loop [style=dashed];
+  }
+}

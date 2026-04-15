@@ -22,7 +22,7 @@
  *   2 = screen pitch only (testing_pitch_screen)
  * Use TESTING_SCREEN 0 so PitchnYawTask runs alongside the UI for modes 1 and 2.
  */
-#define TESTING_PITCH_YAW_INPUT 1
+#define TESTING_PITCH_YAW_INPUT 0
 
 /*
  * TESTING_SCREEN: 1 = only controlTask is started (LVGL / USB / ui_interface).
